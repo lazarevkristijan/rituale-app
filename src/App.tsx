@@ -1,12 +1,19 @@
 import "./index.css"
+import "@fontsource/roboto/300.css"
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
+import { CssBaseline } from "@mui/material"
+import { Hero, Navbar } from "./sections"
 
 function App() {
   return (
-    <div className="text-center text-[50px]">
-      <p>Rituals</p>
-      <p>Where this journey begins</p>
-      <p className="text-[20px]">8:30PM, 15.09.2023</p>
-    </div>
+    <CssBaseline enableColorScheme>
+      <div className="font-[roboto]">
+        <Navbar />
+        <Hero />
+      </div>
+    </CssBaseline>
   )
 }
 
