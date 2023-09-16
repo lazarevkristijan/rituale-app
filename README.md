@@ -1,4 +1,4 @@
-## Rituale
+# Rituale
 # Grow with small habits
 
 This application will contain all the good habits I could think of,
