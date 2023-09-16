@@ -1,4 +1,5 @@
-# All the good habits
+## Rituale
+# Grow with small habits
 
 This application will contain all the good habits I could think of,
 then put up as levels to go through and each level you pass will mean
