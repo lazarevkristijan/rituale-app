@@ -8,9 +8,8 @@ import Typography from "@mui/material/Typography"
 import Menu from "@mui/material/Menu"
 import MenuIcon from "@mui/icons-material/Menu"
 import { Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material"
-import AdbIcon from "@mui/icons-material/Adb"
 
-const pages = ["Products", "Pricing", "Blog"]
+const pages = ["Habits", "Tips"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
 const Navbar = () => {
@@ -37,26 +36,10 @@ const Navbar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
-            src="/logo.svg"
+            src="./src/public/logo.svg"
             alt="logo"
+            className="h-[48px] mr-[20px] hidden md:flex"
           />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "roboto",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -90,26 +73,13 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
 
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "roboto",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+          <img
+            src="./src/public/logo.svg"
+            alt="logo"
+            className="h-[45px] w-full flex md:hidden"
+          />
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -130,7 +100,7 @@ const Navbar = () => {
               >
                 <Avatar
                   alt="Remy Sharp"
-                  src="/static/images/avatar/2.jpg"
+                  src="./src/public/trophy.svg"
                 />
               </IconButton>
             </Tooltip>
