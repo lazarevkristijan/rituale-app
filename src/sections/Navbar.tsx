@@ -36,7 +36,7 @@ const Navbar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
-            src="./src/public/logo.svg"
+            src="./logo.svg"
             alt="logo"
             className="h-[48px] mr-[20px] hidden md:flex"
           />
@@ -75,7 +75,7 @@ const Navbar = () => {
           </Box>
 
           <img
-            src="./src/public/logo.svg"
+            src="./logo.svg"
             alt="logo"
             className="h-[45px] w-full flex md:hidden"
           />
@@ -100,7 +100,7 @@ const Navbar = () => {
               >
                 <Avatar
                   alt="Profile"
-                  src="./src/public/trophy.svg"
+                  src="./trophy.svg"
                 />
               </IconButton>
             </Tooltip>
