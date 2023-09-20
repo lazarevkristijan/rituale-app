@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <div className="mt-[50px] mx-[50px] sm:mx-[100px] md:mx-[150px] lg:mx-[200px] xl:mx-[250px]">
       <img
-        src="./logo-text.svg"
+        src="logo-text.svg"
         alt="logo text"
         className="w-[300px] sm:w-[400px] md:w-[600px] lg:w-[800px] mx-auto mb-[20px]"
       />
