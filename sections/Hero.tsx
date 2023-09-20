@@ -21,13 +21,13 @@ const Hero = () => {
       </Typography>
 
       <a
-        href="https://www.linkedin.com/in/kristijanlazarev"
+        href="https://www.linkedin.com/company/98769142/admin/feed/posts/?feedType=following"
         target="_blank"
       >
         <Button variant="contained">LinkedIn</Button>
       </a>
       <a
-        href="https://www.github.com/lazarevkristijan"
+        href="https://github.com/lazarevkristijan/rituale-app"
         target="_blank"
         className="ml-[20px]"
       >
