@@ -99,7 +99,7 @@ const Navbar = () => {
                 sx={{ p: 0 }}
               >
                 <Avatar
-                  alt="Remy Sharp"
+                  alt="Profile"
                   src="./src/public/trophy.svg"
                 />
               </IconButton>
