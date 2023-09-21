@@ -9,7 +9,7 @@ import { Hero, Navbar } from "../sections"
 function App() {
   return (
     <CssBaseline enableColorScheme>
-      <div className="font-[roboto]">
+      <div className="">
         <Navbar />
         <Hero />
       </div>
