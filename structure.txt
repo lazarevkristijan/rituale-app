@@ -6,3 +6,24 @@ Functionality:
 4. Accounts system
 5. At least 200 - 300 Personalized habits that will apply to specific people only
 6. Multi lingual system
+
+MUI components to use:
+Typography
+Button
+Text Field
+Select
+Rating
+
+Box
+Stack
+
+Accordion
+Navbar
+Breadcrumbs
+Link
+Drawer - side panel
+Avatar
+
+MOBILE
+Speed dial
+Bottom Nav

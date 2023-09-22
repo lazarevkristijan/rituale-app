@@ -1,13 +1,18 @@
 import { useState } from "react"
-
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
-import IconButton from "@mui/material/IconButton"
-import Typography from "@mui/material/Typography"
-import Menu from "@mui/material/Menu"
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Button,
+  Tooltip,
+  MenuItem,
+} from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
-import { Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material"
+import PersonIcon from "@mui/icons-material/Person"
 
 const pages = ["Habits", "Tips"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
@@ -32,13 +37,20 @@ const Navbar = () => {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="sticky"
+      sx={{ display: { xs: "none", md: "flex" } }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img
+          <Box
+            component="img"
             src="logo.svg"
             alt="logo"
-            className="h-[48px] mr-[20px] hidden md:flex"
+            sx={{
+              height: "50px",
+              display: { xs: "none", md: "flex" },
+            }}
           />
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -74,10 +86,15 @@ const Navbar = () => {
             </Menu>
           </Box>
 
-          <img
+          <Box
+            component="img"
             src="logo.svg"
             alt="logo"
-            className="h-[45px] w-full flex md:hidden"
+            sx={{
+              height: "45px",
+              width: "100%",
+              display: { xs: "flex", md: "none" },
+            }}
           />
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -85,7 +102,7 @@ const Navbar = () => {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 1, color: "white", display: "block" }}
               >
                 {page}
               </Button>
@@ -98,10 +115,7 @@ const Navbar = () => {
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}
               >
-                <Avatar
-                  alt="Profile"
-                  src="trophy.svg"
-                />
+                <PersonIcon fontSize="large" />
               </IconButton>
             </Tooltip>
 
