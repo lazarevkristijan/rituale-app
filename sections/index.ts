@@ -1,4 +1,5 @@
 import Hero from "./Hero"
-import Navbar from "./Navbar"
+import TopNavbar from "./TopNavbar"
+import BottomNavbar from "./BottomNavbar"
 
-export { Hero, Navbar }
+export { Hero, TopNavbar, BottomNavbar }

@@ -16,6 +16,7 @@ Rating
 
 Box
 Stack
+Skeleton
 
 Accordion
 Navbar
@@ -23,6 +24,9 @@ Breadcrumbs
 Link
 Drawer - side panel
 Avatar
+Dialog
+Table
+Tabs - LAB
 
 MOBILE
 Speed dial
