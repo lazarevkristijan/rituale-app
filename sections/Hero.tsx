@@ -12,10 +12,7 @@ const Hero = () => {
         variant="h6"
         align="justify"
       >
-        There is a millon ways to reach your goals, get everything that you ever
-        wanted.. Interesting thing is that everyone who got where you want to
-        be, started SMALL. This app will help you start SMALL and in the end
-        stack up so many tiny wins that success is the ONLY possible outcome.{" "}
+  Habits app, containing all the good habits. Because small wins matter the most when scoring for success, the app will help you grow with tiny changes{" "}
         <br /> <br />
         Project started: 15.09.2023
       </Typography>
