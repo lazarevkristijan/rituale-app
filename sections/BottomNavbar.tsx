@@ -10,6 +10,7 @@ const BottomNavbar = () => {
     <BottomNavigation
       value={value}
       onChange={(e, newValue) => {
+        e
         setValue(newValue)
       }}
       sx={{

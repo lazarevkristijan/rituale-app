@@ -3,12 +3,17 @@ import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material"
+import {
+  Container,
+  CssBaseline,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material"
 import { Hero, TopNavbar, BottomNavbar } from "../sections"
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
   },
 })
 
@@ -17,7 +22,9 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline enableColorScheme />
       <TopNavbar />
-      <Hero />
+      <Container>
+        <Hero />
+      </Container>
       <BottomNavbar />
     </ThemeProvider>
   )
