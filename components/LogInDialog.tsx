@@ -3,10 +3,13 @@ import { useContext } from "react"
 import { LogInMenu } from "../sections/Hero"
 
 const LogInDialog = () => {
-  const { isLoginDialogOpen } = useContext(LogInMenu)
+  const { isLoginDialogOpen, handleOpenLoginMenu } = useContext(LogInMenu)
 
   return (
-    <Dialog open={isLoginDialogOpen}>
+    <Dialog
+      open={isLoginDialogOpen}
+      onClose={handleOpenLoginMenu}
+    >
       <Container>
         <Typography fontSize={25}>Productivity time!</Typography>
         <TextField

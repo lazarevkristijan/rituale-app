@@ -1,14 +1,18 @@
 import { Box, Button, Typography } from "@mui/material"
-import { useContext, createContext, useState } from "react"
+import { createContext, useState } from "react"
 import { LogInDialog } from "../components"
 
 export const LogInMenu = createContext({
   isLoginDialogOpen: false,
-  setIsLoginDialogOpen: () => {},
+  handleOpenLoginMenu: () => {},
 })
 
 const Hero = () => {
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
+
+  const handleOpenLoginMenu = () => {
+    setIsLoginDialogOpen((prev) => !prev)
+  }
 
   return (
     <Box
@@ -33,7 +37,7 @@ const Hero = () => {
       >
         LOG IN
       </Button>
-      <LogInMenu.Provider value={{ isLoginDialogOpen, setIsLoginDialogOpen }}>
+      <LogInMenu.Provider value={{ isLoginDialogOpen, handleOpenLoginMenu }}>
         <LogInDialog />
       </LogInMenu.Provider>
 
