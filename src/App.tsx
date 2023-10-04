@@ -10,6 +10,7 @@ import {
   createTheme,
 } from "@mui/material"
 import { Hero, TopNavbar, BottomNavbar } from "../sections"
+import { Routes, Route } from "react-router-dom"
 
 const darkTheme = createTheme({
   palette: {
@@ -23,7 +24,12 @@ const App = () => {
       <CssBaseline enableColorScheme />
       <TopNavbar />
       <Container>
-        <Hero />
+        <Routes>
+          <Route
+            path="/"
+            element={<Hero />}
+          />
+        </Routes>
       </Container>
       <BottomNavbar />
     </ThemeProvider>
