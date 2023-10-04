@@ -31,3 +31,16 @@ Tabs - LAB
 MOBILE
 Speed dial
 Bottom Nav
+
+
+Sections:
+User progress
+Habit categories
+Habit of the day
+Search for specific habits
+Daily challenge
+Progress tracking
+Reminders and Notifications
+Educational content
+Feedback and support
+Other resources: Books, websites, influencers

@@ -3,8 +3,12 @@ import { BottomNavigation, BottomNavigationAction } from "@mui/material"
 import SettingsIcon from "@mui/icons-material/Settings"
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement"
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates"
+import AccountCircleIcon from "@mui/icons-material/AccountCircle"
+
 const BottomNavbar = () => {
   const [value, setValue] = useState(0)
+
+  const isLoggedIn = true
 
   return (
     <BottomNavigation
@@ -30,8 +34,8 @@ const BottomNavbar = () => {
         icon={<TipsAndUpdatesIcon />}
       />
       <BottomNavigationAction
-        label="Settings"
-        icon={<SettingsIcon />}
+        label={isLoggedIn ? "Profile" : "Settings"}
+        icon={isLoggedIn ? <AccountCircleIcon /> : <SettingsIcon />}
       />
     </BottomNavigation>
   )

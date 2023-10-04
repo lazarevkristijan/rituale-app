@@ -1,6 +1,15 @@
 import { Box, Button, Typography } from "@mui/material"
+import { useContext, createContext, useState } from "react"
+import { LogInDialog } from "../components"
+
+export const LogInMenu = createContext({
+  isLoginDialogOpen: false,
+  setIsLoginDialogOpen: () => {},
+})
 
 const Hero = () => {
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
+
   return (
     <Box
       sx={{
@@ -17,20 +26,24 @@ const Hero = () => {
       >
         TIME TO MAKE REAL CHANGE
       </Typography>
-
       <Button
         variant="contained"
         sx={{ mt: 3, mx: "auto" }}
+        onClick={() => setIsLoginDialogOpen(true)}
       >
-        GET STARTED
+        LOG IN
       </Button>
-      <Typography variant="overline">What's all this?</Typography>
+      <LogInMenu.Provider value={{ isLoginDialogOpen, setIsLoginDialogOpen }}>
+        <LogInDialog />
+      </LogInMenu.Provider>
+
+      <Typography variant="overline">Why habits?</Typography>
       <Typography>
         We don't realise that 90% of our day is habits based, allmost everything
         we do is something we've been doing continously every day. <br />
         Brushing our teeth, driving, scrolling our phones etc. it's all
         automatic, we don't put any effort in no natter how easy or hard the
-        task, eventually it becomes a habit
+        task, eventually we get into the rhythm.
       </Typography>
     </Box>
   )
