@@ -1,18 +1,8 @@
 import { Box, Button, Typography } from "@mui/material"
-import { createContext, useState } from "react"
-import { LogInDialog } from "../components"
+import { useNavigate } from "react-router-dom"
 
-export const LogInMenu = createContext({
-  isLoginDialogOpen: false,
-  handleOpenLoginMenu: () => {},
-})
-
-const Hero = () => {
-  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
-
-  const handleOpenLoginMenu = () => {
-    setIsLoginDialogOpen((prev) => !prev)
-  }
+const Home = () => {
+  const navigate = useNavigate()
 
   return (
     <Box
@@ -23,34 +13,28 @@ const Hero = () => {
       }}
     >
       <Typography
-        mt={2}
-        sx={{ textAlign: "center" }}
-        fontWeight={300}
-        fontSize={40}
+        sx={{ textAlign: "center", mt: 2, fontWeight: 300, fontSize: 40 }}
+        variant="h1"
       >
         TIME TO MAKE REAL CHANGE
       </Typography>
       <Button
         variant="contained"
         sx={{ mt: 3, mx: "auto" }}
-        onClick={() => setIsLoginDialogOpen(true)}
+        onClick={() => navigate("/login")}
       >
         LOG IN
       </Button>
-      <LogInMenu.Provider value={{ isLoginDialogOpen, handleOpenLoginMenu }}>
-        <LogInDialog />
-      </LogInMenu.Provider>
-
       <Typography variant="overline">Why habits?</Typography>
       <Typography>
         We don't realise that 90% of our day is habits based, allmost everything
         we do is something we've been doing continously every day. <br />
         Brushing our teeth, driving, scrolling our phones etc. it's all
         automatic, we don't put any effort in no natter how easy or hard the
-        task, eventually we get into the rhythm.
+        task, eventually we get into the rhythm. lorem*20
       </Typography>
     </Box>
   )
 }
 
-export default Hero
+export default Home

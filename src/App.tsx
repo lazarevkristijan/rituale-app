@@ -9,7 +9,18 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material"
-import { Hero, TopNavbar, BottomNavbar } from "../sections"
+import {
+  Home,
+  TopNavbar,
+  BottomNavbar,
+  Login,
+  Register,
+  Profile,
+  Habits,
+  Tips,
+  NotFound,
+  ForgotPassword,
+} from "../sections"
 import { Routes, Route } from "react-router-dom"
 
 const darkTheme = createTheme({
@@ -27,7 +38,35 @@ const App = () => {
         <Routes>
           <Route
             path="/"
-            element={<Hero />}
+            element={<Home />}
+          />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+          <Route
+            path="/profile"
+            element={<Profile />}
+          />
+          <Route
+            path="/habits"
+            element={<Habits />}
+          />
+          <Route
+            path="/tips"
+            element={<Tips />}
+          />
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
+          <Route
+            path="*"
+            element={<NotFound />}
           />
         </Routes>
       </Container>
