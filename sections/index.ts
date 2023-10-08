@@ -8,8 +8,10 @@ import Habits from "./Habits"
 import Tips from "./Tips"
 import NotFound from "./NotFound"
 import ForgotPassword from "./ForgotPassword"
+import Settings from "./Settings"
 
 export {
+  Settings,
   ForgotPassword,
   NotFound,
   Tips,

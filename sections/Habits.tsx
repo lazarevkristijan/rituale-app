@@ -1,5 +1,7 @@
+import { Box } from "@mui/material"
+
 const Habits = () => {
-  return <div>Habits</div>
+  return <Box>Habits</Box>
 }
 
 export default Habits

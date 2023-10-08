@@ -20,6 +20,7 @@ import {
   Tips,
   NotFound,
   ForgotPassword,
+  Settings,
 } from "../sections"
 import { Routes, Route } from "react-router-dom"
 
@@ -63,6 +64,10 @@ const App = () => {
           <Route
             path="/forgot-password"
             element={<ForgotPassword />}
+          />
+          <Route
+            path="/settings"
+            element={<Settings />}
           />
           <Route
             path="*"

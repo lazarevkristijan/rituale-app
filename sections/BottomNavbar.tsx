@@ -46,7 +46,7 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="Profile"
         icon={<AccountCircleIcon />}
-        onClick={() => (isLoggedIn ? navigate("/profile") : navigate("/login"))}
+        onClick={() => navigate(isLoggedIn ? "/profile" : "/login")}
       />
     </BottomNavigation>
   )

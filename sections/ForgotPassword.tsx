@@ -1,5 +1,7 @@
+import { Box } from "@mui/material"
+
 const ForgotPassword = () => {
-  return <div>ForgotPassword</div>
+  return <Box>ForgotPassword</Box>
 }
 
 export default ForgotPassword

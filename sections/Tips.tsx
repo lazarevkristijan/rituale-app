@@ -1,5 +1,7 @@
+import { Box } from "@mui/material"
+
 const Tips = () => {
-  return <div>Tips</div>
+  return <Box>Tips</Box>
 }
 
 export default Tips
