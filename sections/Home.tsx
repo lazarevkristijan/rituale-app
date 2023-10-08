@@ -1,8 +1,11 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
+import type { RootState } from "../src/Store"
+import { useSelector } from "react-redux"
 
 const Home = () => {
   const navigate = useNavigate()
+  const loggedIn = useSelector((state: RootState) => state.loggedIn)
 
   return (
     <Box
@@ -13,17 +16,17 @@ const Home = () => {
       }}
     >
       <Typography
-        sx={{ textAlign: "center", mt: 2, fontWeight: 300, fontSize: 40 }}
+        sx={{ textAlign: "center", mb: 3, fontWeight: 300, fontSize: 40 }}
         variant="h1"
       >
         TIME TO MAKE REAL CHANGE
       </Typography>
       <Button
         variant="contained"
-        sx={{ mt: 3, mx: "auto" }}
-        onClick={() => navigate("/login")}
+        sx={{ mx: "auto" }}
+        onClick={() => navigate(loggedIn ? "/habits" : "/login")}
       >
-        LOG IN
+        {loggedIn ? "continue" : "login"}
       </Button>
       <Typography variant="overline">Why habits?</Typography>
       <Typography>
@@ -31,7 +34,7 @@ const Home = () => {
         we do is something we've been doing continously every day. <br />
         Brushing our teeth, driving, scrolling our phones etc. it's all
         automatic, we don't put any effort in no natter how easy or hard the
-        task, eventually we get into the rhythm. lorem*20
+        task, eventually we get into the rhythm.
       </Typography>
     </Box>
   )

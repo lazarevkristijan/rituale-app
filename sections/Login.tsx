@@ -1,7 +1,12 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { login } from "../src/features/session/sessionSlice"
+
 const Login = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+
   return (
     <Box
       sx={{
@@ -28,13 +33,24 @@ const Login = () => {
         sx={{ mb: 3 }}
       />
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/forgot-password")}
-        >
-          forgot password?
-        </Button>
-        <Typography sx={{ alignSelf: "center" }}>OR</Typography>
+        <Box>
+          <Button
+            variant="contained"
+            sx={{ mr: 1 }}
+            onClick={() => {
+              dispatch(login())
+              navigate("/")
+            }}
+          >
+            login
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/forgot-password")}
+          >
+            forgot password?
+          </Button>
+        </Box>
         <Button
           variant="contained"
           onClick={() => navigate("/register")}

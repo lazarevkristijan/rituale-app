@@ -5,12 +5,13 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import HomeIcon from "@mui/icons-material/Home"
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { RootState } from "../src/Store"
 
 const BottomNavbar = () => {
   const [value, setValue] = useState(0)
-
   const navigate = useNavigate()
-  const isLoggedIn = true
+  const loggedIn = useSelector((state: RootState) => state.loggedIn)
 
   return (
     <BottomNavigation
@@ -46,7 +47,7 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="Profile"
         icon={<AccountCircleIcon />}
-        onClick={() => navigate(isLoggedIn ? "/profile" : "/login")}
+        onClick={() => navigate(loggedIn ? "/profile" : "/login")}
       />
     </BottomNavigation>
   )

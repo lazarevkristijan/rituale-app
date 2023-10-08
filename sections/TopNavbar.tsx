@@ -36,7 +36,10 @@ const TopNavbar = () => {
   }
 
   return (
-    <AppBar position="sticky">
+    <AppBar
+      position="sticky"
+      sx={{ mb: 2 }}
+    >
       <Container
         maxWidth="xl"
         sx={{

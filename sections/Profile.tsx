@@ -3,11 +3,12 @@ import Avatar from "@mui/material/Avatar"
 import { deepPurple } from "@mui/material/colors"
 import SettingsIcon from "@mui/icons-material/Settings"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { logout } from "../src/features/session/sessionSlice"
 
 const Profile = () => {
   const navigate = useNavigate()
-
-  const isLoggedIn = true
+  const dispatch = useDispatch()
 
   return (
     <Box>
@@ -61,9 +62,19 @@ const Profile = () => {
       <Button
         variant="contained"
         endIcon={<SettingsIcon />}
-        onClick={() => navigate(isLoggedIn ? "/settings" : "/login")}
+        onClick={() => navigate("/settings")}
       >
         settings
+      </Button>
+      <Button
+        variant="contained"
+        endIcon={<SettingsIcon />}
+        onClick={() => {
+          dispatch(logout())
+          navigate("/")
+        }}
+      >
+        logout
       </Button>
     </Box>
   )
