@@ -1,10 +1,11 @@
-import { Box, Button, Chip, Tooltip, Typography } from "@mui/material"
+import { Box, Button, Chip, Stack, Tooltip, Typography } from "@mui/material"
 import Avatar from "@mui/material/Avatar"
 import { deepPurple } from "@mui/material/colors"
 import SettingsIcon from "@mui/icons-material/Settings"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { logout } from "../src/features/session/sessionSlice"
+import LogoutIcon from "@mui/icons-material/Logout"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -59,23 +60,28 @@ const Profile = () => {
           </Typography>
         </Typography>
       </Box>
-      <Button
-        variant="contained"
-        endIcon={<SettingsIcon />}
-        onClick={() => navigate("/settings")}
+      <Stack
+        spacing={1}
+        direction="row"
       >
-        settings
-      </Button>
-      <Button
-        variant="contained"
-        endIcon={<SettingsIcon />}
-        onClick={() => {
-          dispatch(logout())
-          navigate("/")
-        }}
-      >
-        logout
-      </Button>
+        <Button
+          variant="contained"
+          endIcon={<SettingsIcon />}
+          onClick={() => navigate("/settings")}
+        >
+          settings
+        </Button>
+        <Button
+          variant="contained"
+          endIcon={<LogoutIcon />}
+          onClick={() => {
+            dispatch(logout())
+            navigate("/")
+          }}
+        >
+          logout
+        </Button>
+      </Stack>
     </Box>
   )
 }

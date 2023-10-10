@@ -1,7 +1,9 @@
-import { Box, TextField, Typography } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Box, Button, TextField } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 
 const Register = () => {
+  const navigate = useNavigate()
+
   return (
     <Box
       sx={{
@@ -11,18 +13,32 @@ const Register = () => {
         justifyContent: "center",
       }}
     >
-      <TextField label="First Name" />
+      <TextField
+        label="First Name"
+        sx={{ mb: 1 }}
+      />
       <TextField
         label="Last Name"
-        sx={{ mt: 1 }}
+        sx={{ mb: 1 }}
       />
       <TextField
         label="Email"
-        sx={{ mt: 1 }}
+        sx={{ mb: 3 }}
       />
-      <Typography>
-        Already have an account?<Link to="/login"> Login</Link>
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/login")}
+        >
+          login
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/complete-registration")}
+        >
+          register
+        </Button>
+      </Box>
     </Box>
   )
 }
