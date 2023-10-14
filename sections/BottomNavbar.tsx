@@ -36,6 +36,7 @@ const BottomNavbar = () => {
       ? dispatch(changeLocation(3))
       : navigate("/not-found")
   }, [])
+
   return (
     <BottomNavigation
       value={bottomNavLocation}

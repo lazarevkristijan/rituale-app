@@ -23,16 +23,20 @@ import {
   Settings,
 } from "../sections"
 import { Routes, Route } from "react-router-dom"
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-})
+import { useSelector } from "react-redux"
+import { RootState } from "./Store"
 
 const App = () => {
+  const DarkTheme = useSelector((state: RootState) => state.theme.value)
+
+  const theme = createTheme({
+    palette: {
+      mode: `${DarkTheme ? "dark" : "light"}`,
+    },
+  })
+
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />
       <TopNavbar />
       <Container>

@@ -26,18 +26,18 @@ const Profile = () => {
           <Avatar sx={{ bgcolor: deepPurple[500] }}>KL</Avatar>
           <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
             Kristijan Lazarev{" "}
-            <Tooltip
-              title="Member No."
-              placement="bottom"
-              arrow
-              sx={{ ml: 1 }}
-            >
-              <Chip
-                label="#1"
-                color="primary"
-              />
-            </Tooltip>
           </Typography>
+          <Tooltip
+            title="Member No."
+            placement="bottom"
+            arrow
+            sx={{ ml: 1 }}
+          >
+            <Chip
+              label="#1"
+              color="primary"
+            />
+          </Tooltip>
         </Box>
         <Typography>
           Good Habits: <Typography component="span">100</Typography>

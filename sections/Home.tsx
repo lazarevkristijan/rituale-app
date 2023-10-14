@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 
 const Home = () => {
   const navigate = useNavigate()
-  const loggedIn = useSelector((state: RootState) => state.loggedIn)
+  const loggedIn = useSelector((state: RootState) => state.session.loggedIn)
 
   return (
     <Box
