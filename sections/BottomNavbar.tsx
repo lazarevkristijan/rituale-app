@@ -1,24 +1,25 @@
-import { useState } from "react"
 import { BottomNavigation, BottomNavigationAction } from "@mui/material"
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement"
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import HomeIcon from "@mui/icons-material/Home"
 import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../src/Store"
+import { changeLocation } from "../src/features/bottomNav/bottomNavSlice"
 
 const BottomNavbar = () => {
-  const [value, setValue] = useState(0)
   const navigate = useNavigate()
-  const loggedIn = useSelector((state: RootState) => state.loggedIn)
+  const loggedIn = useSelector((state: RootState) => state.session.loggedIn)
+  const navLocation = useSelector((state: RootState) => state.bottomNav.value)
+  const dispatch = useDispatch()
 
   return (
     <BottomNavigation
-      value={value}
+      value={navLocation}
       onChange={(e, newValue) => {
         e
-        setValue(newValue)
+        dispatch(changeLocation(newValue))
       }}
       sx={{
         position: "fixed",

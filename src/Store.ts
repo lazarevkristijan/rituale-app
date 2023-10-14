@@ -1,8 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import sessionReducer from "./features/session/sessionSlice"
+import bottomNavReducer from "./features/bottomNav/bottomNavSlice"
+
+const rootReducer = combineReducers({
+  session: sessionReducer,
+  bottomNav: bottomNavReducer,
+})
 
 export const store = configureStore({
-  reducer: sessionReducer,
+  reducer: rootReducer,
 })
 
 export type RootState = ReturnType<typeof store.getState>
