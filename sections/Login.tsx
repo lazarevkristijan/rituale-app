@@ -35,7 +35,6 @@ const Login = () => {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
           <Button
-            variant="contained"
             sx={{ mr: 1 }}
             onClick={() => {
               dispatch(login())
@@ -44,19 +43,11 @@ const Login = () => {
           >
             login
           </Button>
-          <Button
-            variant="contained"
-            onClick={() => navigate("/forgot-password")}
-          >
+          <Button onClick={() => navigate("/forgot-password")}>
             forgot password?
           </Button>
         </Box>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/register")}
-        >
-          register
-        </Button>
+        <Button onClick={() => navigate("/register")}>register</Button>
       </Box>
     </Box>
   )

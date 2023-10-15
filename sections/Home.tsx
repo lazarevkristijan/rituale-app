@@ -22,7 +22,6 @@ const Home = () => {
         TIME TO MAKE REAL CHANGE
       </Typography>
       <Button
-        variant="contained"
         sx={{ mx: "auto" }}
         onClick={() => navigate(loggedIn ? "/habits" : "/login")}
       >

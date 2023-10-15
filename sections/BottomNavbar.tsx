@@ -35,7 +35,7 @@ const BottomNavbar = () => {
       : window.location.href === "http://localhost:5173/settings"
       ? dispatch(changeLocation(3))
       : navigate("/not-found")
-  }, [])
+  }, [navigate, dispatch])
 
   return (
     <BottomNavigation

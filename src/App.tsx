@@ -33,6 +33,13 @@ const App = () => {
     palette: {
       mode: `${DarkTheme ? "dark" : "light"}`,
     },
+    components: {
+      MuiButton: {
+        defaultProps: {
+          variant: "contained",
+        },
+      },
+    },
   })
 
   return (

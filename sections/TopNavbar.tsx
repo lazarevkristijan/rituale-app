@@ -12,11 +12,15 @@ import {
 } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import PersonIcon from "@mui/icons-material/Person"
+import { useSelector } from "react-redux"
+import { RootState } from "../src/Store"
 
 const pages = ["Habits", "Tips"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
 const TopNavbar = () => {
+  const DarkTheme = useSelector((state: RootState) => state.theme.value)
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
@@ -50,8 +54,8 @@ const TopNavbar = () => {
       >
         <Box
           component="img"
-          src="logo.svg"
-          alt="logo"
+          src={`logo${DarkTheme ? "-w" : ""}.svg`}
+          alt="Rituale Logo"
           sx={{
             height: "50px",
             display: { xs: "none", md: "flex" },
@@ -93,8 +97,8 @@ const TopNavbar = () => {
 
         <Box
           component="img"
-          src="logo.svg"
-          alt="logo"
+          src={`logo${DarkTheme && "-w"}.svg`}
+          alt="Rituale Logo"
           sx={{
             height: "45px",
             width: "100%",
@@ -152,8 +156,8 @@ const TopNavbar = () => {
       >
         <Box
           component="img"
-          src="logo-text.svg"
-          alt="logo"
+          src={`logo-text${DarkTheme ? "-w" : ""}.svg`}
+          alt="Rituale Logo"
           height={50}
         />
       </Container>

@@ -26,16 +26,8 @@ const Register = () => {
         sx={{ mb: 3 }}
       />
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/login")}
-        >
-          login
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/complete-registration")}
-        >
+        <Button onClick={() => navigate("/login")}>login</Button>
+        <Button onClick={() => navigate("/complete-registration")}>
           register
         </Button>
       </Box>
