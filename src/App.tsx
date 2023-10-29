@@ -25,8 +25,23 @@ import {
 import { Routes, Route } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "./Store"
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 const App = () => {
+  const [data, setData] = useState([])
+  console.log(data[0].email)
+  useEffect(() => {
+    axios
+      .get("http://localhost:5174/api/data")
+      .then((response) => {
+        setData(response.data)
+      })
+      .catch((err) => {
+        console.error("Error fetching data from the server: " + err.message)
+      })
+  }, [])
+
   const DarkTheme = useSelector((state: RootState) => state.theme.value)
 
   const theme = createTheme({

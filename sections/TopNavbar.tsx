@@ -53,7 +53,7 @@ const TopNavbar = () => {
         }}
       >
         <Box
-          component="img"
+          component="img" 
           src={`logo${DarkTheme ? "-w" : ""}.svg`}
           alt="Rituale Logo"
           sx={{
@@ -97,7 +97,7 @@ const TopNavbar = () => {
 
         <Box
           component="img"
-          src={`logo${DarkTheme && "-w"}.svg`}
+          src={`logo${DarkTheme ? "-w" : ""}.svg`}
           alt="Rituale Logo"
           sx={{
             height: "45px",
