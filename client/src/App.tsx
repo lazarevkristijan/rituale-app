@@ -28,21 +28,30 @@ import { RootState } from "./Store"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
+interface UserData {
+  name: string
+  last_name: string
+}
+
+interface HabitsData {
+  id: number
+  habit: string
+  category: string
+}
+
 const App = () => {
-  const [data, setData] = useState([])
-  const getData = async () => {
-    console.log(data.map((item) => console.log(item)))
-  }
-  getData()
+  const [userData, setUserData] = useState<UserData[]>([])
+  const [habitsData, setHabitsData] = useState<HabitsData[]>([])
   useEffect(() => {
     axios
-      .get("http://localhost:5174/api/data")
-      .then((response) => {
-        setData(response.data)
-      })
-      .catch((err) => {
-        console.error("Error fetching data from the server: " + err.message)
-      })
+      .get("http://localhost:5174/api/userData")
+      .then((response) => setUserData(response.data))
+  }, [])
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5174/api/habitsData")
+      .then((response) => setHabitsData(response.data))
   }, [])
 
   const DarkTheme = useSelector((state: RootState) => state.theme.value)
@@ -65,6 +74,13 @@ const App = () => {
       <CssBaseline enableColorScheme />
       <TopNavbar />
       <Container>
+        {!userData
+          ? "Loading..."
+          : userData.map((user) => <p key={user.name}>{user.last_name}</p>)}
+
+        {!habitsData
+          ? "Loading..."
+          : habitsData.map((habit) => <p key={habit.id}>{habit.habit}</p>)}
         <Routes>
           <Route
             path="/"
