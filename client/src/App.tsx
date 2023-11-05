@@ -25,34 +25,15 @@ import {
 import { Routes, Route } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "./Store"
+import { useQuery } from "react-query"
 import axios from "axios"
-import { useEffect, useState } from "react"
 
-interface UserData {
-  name: string
-  last_name: string
-}
-
-interface HabitsData {
-  id: number
-  habit: string
-  category: string
-}
+type Person = { name: string; last_name: string }
 
 const App = () => {
-  const [userData, setUserData] = useState<UserData[]>([])
-  const [habitsData, setHabitsData] = useState<HabitsData[]>([])
-  useEffect(() => {
-    axios
-      .get("http://localhost:5174/api/userData")
-      .then((response) => setUserData(response.data))
-  }, [])
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5174/api/habitsData")
-      .then((response) => setHabitsData(response.data))
-  }, [])
+  const { isLoading, data } = useQuery("user-data", () => {
+    return axios.get("http://localhost:5174/api/userData")
+  })
 
   const DarkTheme = useSelector((state: RootState) => state.theme.value)
 
@@ -74,13 +55,11 @@ const App = () => {
       <CssBaseline enableColorScheme />
       <TopNavbar />
       <Container>
-        {!userData
-          ? "Loading..."
-          : userData.map((user) => <p key={user.name}>{user.last_name}</p>)}
-
-        {!habitsData
-          ? "Loading..."
-          : habitsData.map((habit) => <p key={habit.id}>{habit.habit}</p>)}
+        {isLoading ? (
+          <h2>Loading...</h2>
+        ) : (
+          data?.data.map((person: Person) => <h2>{person.name}</h2>)
+        )}
         <Routes>
           <Route
             path="/"
