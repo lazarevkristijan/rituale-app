@@ -1,11 +1,14 @@
+import dotenv from "dotenv"
 import postgres from "postgres"
 
+dotenv.config()
+
 const sql = postgres({
-  host: "dpg-cl57qb472pts739ttd00-a.frankfurt-postgres.render.com",
-  port: 5432,
-  database: "rituale",
-  username: "kristijan",
-  password: "jLYVLhAqZOD5bfQ1p8fbW4nh322moCmw",
+  host: process.env.DATABASE,
+  port: process.env.PORT,
+  database: process.env.DATABASE,
+  username: process.env.USERNAME,
+  password: process.env.PASSWORD,
   ssl: true,
 })
 
