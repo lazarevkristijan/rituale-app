@@ -1,5 +1,8 @@
-const express = require("express")
-const sql = require("./db")
+// const express = require("express")
+// const sql = require("./db")
+
+import express from "express"
+import sql from "./db.js"
 
 const app = express()
 const port = process.env.PORT || 3000
