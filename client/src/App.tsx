@@ -32,8 +32,12 @@ type Person = { name: string; last_name: string }
 
 const App = () => {
   const { isLoading, data } = useQuery("user-data", () => {
-    return axios.get("http://localhost:5174/api/userData")
+    return axios.get("https://rituale-server.onrender.com/api/users")
   })
+
+  setTimeout(() => {
+    console.log(data)
+  }, 4000)
 
   const DarkTheme = useSelector((state: RootState) => state.theme.value)
 
@@ -58,7 +62,7 @@ const App = () => {
         {isLoading ? (
           <h2>Loading...</h2>
         ) : (
-          data?.data.map((person: Person) => <h2>{person.name}</h2>)
+          data?.data.map((person: Person) => <h2>{person.last_name}</h2>)
         )}
         <Routes>
           <Route
