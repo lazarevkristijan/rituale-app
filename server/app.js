@@ -19,6 +19,7 @@ app.get("/api/users", async (req, res) => {
     `
     res.json(users)
   } catch (error) {
+    console.error(error.message)
     console.error("Error fetching users: ", error)
     res.status(500).json({ error: "Internal Server Error" })
   }

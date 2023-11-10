@@ -4,7 +4,7 @@ import postgres from "postgres"
 dotenv.config()
 
 const sql = postgres({
-  host: process.env.DATABASE,
+  host: process.env.HOST,
   port: process.env.PORT,
   database: process.env.DATABASE,
   username: process.env.USERNAME,
