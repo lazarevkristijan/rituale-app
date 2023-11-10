@@ -1,8 +1,11 @@
 import express from "express"
+import cors from "cors"
 import sql from "./db.js"
 
 const app = express()
 const port = process.env.PORT || 3000
+
+app.use(cors())
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
