@@ -8,9 +8,6 @@ const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
 )
 
-server.keepAliveTimeout = 120 * 1000
-server.headersTimeout = 120 * 1000
-
 app.get("/api/users", async (req, res) => {
   try {
     const users = await sql`
