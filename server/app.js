@@ -13,7 +13,11 @@ app.use(
   })
 )
 
-app.get("/api/users", async (req, res) => {
+const server = app.listen(port, () =>
+  console.log(`Rituale db is listening on port ${port}!`)
+)
+
+server = app.get("/api/users", async (req, res) => {
   try {
     const users = await sql`
     SELECT *
