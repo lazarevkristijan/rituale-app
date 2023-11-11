@@ -1,20 +1,11 @@
 import express from "express"
 import sql from "./db.js"
-import { createProxyMiddleware } from "http-proxy-middleware"
 import cors from "cors"
 
 const app = express()
 const port = process.env.PORT || 3000
 
 app.use(cors())
-
-app.use(
-  "/api",
-  createProxyMiddleware({
-    target: "https://rituale-server.onrender.com",
-    changeOrigin: true,
-  })
-)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
