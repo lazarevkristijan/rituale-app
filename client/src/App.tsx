@@ -28,16 +28,12 @@ import { RootState } from "./Store"
 import { useQuery } from "react-query"
 import axios from "axios"
 
-type Person = { name: string; last_name: string }
+type Person = { id: number; first_name: string; last_name: string }
 
 const App = () => {
   const { isLoading, data } = useQuery("user-data", () => {
     return axios.get("https://rituale-server.onrender.com/api/users")
   })
-
-  setTimeout(() => {
-    console.log(data)
-  }, 4000)
 
   const DarkTheme = useSelector((state: RootState) => state.theme.value)
 
