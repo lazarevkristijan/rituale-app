@@ -28,10 +28,10 @@ import { RootState } from "./Store"
 import { useQuery } from "react-query"
 import axios from "axios"
 
-type Person = { id: number; first_name: string; last_name: string }
+// type Person = { id: number; first_name: string; last_name: string }
 
 const App = () => {
-  const { isLoading, data } = useQuery("user-data", async () => {
+  useQuery("user-data", async () => {
     return await axios
       .get("https://api.rituale.digital/api/users")
       .then((response) => console.log(response.data))
@@ -57,11 +57,6 @@ const App = () => {
       <CssBaseline enableColorScheme />
       <TopNavbar />
       <Container>
-        {isLoading ? (
-          <h2>Loading...</h2>
-        ) : (
-          data?.data.map((person: Person) => <h2>{person.last_name}</h2>)
-        )}
         <Routes>
           <Route
             path="/"
