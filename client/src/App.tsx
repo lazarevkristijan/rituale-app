@@ -31,8 +31,10 @@ import axios from "axios"
 type Person = { id: number; first_name: string; last_name: string }
 
 const App = () => {
-  const { isLoading, data } = useQuery("user-data", () => {
-    return axios.get("https://rituale-server.onrender.com/api/users")
+  const { isLoading, data } = useQuery("user-data", async () => {
+    return await axios
+      .get("https://rituale-server.onrender.com/api/users")
+      .then((response) => console.log(response.data))
   })
 
   const DarkTheme = useSelector((state: RootState) => state.theme.value)

@@ -5,7 +5,7 @@ import cors from "cors"
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(cors({ credentials: false }))
+app.use(cors())
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
