@@ -33,8 +33,8 @@ const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
 )
 
-server.keepAliveTimeout = 120 * 1000
-server.headersTimeout = 120 * 1000
+server.keepAliveTimeout = 1200 * 1000
+server.headersTimeout = 1200 * 1000
 
 const html = `
 <!DOCTYPE html>
