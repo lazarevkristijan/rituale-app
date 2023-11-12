@@ -27,14 +27,19 @@ import { useSelector } from "react-redux"
 import { RootState } from "./Store"
 import { useQuery } from "react-query"
 import axios from "axios"
+import { ReactQueryDevtools } from "react-query/devtools"
 
-// type Person = { id: number; first_name: string; last_name: string }
+type PersonType = {
+  id: number
+  first_name: string
+  last_name: string
+}
 
 const App = () => {
-  useQuery("user-data", async () => {
+  const { isLoading, data } = useQuery("user-data", async () => {
     return await axios
       .get("https://api.rituale.digital/api/users")
-      .then((response) => console.log(response.data))
+      .then((response) => response.data)
   })
 
   const DarkTheme = useSelector((state: RootState) => state.theme.value)
@@ -54,9 +59,25 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <ReactQueryDevtools />
       <CssBaseline enableColorScheme />
       <TopNavbar />
       <Container>
+        {isLoading ? (
+          <h2>Loading...</h2>
+        ) : (
+          data && (
+            <div>
+              {data.map((user: PersonType) => (
+                <>
+                  <h2>First name: {user.first_name}</h2>
+                  <h2>Last name: {user.last_name}</h2>
+                  <h2>User ID: {user.id}</h2>
+                </>
+              ))}
+            </div>
+          )
+        )}
         <Routes>
           <Route
             path="/"
