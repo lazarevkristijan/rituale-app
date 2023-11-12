@@ -38,7 +38,7 @@ type PersonType = {
 const App = () => {
   const { isLoading, data } = useQuery("user-data", async () => {
     return await axios
-      .get("https://api.rituale.digital/api/users")
+      .get("https://api.rituale.digital/users")
       .then((response) => response.data)
   })
 

@@ -15,7 +15,7 @@ app.use(
 
 app.get("/", (req, res) => res.type("text").send("DB ROOT"))
 
-app.get("/api/users", async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
     const users = await sql`
     SELECT *
