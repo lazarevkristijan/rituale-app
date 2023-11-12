@@ -7,7 +7,7 @@ const port = process.env.PORT || 3001
 
 app.use(
   cors({
-    origin: "https://api.riturale.digital",
+    origin: "https://api.rituale.digital",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
