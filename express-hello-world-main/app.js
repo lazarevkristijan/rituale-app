@@ -1,6 +1,6 @@
-const express = require("express")
-const sql = require("./db")
-const cors = require("cors")
+import express from "express"
+import sql from "./db.js"
+import cors from "cors"
 
 const app = express()
 const port = process.env.PORT || 3001

@@ -6,6 +6,7 @@
   "repository": "https://github.com/render-examples/express-hello-world",
   "author": "Render Developers",
   "license": "MIT",
+  "type": "module",
   "private": false,
   "scripts": {
     "start": "node app.js"
