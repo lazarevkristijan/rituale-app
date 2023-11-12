@@ -1,13 +1,40 @@
-const express = require("express");
-const app = express();
-const port = process.env.PORT || 3001;
+const express = require("express")
+const sql = require("./db")
+const cors = require("cors")
 
-app.get("/", (req, res) => res.type('html').send(html));
+const app = express()
+const port = process.env.PORT || 3001
 
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.use(
+  cors({
+    origin: "https://api.riturale.digital",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+)
 
-server.keepAliveTimeout = 120 * 1000;
-server.headersTimeout = 120 * 1000;
+app.get("/", (req, res) => res.type("html").send(html))
+
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await sql`
+    SELECT *
+    FROM users
+    `
+    res.json(users)
+  } catch (error) {
+    console.error(error.message)
+    console.error("Error fetching users: ", error)
+    res.status(500).json({ error: "Internal Server Error" })
+  }
+})
+
+const server = app.listen(port, () =>
+  console.log(`Rituale db is listening on port ${port}!`)
+)
+
+server.keepAliveTimeout = 120 * 1000
+server.headersTimeout = 120 * 1000
 
 const html = `
 <!DOCTYPE html>
