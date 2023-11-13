@@ -21,7 +21,7 @@ import {
   NotFound,
   ForgotPassword,
   Settings,
-} from "../sections"
+} from "./sections"
 import { Routes, Route } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "./Store"

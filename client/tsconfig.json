@@ -14,12 +14,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    // Jest and RTL
+    "types": ["@testing-library/jest-dom"],
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "sections", "components"],
+  "include": ["src", "src/sections", "src/components"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

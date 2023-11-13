@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, FormGroup, Switch } from "@mui/material"
 import { useSelector, useDispatch } from "react-redux"
-import { RootState } from "../src/Store"
-import { changeTheme } from "../src/features/theme/themeSlice"
+import { RootState } from "../Store"
+import { changeTheme } from "../features/theme/themeSlice"
 
 const Settings = () => {
   const DarkTheme = useSelector((state: RootState) => state.theme.value)

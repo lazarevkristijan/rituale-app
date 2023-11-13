@@ -4,9 +4,9 @@ import { deepPurple } from "@mui/material/colors"
 import SettingsIcon from "@mui/icons-material/Settings"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { logout } from "../src/features/session/sessionSlice"
+import { logout } from "../features/session/sessionSlice"
 import LogoutIcon from "@mui/icons-material/Logout"
-import { RootState } from "../src/Store"
+import { RootState } from "../Store"
 
 const Profile = () => {
   const navigate = useNavigate()

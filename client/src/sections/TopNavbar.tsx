@@ -13,7 +13,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu"
 import PersonIcon from "@mui/icons-material/Person"
 import { useSelector } from "react-redux"
-import { RootState } from "../src/Store"
+import { RootState } from "../Store"
 
 const pages = ["Habits", "Tips"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
@@ -53,7 +53,7 @@ const TopNavbar = () => {
         }}
       >
         <Box
-          component="img" 
+          component="img"
           src={`logo${DarkTheme ? "-w" : ""}.svg`}
           alt="Rituale Logo"
           sx={{
