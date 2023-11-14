@@ -7,28 +7,19 @@ import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import Menu from "@mui/material/Menu"
 import MenuIcon from "@mui/icons-material/Menu"
-import { Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material"
+import { Container, Button, MenuItem } from "@mui/material"
 
 const pages = ["Habits", "Tips"]
-const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(e.currentTarget)
   }
-  const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(e.currentTarget)
-  }
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
-  }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
   }
 
   return (
@@ -90,40 +81,6 @@ const Navbar = () => {
                 {page}
               </Button>
             ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{ p: 0 }}
-              >
-                <Avatar
-                  alt="Profile"
-                  src="trophy.svg"
-                />
-              </IconButton>
-            </Tooltip>
-
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
-              keepMounted
-              transformOrigin={{ vertical: "top", horizontal: "right" }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={handleCloseUserMenu}
-                >
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>

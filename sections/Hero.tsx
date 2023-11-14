@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 
 const Hero = () => {
   return (
@@ -11,28 +11,31 @@ const Hero = () => {
       <Typography
         variant="h6"
         align="justify"
+        mx={"auto"}
+        width={297}
       >
-        There is a millon ways to reach your goals, get everything that you ever
-        wanted.. Interesting thing is that everyone who got where you want to
-        be, started SMALL. This app will help you start SMALL and in the end
-        stack up so many tiny wins that success is the ONLY possible outcome.{" "}
-        <br /> <br />
+        Habits app, containing all the good habits. Because small wins matter
+        the most when scoring for success, the app will help you grow with tiny
+        changes <br />
+        <br />
         Project started: 15.09.2023
       </Typography>
 
-      <a
-        href="https://www.linkedin.com/in/kristijanlazarev"
-        target="_blank"
-      >
-        <Button variant="contained">LinkedIn</Button>
-      </a>
-      <a
-        href="https://www.github.com/lazarevkristijan"
-        target="_blank"
-        className="ml-[20px]"
-      >
-        <Button variant="contained">GitHub</Button>
-      </a>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <a
+          href="https://www.linkedin.com/company/98769142/admin/feed/posts/?feedType=following"
+          target="_blank"
+        >
+          <Button variant="contained">LinkedIn</Button>
+        </a>
+        <a
+          href="https://github.com/lazarevkristijan/rituale-app"
+          target="_blank"
+          className="ml-[20px]"
+        >
+          <Button variant="contained">GitHub</Button>
+        </a>
+      </Box>
     </div>
   )
 }
