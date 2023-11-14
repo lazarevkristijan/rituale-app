@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import type { RootState } from "../src/Store"
+import type { RootState } from "../Store"
 import { useSelector } from "react-redux"
 
 const Home = () => {

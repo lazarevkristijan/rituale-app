@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { login } from "../src/features/session/sessionSlice"
+import { login } from "../features/session/sessionSlice"
 
 const Login = () => {
   const dispatch = useDispatch()

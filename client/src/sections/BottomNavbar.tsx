@@ -5,8 +5,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import HomeIcon from "@mui/icons-material/Home"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../src/Store"
-import { changeLocation } from "../src/features/bottomNav/bottomNavSlice"
+import { RootState } from "../Store"
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useEffect } from "react"
 
 const BottomNavbar = () => {
