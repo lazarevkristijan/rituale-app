@@ -1,10 +1,8 @@
 import { render, screen } from "@testing-library/react"
-// import { QueryClient, QueryClientProvider } from "react-query"
-import { store } from "../Store.ts"
-import Login from "./Login.tsx"
+import { store } from "../src/Store.ts"
+import Login from "../src/sections/Login.tsx"
 import { Provider } from "react-redux"
 import { BrowserRouter as Router } from "react-router-dom"
-// const queryClient = new QueryClient()
 
 test("Renders h1", () => {
   render(
