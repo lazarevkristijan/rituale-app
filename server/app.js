@@ -34,15 +34,15 @@ app.get("/users", async (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
-  const { first_name, last_name, email, password } = req.body
+  const { firstName, lastName, email, password } = req.body
 
   const saltRounds = 10
 
   try {
     const hashedPassword = await bcrypt.hash(password, saltRounds)
     await sql`
-    INSERT INTO users (first_name, last_name, email, password)
-    VALUES (${first_name}, ${last_name}, ${email}, ${hashedPassword})`
+    INSERT INTO useN (first_name, last_name, email, password)
+    VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})`
   } catch (e) {
     console.error("Error during registration: ", e)
     res.status(500).send("Registration failed")

@@ -24,19 +24,15 @@ const Login = () => {
         LOGIN
       </Typography>
       <form>
-        <div>
-          <TextField
-            label="Email"
-            autoFocus
-            sx={{ mb: 1 }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Password"
-            sx={{ mb: 3 }}
-          />
-        </div>
+        <TextField
+          label="Email"
+          autoFocus
+          sx={{ mb: 1 }}
+        />
+        <TextField
+          label="Password"
+          sx={{ mb: 3 }}
+        />
 
         <Button
           sx={{ mr: 1 }}
