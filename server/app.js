@@ -41,7 +41,7 @@ app.post("/register", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, saltRounds)
     await sql`
-    INSERT INTO useN (first_name, last_name, email, password)
+    INSERT INTO users (first_name, last_name, email, password)
     VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})`
   } catch (e) {
     console.error("Error during registration: ", e)
