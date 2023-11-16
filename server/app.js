@@ -49,17 +49,26 @@ app.post("/register", async (req, res) => {
   }
 })
 
-app.post("/users", async (req, res) => {
-  try {
-    const { id, first_name, last_name } = req.body
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body
 
-    await sql`
-    INSERT INTO users 
-    VALUES (${id}, ${first_name},${last_name})`
-  } catch (error) {
-    console.error(error.message)
-    console.error("Error adding user: ", error)
-    res.status(500).json({ error: "Internal Server Error" })
+  const hashedPassword = await sql`
+  SELECT password
+  FROM users
+  WHERE email = ${email}`
+
+  if (!hashedPassword) {
+    res.status(401)
+    return console.log("Invalid email or password")
+  }
+
+  const match = await bcrypt.compare(password, hashedPassword)
+
+  if (match) {
+    console.log("object")
+    return console.log("Invalid email or password")
+  } else {
+    return console.log("Invalid email or password")
   }
 })
 
