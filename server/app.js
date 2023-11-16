@@ -1,6 +1,7 @@
 import express from "express"
 import sql from "./db.js"
 import cors from "cors"
+import bodyParser from "body-parser"
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -12,6 +13,8 @@ app.use(
     credentials: true,
   })
 )
+
+app.use(bodyParser.json())
 
 app.get("/", (req, res) => res.type("text").send("DB ROOT"))
 
@@ -25,6 +28,20 @@ app.get("/users", async (req, res) => {
   } catch (error) {
     console.error(error.message)
     console.error("Error fetching users: ", error)
+    res.status(500).json({ error: "Internal Server Error" })
+  }
+})
+
+app.post("/users", async (req, res) => {
+  try {
+    const { id, first_name, last_name } = req.body
+
+    await sql`
+    INSERT INTO users 
+    VALUES (${id}, ${first_name},${last_name})`
+  } catch (error) {
+    console.error(error.message)
+    console.error("Error adding user: ", error)
     res.status(500).json({ error: "Internal Server Error" })
   }
 })
