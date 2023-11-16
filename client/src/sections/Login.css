@@ -1,0 +1,9 @@
+.error {
+  color: red;
+  font-size: 12px;
+  text-align: left;
+}
+
+.formControl {
+  margin-bottom: 20px;
+}

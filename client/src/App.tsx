@@ -69,11 +69,9 @@ const App = () => {
           data && (
             <div>
               {data.map((user: PersonType) => (
-                <>
+                <div key={user.id}>
                   <h2>First name: {user.first_name}</h2>
-                  <h2>Last name: {user.last_name}</h2>
-                  <h2>User ID: {user.id}</h2>
-                </>
+                </div>
               ))}
             </div>
           )
