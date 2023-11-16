@@ -1,26 +1,12 @@
 import "./Login.css"
 import { Box, Button, TextField, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-// import { useDispatch } from "react-redux"
-// import { login } from "../features/session/sessionSlice"
-import { useForm } from "react-hook-form"
-import { DevTool } from "@hookform/devtools"
-
-type FormValues = {
-  email: string
-  password: string
-}
+import { useDispatch } from "react-redux"
+import { login } from "../features/session/sessionSlice"
 
 const Login = () => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const form = useForm<FormValues>()
-  const { register, control, handleSubmit, formState } = form
-  const { errors } = formState
-
-  const onSubmit = (data: FormValues) => {
-    console.log("Form submitted", data)
-  }
 
   return (
     <Box
@@ -37,48 +23,27 @@ const Login = () => {
       >
         LOGIN
       </Typography>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-      >
-        <div className="formControl">
+      <form>
+        <div>
           <TextField
             label="Email"
             autoFocus
             sx={{ mb: 1 }}
-            {...register("email", {
-              required: {
-                value: true,
-                message: "Email is required",
-              },
-              pattern: {
-                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message: "Invalid Email format",
-              },
-            })}
           />
-          <p className="error">{errors.email?.message}</p>
         </div>
-        <div className="formControl">
+        <div>
           <TextField
             label="Password"
             sx={{ mb: 3 }}
-            {...register("password", {
-              required: {
-                value: true,
-                message: "Password is required",
-              },
-            })}
           />
-          <p className="error">{errors.password?.message}</p>
         </div>
 
         <Button
           sx={{ mr: 1 }}
-          // onClick={() => {
-          //   dispatch(login())
-          // navigate("/")
-          // }}
+          onClick={() => {
+            dispatch(login())
+            navigate("/")
+          }}
           type="submit"
         >
           login
@@ -93,7 +58,6 @@ const Login = () => {
           <Button onClick={() => navigate("/register")}>register</Button>
         </Box>
       </form>
-      <DevTool control={control} />
     </Box>
   )
 }
