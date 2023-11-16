@@ -2,6 +2,7 @@ import express from "express"
 import sql from "./db.js"
 import cors from "cors"
 import bodyParser from "body-parser"
+import bcrypt from "bcrypt"
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -32,6 +33,22 @@ app.get("/users", async (req, res) => {
   }
 })
 
+app.post("/register", async (req, res) => {
+  const { first_name, last_name, email, password } = req.body
+
+  const saltRounds = 10
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    await sql`
+    INSERT INTO users (first_name, last_name, email, password)
+    VALUES (${first_name}, ${last_name}, ${email}, ${hashedPassword}})`
+  } catch (e) {
+    console.error("Error during registration: ", e)
+    res.status(500).send("Registration failed")
+  }
+})
+
 app.post("/users", async (req, res) => {
   try {
     const { id, first_name, last_name } = req.body
@@ -50,5 +67,5 @@ const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
 )
 
-server.keepAliveTimeout = 120 * 1000
+server.keepAliveTimeout = 6000 * 1000
 server.headersTimeout = 120 * 1000
