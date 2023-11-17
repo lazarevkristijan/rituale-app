@@ -15,7 +15,6 @@ app.use(
     credentials: true,
   })
 )
-
 app.use(bodyParser.json())
 
 app.get("/", (req, res) => res.type("text").send("DB ROOT"))
@@ -47,10 +46,8 @@ app.post("/register", async (req, res) => {
     return res.status(400).send("Incorrect registration data")
   }
 
-  const saltRounds = 10
-
   try {
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, 10)
     await sql`
     INSERT INTO users (first_name, last_name, email, password)
     VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})`
@@ -63,23 +60,25 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body
 
-  const hashedPassword = await sql`
+  const receivedPassword = bcrypt.hash(password)
+
+  const storedPassword = await sql`
   SELECT password
   FROM users
   WHERE email = ${email}`
 
-  if (!hashedPassword) {
-    res.status(401)
+  if (!storedPassword) {
+    res.status(400)
     return console.log("Invalid email or password")
   }
 
-  const match = bcrypt.compare(password, hashedPassword)
+  const match = bcrypt.compare(receivedPassword, storedPassword)
+  if (!match) return res.status(403).send("Invalid email or password")
 
   if (match) {
-    console.log("object")
-    return console.log("Invalid email or password")
+    // DO something
   } else {
-    return console.log("Invalid email or password")
+    // DO something
   }
 })
 

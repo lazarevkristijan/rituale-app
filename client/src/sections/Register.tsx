@@ -60,9 +60,9 @@ const Register = () => {
 
             setFormData({ ...formData, firstName: capitalizedFirstName })
           }}
-          required
           error={!nameRegex.test(formData.firstName) && touchedFields.firstName}
           onBlur={() => setTouchedFields({ ...touchedFields, firstName: true })}
+          required
         />
         <TextField
           label="Last Name"
@@ -74,9 +74,9 @@ const Register = () => {
               e.target.value.slice(1).toLowerCase()
             setFormData({ ...formData, lastName: capitalizedLastName })
           }}
-          required
           error={!nameRegex.test(formData.lastName) && touchedFields.lastName}
           onBlur={() => setTouchedFields({ ...touchedFields, lastName: true })}
+          required
         />
         <TextField
           type="email"
@@ -84,9 +84,9 @@ const Register = () => {
           value={formData.email}
           sx={{ mb: 1 }}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
           error={!emailRegex.test(formData.email) && touchedFields.email}
           onBlur={() => setTouchedFields({ ...touchedFields, email: true })}
+          required
         />
         <TextField
           type="password"
@@ -96,11 +96,11 @@ const Register = () => {
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })
           }
-          required
           error={
             !passwordRegex.test(formData.password) && touchedFields.password
           }
           onBlur={() => setTouchedFields({ ...touchedFields, password: true })}
+          required
         />
         <Box>
           <Button onClick={() => navigate("/login")}>login</Button>
