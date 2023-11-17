@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
-export interface bottomNavState {
+export type bottomNavState = {
   value: number
 }
 

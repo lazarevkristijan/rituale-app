@@ -25,7 +25,7 @@ const Register = () => {
     e.preventDefault()
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://api.rituale.digital/register",
         JSON.stringify(formData),
         {
@@ -34,22 +34,6 @@ const Register = () => {
           },
         }
       )
-
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-      })
-
-      setTouchedFields({
-        firstName: false,
-        lastName: false,
-        email: false,
-        password: false,
-      })
-
-      console.log("Response from the server: ", response.data)
     } catch (error) {
       console.error("Error during POST request on registration:: ", error)
     }

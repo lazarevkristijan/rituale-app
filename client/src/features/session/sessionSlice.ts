@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-export interface sessionState {
+export type sessionState = {
   loggedIn: boolean
 }
 
