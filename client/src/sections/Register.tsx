@@ -2,6 +2,7 @@ import { Box, Button, TextField } from "@mui/material"
 import axios from "axios"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { emailRegex, nameRegex, passwordRegex } from "../Regex"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -11,6 +12,13 @@ const Register = () => {
     lastName: "",
     email: "",
     password: "",
+  })
+
+  const [touchedFields, setTouchedFields] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
   })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,14 +33,26 @@ const Register = () => {
           },
         }
       )
-      console.log("Resposne from the server: ", response.data)
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      })
+
+      setTouchedFields({
+        firstName: false,
+        lastName: false,
+        email: false,
+        password: false,
+      })
+
+      console.log("Response from the server: ", response.data)
     } catch (error) {
       console.error("Error during POST request on registration:: ", error)
     }
   }
-
-  const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 
   return (
     <Box
@@ -47,42 +67,53 @@ const Register = () => {
         <TextField
           label="First Name"
           sx={{ mb: 1 }}
+          value={formData.firstName}
           onChange={(e) =>
             setFormData({ ...formData, firstName: e.target.value })
           }
           required
+          error={!nameRegex.test(formData.firstName) && touchedFields.firstName}
+          onBlur={() => setTouchedFields({ ...touchedFields, firstName: true })}
         />
         <TextField
           label="Last Name"
           sx={{ mb: 1 }}
-          required
           onChange={(e) =>
             setFormData({ ...formData, lastName: e.target.value })
           }
+          required
+          error={!nameRegex.test(formData.lastName) && touchedFields.lastName}
+          onBlur={() => setTouchedFields({ ...touchedFields, lastName: true })}
         />
         <TextField
           type="email"
           label="Email"
           sx={{ mb: 1 }}
-          required
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          required
+          error={!emailRegex.test(formData.email) && touchedFields.email}
+          onBlur={() => setTouchedFields({ ...touchedFields, email: true })}
         />
         <TextField
           type="password"
           label="Password"
           sx={{ mb: 3 }}
-          required
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })
           }
+          required
+          error={
+            !passwordRegex.test(formData.password) && touchedFields.password
+          }
+          onBlur={() => setTouchedFields({ ...touchedFields, password: true })}
         />
         <Box>
           <Button onClick={() => navigate("/login")}>login</Button>
           <Button
             type="submit"
             disabled={
-              !formData.firstName ||
-              !formData.lastName ||
+              !nameRegex.test(formData.firstName) ||
+              !nameRegex.test(formData.lastName) ||
               !emailRegex.test(formData.email) ||
               !passwordRegex.test(formData.password)
             }
