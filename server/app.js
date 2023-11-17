@@ -44,7 +44,7 @@ app.post("/register", async (req, res) => {
     !passwordRegex.test(password)
   ) {
     console.log("Something wrong with credentials")
-    return res.status(422).send("Incorrect registration data")
+    return res.status(400).send("Incorrect registration data")
   }
 
   const saltRounds = 10
@@ -73,7 +73,7 @@ app.post("/login", async (req, res) => {
     return console.log("Invalid email or password")
   }
 
-  const match = await bcrypt.compare(password, hashedPassword)
+  const match = bcrypt.compare(password, hashedPassword)
 
   if (match) {
     console.log("object")

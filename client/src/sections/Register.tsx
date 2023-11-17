@@ -23,6 +23,7 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     try {
       const response = await axios.post(
         "https://api.rituale.digital/register",
@@ -68,9 +69,13 @@ const Register = () => {
           label="First Name"
           sx={{ mb: 1 }}
           value={formData.firstName}
-          onChange={(e) =>
-            setFormData({ ...formData, firstName: e.target.value })
-          }
+          onChange={(e) => {
+            const capitalizedFirstName =
+              e.target.value.charAt(0).toUpperCase() +
+              e.target.value.slice(1).toLowerCase()
+
+            setFormData({ ...formData, firstName: capitalizedFirstName })
+          }}
           required
           error={!nameRegex.test(formData.firstName) && touchedFields.firstName}
           onBlur={() => setTouchedFields({ ...touchedFields, firstName: true })}
@@ -78,9 +83,13 @@ const Register = () => {
         <TextField
           label="Last Name"
           sx={{ mb: 1 }}
-          onChange={(e) =>
-            setFormData({ ...formData, lastName: e.target.value })
-          }
+          value={formData.lastName}
+          onChange={(e) => {
+            const capitalizedLastName =
+              e.target.value.charAt(0).toUpperCase() +
+              e.target.value.slice(1).toLowerCase()
+            setFormData({ ...formData, lastName: capitalizedLastName })
+          }}
           required
           error={!nameRegex.test(formData.lastName) && touchedFields.lastName}
           onBlur={() => setTouchedFields({ ...touchedFields, lastName: true })}
@@ -88,6 +97,7 @@ const Register = () => {
         <TextField
           type="email"
           label="Email"
+          value={formData.email}
           sx={{ mb: 1 }}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
@@ -97,6 +107,7 @@ const Register = () => {
         <TextField
           type="password"
           label="Password"
+          value={formData.password}
           sx={{ mb: 3 }}
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })

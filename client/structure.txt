@@ -44,3 +44,5 @@ Reminders and Notifications
 Educational content
 Feedback and support
 Other resources: Books, websites, influencers
+
+ENSURE SEMANTIC HTML IS USED EVERYWHERE 
