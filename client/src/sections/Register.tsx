@@ -6,46 +6,33 @@ import { useNavigate } from "react-router-dom"
 const Register = () => {
   const navigate = useNavigate()
 
-  const [firstName, setFirstName] = useState({
-    value: "",
-    touched: false,
-    error: false,
-  })
-  const [lastName, setLastName] = useState({
-    value: "",
-    touched: false,
-    error: false,
-  })
-  const [email, setEmail] = useState({
-    value: "",
-    touched: false,
-    error: false,
-  })
-  const [password, setPassword] = useState({
-    value: "",
-    touched: false,
-    error: false,
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
   })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     try {
       const response = await axios.post(
         "https://api.rituale.digital/register",
-        { firstName, lastName, email, password }
+        JSON.stringify(formData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       )
-
-      if (response.status === 200) {
-        console.log("Registration successful")
-        navigate("/login")
-      } else {
-        console.error("Registration failed")
-      }
+      console.log("Resposne from the server: ", response.data)
     } catch (error) {
-      console.error("Error: ", error)
+      console.error("Error during POST request on registration:: ", error)
     }
   }
+
+  const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 
   return (
     <Box
@@ -61,66 +48,49 @@ const Register = () => {
           label="First Name"
           sx={{ mb: 1 }}
           onChange={(e) =>
-            setFirstName({ ...firstName, value: e.target.value })
+            setFormData({ ...formData, firstName: e.target.value })
           }
           required
-          onBlur={() =>
-            !firstName.value
-              ? setFirstName({ ...firstName, error: true })
-              : setFirstName({ ...firstName, error: false })
-          }
-          error={firstName.error}
         />
         <TextField
           label="Last Name"
           sx={{ mb: 1 }}
           required
-          onChange={(e) => setLastName({ ...lastName, value: e.target.value })}
-          onBlur={() =>
-            !lastName.value
-              ? setLastName({ ...lastName, error: true })
-              : setLastName({ ...lastName, error: false })
+          onChange={(e) =>
+            setFormData({ ...formData, lastName: e.target.value })
           }
-          error={lastName.error}
         />
         <TextField
           type="email"
           label="Email"
           sx={{ mb: 1 }}
           required
-          onChange={(e) => setEmail({ ...email, value: e.target.value })}
-          onBlur={() =>
-            !email.value
-              ? setEmail({ ...email, error: true })
-              : setEmail({ ...email, error: false })
-          }
-          error={email.error}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
         <TextField
           type="password"
           label="Password"
           sx={{ mb: 3 }}
           required
-          onChange={(e) => setPassword({ ...password, value: e.target.value })}
-          onBlur={() =>
-            !password.value
-              ? setPassword({ ...password, error: true })
-              : setPassword({ ...password, error: false })
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
           }
-          error={password.error}
         />
+        <Box>
+          <Button onClick={() => navigate("/login")}>login</Button>
+          <Button
+            type="submit"
+            disabled={
+              !formData.firstName ||
+              !formData.lastName ||
+              !emailRegex.test(formData.email) ||
+              !passwordRegex.test(formData.password)
+            }
+          >
+            register
+          </Button>
+        </Box>
       </form>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button onClick={() => navigate("/login")}>login</Button>
-        <Button
-          type="submit"
-          disabled={
-            firstName.error || lastName.error || email.error || password.error
-          }
-        >
-          register
-        </Button>
-      </Box>
     </Box>
   )
 }
