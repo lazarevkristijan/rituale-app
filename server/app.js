@@ -60,12 +60,14 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body
 
-  const storedPassword = await sql`
+  const storedPasswordResult = await sql`
   SELECT password
   FROM users
   WHERE email = ${email}`
 
-  if (!storedPassword || bcrypt.compare(password, storedPassword)) {
+  const storedPassword = storedPasswordResult[0].password
+
+  if (!storedPassword || (await bcrypt.compare(password, storedPassword))) {
     res.status(403).send("Invalid email or password")
     return
   }
