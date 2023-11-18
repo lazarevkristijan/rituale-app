@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 export type sessionState = {
-  loggedIn: boolean
   user: {
     first_name: string
     last_name: string
@@ -10,7 +9,6 @@ export type sessionState = {
 }
 
 const initialState: sessionState = {
-  loggedIn: false,
   user: null,
 }
 
@@ -19,11 +17,9 @@ export const sessionSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.loggedIn = true
       state.user = action.payload
     },
     logout: (state) => {
-      state.loggedIn = false
       state.user = null
     },
   },

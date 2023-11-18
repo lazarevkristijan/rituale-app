@@ -7,18 +7,29 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/session/sessionSlice"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { RootState } from "../Store"
+import { useEffect } from "react"
 
 const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const DarkTheme = useSelector((state: RootState) => state.theme.value)
+  const darkTheme = useSelector((state: RootState) => state.theme.value)
+  const user = useSelector((state: RootState) => state.session.user)
+
+  console.log(user)
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login")
+      return
+    }
+  }, [user, navigate])
 
   return (
     <Box>
       <Typography variant="h3">My Profile</Typography>
       <Box
         sx={{
-          bgcolor: `primary.${DarkTheme ? "dark" : "light"}`,
+          bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
           borderRadius: 1,
           p: 1,
           mb: 2,
@@ -27,7 +38,8 @@ const Profile = () => {
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
           <Avatar sx={{ bgcolor: deepPurple[500] }}>KL</Avatar>
           <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
-            Kristijan Lazarev{" "}
+            {/* {user?.first_name || "NAME"} {user?.last_name || "LASTNAME"} */}
+            {user?.email}
           </Typography>
           <Tooltip
             title="Member No."

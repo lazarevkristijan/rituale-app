@@ -11,7 +11,7 @@ import { useEffect } from "react"
 
 const BottomNavbar = () => {
   const navigate = useNavigate()
-  const loggedIn = useSelector((state: RootState) => state.session.loggedIn)
+  const user = useSelector((state: RootState) => state.session.user)
   const bottomNavLocation = useSelector(
     (state: RootState) => state.bottomNav.value
   )
@@ -71,7 +71,7 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="Profile"
         icon={<AccountCircleIcon />}
-        onClick={() => navigate(loggedIn ? "/profile" : "/login")}
+        onClick={() => navigate(user ? "/profile" : "/login")}
       />
     </BottomNavigation>
   )

@@ -65,10 +65,14 @@ app.post("/login", async (req, res) => {
   FROM users
   WHERE email = ${email}`
 
+  console.log("Stored password: ", storedPassword)
   if (!storedPassword) {
     res.status(403).send("Invalid email or password")
     return
   }
+
+  console.log("After check if not stored password and before bcrypt comparison")
+  console.log("Inserted password", password)
 
   await bcrypt.compare(password, storedPassword, (err, result) => {
     if (err) {
@@ -88,6 +92,8 @@ app.post("/login", async (req, res) => {
   FROM users
   WHERE email = ${email}
   `
+
+  console.log(userInfo)
 
   const user = {
     first_name: userInfo.first_name,

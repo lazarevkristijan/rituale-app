@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 
 const Home = () => {
   const navigate = useNavigate()
-  const loggedIn = useSelector((state: RootState) => state.session.loggedIn)
+  const user = useSelector((state: RootState) => state.session.user)
 
   return (
     <Box
@@ -23,9 +23,9 @@ const Home = () => {
       </Typography>
       <Button
         sx={{ mx: "auto" }}
-        onClick={() => navigate(loggedIn ? "/habits" : "/login")}
+        onClick={() => navigate(user ? "/habits" : "/login")}
       >
-        {loggedIn ? "continue" : "login"}
+        {user ? "continue" : "login"}
       </Button>
       <Typography variant="overline">Why habits?</Typography>
       <Typography>

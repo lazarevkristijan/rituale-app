@@ -27,11 +27,12 @@ import { RootState } from "./Store"
 import { ReactQueryDevtools } from "react-query/devtools"
 
 const App = () => {
-  const DarkTheme = useSelector((state: RootState) => state.theme.value)
+  const darkTheme = useSelector((state: RootState) => state.theme.value)
+  const user = useSelector((state: RootState) => state.session.user)
 
   const theme = createTheme({
     palette: {
-      mode: `${DarkTheme ? "dark" : "light"}`,
+      mode: `${darkTheme ? "dark" : "light"}`,
     },
     components: {
       MuiButton: {

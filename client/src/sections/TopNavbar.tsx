@@ -19,7 +19,7 @@ const pages = ["Habits", "Tips"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
 const TopNavbar = () => {
-  const DarkTheme = useSelector((state: RootState) => state.theme.value)
+  const darkTheme = useSelector((state: RootState) => state.theme.value)
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -54,7 +54,7 @@ const TopNavbar = () => {
       >
         <Box
           component="img"
-          src={`logo${DarkTheme ? "-w" : ""}.svg`}
+          src={`logo${darkTheme ? "-w" : ""}.svg`}
           alt="Rituale Logo"
           sx={{
             height: "50px",
@@ -97,7 +97,7 @@ const TopNavbar = () => {
 
         <Box
           component="img"
-          src={`logo${DarkTheme ? "-w" : ""}.svg`}
+          src={`logo${darkTheme ? "-w" : ""}.svg`}
           alt="Rituale Logo"
           sx={{
             height: "45px",
@@ -156,7 +156,7 @@ const TopNavbar = () => {
       >
         <Box
           component="img"
-          src={`logo-text${DarkTheme ? "-w" : ""}.svg`}
+          src={`logo-text${darkTheme ? "-w" : ""}.svg`}
           alt="Rituale Logo"
           height={50}
         />

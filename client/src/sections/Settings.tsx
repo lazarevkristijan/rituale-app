@@ -4,7 +4,7 @@ import { RootState } from "../Store"
 import { changeTheme } from "../features/theme/themeSlice"
 
 const Settings = () => {
-  const DarkTheme = useSelector((state: RootState) => state.theme.value)
+  const darkTheme = useSelector((state: RootState) => state.theme.value)
   const dispatch = useDispatch()
 
   return (
@@ -13,7 +13,7 @@ const Settings = () => {
         <FormGroup>
           <FormControlLabel
             control={<Switch />}
-            checked={DarkTheme}
+            checked={darkTheme}
             onChange={() => dispatch(changeTheme())}
             label="Dark Mode"
             labelPlacement="start"
