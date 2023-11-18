@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      await axios.post(
+      const response = await axios.post(
         "https://api.rituale.digital/login",
         JSON.stringify(formData),
         {
@@ -23,6 +23,10 @@ const Login = () => {
           },
         }
       )
+
+      const userData = response.data
+
+      dispatch(login(userData))
     } catch (error) {
       console.log(error)
     }
@@ -37,12 +41,6 @@ const Login = () => {
     email: false,
     password: false,
   })
-
-  const user = {
-    first_name: null,
-    last_name: null,
-    email: null,
-  }
 
   return (
     <Box
@@ -72,6 +70,7 @@ const Login = () => {
         />
         <TextField
           label="Password"
+          type="password"
           value={formData.password}
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })
@@ -86,11 +85,12 @@ const Login = () => {
 
         <Button
           sx={{ mr: 1 }}
-          onClick={() => {
-            dispatch(login(user))
-            navigate("/")
-          }}
+          onClick={() => navigate("/")}
           type="submit"
+          disabled={
+            !emailRegex.test(formData.email) ||
+            !passwordRegex.test(formData.password)
+          }
         >
           login
         </Button>
