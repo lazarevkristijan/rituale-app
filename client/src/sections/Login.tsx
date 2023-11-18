@@ -85,7 +85,9 @@ const Login = () => {
 
         <Button
           sx={{ mr: 1 }}
-          onClick={() => navigate("/")}
+          onClick={() => {
+            handleSubmit
+          }}
           type="submit"
           disabled={
             !emailRegex.test(formData.email) ||
@@ -97,11 +99,19 @@ const Login = () => {
 
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box>
-            <Button onClick={() => navigate("/forgot-password")}>
+            <Button
+              type="button"
+              onClick={() => navigate("/forgot-password")}
+            >
               forgot password?
             </Button>
           </Box>
-          <Button onClick={() => navigate("/register")}>register</Button>
+          <Button
+            type="button"
+            onClick={() => navigate("/register")}
+          >
+            register
+          </Button>
         </Box>
       </form>
     </Box>
