@@ -60,6 +60,7 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <TextField
           label="Email"
+          type="email"
           autoFocus
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -85,9 +86,7 @@ const Login = () => {
 
         <Button
           sx={{ mr: 1 }}
-          onClick={() => {
-            handleSubmit
-          }}
+          onClick={() => handleSubmit}
           type="submit"
           disabled={
             !emailRegex.test(formData.email) ||

@@ -51,8 +51,8 @@ app.post("/register", async (req, res) => {
     await sql`
     INSERT INTO users (first_name, last_name, email, password)
     VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})`
-  } catch (e) {
-    console.error("Error during registration: ", e)
+  } catch (error) {
+    console.error("Error during registration: ", error)
     res.status(500).send("Registration failed")
   }
 })
@@ -60,17 +60,28 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body
 
-  const storedPasswordResult = await sql`
+  const storedPassword = await sql`
   SELECT password
   FROM users
   WHERE email = ${email}`
 
-  const storedPassword = storedPasswordResult[0].password
-
-  if (!storedPassword || (await bcrypt.compare(password, storedPassword))) {
+  if (!storedPassword) {
     res.status(403).send("Invalid email or password")
     return
   }
+
+  await bcrypt.compare(password, storedPassword, (err, result) => {
+    if (err) {
+      console.error("Error comparing passwords: ", err)
+      return
+    }
+
+    if (result) {
+      console.log("Passwords Match")
+    } else {
+      return console.error("Passwords do not match")
+    }
+  })
 
   const userInfo = await sql`
   SELECT first_name, last_name
