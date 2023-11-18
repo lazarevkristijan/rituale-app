@@ -88,7 +88,7 @@ app.post("/login", async (req, res) => {
   })
 
   const userInfo = await sql`
-  SELECT first_name, last_name
+  SELECT id, first_name, last_name
   FROM users
   WHERE email = ${email}
   `
@@ -96,6 +96,7 @@ app.post("/login", async (req, res) => {
   console.log(userInfo)
 
   const user = {
+    id: userInfo[0].id,
     first_name: userInfo[0].first_name,
     last_name: userInfo[0].last_name,
     email: email,

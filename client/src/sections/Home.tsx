@@ -27,6 +27,7 @@ const Home = () => {
       >
         {user ? "continue" : "login"}
       </Button>
+      <p>Hello {user ? user.first_name : "Guest"}</p>
       <Typography variant="overline">Why habits?</Typography>
       <Typography>
         We don't realise that 90% of our day is habits based, allmost everything

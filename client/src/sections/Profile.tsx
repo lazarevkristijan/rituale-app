@@ -12,11 +12,9 @@ import { useEffect } from "react"
 const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
   const darkTheme = useSelector((state: RootState) => state.theme.value)
   const user = useSelector((state: RootState) => state.session.user)
-
-  console.log(user)
-
   useEffect(() => {
     if (!user) {
       navigate("/login")
@@ -36,19 +34,23 @@ const Profile = () => {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-          <Avatar sx={{ bgcolor: deepPurple[500] }}>KL</Avatar>
+          <Avatar sx={{ bgcolor: deepPurple[500] }}>
+            {user?.first_name.charAt(0)}
+            {user?.last_name.charAt(0)}
+          </Avatar>
           <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
-            {user?.first_name || "NAME"} {user?.last_name || "LASTNAME"}
+            {user?.first_name} <br />
+            {user?.last_name} <br />
             {user?.email}
           </Typography>
           <Tooltip
-            title="Member No."
+            title="User No."
             placement="bottom"
             arrow
             sx={{ ml: 1 }}
           >
             <Chip
-              label="#1"
+              label={`#${user?.id}`}
               color="primary"
               component="span"
             />
