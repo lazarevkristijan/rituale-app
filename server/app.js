@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
   FROM users
   WHERE email = ${email}`
 
-  console.log("Stored password: ", storedPassword)
+  console.log("Stored password: ", storedPassword[0].password)
   if (!storedPassword) {
     res.status(403).send("Invalid email or password")
     return
