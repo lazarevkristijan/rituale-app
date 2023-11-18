@@ -96,8 +96,8 @@ app.post("/login", async (req, res) => {
   console.log(userInfo)
 
   const user = {
-    first_name: userInfo.first_name,
-    last_name: userInfo.last_name,
+    first_name: userInfo[0].first_name,
+    last_name: userInfo[0].last_name,
     email: email,
   }
 

@@ -38,7 +38,7 @@ const Profile = () => {
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
           <Avatar sx={{ bgcolor: deepPurple[500] }}>KL</Avatar>
           <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
-            {/* {user?.first_name || "NAME"} {user?.last_name || "LASTNAME"} */}
+            {user?.first_name || "NAME"} {user?.last_name || "LASTNAME"}
             {user?.email}
           </Typography>
           <Tooltip
