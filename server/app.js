@@ -99,6 +99,15 @@ app.post("/login", async (req, res) => {
     return
   }
 
+  bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
+    if (err) {
+      console.error("Error comparing passwords: ", err)
+      return
+    }
+
+    if (!result) return console.error("Passwords do not match")
+  })
+
   const userInfo = await sql`
   SELECT id, first_name, last_name
   FROM users
@@ -110,23 +119,10 @@ app.post("/login", async (req, res) => {
     last_name: userInfo[0].last_name,
     email: email,
   }
-  bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
-    if (err) {
-      console.error("Error comparing passwords: ", err)
-      return
-    }
+  const userId = user[0].id
+  const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
 
-    if (result) {
-      const userId = user[0].id
-
-      const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
-
-      res.cookie("token", token, { httpOnly: true })
-    } else {
-      return console.error("Passwords do not match")
-    }
-  })
-
+  res.cookie("token", token, { httpOnly: true })
   res.status(200).json(user)
 })
 
