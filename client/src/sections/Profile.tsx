@@ -32,7 +32,7 @@ const Profile = () => {
         .get("https://api.rituale.digital/check-auth", {
           withCredentials: true,
         })
-        .then((response) => console.log(response))
+        .then((response) => console.log(response.status))
 
       // if (response.status === 200) {
       setIsLoading(false)

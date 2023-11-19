@@ -13,7 +13,6 @@ const Login = () => {
   const user = useSelector((state: RootState) => state.session.user)
 
   useEffect(() => {
-    console.log(user)
     if (user) {
       navigate("/profile")
     }
@@ -37,7 +36,7 @@ const Login = () => {
 
       dispatch(login(userData))
     } catch (error) {
-      console.log(error)
+      console.log("Error when logging ing: ", error)
     }
   }
 

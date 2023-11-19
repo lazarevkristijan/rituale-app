@@ -102,10 +102,13 @@ app.post("/login", async (req, res) => {
   bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
     if (err) {
       console.error("Error comparing passwords: ", err)
-      return
+      return res.status(500).send("Error inside the server")
     }
 
-    if (!result) return console.error("Passwords do not match")
+    if (!result) {
+      console.error("Passwords do not match")
+      return res.status(403).send("Invalid email or password")
+    }
   })
 
   const userInfo = await sql`
@@ -122,7 +125,7 @@ app.post("/login", async (req, res) => {
 
   const userId = user.id
   const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
-
+  console.log("Generated token: ", token)
   res.cookie("token", token, { httpOnly: true })
   res.status(200).json(user)
 })
