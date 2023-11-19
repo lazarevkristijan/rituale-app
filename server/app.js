@@ -107,7 +107,7 @@ app.post("/login", async (req, res) => {
 
     if (!result) {
       console.error("Passwords do not match")
-      return res.status(403).send("Invalid email or password")
+      return invalidCredRes(res)
     }
   })
 
@@ -126,9 +126,17 @@ app.post("/login", async (req, res) => {
   const userId = user.id
   const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
   console.log("Generated token: ", token)
-  res.cookie("token", token, { httpOnly: true })
+  res.cookie("token", token, {
+    httpOnly: true,
+    domain: "localhost:5173",
+    path: "/",
+  })
   res.status(200).json(user)
 })
+
+const invalidCredRes = (res) => {
+  return res.status(403).send("Invalid email or password")
+}
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
