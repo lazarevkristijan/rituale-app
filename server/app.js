@@ -127,7 +127,7 @@ app.post("/login", async (req, res) => {
   const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
 
   res.cookie("token", token, {
-    httpOnly: true,
+    httpOnly: false,
     domain: "localhost",
     path: "/",
   })
