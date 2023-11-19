@@ -128,7 +128,7 @@ app.post("/login", async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    domain: "http://localhost:5173",
+    domain: "localhost",
     path: "/",
   })
   res.status(200).json(user)
