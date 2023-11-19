@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/session/sessionSlice"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { RootState } from "../Store"
-import { useEffect } from "react"
+import { useState } from "react"
+import axios from "axios"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -15,88 +16,107 @@ const Profile = () => {
 
   const darkTheme = useSelector((state: RootState) => state.theme.value)
   const user = useSelector((state: RootState) => state.session.user)
-  useEffect(() => {
-    if (!user) {
-      navigate("/login")
-      return
+
+  const [isLoading, setIsLoading] = useState(true)
+
+  const checkAuthentication = async () => {
+    try {
+      const response = await axios.get("/check-auth", {
+        withCredentials: true,
+      })
+
+      if (response.data) {
+        setIsLoading(false)
+      } else {
+        navigate("/login")
+      }
+    } catch (error) {
+      console.error("Error checking authentication: ", error)
     }
-  }, [user, navigate])
+  }
+  checkAuthentication()
 
   return (
     <Box>
       <Typography variant="h3">My Profile</Typography>
-      <Box
-        sx={{
-          bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
-          borderRadius: 1,
-          p: 1,
-          mb: 2,
-        }}
-      >
-        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-          <Avatar sx={{ bgcolor: deepPurple[500] }}>
-            {user?.first_name.charAt(0)}
-            {user?.last_name.charAt(0)}
-          </Avatar>
-          <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
-            {user?.first_name} <br />
-            {user?.last_name} <br />
-            {user?.email}
-          </Typography>
-          <Tooltip
-            title="User No."
-            placement="bottom"
-            arrow
-            sx={{ ml: 1 }}
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <>
+          <Box
+            sx={{
+              bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
+              borderRadius: 1,
+              p: 1,
+              mb: 2,
+            }}
           >
-            <Chip
-              label={`#${user?.id}`}
-              color="primary"
-              component="span"
-            />
-          </Tooltip>
-        </Box>
-        <Typography>
-          Good Habits: <Typography component="span">100</Typography>
-        </Typography>
-        <Typography>
-          Main Goals:{" "}
-          <Typography component="span">
-            <Chip
-              label="Health"
-              color="primary"
-              sx={{ ml: 1 }}
-              component="span"
-            />
-            <Chip
-              label="Fitness"
-              color="primary"
-              sx={{ ml: 1 }}
-              component="span"
-            />
-          </Typography>
-        </Typography>
-      </Box>
-      <Stack
-        spacing={1}
-        direction="row"
-      >
-        <Button
-          endIcon={<SettingsIcon />}
-          onClick={() => navigate("/settings")}
-        >
-          settings
-        </Button>
-        <Button
-          endIcon={<LogoutIcon />}
-          onClick={() => {
-            dispatch(logout())
-            navigate("/")
-          }}
-        >
-          logout
-        </Button>
-      </Stack>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <Avatar sx={{ bgcolor: deepPurple[500] }}>
+                {user?.first_name.charAt(0)}
+                {user?.last_name.charAt(0)}
+              </Avatar>
+              <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
+                {user?.first_name} <br />
+                {user?.last_name} <br />
+                {user?.email}
+              </Typography>
+              <Tooltip
+                title="User No."
+                placement="bottom"
+                arrow
+                sx={{ ml: 1 }}
+              >
+                <Chip
+                  label={`#${user?.id}`}
+                  color="primary"
+                  component="span"
+                />
+              </Tooltip>
+            </Box>
+            <Typography>
+              Good Habits: <Typography component="span">100</Typography>
+            </Typography>
+            <Typography>
+              Main Goals:{" "}
+              <Typography component="span">
+                <Chip
+                  label="Health"
+                  color="primary"
+                  sx={{ ml: 1 }}
+                  component="span"
+                />
+                <Chip
+                  label="Fitness"
+                  color="primary"
+                  sx={{ ml: 1 }}
+                  component="span"
+                />
+              </Typography>
+            </Typography>
+          </Box>
+          <Stack
+            spacing={1}
+            direction="row"
+          >
+            <Button
+              endIcon={<SettingsIcon />}
+              onClick={() => navigate("/settings")}
+            >
+              settings
+            </Button>
+            <Button
+              endIcon={<LogoutIcon />}
+              onClick={() => {
+                dispatch(logout())
+                navigate("/")
+              }}
+            >
+              logout
+            </Button>
+          </Stack>
+        </>
+      )}
     </Box>
   )
 }

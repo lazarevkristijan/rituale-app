@@ -4,6 +4,8 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import bcrypt from "bcrypt"
 import { emailRegex, nameRegex, passwordRegex } from "./Regex.js"
+import jwt from "jsonwebtoken"
+import cookieParser from "cookie-parser"
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -16,6 +18,30 @@ app.use(
   })
 )
 app.use(bodyParser.json())
+app.use(cookieParser())
+
+const JWTsecret = process.env.JWT_SECRET
+
+const verifyToken = (req, res, next) => {
+  const token = req.cookies.token
+
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized: No token provided" })
+  }
+
+  jwt.verify(token, JWTsecret, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Unauthorized: Invalid token" })
+    }
+
+    req.userId = decoded.userid
+    next()
+  })
+}
+
+app.get("/check-auth", verifyToken, (req, res) => {
+  res.status(200).json({ message: "User is authenticated", userid: req.userId })
+})
 
 app.get("/", (req, res) => res.type("text").send("DB ROOT"))
 
@@ -23,8 +49,7 @@ app.get("/users", async (req, res) => {
   try {
     const users = await sql`
     SELECT *
-    FROM users
-    `
+    FROM users`
     res.json(users)
   } catch (error) {
     console.error(error.message)
@@ -48,9 +73,13 @@ app.post("/register", async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10)
-    await sql`
+    const userId = await sql`
     INSERT INTO users (first_name, last_name, email, password)
-    VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})`
+    VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})
+    RETURNING id`
+
+    const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
+    res.cookie("token", token, { httpOnly: true })
   } catch (error) {
     console.error("Error during registration: ", error)
     res.status(500).send("Registration failed")
@@ -65,42 +94,38 @@ app.post("/login", async (req, res) => {
   FROM users
   WHERE email = ${email}`
 
-  console.log("Stored password: ", storedPassword[0].password)
   if (!storedPassword) {
     res.status(403).send("Invalid email or password")
     return
   }
 
-  console.log("After check if not stored password and before bcrypt comparison")
-  console.log("Inserted password", password)
-
-  await bcrypt.compare(password, storedPassword, (err, result) => {
+  bcrypt.compare(password, storedPassword, async (err, result) => {
     if (err) {
       console.error("Error comparing passwords: ", err)
       return
     }
 
     if (result) {
-      console.log("Passwords Match")
+      const userInfo = await sql`
+      SELECT id, first_name, last_name
+      FROM users
+      WHERE email = ${email}`
+
+      const user = {
+        id: userInfo[0].id,
+        first_name: userInfo[0].first_name,
+        last_name: userInfo[0].last_name,
+        email: email,
+      }
+      const userId = user[0].id
+
+      const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
+
+      res.cookie("token", token, { httpOnly: true })
     } else {
       return console.error("Passwords do not match")
     }
   })
-
-  const userInfo = await sql`
-  SELECT id, first_name, last_name
-  FROM users
-  WHERE email = ${email}
-  `
-
-  console.log(userInfo)
-
-  const user = {
-    id: userInfo[0].id,
-    first_name: userInfo[0].first_name,
-    last_name: userInfo[0].last_name,
-    email: email,
-  }
 
   res.status(200).json(user)
 })
