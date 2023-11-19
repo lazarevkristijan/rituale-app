@@ -1,14 +1,23 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { login } from "../features/session/sessionSlice"
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { emailRegex, passwordRegex } from "../Regex"
+import { RootState } from "../Store"
 
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const user = useSelector((state: RootState) => state.session.user)
+
+  useEffect(() => {
+    console.log(user)
+    if (user) {
+      navigate("/profile")
+    }
+  }, [user, navigate])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

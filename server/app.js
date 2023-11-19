@@ -98,9 +98,18 @@ app.post("/login", async (req, res) => {
     res.status(403).send("Invalid email or password")
     return
   }
-  console.log("Password: ", password)
-  console.log("Stored password: ", storedPassword)
 
+  const userInfo = await sql`
+  SELECT id, first_name, last_name
+  FROM users
+  WHERE email = ${email}`
+
+  const user = {
+    id: userInfo[0].id,
+    first_name: userInfo[0].first_name,
+    last_name: userInfo[0].last_name,
+    email: email,
+  }
   bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
     if (err) {
       console.error("Error comparing passwords: ", err)
@@ -117,18 +126,6 @@ app.post("/login", async (req, res) => {
       return console.error("Passwords do not match")
     }
   })
-
-  const userInfo = await sql`
-  SELECT id, first_name, last_name
-  FROM users
-  WHERE email = ${email}`
-
-  const user = {
-    id: userInfo[0].id,
-    first_name: userInfo[0].first_name,
-    last_name: userInfo[0].last_name,
-    email: email,
-  }
 
   res.status(200).json(user)
 })

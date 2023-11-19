@@ -20,25 +20,25 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    console.log(user)
     if (!user) {
       navigate("/login")
     }
   }, [user, navigate])
+
   const checkAuthentication = async () => {
     try {
-      const response = await axios.get(
-        "https://api.rituale.digital/check-auth",
-        {
+      await axios
+        .get("https://api.rituale.digital/check-auth", {
           withCredentials: true,
-        }
-      )
-      console.log("Response status: ", response.status)
+        })
+        .then((response) => console.log(response))
 
-      if (response.status === 200) {
-        setIsLoading(false)
-      } else {
-        navigate("/login")
-      }
+      // if (response.status === 200) {
+      setIsLoading(false)
+      // } else {
+      // navigate("/login")
+      // }
     } catch (error) {
       console.error("Error checking authentication: ", error)
     }
