@@ -119,8 +119,8 @@ app.post("/login", async (req, res) => {
     last_name: userInfo[0].last_name,
     email: email,
   }
-  console.log(user)
-  const userId = user[0].id
+
+  const userId = user.id
   const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
 
   res.cookie("token", token, { httpOnly: true })
