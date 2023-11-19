@@ -101,7 +101,7 @@ app.post("/login", async (req, res) => {
   console.log("Password: ", password)
   console.log("Stored password: ", storedPassword)
 
-  bcrypt.compare(password, storedPassword, async (err, result) => {
+  bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
     if (err) {
       console.error("Error comparing passwords: ", err)
       return

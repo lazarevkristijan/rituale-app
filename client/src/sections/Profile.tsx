@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/session/sessionSlice"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { RootState } from "../Store"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 
 const Profile = () => {
@@ -19,9 +19,11 @@ const Profile = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 
-  if (!user) {
-    navigate("/login")
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/login")
+    }
+  }, [user, navigate])
   const checkAuthentication = async () => {
     try {
       const response = await axios.get(
