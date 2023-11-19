@@ -19,13 +19,20 @@ const Profile = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 
+  if (!user) {
+    navigate("/login")
+  }
   const checkAuthentication = async () => {
     try {
-      const response = await axios.get("/check-auth", {
-        withCredentials: true,
-      })
+      const response = await axios.get(
+        "https://api.rituale.digital/check-auth",
+        {
+          withCredentials: true,
+        }
+      )
+      console.log("Response status: ", response.status)
 
-      if (response.data) {
+      if (response.status === 200) {
         setIsLoading(false)
       } else {
         navigate("/login")

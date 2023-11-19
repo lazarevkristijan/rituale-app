@@ -98,6 +98,8 @@ app.post("/login", async (req, res) => {
     res.status(403).send("Invalid email or password")
     return
   }
+  console.log("Password: ", password)
+  console.log("Stored password: ", storedPassword)
 
   bcrypt.compare(password, storedPassword, async (err, result) => {
     if (err) {
