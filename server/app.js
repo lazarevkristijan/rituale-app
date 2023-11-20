@@ -95,48 +95,54 @@ app.post("/login", async (req, res) => {
   WHERE email = ${email}`
 
   if (!storedPassword) {
-    res.status(403).send("Invalid email or password")
-    return
+    return res.status(403).send("Email doesn't exist")
   }
 
-  bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
-    if (err) {
-      console.error("Error comparing passwords: ", err)
-      return res.status(500).send("Error inside the server")
-    }
+  const match = bcrypt.compare(
+    password,
+    storedPassword[0].password,
+    async (err, result) => {
+      if (err) {
+        return res.status(500).send("Error comparing passwords: ", err)
+      }
 
-    if (!result) {
-      console.error("Passwords do not match")
-      return invalidCredRes(res)
+      if (result) {
+        return result
+      } else {
+        return res.status(403).send("Invalid password")
+      }
     }
-  })
+  )
 
-  const userInfo = await sql`
+  if (match) {
+    const userInfo = await sql`
   SELECT id, first_name, last_name
   FROM users
   WHERE email = ${email}`
 
-  const user = {
-    id: userInfo[0].id,
-    first_name: userInfo[0].first_name,
-    last_name: userInfo[0].last_name,
-    email: email,
+    const user = {
+      id: userInfo[0].id,
+      first_name: userInfo[0].first_name,
+      last_name: userInfo[0].last_name,
+      email: email,
+    }
+
+    const token = jwt.sign(user.id, JWTsecret, { expiresIn: "1h" })
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      domain: "http://localhost",
+      path: "/",
+    })
+    res.status(200).json(user)
+  } else {
+    return res.status(403).send("Invalid password")
   }
-
-  const userId = user.id
-  const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
-
-  res.cookie("token", token, {
-    httpOnly: false,
-    domain: "localhost",
-    path: "/",
-  })
-  res.status(200).json(user)
 })
 
-const invalidCredRes = (res) => {
-  return res.status(403).send("Invalid email or password")
-}
+// const invalidCredRes = (res) => {
+//   return res.status(403).send("Invalid email or password")
+// }
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

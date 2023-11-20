@@ -18,6 +18,16 @@ const Login = () => {
     }
   }, [user, navigate])
 
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
+
+  const [touchedFields, setTouchedFields] = useState({
+    email: false,
+    password: false,
+  })
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -36,19 +46,18 @@ const Login = () => {
 
       dispatch(login(userData))
     } catch (error) {
-      console.log("Error when logging ing: ", error)
+      setFormData({
+        email: "",
+        password: "",
+      })
+      setTouchedFields({
+        email: false,
+        password: false,
+      })
+
+      console.log("Error when logging in: ", error)
     }
   }
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
-
-  const [touchedFields, setTouchedFields] = useState({
-    email: false,
-    password: false,
-  })
 
   return (
     <Box
