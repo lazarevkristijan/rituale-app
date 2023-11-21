@@ -102,49 +102,36 @@ app.post("/login", async (req, res) => {
     return res.status(403).send("Email doesn't exist")
   }
 
-  const match = bcrypt.compare(
-    password,
-    storedPassword[0].password,
-    async (err, result) => {
-      if (err) {
-        return res.status(500).send("Error comparing passwords: ", err)
+  bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
+    if (err) {
+      return res.status(500).send("Error comparing passwords: ", err)
+    } else if (result) {
+      console.log("BCRYPT compare result: ", result)
+      const userInfo = await sql`
+    SELECT id, first_name, last_name
+    FROM users
+    WHERE email = ${email}`
+
+      const user = {
+        id: userInfo[0].id,
+        first_name: userInfo[0].first_name,
+        last_name: userInfo[0].last_name,
+        email: email,
       }
 
-      if (result) {
-        return result
-      } else {
-        return res.status(403).send("Invalid password")
-      }
+      const token = jwt.sign(user.id, JWTsecret, { expiresIn: "1h" })
+
+      console.log("Generated token: ", token)
+      res.cookie("token", token, {
+        httpOnly: true,
+        domain: "http://localhost",
+        path: "/",
+      })
+      res.status(200).json(user)
+    } else {
+      return res.status(403).send("Invalid password")
     }
-  )
-
-  console.log("Bcrypt compare results: ", match)
-
-  if (match) {
-    const userInfo = await sql`
-  SELECT id, first_name, last_name
-  FROM users
-  WHERE email = ${email}`
-
-    const user = {
-      id: userInfo[0].id,
-      first_name: userInfo[0].first_name,
-      last_name: userInfo[0].last_name,
-      email: email,
-    }
-
-    const token = jwt.sign(user.id, JWTsecret, { expiresIn: "1h" })
-
-    console.log("Generated token: ", token)
-    res.cookie("token", token, {
-      httpOnly: true,
-      domain: "http://localhost",
-      path: "/",
-    })
-    res.status(200).json(user)
-  } else {
-    return res.status(403).send("Invalid password")
-  }
+  })
 })
 
 // const invalidCredRes = (res) => {
