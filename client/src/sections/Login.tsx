@@ -41,8 +41,8 @@ const Login = () => {
           },
         }
       )
-
       const userData = response.data
+      console.log("User data received from post req to login", userData)
 
       dispatch(login(userData))
     } catch (error) {

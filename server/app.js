@@ -89,12 +89,16 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body
 
+  console.log("ENtered creds: ", email, password)
+
   const storedPassword = await sql`
   SELECT password
   FROM users
   WHERE email = ${email}`
 
-  if (!storedPassword) {
+  console.log("Stored password is :", storedPassword)
+
+  if (!Object.values(storedPassword).length) {
     return res.status(403).send("Email doesn't exist")
   }
 
@@ -114,6 +118,8 @@ app.post("/login", async (req, res) => {
     }
   )
 
+  console.log("Bcrypt compare results: ", match)
+
   if (match) {
     const userInfo = await sql`
   SELECT id, first_name, last_name
@@ -129,6 +135,7 @@ app.post("/login", async (req, res) => {
 
     const token = jwt.sign(user.id, JWTsecret, { expiresIn: "1h" })
 
+    console.log("Generated token: ", token)
     res.cookie("token", token, {
       httpOnly: true,
       domain: "http://localhost",
