@@ -22,10 +22,6 @@ app.use(cookieParser())
 
 const JWTsecret = process.env.JWT_SECRET
 
-app.get("/check-auth", verifyToken, (req, res) => {
-  res.status(200).json({ message: "User is authenticated", userid: req.userId })
-})
-
 const verifyToken = (req, res, next) => {
   const token = req.cookies.token
 
@@ -42,6 +38,9 @@ const verifyToken = (req, res, next) => {
     next()
   })
 }
+app.get("/check-auth", verifyToken, (req, res) => {
+  res.status(200).json({ message: "User is authenticated", userid: req.userId })
+})
 
 app.get("/", (req, res) => res.type("text").send("DB ROOT"))
 
