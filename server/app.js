@@ -107,19 +107,21 @@ app.post("/login", async (req, res) => {
       return res.status(500).send("Error comparing passwords: ", err)
     } else if (result) {
       console.log("BCRYPT compare result: ", result)
-      const userInfo = await sql`
+      const fetchedUser = await sql`
     SELECT id, first_name, last_name
     FROM users
     WHERE email = ${email}`
 
+      console.log(fetchedUser)
+
       const user = {
-        id: userInfo[0].id,
-        first_name: userInfo[0].first_name,
-        last_name: userInfo[0].last_name,
+        id: fetchedUser[0].id,
+        first_name: fetchedUser[0].first_name,
+        last_name: fetchedUser[0].last_name,
         email: email,
       }
 
-      const token = jwt.sign(user.id, JWTsecret, { expiresIn: "1h" })
+      const token = jwt.sign({ user: user.id }, JWTsecret, { expiresIn: "1h" })
 
       console.log("Generated token: ", token)
       res.cookie("token", token, {
@@ -133,10 +135,6 @@ app.post("/login", async (req, res) => {
     }
   })
 })
-
-// const invalidCredRes = (res) => {
-//   return res.status(403).send("Invalid email or password")
-// }
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
