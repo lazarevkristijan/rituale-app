@@ -124,7 +124,7 @@ app.post("/login", async (req, res) => {
       console.log("Generated token: ", token)
       res.cookie("token", token, {
         httpOnly: true,
-        domain: "http://localhost",
+        domain: "localhost",
         path: "/",
       })
       res.status(200).json(user)
