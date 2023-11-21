@@ -22,6 +22,10 @@ app.use(cookieParser())
 
 const JWTsecret = process.env.JWT_SECRET
 
+app.get("/check-auth", verifyToken, (req, res) => {
+  res.status(200).json({ message: "User is authenticated", userid: req.userId })
+})
+
 const verifyToken = (req, res, next) => {
   const token = req.cookies.token
 
@@ -38,10 +42,6 @@ const verifyToken = (req, res, next) => {
     next()
   })
 }
-
-app.get("/check-auth", verifyToken, (req, res) => {
-  res.status(200).json({ message: "User is authenticated", userid: req.userId })
-})
 
 app.get("/", (req, res) => res.type("text").send("DB ROOT"))
 
@@ -60,6 +60,18 @@ app.get("/users", async (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body
+
+  const emailExists = await sql`
+  SELECT email
+  FROM users
+  WHERE email = ${email}
+  `
+
+  if (emailExists.length !== 0) {
+    return res
+      .status(409)
+      .send("Email is already assosiated with a different account")
+  }
 
   if (
     !nameRegex.test(firstName) ||
@@ -124,7 +136,7 @@ app.post("/login", async (req, res) => {
       const token = jwt.sign({ user: user.id }, JWTsecret, { expiresIn: "1h" })
 
       console.log("Generated token: ", token)
-      res.cookie("token", token, {
+      res.cookie("user", token, {
         httpOnly: true,
         domain: "localhost",
         path: "/",
