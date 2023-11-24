@@ -91,7 +91,7 @@ app.post("/register", async (req, res) => {
     RETURNING id`
 
     const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
-    res.cookie("user", token, { httpOnly: true })
+    res.cookie("user", token, { httpOnly: true, sameSite: "lax", signed: true })
     return res.status(200).send("Registration successful")
   } catch (error) {
     console.error("Error during registration: ", error)
@@ -138,7 +138,7 @@ app.post("/login", async (req, res) => {
       console.log("Generated token: ", token)
       res.cookie("user", token, {
         httpOnly: true,
-        domain: ".app.localhost",
+        domain: "127.0.0.1",
         path: "/",
         maxAge: 1000000000,
       })
