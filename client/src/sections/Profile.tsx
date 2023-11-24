@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/session/sessionSlice"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { RootState } from "../Store"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios"
 
 const Profile = () => {
@@ -18,32 +18,19 @@ const Profile = () => {
   const user = useSelector((state: RootState) => state.session.user)
 
   const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    console.log(user)
-    if (!user) {
-      navigate("/login")
-    }
-  }, [user, navigate])
-
-  const checkAuthentication = async () => {
-    try {
-      await axios
-        .get("https://api.rituale.digital/check-auth", {
-          withCredentials: true,
-        })
-        .then((response) => console.log(response.status))
-
-      // if (response.status === 200) {
+  console.log("Top of profile")
+  axios
+    .get("http://localhost:5432/check-auth", {
+      withCredentials: true,
+    })
+    .then((response) => {
       setIsLoading(false)
-      // } else {
-      // navigate("/login")
-      // }
-    } catch (error) {
-      console.error("Error checking authentication: ", error)
-    }
-  }
-  checkAuthentication()
+      console.log("RESPONSE STATUS: ", response.status)
+    })
+    .catch((err) => {
+      navigate("/login")
+      console.log("UNAUTHORIZED WHILE CHECKING AUTH IN PROFILE", err)
+    })
 
   return (
     <Box>

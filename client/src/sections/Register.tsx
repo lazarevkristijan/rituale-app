@@ -26,12 +26,13 @@ const Register = () => {
 
     try {
       await axios.post(
-        "https://api.rituale.digital/register",
+        "http://localhost:5432/register",
         JSON.stringify(formData),
         {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       )
     } catch (error) {

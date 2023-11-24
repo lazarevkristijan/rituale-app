@@ -1,22 +1,34 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { login } from "../features/session/sessionSlice"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { emailRegex, passwordRegex } from "../Regex"
-import { RootState } from "../Store"
 
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const user = useSelector((state: RootState) => state.session.user)
 
   useEffect(() => {
-    if (user) {
-      navigate("/profile")
+    const fetchUserAuth = async () => {
+      const isAuthenticated = await axios
+        .get("http://localhost:5432/check-auth", { withCredentials: true })
+        .then((response) => {
+          if (response.status === 200) {
+            return true
+          } else {
+            return false
+          }
+        })
+      if (isAuthenticated) {
+        navigate("/profile")
+      } else {
+        console.log("User is authenticated")
+      }
     }
-  }, [user, navigate])
+    fetchUserAuth()
+  }, [navigate])
 
   const [formData, setFormData] = useState({
     email: "",
@@ -31,32 +43,30 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    try {
-      const response = await axios.post(
-        "https://api.rituale.digital/login",
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      const userData = response.data
-      console.log("User data received from post req to login", userData)
-
-      dispatch(login(userData))
-    } catch (error) {
-      setFormData({
-        email: "",
-        password: "",
+    await axios
+      .post("http://localhost:5432/login", JSON.stringify(formData), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
       })
-      setTouchedFields({
-        email: false,
-        password: false,
+      .then((response) => {
+        const userData = response.data
+        console.log("User data received from post req to login", userData)
+        dispatch(login(userData))
+        navigate("/profile")
       })
-
-      console.log("Error when logging in: ", error)
-    }
+      .catch((err) => {
+        setFormData({
+          email: "",
+          password: "",
+        })
+        setTouchedFields({
+          email: false,
+          password: false,
+        })
+        console.log("Error when logging in: ", err)
+      })
   }
 
   return (

@@ -15,7 +15,7 @@ const port = process.env.DB_PORT || 3001
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
@@ -25,8 +25,10 @@ app.use(cookieParser())
 
 const JWTsecret = process.env.JWT_SECRET
 
+app.get("/", (req, res) => res.type("text").send("DB ROOT"))
+
 const verifyToken = (req, res, next) => {
-  const token = req.cookies.token
+  const token = req.cookies.user
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized: No token provided" })
@@ -42,20 +44,18 @@ const verifyToken = (req, res, next) => {
   })
 }
 app.get("/check-auth", verifyToken, (req, res) => {
-  res.status(200).json({ message: "User is authenticated", userid: req.userId })
+  return res.status(200).json({ message: "User is authenticated" })
 })
-
-app.get("/", (req, res) => res.type("text").send("DB ROOT"))
 
 app.get("/users", async (req, res) => {
   try {
     const users = await sql`
     SELECT *
     FROM users`
-    res.json(users)
+    return res.json(users)
   } catch (error) {
     console.error(error.message)
-    res.status(500).json({ error: "Internal Server Error" })
+    return res.status(500).json({ error: "Internal Server Error" })
   }
 })
 
@@ -91,18 +91,21 @@ app.post("/register", async (req, res) => {
     RETURNING id`
 
     const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
-    res.cookie("user", token, { httpOnly: true, sameSite: "lax", signed: true })
+    res.cookie("user", token, {
+      httpOnly: true,
+      domain: "localhost",
+      path: "/",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    })
     return res.status(200).send("Registration successful")
   } catch (error) {
-    console.error("Error during registration: ", error)
+    console.log("Error during registration: ", error)
     return res.status(500).send("Registration failed")
   }
 })
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body
-
-  console.log("Entered creds: ", email, password)
 
   const storedPassword = await sql`
   SELECT password
@@ -112,19 +115,15 @@ app.post("/login", async (req, res) => {
   if (!Object.values(storedPassword).length) {
     return res.status(403).send("Email doesn't exist")
   }
-  console.log("Stored password is :", storedPassword[0].password)
 
   bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
     if (err) {
       return res.status(500).send("Error comparing passwords: ", err)
     } else if (result) {
-      console.log("BCRYPT compare result: ", result)
       const fetchedUser = await sql`
     SELECT id, first_name, last_name
     FROM users
     WHERE email = ${email}`
-
-      console.log(fetchedUser)
 
       const user = {
         id: fetchedUser[0].id,
@@ -135,14 +134,13 @@ app.post("/login", async (req, res) => {
 
       const token = jwt.sign({ user: user.id }, JWTsecret, { expiresIn: "1h" })
 
-      console.log("Generated token: ", token)
       res.cookie("user", token, {
         httpOnly: true,
-        domain: "127.0.0.1",
+        domain: "localhost",
         path: "/",
-        maxAge: 1000000000,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
       })
-      res.status(200).json(user)
+      return res.status(200).json(user)
     } else {
       return res.status(403).send("Invalid password")
     }
