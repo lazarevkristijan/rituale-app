@@ -6,13 +6,16 @@ import bcrypt from "bcrypt"
 import { emailRegex, nameRegex, passwordRegex } from "./Regex.js"
 import jwt from "jsonwebtoken"
 import cookieParser from "cookie-parser"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3001
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
@@ -52,7 +55,6 @@ app.get("/users", async (req, res) => {
     res.json(users)
   } catch (error) {
     console.error(error.message)
-    console.error("Error fetching users: ", error)
     res.status(500).json({ error: "Internal Server Error" })
   }
 })
@@ -139,6 +141,7 @@ app.post("/login", async (req, res) => {
         httpOnly: true,
         domain: ".app.localhost",
         path: "/",
+        maxAge: 1000000000,
       })
       res.status(200).json(user)
     } else {
