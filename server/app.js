@@ -11,7 +11,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const app = express()
-const port = process.env.PORT || 3001
+const port = process.env.DB_PORT || 3001
 
 app.use(
   cors({
@@ -62,13 +62,13 @@ app.get("/users", async (req, res) => {
 app.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body
 
-  const emailExists = await sql`
+  const sameEmail = await sql`
   SELECT email
   FROM users
   WHERE email = ${email}
   `
 
-  if (emailExists.length !== 0) {
+  if (sameEmail.length !== 0) {
     return res
       .status(409)
       .send("Email is already assosiated with a different account")
@@ -80,7 +80,6 @@ app.post("/register", async (req, res) => {
     !emailRegex.test(email) ||
     !passwordRegex.test(password)
   ) {
-    console.log("Something wrong with credentials")
     return res.status(400).send("Incorrect registration data")
   }
 
@@ -92,28 +91,28 @@ app.post("/register", async (req, res) => {
     RETURNING id`
 
     const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
-    res.cookie("token", token, { httpOnly: true })
+    res.cookie("user", token, { httpOnly: true })
+    return res.status(200).send("Registration successful")
   } catch (error) {
     console.error("Error during registration: ", error)
-    res.status(500).send("Registration failed")
+    return res.status(500).send("Registration failed")
   }
 })
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body
 
-  console.log("ENtered creds: ", email, password)
+  console.log("Entered creds: ", email, password)
 
   const storedPassword = await sql`
   SELECT password
   FROM users
   WHERE email = ${email}`
 
-  console.log("Stored password is :", storedPassword)
-
   if (!Object.values(storedPassword).length) {
     return res.status(403).send("Email doesn't exist")
   }
+  console.log("Stored password is :", storedPassword[0].password)
 
   bcrypt.compare(password, storedPassword[0].password, async (err, result) => {
     if (err) {
