@@ -62,7 +62,7 @@ const Login = () => {
           email: false,
           password: false,
         })
-        console.log("Error when logging in: ", err)
+        console.error("Error when logging in: ", err)
       })
   }
 

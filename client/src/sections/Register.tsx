@@ -3,9 +3,12 @@ import axios from "axios"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { emailRegex, nameRegex, passwordRegex } from "../Regex"
+import { useDispatch } from "react-redux"
+import { login } from "../features/session/sessionSlice"
 
 const Register = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -24,20 +27,33 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    try {
-      await axios.post(
-        "http://localhost:5432/register",
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      )
-    } catch (error) {
-      console.error("Error during POST request on registration:: ", error)
-    }
+    await axios
+      .post("http://localhost:5432/register", JSON.stringify(formData), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        const userData = response.data
+        dispatch(login(userData))
+        navigate("/profile")
+      })
+      .catch((error) => {
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+        })
+        setTouchedFields({
+          firstName: false,
+          lastName: false,
+          email: false,
+          password: false,
+        })
+        console.error("Error during POST request on registration: ", error)
+      })
   }
 
   return (
