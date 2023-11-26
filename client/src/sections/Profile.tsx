@@ -18,19 +18,25 @@ const Profile = () => {
   const user = useSelector((state: RootState) => state.session.user)
 
   const [isLoading, setIsLoading] = useState(true)
-  console.log("Top of profile")
   axios
     .get("http://localhost:5432/check-auth", {
       withCredentials: true,
     })
-    .then((response) => {
-      setIsLoading(false)
-      console.log("RESPONSE STATUS: ", response.status)
-    })
+    .then(() => setIsLoading(false))
     .catch((err) => {
-      navigate("/login")
       console.log("UNAUTHORIZED WHILE CHECKING AUTH IN PROFILE", err)
+      navigate("/login")
     })
+
+  const handleLogout = async () => {
+    await axios
+      .get("http://localhost:5432/logout", { withCredentials: true })
+      .then(() => {
+        dispatch(logout())
+        navigate("/")
+      })
+      .catch((err) => console.log("Error logging out: ", err))
+  }
 
   return (
     <Box>
@@ -103,10 +109,7 @@ const Profile = () => {
             </Button>
             <Button
               endIcon={<LogoutIcon />}
-              onClick={() => {
-                dispatch(logout())
-                navigate("/")
-              }}
+              onClick={handleLogout}
             >
               logout
             </Button>

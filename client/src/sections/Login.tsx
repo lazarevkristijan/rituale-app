@@ -23,8 +23,6 @@ const Login = () => {
         })
       if (isAuthenticated) {
         navigate("/profile")
-      } else {
-        console.log("User is authenticated")
       }
     }
     fetchUserAuth()
@@ -52,7 +50,6 @@ const Login = () => {
       })
       .then((response) => {
         const userData = response.data
-        console.log("User data received from post req to login", userData)
         dispatch(login(userData))
         navigate("/profile")
       })

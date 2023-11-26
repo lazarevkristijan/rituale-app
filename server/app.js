@@ -90,12 +90,12 @@ app.post("/register", async (req, res) => {
     VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})
     RETURNING id`
 
-    const token = jwt.sign({ userId }, JWTsecret, { expiresIn: "1h" })
+    const token = jwt.sign({ userId }, JWTsecret)
     res.cookie("user", token, {
       httpOnly: true,
       domain: "localhost",
       path: "/",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 1,
     })
     return res.status(200).send("Registration successful")
   } catch (error) {
@@ -132,19 +132,24 @@ app.post("/login", async (req, res) => {
         email: email,
       }
 
-      const token = jwt.sign({ user: user.id }, JWTsecret, { expiresIn: "1h" })
+      const token = jwt.sign({ user: user.id }, JWTsecret)
 
       res.cookie("user", token, {
         httpOnly: true,
         domain: "localhost",
         path: "/",
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 1,
       })
       return res.status(200).json(user)
     } else {
       return res.status(403).send("Invalid password")
     }
   })
+})
+
+app.get("/logout", async (req, res) => {
+  res.clearCookie("user")
+  return res.status(200).send('Session cookie "user" deleted successfully ')
 })
 
 const server = app.listen(port, () =>

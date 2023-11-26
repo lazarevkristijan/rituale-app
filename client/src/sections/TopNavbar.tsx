@@ -47,7 +47,8 @@ const TopNavbar = () => {
       <Container
         maxWidth="xl"
         sx={{
-          display: { xs: "none", md: "flex" },
+          // display: { xs: "none", md: "flex" },
+          display: { xs: "none" }, //TEMPORARY UNTIL DEVELOPMETN WITH BACKEND
           alignContent: "center",
           height: 50,
         }}

@@ -50,7 +50,8 @@ const BottomNavbar = () => {
         position: "fixed",
         bottom: 0,
         width: "100%",
-        display: { xs: "flex", md: "none" },
+        // display: { xs: "flex", md: "none" },
+        display: { xs: "flex" }, //TEMP UNTIL TOP NAVBAR IS DONE
         height: 50,
       }}
     >
