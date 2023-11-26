@@ -1,13 +1,9 @@
 import express from "express"
-import sql from "./db.js"
 import cors from "cors"
 import bodyParser from "body-parser"
-import bcrypt from "bcrypt"
-import { emailRegex, nameRegex, passwordRegex } from "./Regex.js"
-import jwt from "jsonwebtoken"
 import cookieParser from "cookie-parser"
 import dotenv from "dotenv"
-import { verifyToken, JWTsecret } from "./middleware/verifyToken.js"
+import { verifyToken } from "./middleware/verifyToken.js"
 import {
   getCheckAuth,
   getLogout,
