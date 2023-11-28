@@ -6,6 +6,7 @@ export type sessionState = {
     last_name: string
     email: string
     id: number
+    password: string
   } | null
 }
 

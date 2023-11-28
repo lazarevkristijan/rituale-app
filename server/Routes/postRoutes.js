@@ -10,8 +10,7 @@ export const postRegister = async (req, res) => {
   const sameEmail = await sql`
     SELECT email
     FROM users
-    WHERE email = ${email}
-    `
+    WHERE email = ${email}`
 
   if (sameEmail.length !== 0) {
     return res
@@ -35,7 +34,7 @@ export const postRegister = async (req, res) => {
       VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})
       RETURNING id`
 
-    const token = jwt.sign({ userId }, JWTsecret)
+    const token = jwt.sign({ userId: userId[0].id }, JWTsecret)
     res.cookie("user", token, {
       httpOnly: true,
       domain: "localhost",
@@ -43,14 +42,12 @@ export const postRegister = async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24 * 1,
     })
 
-    const registeredUser = {
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      password: password,
-    }
+    const registeredUser = await sql`
+    SELECT * 
+    FROM users
+    WHERE email = ${email}`
 
-    return res.status(200).json(registeredUser)
+    return res.status(200).json(registeredUser[0])
   } catch (error) {
     console.log("Error during registration: ", error)
     return res.status(500).send("Registration failed")
@@ -73,26 +70,20 @@ export const postLogin = async (req, res) => {
     if (err) {
       return res.status(500).send("Error comparing passwords: ", err)
     } else if (result) {
-      const fetchedUser = await sql`
-      SELECT id, first_name, last_name
+      const user = await sql`
+      SELECT * 
       FROM users
       WHERE email = ${email}`
 
-      const user = {
-        id: fetchedUser[0].id,
-        first_name: fetchedUser[0].first_name,
-        last_name: fetchedUser[0].last_name,
-        email: email,
-      }
-
-      const token = jwt.sign({ user: user.id }, JWTsecret)
+      const token = jwt.sign({ userId: user[0].id }, JWTsecret)
       res.cookie("user", token, {
         httpOnly: true,
         domain: "localhost",
         path: "/",
         maxAge: 1000 * 60 * 60 * 24 * 1,
       })
-      return res.status(200).json(user)
+
+      return res.status(200).json(user[0])
     } else {
       return res.status(403).send("Invalid password")
     }

@@ -22,13 +22,16 @@ import {
   Settings,
 } from "./sections"
 import { Routes, Route } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./Store"
 import { ReactQueryDevtools } from "react-query/devtools"
+import axios from "axios"
+import { login } from "./features/session/sessionSlice"
 
 const App = () => {
+  const dispatch = useDispatch()
+
   const darkTheme = useSelector((state: RootState) => state.theme.value)
-  const user = useSelector((state: RootState) => state.session.user)
 
   const theme = createTheme({
     palette: {
@@ -42,6 +45,18 @@ const App = () => {
       },
     },
   })
+
+  const checkAuth = async () => {
+    await axios
+      .get("http://localhost:5432/check-auth", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        dispatch(login(response.data.user))
+      })
+      .catch(() => {})
+  }
+  checkAuth()
 
   return (
     <ThemeProvider theme={theme}>

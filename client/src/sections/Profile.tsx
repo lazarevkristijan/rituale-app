@@ -7,26 +7,20 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/session/sessionSlice"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { RootState } from "../Store"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 
 const Profile = () => {
   const navigate = useNavigate()
+  const user = useSelector((state: RootState) => state.session.user)
+  useEffect(() => {
+    !user ? navigate("/login") : setIsLoading(false)
+  }, [navigate, user])
+
   const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(true)
 
   const darkTheme = useSelector((state: RootState) => state.theme.value)
-  const user = useSelector((state: RootState) => state.session.user)
-
-  const [isLoading, setIsLoading] = useState(true)
-  axios
-    .get("http://localhost:5432/check-auth", {
-      withCredentials: true,
-    })
-    .then(() => setIsLoading(false))
-    .catch((err) => {
-      console.log("UNAUTHORIZED WHILE CHECKING AUTH IN PROFILE", err)
-      navigate("/login")
-    })
 
   const handleLogout = async () => {
     await axios
@@ -40,11 +34,11 @@ const Profile = () => {
 
   return (
     <Box>
-      <Typography variant="h3">My Profile</Typography>
       {isLoading ? (
-        <h1>Loading...</h1>
+        <Typography component="h1">Loading...</Typography>
       ) : (
         <>
+          <Typography variant="h3">My Profile</Typography>
           <Box
             sx={{
               bgcolor: `primary.${darkTheme ? "dark" : "light"}`,

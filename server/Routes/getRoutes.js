@@ -13,8 +13,15 @@ export const getUsers = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" })
   }
 }
-export const getCheckAuth = (req, res) => {
-  return res.status(200).json({ message: "User is authenticated" })
+export const getCheckAuth = async (req, res) => {
+  const user = await sql`
+  SELECT *
+  FROM users
+  WHERE id = ${req.userId}`
+
+  return res
+    .status(200)
+    .json({ message: "User is authenticated", user: user[0] })
 }
 
 export const getLogout = async (req, res) => {
