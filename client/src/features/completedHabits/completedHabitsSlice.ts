@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 export type habitsType = {
-  habits: number[] | null
+  habits: number[]
 }
 
 const initialState: habitsType = {
-  habits: null,
+  habits: [],
 }
 
 export const completedHabitsSlice = createSlice({
@@ -13,10 +13,11 @@ export const completedHabitsSlice = createSlice({
   initialState,
   reducers: {
     addHabit: (state, action) => {
-      if (state.habits === null) {
-        state.habits = []
+      if (!state.habits.length) {
+        state.habits = action.payload
+      } else {
+        state.habits = [...state.habits, action.payload]
       }
-      state.habits.push(action.payload)
     },
     removeHabit: (state, action) => {
       if (state.habits) {

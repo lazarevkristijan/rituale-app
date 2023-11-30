@@ -24,6 +24,7 @@ import axios from "axios"
 import { login } from "./features/session/sessionSlice"
 import { addHabit } from "./features/completedHabits/completedHabitsSlice"
 import { useState } from "react"
+import { CompletedHabitTypes } from "./Types"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -49,7 +50,12 @@ const App = () => {
       .get(`http://localhost:5432/completed-habits/${id}`)
       .then((response) => {
         if (!response.data.length) return
-        dispatch(addHabit(response.data))
+
+        const habitIds = response.data.map(
+          (habit: CompletedHabitTypes) => habit.habitid
+        )
+
+        dispatch(addHabit(habitIds))
       })
   }
   getCompletedHabits(userId)

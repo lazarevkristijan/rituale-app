@@ -33,10 +33,6 @@ const Habits = () => {
         Habits
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-        {completedHabits?.map((habit) => {
-          console.log("habit", habit)
-        })}
-
         {data.map((habit: HabitTypes) => {
           return (
             <Box
@@ -57,6 +53,7 @@ const Habits = () => {
                   color="primary"
                   sx={{ fontSize: 16 }}
                 />
+                <Typography>{habit.id}</Typography>
               </Box>
               <Box
                 component="div"
@@ -67,7 +64,11 @@ const Habits = () => {
                   p: 1,
                 }}
               >
-                <Typography>MARK DONE</Typography>
+                <Typography>
+                  {completedHabits?.includes(habit.id)
+                    ? "Completed"
+                    : "Not completed"}
+                </Typography>
               </Box>
             </Box>
           )
