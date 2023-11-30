@@ -1,5 +1,4 @@
 import Home from "./Home"
-import TopNavbar from "./TopNavbar"
 import BottomNavbar from "./BottomNavbar"
 import Login from "./Login"
 import Register from "./Register"
@@ -20,6 +19,5 @@ export {
   Register,
   Login,
   BottomNavbar,
-  TopNavbar,
   Home,
 }

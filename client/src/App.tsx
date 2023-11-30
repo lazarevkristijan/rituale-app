@@ -10,7 +10,6 @@ import {
 } from "@mui/material"
 import {
   Home,
-  TopNavbar,
   BottomNavbar,
   Login,
   Register,
@@ -27,9 +26,37 @@ import { RootState } from "./Store"
 import { ReactQueryDevtools } from "react-query/devtools"
 import axios from "axios"
 import { login } from "./features/session/sessionSlice"
+import { addHabit } from "./features/completedHabits/completedHabitsSlice"
+import { useState } from "react"
 
 const App = () => {
   const dispatch = useDispatch()
+  const [userId, setUserId] = useState(0)
+  const checkAuth = () => {
+    axios
+      .get("http://localhost:5432/check-auth", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        dispatch(login(response.data.user))
+        setUserId(response.data.user.id)
+      })
+      .catch(() => {})
+  }
+  checkAuth()
+
+  const getCompletedHabits = (id: number) => {
+    if (id === 0) {
+      return
+    }
+    axios
+      .get(`http://localhost:5432/completed-habits/${id}`)
+      .then((response) => {
+        if (!response.data.length) return
+        dispatch(addHabit(response.data))
+      })
+  }
+  getCompletedHabits(userId)
 
   const darkTheme = useSelector((state: RootState) => state.theme.value)
 
@@ -46,23 +73,10 @@ const App = () => {
     },
   })
 
-  const checkAuth = async () => {
-    await axios
-      .get("http://localhost:5432/check-auth", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        dispatch(login(response.data.user))
-      })
-      .catch(() => {})
-  }
-  checkAuth()
-
   return (
     <ThemeProvider theme={theme}>
       <ReactQueryDevtools />
       <CssBaseline enableColorScheme />
-      <TopNavbar />
       <Container>
         <Routes>
           <Route

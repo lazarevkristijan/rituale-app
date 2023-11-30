@@ -9,10 +9,34 @@ export const getUsers = async (req, res) => {
     FROM users`
     return res.json(users)
   } catch (error) {
-    console.error(error.message)
     return res.status(500).json({ error: "Internal Server Error" })
   }
 }
+
+export const getHabits = async (req, res) => {
+  try {
+    const habits = await sql`
+    SELECT *
+    FROM habits`
+    return res.json(habits)
+  } catch (error) {
+    return res.status(500).json({ error: "Error geting all habits" })
+  }
+}
+
+export const getCompletedHabits = async (req, res) => {
+  try {
+    const { id } = req.params
+    const completedHabits = await sql`
+    SELECT *
+    FROM completedHabits
+    WHERE userid = ${id}`
+    return res.json(completedHabits)
+  } catch (error) {
+    return res.status(500).json({ error: "Error getting all completed habits" })
+  }
+}
+
 export const getCheckAuth = async (req, res) => {
   const user = await sql`
   SELECT *

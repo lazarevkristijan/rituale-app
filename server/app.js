@@ -6,11 +6,17 @@ import dotenv from "dotenv"
 import { verifyToken } from "./middleware/verifyToken.js"
 import {
   getCheckAuth,
+  getCompletedHabits,
+  getHabits,
   getLogout,
   getRoot,
   getUsers,
 } from "./Routes/getRoutes.js"
-import { postLogin, postRegister } from "./Routes/postRoutes.js"
+import {
+  postCompleteHabit,
+  postLogin,
+  postRegister,
+} from "./Routes/postRoutes.js"
 
 dotenv.config()
 
@@ -28,16 +34,17 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 app.get("/", getRoot)
-
 app.get("/check-auth", verifyToken, getCheckAuth)
 
 app.get("/users", getUsers)
-
-app.post("/register", postRegister)
+app.get("/habits", getHabits)
+app.get("/completed-habits/:id", getCompletedHabits)
 
 app.post("/login", postLogin)
-
 app.get("/logout", getLogout)
+app.post("/register", postRegister)
+
+app.post("/complete-habit", verifyToken, postCompleteHabit)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
