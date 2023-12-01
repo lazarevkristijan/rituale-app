@@ -16,6 +16,7 @@ import {
   postCompleteHabit,
   postLogin,
   postRegister,
+  postRemoveHabit,
 } from "./Routes/postRoutes.js"
 
 dotenv.config()
@@ -45,6 +46,7 @@ app.get("/logout", getLogout)
 app.post("/register", postRegister)
 
 app.post("/complete-habit", verifyToken, postCompleteHabit)
+app.post("/remove-habit", verifyToken, postRemoveHabit)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

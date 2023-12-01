@@ -28,9 +28,13 @@ export const completedHabitsSlice = createSlice({
         state.habits = updatedCompletedHabits
       }
     },
+    clearHabits: (state) => {
+      state.habits = []
+    },
   },
 })
 
-export const { addHabit, removeHabit } = completedHabitsSlice.actions
+export const { addHabit, removeHabit, clearHabits } =
+  completedHabitsSlice.actions
 
 export default completedHabitsSlice.reducer

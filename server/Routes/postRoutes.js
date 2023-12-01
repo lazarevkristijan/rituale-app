@@ -90,4 +90,7 @@ export const postLogin = async (req, res) => {
   })
 }
 
-export const postCompleteHabit = async (req, res) => {}
+export const postCompleteHabit = async (req, res) => {
+  
+}
+export const postRemoveHabit = async (req, res) => {}

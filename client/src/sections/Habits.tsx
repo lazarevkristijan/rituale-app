@@ -1,11 +1,23 @@
-import { Box, Chip, Typography } from "@mui/material"
+import {
+  Box,
+  Button,
+  Chip,
+  IconButton,
+  Typography,
+  Tooltip,
+} from "@mui/material"
 import axios from "axios"
 import { useQuery } from "react-query"
 import { HabitTypes } from "../Types"
 import { useSelector } from "react-redux"
 import { RootState } from "../Store"
+import { useState } from "react"
+import LockPersonIcon from "@mui/icons-material/LockPerson"
+import { useNavigate } from "react-router-dom"
 
 const Habits = () => {
+  const navigate = useNavigate()
+
   const getHabits = async () => {
     const res = await axios.get("http://localhost:5432/habits")
     return res.data
@@ -14,8 +26,31 @@ const Habits = () => {
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits.habits
   )
+  const user = useSelector((state: RootState) => state.session.user)
 
   const { data, isLoading, error } = useQuery("habits", getHabits)
+
+  const handleToggleHabit = (
+    e: React.FormEvent<HTMLFormElement>,
+    userId: number,
+    habitId: number
+  ) => {
+    e.preventDefault()
+
+    const habitToToggle = {
+      habitId: habitId,
+      userId: userId,
+      Date: new Date().toISOString().split("T")[0],
+    }
+
+    if (completedHabits.includes(habitId)) {
+      axios.post("http://localhost:5432/remove-habit")
+    } else {
+      axios.post("http://localhost:5432/complete-habit")
+    }
+  }
+
+  const [habitToToggle, setHabitToToggle] = useState(0)
 
   if (isLoading) {
     return <Typography component="h1">Loading...</Typography>
@@ -32,9 +67,12 @@ const Habits = () => {
       >
         Habits
       </Typography>
-      <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-        {data.map((habit: HabitTypes) => {
-          return (
+      <Box>
+        <form
+          onSubmit={(e) => handleToggleHabit(e, user?.id, habitToToggle)}
+          style={{ display: "flex", justifyContent: "space-evenly" }}
+        >
+          {data.map((habit: HabitTypes) => (
             <Box
               key={habit.id}
               sx={{
@@ -55,24 +93,45 @@ const Habits = () => {
                 />
                 <Typography>{habit.id}</Typography>
               </Box>
-              <Box
-                component="div"
-                sx={{
-                  bgcolor: "primary.main",
-                  borderBottomLeftRadius: "inherit",
-                  borderBottomRightRadius: "inherit",
-                  p: 1,
-                }}
-              >
-                <Typography>
+              {user ? (
+                <Button
+                  sx={{ width: "100%" }}
+                  type="submit"
+                  onClick={() => {
+                    setHabitToToggle(habit.id)
+                  }}
+                >
                   {completedHabits?.includes(habit.id)
                     ? "Completed"
                     : "Not completed"}
-                </Typography>
-              </Box>
+                </Button>
+              ) : (
+                <Tooltip
+                  title="Login to access"
+                  arrow
+                >
+                  <Box
+                    onClick={() => navigate("/login")}
+                    component="div"
+                    sx={{
+                      width: "100%",
+                      bgcolor: "primary.main",
+                      borderBottomLeftRadius: "inherit",
+                      borderBottomRightRadius: "inherit",
+                      ":hover": {
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    <IconButton>
+                      <LockPersonIcon />
+                    </IconButton>
+                  </Box>
+                </Tooltip>
+              )}
             </Box>
-          )
-        })}
+          ))}
+        </form>
       </Box>
     </Box>
   )

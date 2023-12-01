@@ -9,6 +9,7 @@ import LogoutIcon from "@mui/icons-material/Logout"
 import { RootState } from "../Store"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -27,6 +28,7 @@ const Profile = () => {
       .get("http://localhost:5432/logout", { withCredentials: true })
       .then(() => {
         dispatch(logout())
+        dispatch(clearHabits())
         navigate("/")
       })
       .catch((err) => console.log("Error logging out: ", err))
