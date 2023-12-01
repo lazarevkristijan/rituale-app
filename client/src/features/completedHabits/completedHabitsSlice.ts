@@ -13,11 +13,7 @@ export const completedHabitsSlice = createSlice({
   initialState,
   reducers: {
     addHabit: (state, action) => {
-      if (!state.habits.length) {
-        state.habits = action.payload
-      } else {
-        state.habits = [...state.habits, action.payload]
-      }
+      state.habits = [...state.habits, ...action.payload]
     },
     removeHabit: (state, action) => {
       if (state.habits) {

@@ -9,14 +9,19 @@ import {
 import axios from "axios"
 import { useQuery } from "react-query"
 import { HabitTypes } from "../Types"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { useState } from "react"
 import LockPersonIcon from "@mui/icons-material/LockPerson"
 import { useNavigate } from "react-router-dom"
+import {
+  addHabit,
+  removeHabit,
+} from "../features/completedHabits/completedHabitsSlice"
 
 const Habits = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const getHabits = async () => {
     const res = await axios.get("http://localhost:5432/habits")
@@ -27,6 +32,7 @@ const Habits = () => {
     (state: RootState) => state.completedHabits.habits
   )
   const user = useSelector((state: RootState) => state.session.user)
+  const [habitToToggle, setHabitToToggle] = useState(0)
 
   const { data, isLoading, error } = useQuery("habits", getHabits)
 
@@ -40,17 +46,37 @@ const Habits = () => {
     const habitToToggle = {
       habitId: habitId,
       userId: userId,
-      Date: new Date().toISOString().split("T")[0],
+      date: new Date().toISOString().split("T")[0],
     }
 
     if (completedHabits.includes(habitId)) {
-      axios.post("http://localhost:5432/remove-habit")
+      axios
+        .post(
+          "http://localhost:5432/remove-habit",
+          JSON.stringify(habitToToggle),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          dispatch(removeHabit(habitId))
+        })
     } else {
-      axios.post("http://localhost:5432/complete-habit")
+      axios
+        .post(
+          "http://localhost:5432/complete-habit",
+          JSON.stringify(habitToToggle),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          dispatch(addHabit(habitId))
+        })
     }
   }
-
-  const [habitToToggle, setHabitToToggle] = useState(0)
 
   if (isLoading) {
     return <Typography component="h1">Loading...</Typography>
@@ -69,7 +95,9 @@ const Habits = () => {
       </Typography>
       <Box>
         <form
-          onSubmit={(e) => handleToggleHabit(e, user?.id, habitToToggle)}
+          onSubmit={(e) =>
+            handleToggleHabit(e, user ? user.id : 0, habitToToggle)
+          }
           style={{ display: "flex", justifyContent: "space-evenly" }}
         >
           {data.map((habit: HabitTypes) => (
@@ -91,7 +119,6 @@ const Habits = () => {
                   color="primary"
                   sx={{ fontSize: 16 }}
                 />
-                <Typography>{habit.id}</Typography>
               </Box>
               {user ? (
                 <Button

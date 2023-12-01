@@ -91,6 +91,20 @@ export const postLogin = async (req, res) => {
 }
 
 export const postCompleteHabit = async (req, res) => {
-  
+  const { userId, habitId, date } = req.body
+
+  await sql`
+  INSERT INTO completedHabits(userid, habitid, completiondate)
+  VALUES (${userId}, ${habitId}, ${date})`
+  res.status(200).send("Successfully added new habit")
 }
-export const postRemoveHabit = async (req, res) => {}
+export const postRemoveHabit = async (req, res) => {
+  const { userId, habitId } = req.body
+
+  await sql`
+  DELETE FROM completedHabits
+  WHERE userid = ${userId} AND habitid = ${habitId}`
+  res
+    .status(200)
+    .send(`Successfully removed habit ${habitId} with userid ${userId}`)
+}
