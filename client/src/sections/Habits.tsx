@@ -16,6 +16,7 @@ import LockPersonIcon from "@mui/icons-material/LockPerson"
 import { useNavigate } from "react-router-dom"
 import {
   addHabit,
+  clearHabits,
   removeHabit,
 } from "../features/completedHabits/completedHabitsSlice"
 
@@ -78,6 +79,14 @@ const Habits = () => {
     }
   }
 
+  const handleResetClick = () => {
+    axios
+      .get("http://localhost:5432/reset-habit-progress", {
+        withCredentials: true,
+      })
+      .then(() => dispatch(clearHabits()))
+  }
+
   if (isLoading) {
     return <Typography component="h1">Loading...</Typography>
   }
@@ -94,6 +103,12 @@ const Habits = () => {
         Habits
       </Typography>
       <Box>
+        <Button
+          sx={{ mb: 2 }}
+          onClick={handleResetClick}
+        >
+          Reset habits
+        </Button>
         <form
           onSubmit={(e) =>
             handleToggleHabit(e, user ? user.id : 0, habitToToggle)

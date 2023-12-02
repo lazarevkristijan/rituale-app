@@ -52,3 +52,13 @@ export const getLogout = async (req, res) => {
   res.clearCookie("user")
   return res.status(200).send('Session cookie "user" deleted successfully ')
 }
+
+export const getResetHabitProgress = async (req, res) => {
+  const { userId } = req
+
+  await sql`
+  DELETE FROM completedHabits
+  WHERE userid = ${userId}`
+
+  return res.status(200).send("Habit progress reset")
+}

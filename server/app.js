@@ -9,6 +9,7 @@ import {
   getCompletedHabits,
   getHabits,
   getLogout,
+  getResetHabitProgress,
   getRoot,
   getUsers,
 } from "./Routes/getRoutes.js"
@@ -42,11 +43,12 @@ app.get("/habits", getHabits)
 app.get("/completed-habits/:id", getCompletedHabits)
 
 app.post("/login", postLogin)
-app.get("/logout", getLogout)
 app.post("/register", postRegister)
+app.get("/logout", getLogout)
 
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
+app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
