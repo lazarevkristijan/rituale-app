@@ -94,7 +94,7 @@ export const postCompleteHabit = async (req, res) => {
   const { userId, habitId, date } = req.body
 
   await sql`
-  INSERT INTO completedHabits(user_id, habit_id, completion_date)
+  INSERT INTO completed_habits(user_id, habit_id, completion_date)
   VALUES (${userId}, ${habitId}, ${date})`
   res.status(200).send("Successfully added new habit")
 }
@@ -102,7 +102,7 @@ export const postRemoveHabit = async (req, res) => {
   const { userId, habitId } = req.body
 
   await sql`
-  DELETE FROM completedHabits
+  DELETE FROM completed_habits
   WHERE user_id = ${userId} AND habit_id = ${habitId}`
   res
     .status(200)

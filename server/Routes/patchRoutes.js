@@ -4,7 +4,7 @@ export const patchChangeTheme = async (req, res) => {
   const { theme } = req.body
 
   await sql`
-    UPDATE usersettings
+    UPDATE user_settings
     SET value = ${theme}
     WHERE setting_id = 1 AND user_id = ${req.userId}`
 

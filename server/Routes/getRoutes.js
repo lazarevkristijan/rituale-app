@@ -29,7 +29,7 @@ export const getCompletedHabits = async (req, res) => {
     const { id } = req.params
     const completedHabits = await sql`
     SELECT *
-    FROM completedHabits
+    FROM completed_habits
     WHERE user_id = ${id}`
     return res.json(completedHabits)
   } catch (error) {
@@ -57,7 +57,7 @@ export const getResetHabitProgress = async (req, res) => {
   const { userId } = req
 
   await sql`
-  DELETE FROM completedHabits
+  DELETE FROM completed_habits
   WHERE user_id = ${userId}`
 
   return res.status(200).send("Habit progress reset")
@@ -68,7 +68,7 @@ export const getUserSettings = async (req, res) => {
 
   const userSettings = await sql`
   SELECT *
-  FROM usersettings
+  FROM user_settings
   WHERE user_id = ${id}`
 
   return res.json(userSettings)
