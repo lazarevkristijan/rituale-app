@@ -1,6 +1,6 @@
 import sql from "../db.js"
 
-export const getRoot = (req, res) => res.send("DB ROOT")
+export const getRoot = (req, res) => res.send("DATABASE ROOT")
 
 export const getUsers = async (req, res) => {
   try {
@@ -9,7 +9,8 @@ export const getUsers = async (req, res) => {
     FROM users`
     return res.json(users)
   } catch (error) {
-    return res.status(500).json({ error: "Internal Server Error" })
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting all users" })
   }
 }
 
@@ -20,6 +21,7 @@ export const getHabits = async (req, res) => {
     FROM habits`
     return res.json(habits)
   } catch (error) {
+    console.error("Error is: ", error)
     return res.status(500).json({ error: "Error geting all habits" })
   }
 }
@@ -33,43 +35,62 @@ export const getCompletedHabits = async (req, res) => {
     WHERE user_id = ${id}`
     return res.json(completedHabits)
   } catch (error) {
+    console.error("Error is: ", error)
     return res.status(500).json({ error: "Error getting all completed habits" })
   }
 }
 
 export const getCheckAuth = async (req, res) => {
-  const user = await sql`
-  SELECT *
-  FROM users
-  WHERE id = ${req.userId}`
+  try {
+    const user = await sql`
+    SELECT *
+    FROM users
+    WHERE id = ${req.userId}`
 
-  return res
-    .status(200)
-    .json({ message: "User is authenticated", user: user[0] })
+    return res.json({ user: user[0] })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error checking auth" })
+  }
 }
 
 export const getLogout = async (req, res) => {
-  res.clearCookie("user")
-  return res.status(200).send('Session cookie "user" deleted successfully ')
+  try {
+    res.clearCookie("user")
+    return res.json({ success: 'Session cookie "user" deleted successfully ' })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error logging out" })
+  }
 }
 
 export const getResetHabitProgress = async (req, res) => {
-  const { userId } = req
+  try {
+    const { userId } = req
 
-  await sql`
-  DELETE FROM completed_habits
-  WHERE user_id = ${userId}`
+    await sql`
+    DELETE FROM completed_habits
+    WHERE user_id = ${userId}`
 
-  return res.status(200).send("Habit progress reset")
+    return res.json({ success: "Habit progress reset" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error reseting habit progress" })
+  }
 }
 
 export const getUserSettings = async (req, res) => {
-  const { id } = req.params
+  try {
+    const { id } = req.params
 
-  const userSettings = await sql`
-  SELECT *
-  FROM user_settings
-  WHERE user_id = ${id}`
+    const userSettings = await sql`
+    SELECT *
+    FROM user_settings
+    WHERE user_id = ${id}`
 
-  return res.json(userSettings)
+    return res.json(userSettings)
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting user settings" })
+  }
 }

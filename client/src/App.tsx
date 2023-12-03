@@ -76,7 +76,6 @@ const App = () => {
       const language = response.data.filter(
         (setting: UserSettingsTypes) => setting.setting_id === 2
       )
-      console.log("Color theme", colorTheme)
       dispatch(changeColorTheme(colorTheme[0].value))
       dispatch(changeLanguage(language[0].value))
     })
