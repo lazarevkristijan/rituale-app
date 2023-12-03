@@ -57,7 +57,7 @@ const App = () => {
         if (!response.data.length) return
 
         const habitIds = response.data.map(
-          (habit: CompletedHabitTypes) => habit.habitid
+          (habit: CompletedHabitTypes) => habit.habit_id
         )
 
         dispatch(addHabit(habitIds))
@@ -71,11 +71,12 @@ const App = () => {
     }
     axios.get(`http://localhost:5432/user-settings/${id}`).then((response) => {
       const colorTheme = response.data.filter(
-        (setting: UserSettingsTypes) => setting.settingid === 1
+        (setting: UserSettingsTypes) => setting.setting_id === 1
       )
       const language = response.data.filter(
-        (setting: UserSettingsTypes) => setting.settingid === 2
+        (setting: UserSettingsTypes) => setting.setting_id === 2
       )
+      console.log("Color theme", colorTheme)
       dispatch(changeColorTheme(colorTheme[0].value))
       dispatch(changeLanguage(language[0].value))
     })

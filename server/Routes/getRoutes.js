@@ -30,7 +30,7 @@ export const getCompletedHabits = async (req, res) => {
     const completedHabits = await sql`
     SELECT *
     FROM completedHabits
-    WHERE userid = ${id}`
+    WHERE user_id = ${id}`
     return res.json(completedHabits)
   } catch (error) {
     return res.status(500).json({ error: "Error getting all completed habits" })
@@ -58,7 +58,7 @@ export const getResetHabitProgress = async (req, res) => {
 
   await sql`
   DELETE FROM completedHabits
-  WHERE userid = ${userId}`
+  WHERE user_id = ${userId}`
 
   return res.status(200).send("Habit progress reset")
 }
@@ -69,7 +69,7 @@ export const getUserSettings = async (req, res) => {
   const userSettings = await sql`
   SELECT *
   FROM usersettings
-  WHERE userid = ${id}`
+  WHERE user_id = ${id}`
 
   return res.json(userSettings)
 }

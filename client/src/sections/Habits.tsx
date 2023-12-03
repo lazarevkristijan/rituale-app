@@ -103,12 +103,14 @@ const Habits = () => {
         Habits
       </Typography>
       <Box>
-        <Button
-          sx={{ mb: 2 }}
-          onClick={handleResetClick}
-        >
-          Reset habits
-        </Button>
+        {user && (
+          <Button
+            sx={{ mb: 2 }}
+            onClick={handleResetClick}
+          >
+            Reset habits
+          </Button>
+        )}
         <form
           onSubmit={(e) =>
             handleToggleHabit(e, user ? user.id : 0, habitToToggle)

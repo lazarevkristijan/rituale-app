@@ -7,15 +7,15 @@ export type HabitTypes = {
 
 export type CompletedHabitTypes = {
   id: number
-  userid: number
-  habitid: number
-  completionDate: string
+  user_id: number
+  habit_id: number
+  completion_date: string
 }
 
 export type UserSettingsTypes = {
   id: number
-  userid: number
-  settingid: number
+  user_id: number
+  setting_id: number
   value: string
 }
 
