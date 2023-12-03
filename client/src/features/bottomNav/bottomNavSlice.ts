@@ -1,10 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { BottomNavSliceTypes } from "../../Types"
 
-export type bottomNavState = {
-  value: number
-}
-
-const initialState: bottomNavState = {
+const initialState: BottomNavSliceTypes = {
   value: 0,
 }
 

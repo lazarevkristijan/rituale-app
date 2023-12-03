@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { CompletedHabitsSliceTypes } from "../../Types"
 
-export type habitsType = {
-  habits: number[]
-}
-
-const initialState: habitsType = {
+const initialState: CompletedHabitsSliceTypes = {
   habits: [],
 }
 

@@ -62,3 +62,14 @@ export const getResetHabitProgress = async (req, res) => {
 
   return res.status(200).send("Habit progress reset")
 }
+
+export const getUserSettings = async (req, res) => {
+  const { id } = req.params
+
+  const userSettings = await sql`
+  SELECT *
+  FROM usersettings
+  WHERE userid = ${id}`
+
+  return res.json(userSettings)
+}

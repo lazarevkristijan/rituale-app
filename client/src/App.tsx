@@ -1,6 +1,7 @@
 import {
   Container,
   CssBaseline,
+  PaletteMode,
   ThemeProvider,
   createTheme,
 } from "@mui/material"
@@ -24,7 +25,11 @@ import axios from "axios"
 import { login } from "./features/session/sessionSlice"
 import { addHabit } from "./features/completedHabits/completedHabitsSlice"
 import { useState } from "react"
-import { CompletedHabitTypes } from "./Types"
+import { CompletedHabitTypes, UserSettingsTypes } from "./Types"
+import {
+  changeColorTheme,
+  changeLanguage,
+} from "./features/settings/settingsSlice"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -60,11 +65,30 @@ const App = () => {
   }
   getCompletedHabits(userId)
 
-  const darkTheme = useSelector((state: RootState) => state.theme.value)
+  const getUserSettings = (id: number) => {
+    if (id === 0) {
+      return
+    }
+    axios.get(`http://localhost:5432/user-settings/${id}`).then((response) => {
+      const colorTheme = response.data.filter(
+        (setting: UserSettingsTypes) => setting.settingid === 1
+      )
+      const language = response.data.filter(
+        (setting: UserSettingsTypes) => setting.settingid === 2
+      )
+      dispatch(changeColorTheme(colorTheme[0].value))
+      dispatch(changeLanguage(language[0].value))
+    })
+  }
+  getUserSettings(userId)
+
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
 
   const theme = createTheme({
     palette: {
-      mode: `${darkTheme ? "dark" : "light"}`,
+      mode: colorTheme as PaletteMode,
     },
     components: {
       MuiButton: {

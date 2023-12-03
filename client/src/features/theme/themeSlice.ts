@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { ThemeSliceTypes } from "../../Types"
 
-export type themeState = {
-  value: boolean
-}
-
-const initialState: themeState = {
+const initialState: ThemeSliceTypes = {
   value: true,
 }
 

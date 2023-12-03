@@ -1,0 +1,30 @@
+darkmode
+language
+
+changing username
+location select
+bio
+reset habits in profile
+main focus on which habit categories
+amount of habits completed
+pfp uploading
+login with google
+
+---
+
+Tips
+
+- Books, speakers, influencers etc. to follow/see etc.
+
+
+Sections:
+User progress
+Habit categories
+Habit of the day
+Search for specific habits
+Daily challenge
+Progress tracking
+Reminders and Notifications
+Educational content
+Feedback and support
+Other resources: Books, websites, influencers

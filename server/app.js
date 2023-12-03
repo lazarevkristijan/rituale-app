@@ -11,6 +11,7 @@ import {
   getLogout,
   getResetHabitProgress,
   getRoot,
+  getUserSettings,
   getUsers,
 } from "./Routes/getRoutes.js"
 import {
@@ -19,6 +20,7 @@ import {
   postRegister,
   postRemoveHabit,
 } from "./Routes/postRoutes.js"
+import { patchChangeTheme } from "./Routes/patchRoutes.js"
 
 dotenv.config()
 
@@ -49,6 +51,9 @@ app.get("/logout", getLogout)
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
+
+app.get("/user-settings/:id", getUserSettings)
+app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

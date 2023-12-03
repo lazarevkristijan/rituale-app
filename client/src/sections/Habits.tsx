@@ -128,6 +128,7 @@ const Habits = () => {
             >
               <Box sx={{ p: 2 }}>
                 <Typography>{habit.description}</Typography>
+                <Typography>{habit.difficulty}</Typography>
                 <br />
                 <Chip
                   label={habit.category}
