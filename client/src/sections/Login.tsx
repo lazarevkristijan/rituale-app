@@ -38,7 +38,6 @@ const Login = () => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data)
         dispatch(login(response.data))
         navigate("/profile")
       })

@@ -24,19 +24,18 @@ const Habits = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const user = useSelector((state: RootState) => state.session.user)
+  const completedHabits = useSelector(
+    (state: RootState) => state.completedHabits.habits
+  )
+
   const getHabits = async () => {
     const res = await axios.get("http://localhost:5432/habits")
     return res.data
   }
-
-  const completedHabits = useSelector(
-    (state: RootState) => state.completedHabits.habits
-  )
-  const user = useSelector((state: RootState) => state.session.user)
-  const [habitToToggle, setHabitToToggle] = useState(0)
-
   const { data, isLoading, error } = useQuery("habits", getHabits)
 
+  const [habitToToggle, setHabitToToggle] = useState(0)
   const handleToggleHabit = (
     e: React.FormEvent<HTMLFormElement>,
     userId: number,
@@ -74,7 +73,9 @@ const Habits = () => {
           }
         )
         .then(() => {
-          dispatch(addHabit(habitId))
+          const arrayId = [habitId]
+          console.log(arrayId)
+          dispatch(addHabit(arrayId))
         })
     }
   }

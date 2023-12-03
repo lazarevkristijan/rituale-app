@@ -24,7 +24,7 @@ import { ReactQueryDevtools } from "react-query/devtools"
 import axios from "axios"
 import { login } from "./features/session/sessionSlice"
 import { addHabit } from "./features/completedHabits/completedHabitsSlice"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CompletedHabitTypes, UserSettingsTypes } from "./Types"
 import {
   changeColorTheme,
@@ -34,36 +34,40 @@ import {
 const App = () => {
   const dispatch = useDispatch()
   const [userId, setUserId] = useState(0)
-  const checkAuth = () => {
-    axios
-      .get("http://localhost:5432/check-auth", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        dispatch(login(response.data.user))
-        setUserId(response.data.user.id)
-      })
-      .catch(() => {})
-  }
-  checkAuth()
-
-  const getCompletedHabits = (id: number) => {
-    if (id === 0) {
-      return
+  useEffect(() => {
+    const checkAuth = () => {
+      axios
+        .get("http://localhost:5432/check-auth", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          dispatch(login(response.data.user))
+          setUserId(response.data.user.id)
+        })
+        .catch(() => {})
     }
-    axios
-      .get(`http://localhost:5432/completed-habits/${id}`)
-      .then((response) => {
-        if (!response.data.length) return
+    checkAuth()
+  }, [dispatch])
 
-        const habitIds = response.data.map(
-          (habit: CompletedHabitTypes) => habit.habit_id
-        )
+  useEffect(() => {
+    const getCompletedHabits = (id: number) => {
+      if (id === 0) {
+        return
+      }
+      axios
+        .get(`http://localhost:5432/completed-habits/${id}`)
+        .then((response) => {
+          if (!response.data.length) return
 
-        dispatch(addHabit(habitIds))
-      })
-  }
-  getCompletedHabits(userId)
+          const habitIds = response.data.map(
+            (habit: CompletedHabitTypes) => habit.habit_id
+          )
+
+          dispatch(addHabit(habitIds))
+        })
+    }
+    getCompletedHabits(userId)
+  }, [dispatch, userId])
 
   const getUserSettings = (id: number) => {
     if (id === 0) {
