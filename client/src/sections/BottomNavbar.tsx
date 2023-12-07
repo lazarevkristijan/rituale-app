@@ -42,16 +42,14 @@ const BottomNavbar = () => {
   return (
     <BottomNavigation
       value={bottomNavLocation}
-      onChange={(e, newValue) => {
-        e
+      onChange={(_e, newValue) => {
         dispatch(changeLocation(newValue))
       }}
       sx={{
-        position: "fixed",
+        position: "sticky",
         bottom: 0,
         width: "100%",
-        // display: { xs: "flex", md: "none" },
-        display: { xs: "flex" }, //TEMP UNTIL TOP NAVBAR IS DONE
+        display: { xs: "flex" },
         height: 50,
       }}
     >
