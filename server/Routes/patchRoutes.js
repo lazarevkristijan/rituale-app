@@ -4,12 +4,13 @@ import bcrypt from "bcrypt"
 
 export const patchChangeTheme = async (req, res) => {
   try {
+    const { id } = req.params
     const { theme } = req.body
 
     await sql`
   UPDATE user_settings
   SET value = ${theme}
-  WHERE setting_id = 1 AND user_id = ${req.userId}`
+  WHERE setting_id = 1 AND user_id = ${id}`
 
     return res.json({ theme: theme })
   } catch (error) {
@@ -133,13 +134,12 @@ export const patchChangeUserData = async (req, res) => {
 
 export const patchChangeLanguage = async (req, res) => {
   try {
-    const { id } = req.userId
+    const { id } = req.params
     const { language } = req.body
-
     await sql`
     UPDATE user_settings
-    SET language = ${language}
-    WHERE user_id = ${id}`
+    SET value = ${language}
+    WHERE user_id = ${id} AND setting_id = 2`
   } catch (error) {
     console.error("Error is: ", error)
     res.status(500).json({ error: "Error when changing language" })

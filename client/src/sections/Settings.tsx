@@ -43,7 +43,7 @@ const Settings = () => {
   const handleThemeChange = () => {
     axios
       .patch(
-        "http://localhost:5432/user-settings/change-theme",
+        `http://localhost:5432/user-settings/change-theme/${user?.id}`,
         JSON.stringify({ theme: colorTheme === "dark" ? "light" : "dark" }),
         {
           headers: { "Content-Type": "application/json" },
@@ -94,10 +94,10 @@ const Settings = () => {
       })
   }
 
-  const handleLanguageChange = () => {
+  const handleLanguageChange = (lang: string) => {
     axios.patch(
-      "http://localhost:5432/user-settings/change-language",
-      JSON.stringify({ language: language }),
+      `http://localhost:5432/user-settings/change-language/${user?.id}`,
+      JSON.stringify({ language: lang }),
       {
         headers: {
           "Content-Type": "application/json",
@@ -246,7 +246,7 @@ const Settings = () => {
                   selected={lang.shortHand === language}
                   onClick={() => {
                     dispatch(changeLanguage(lang.shortHand))
-                    handleLanguageChange()
+                    handleLanguageChange(lang.shortHand)
                   }}
                 >
                   <ListItemText primary={lang.fullName} />

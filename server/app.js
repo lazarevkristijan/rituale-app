@@ -59,8 +59,12 @@ app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 
 app.get("/user-settings/:id", getUserSettings)
-app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
-app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
+app.patch("/user-settings/change-theme/:id", verifyToken, patchChangeTheme)
+app.patch(
+  "/user-settings/change-language/:id",
+  verifyToken,
+  patchChangeLanguage
+)
 app.patch("/change-user-data/:id", verifyToken, patchChangeUserData)
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

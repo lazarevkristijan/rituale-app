@@ -66,7 +66,8 @@ const Home = () => {
           : "Ciao"}{" "}
         {user ? user.first_name : "Guest"}
         <img
-          src={`../../public/${language}-flag.svg`}
+          src={`../../${language}-flag.svg`}
+          alt={`${language} flag`}
           width={20}
           height={20}
         />
