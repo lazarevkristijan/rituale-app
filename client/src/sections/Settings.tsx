@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
@@ -26,7 +25,8 @@ import { useNavigate } from "react-router-dom"
 import { login, logout } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useState } from "react"
-import { emailRegex, nameRegex } from "../Regex"
+import { emailRegex, nameRegex, passwordRegex } from "../Regex"
+import { languages } from "../constants"
 
 const Settings = () => {
   const dispatch = useDispatch()
@@ -95,8 +95,26 @@ const Settings = () => {
   }
 
   const handleLanguageChange = () => {
-    axios.patch("")
+    axios.patch(
+      "http://localhost:5432/user-settings/change-language",
+      JSON.stringify({ language: language }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    )
   }
+
+  const [changedFields, setChangedFields] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    oldPassword: false,
+    newPassword: false,
+    confirmNewPassword: false,
+  })
 
   return (
     <Box>
@@ -120,6 +138,9 @@ const Settings = () => {
               sx={{ mb: 1 }}
               value={userData.firstName}
               onChange={(e) => {
+                if (!changedFields.firstName) {
+                  setChangedFields({ ...changedFields, firstName: true })
+                }
                 const capitalizedFirstName =
                   e.target.value.charAt(0).toUpperCase() +
                   e.target.value.slice(1).toLowerCase()
@@ -133,6 +154,9 @@ const Settings = () => {
               sx={{ mb: 1 }}
               value={userData.lastName}
               onChange={(e) => {
+                if (!changedFields.lastName) {
+                  setChangedFields({ ...changedFields, lastName: true })
+                }
                 const capitalizedLastName =
                   e.target.value.charAt(0).toUpperCase() +
                   e.target.value.slice(1).toLowerCase()
@@ -147,35 +171,62 @@ const Settings = () => {
             type="email"
             sx={{ mb: 1 }}
             value={userData.email}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (!changedFields.email) {
+                setChangedFields({ ...changedFields, email: true })
+              }
               setUserData({ ...userData, email: e.target.value })
-            }
+            }}
             error={!emailRegex.test(userData.email)}
           />
           <TextField
             label="Old password"
             value={userData.oldPassword}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (!changedFields.oldPassword) {
+                setChangedFields({ ...changedFields, oldPassword: true })
+              }
               setUserData({ ...userData, oldPassword: e.target.value })
-            }
+            }}
             helperText="Must be at least 8 characters long, have 1 lowercase, 1 uppercase letter and 1 number"
           />
           <TextField
             label="New password"
             value={userData.newPassword}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (!changedFields.newPassword) {
+                setChangedFields({ ...changedFields, newPassword: true })
+              }
               setUserData({ ...userData, newPassword: e.target.value })
-            }
+            }}
           />
           <TextField
             label="Confirm new password"
             value={userData.confirmNewPassword}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (!changedFields.confirmNewPassword) {
+                setChangedFields({ ...changedFields, confirmNewPassword: true })
+              }
               setUserData({ ...userData, confirmNewPassword: e.target.value })
-            }
+            }}
           />
         </Box>
-        <Button type="submit">save changes</Button>
+        <Button
+          type="submit"
+          disabled={
+            !nameRegex.test(userData.firstName) ||
+            !nameRegex.test(userData.lastName) ||
+            !emailRegex.test(userData.email) ||
+            (!passwordRegex.test(userData.oldPassword) &&
+              changedFields.oldPassword) ||
+            (!passwordRegex.test(userData.newPassword) &&
+              changedFields.newPassword) ||
+            (!passwordRegex.test(userData.confirmNewPassword) &&
+              changedFields.confirmNewPassword)
+          }
+        >
+          save changes
+        </Button>
       </form>
       <br />
       <br />
@@ -189,32 +240,22 @@ const Settings = () => {
         <DialogTitle>Change Language</DialogTitle>
         <DialogContent>
           <List>
-            <ListItemButton selected={language === "en"}>
-              <ListItemText primary="English" />
-            </ListItemButton>
-            <Divider />
-            <ListItemButton
-              selected={language === "es"}
-              onClick={() => dispatch(changeLanguage("es"))}
-            >
-              <ListItemText primary="Spanish" />
-            </ListItemButton>
-            <Divider />
-            <ListItemButton>
-              <ListItemText primary="German" />
-            </ListItemButton>
-            <Divider />
-
-            <ListItemButton>
-              <ListItemText primary="Italian" />
-            </ListItemButton>
-            <Divider />
-            <ListItemButton>
-              <ListItemText primary="French" />
-            </ListItemButton>
+            {languages.map((lang, index) => (
+              <Box key={index}>
+                <ListItemButton
+                  selected={lang.shortHand === language}
+                  onClick={() => {
+                    dispatch(changeLanguage(lang.shortHand))
+                    handleLanguageChange()
+                  }}
+                >
+                  <ListItemText primary={lang.fullName} />
+                </ListItemButton>
+                {index !== 4 ? <Divider /> : ""}
+              </Box>
+            ))}
           </List>
         </DialogContent>
-        <DialogActions></DialogActions>
       </Dialog>
 
       <FormGroup sx={{ display: "block" }}>

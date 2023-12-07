@@ -132,10 +132,16 @@ export const patchChangeUserData = async (req, res) => {
 }
 
 export const patchChangeLanguage = async (req, res) => {
-  const { id } = req.userId
+  try {
+    const { id } = req.userId
+    const { language } = req.body
 
-  await sql`
-  UPDATE user_settings
-  SET language = ''
-  WHERE user_id = ${id}`
+    await sql`
+    UPDATE user_settings
+    SET language = ${language}
+    WHERE user_id = ${id}`
+  } catch (error) {
+    console.error("Error is: ", error)
+    res.status(500).json({ error: "Error when changing language" })
+  }
 }
