@@ -20,7 +20,12 @@ import {
   postRegister,
   postRemoveHabit,
 } from "./Routes/postRoutes.js"
-import { patchChangeTheme } from "./Routes/patchRoutes.js"
+import {
+  patchChangeLanguage,
+  patchChangeTheme,
+  patchChangeUserData,
+} from "./Routes/patchRoutes.js"
+import { deleteUser } from "./Routes/deleteRoutes.js"
 
 dotenv.config()
 
@@ -47,6 +52,7 @@ app.get("/completed-habits/:id", getCompletedHabits)
 app.post("/login", postLogin)
 app.post("/register", postRegister)
 app.get("/logout", getLogout)
+app.delete("/delete-user/:id", verifyToken, deleteUser)
 
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
@@ -54,7 +60,8 @@ app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 
 app.get("/user-settings/:id", getUserSettings)
 app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
-
+app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
+app.patch("/change-user-data/:id", verifyToken, patchChangeUserData)
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
 )

@@ -15,7 +15,7 @@ export const postRegister = async (req, res) => {
 
     if (sameEmail.length !== 0) {
       return res
-        .status(409)
+        .status(401)
         .json({ error: "Email is already assosiated with a different account" })
     }
 
