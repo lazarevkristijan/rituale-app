@@ -85,7 +85,7 @@ const Home = () => {
       </Typography>
       <Typography>
         {language === "en"
-          ? "We don't realise that 90% of our day is habits based, allmost everything we do is something we've been doing continously every day. Brushing our teeth, driving, scrolling our phones etc. it's all automatic, we don't put any effort in no natter how easy or hard the task, eventually we get into the rhythm."
+          ? "We don't realise that 90% of our day is habits based, almost everything we do is something we've been doing continously every day. Brushing our teeth, driving, scrolling our phones etc. it's all automatic, we don't put any effort in no natter how easy or hard the task, eventually we get into the rhythm."
           : language === "es"
           ? "No nos damos cuenta de que el 90% de nuestro día se basa en hábitos; casi todo lo que hacemos es algo que hemos estado haciendo continuamente todos los días. Cepillarnos los dientes, conducir, deslizar nuestros teléfonos, etc., todo es automático; no ponemos ningún esfuerzo sin importar cuán fácil o difícil sea la tarea, eventualmente entramos en el ritmo."
           : language === "de"
