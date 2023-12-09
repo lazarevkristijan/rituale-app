@@ -10,6 +10,7 @@ import { RootState } from "../Store"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
+import { changeColorTheme } from "../features/settings/settingsSlice"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -29,6 +30,7 @@ const Profile = () => {
       .then(() => {
         dispatch(logout())
         dispatch(clearHabits())
+        dispatch(changeColorTheme("light"))
         navigate("/")
       })
       .catch((err) => console.error("Error logging out: ", err))

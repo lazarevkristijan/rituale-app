@@ -34,6 +34,7 @@ import {
 const App = () => {
   const dispatch = useDispatch()
   const [userId, setUserId] = useState(0)
+
   useEffect(() => {
     const checkAuth = () => {
       axios
@@ -44,7 +45,6 @@ const App = () => {
           dispatch(login(response.data.user))
           setUserId(response.data.user.id)
         })
-        .catch(() => {})
     }
     checkAuth()
   }, [dispatch])
@@ -69,22 +69,26 @@ const App = () => {
     getCompletedHabits(userId)
   }, [dispatch, userId])
 
-  const getUserSettings = (id: number) => {
-    if (id === 0) {
-      return
+  useEffect(() => {
+    const getUserSettings = (id: number) => {
+      if (id === 0) {
+        return
+      }
+      axios
+        .get(`http://localhost:5432/user-settings/${id}`)
+        .then((response) => {
+          const colorTheme = response.data.filter(
+            (setting: UserSettingsTypes) => setting.setting_id === 1
+          )
+          const language = response.data.filter(
+            (setting: UserSettingsTypes) => setting.setting_id === 2
+          )
+          dispatch(changeColorTheme(colorTheme[0].value))
+          dispatch(changeLanguage(language[0].value))
+        })
     }
-    axios.get(`http://localhost:5432/user-settings/${id}`).then((response) => {
-      const colorTheme = response.data.filter(
-        (setting: UserSettingsTypes) => setting.setting_id === 1
-      )
-      const language = response.data.filter(
-        (setting: UserSettingsTypes) => setting.setting_id === 2
-      )
-      dispatch(changeColorTheme(colorTheme[0].value))
-      dispatch(changeLanguage(language[0].value))
-    })
-  }
-  getUserSettings(userId)
+    getUserSettings(userId)
+  }, [dispatch, userId])
 
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme

@@ -6,6 +6,11 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { emailRegex, passwordRegex } from "../Regex"
 import { RootState } from "../Store"
+import { UserSettingsTypes } from "../Types"
+import {
+  changeColorTheme,
+  changeLanguage,
+} from "../features/settings/settingsSlice"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -27,7 +32,7 @@ const Login = () => {
     password: false,
   })
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     await axios
@@ -39,6 +44,18 @@ const Login = () => {
       })
       .then((response) => {
         dispatch(login(response.data))
+        axios
+          .get(`http://localhost:5432/user-settings/${response.data.id}`)
+          .then((response) => {
+            const colorTheme = response.data.filter(
+              (setting: UserSettingsTypes) => setting.setting_id === 1
+            )
+            const language = response.data.filter(
+              (setting: UserSettingsTypes) => setting.setting_id === 2
+            )
+            dispatch(changeColorTheme(colorTheme[0].value))
+            dispatch(changeLanguage(language[0].value))
+          })
         navigate("/profile")
       })
       .catch((err) => {
@@ -73,7 +90,7 @@ const Login = () => {
           >
             LOGIN
           </Typography>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <TextField
               label="Email"
               type="email"
@@ -106,7 +123,6 @@ const Login = () => {
 
             <Button
               sx={{ mr: 1 }}
-              onClick={() => handleSubmit}
               type="submit"
               disabled={
                 !emailRegex.test(formData.email) ||
