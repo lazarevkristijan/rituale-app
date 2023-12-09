@@ -111,7 +111,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <ReactQueryDevtools />
       <CssBaseline enableColorScheme />
-      <Container sx={{ minHeight: "92.5vh" }}>
+      <Container sx={{ minHeight: "100vh" }}>
         <Routes>
           <Route
             path="/"
