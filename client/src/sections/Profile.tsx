@@ -15,6 +15,9 @@ import { changeColorTheme } from "../features/settings/settingsSlice"
 const Profile = () => {
   const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.session.user)
+  const completedHabits = useSelector(
+    (state: RootState) => state.completedHabits
+  )
   useEffect(() => {
     !user ? navigate("/login") : setIsLoading(false)
   }, [navigate, user])
@@ -75,7 +78,10 @@ const Profile = () => {
               </Tooltip>
             </Box>
             <Typography>
-              Good Habits: <Typography component="span">100</Typography>
+              Good Habits:{" "}
+              <Typography component="span">
+                {completedHabits.habits.length}
+              </Typography>
             </Typography>
             <Typography>
               Main Goals:{" "}

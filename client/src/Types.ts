@@ -1,7 +1,9 @@
 export type HabitTypes = {
   id: number
   description: string
-  category: string
+  category_1: string
+  category_2: string
+  category_3: string
   difficulty: string
 }
 

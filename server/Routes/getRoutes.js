@@ -17,8 +17,10 @@ export const getUsers = async (req, res) => {
 export const getHabits = async (req, res) => {
   try {
     const habits = await sql`
-    SELECT *
-    FROM habits`
+    SELECT a.id,a.description,a.difficulty,b.category as category_1, c.category as category_2, d.category as category_3 FROM habits as a
+    LEFT JOIN habit_categories as b ON a.category_1 = b.id 
+    LEFT JOIN habit_categories as c ON a.category_2 = c.id 
+    LEFT JOIN habit_categories as d ON a.category_3 = d.id`
     return res.json(habits)
   } catch (error) {
     console.error("Error is: ", error)

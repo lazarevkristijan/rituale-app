@@ -127,6 +127,9 @@ const Habits = () => {
                 width: 300,
                 borderRadius: 2,
                 textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
             >
               <Box sx={{ p: 2 }}>
@@ -134,47 +137,63 @@ const Habits = () => {
                 <Typography>{habit.difficulty}</Typography>
                 <br />
                 <Chip
-                  label={habit.category}
+                  label={habit.category_1}
                   color="primary"
                   sx={{ fontSize: 16 }}
                 />
+                {habit.category_2 && (
+                  <Chip
+                    label={habit.category_2}
+                    color="primary"
+                    sx={{ fontSize: 16 }}
+                  />
+                )}
+                {habit.category_3 && (
+                  <Chip
+                    label={habit.category_3}
+                    color="primary"
+                    sx={{ fontSize: 16 }}
+                  />
+                )}
               </Box>
-              {user ? (
-                <Button
-                  sx={{ width: "100%" }}
-                  type="submit"
-                  onClick={() => {
-                    setHabitToToggle(habit.id)
-                  }}
-                >
-                  {completedHabits?.includes(habit.id)
-                    ? "Completed"
-                    : "Not completed"}
-                </Button>
-              ) : (
-                <Tooltip
-                  title="Login to access"
-                  arrow
-                >
-                  <Box
-                    onClick={() => navigate("/login")}
-                    component="div"
-                    sx={{
-                      width: "100%",
-                      bgcolor: "primary.main",
-                      borderBottomLeftRadius: "inherit",
-                      borderBottomRightRadius: "inherit",
-                      ":hover": {
-                        cursor: "pointer",
-                      },
+              <Box>
+                {user ? (
+                  <Button
+                    sx={{ width: "100%" }}
+                    type="submit"
+                    onClick={() => {
+                      setHabitToToggle(habit.id)
                     }}
                   >
-                    <IconButton>
-                      <LockPersonIcon />
-                    </IconButton>
-                  </Box>
-                </Tooltip>
-              )}
+                    {completedHabits?.includes(habit.id)
+                      ? "Completed"
+                      : "Not completed"}
+                  </Button>
+                ) : (
+                  <Tooltip
+                    title="Login to access"
+                    arrow
+                  >
+                    <Box
+                      onClick={() => navigate("/login")}
+                      component="div"
+                      sx={{
+                        width: "100%",
+                        bgcolor: "primary.main",
+                        borderBottomLeftRadius: "inherit",
+                        borderBottomRightRadius: "inherit",
+                        ":hover": {
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      <IconButton>
+                        <LockPersonIcon />
+                      </IconButton>
+                    </Box>
+                  </Tooltip>
+                )}
+              </Box>
             </Box>
           ))}
         </form>
