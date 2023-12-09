@@ -86,17 +86,37 @@ const Profile = () => {
             <Typography>
               Main Goals:{" "}
               <Typography component="span">
+                {user?.priority_category_1 && (
+                  <Chip
+                    label={user.priority_category_1}
+                    color="primary"
+                    component="span"
+                    sx={{ ml: 1 }}
+                  />
+                )}
+                {user?.priority_category_2 && (
+                  <Chip
+                    label={user.priority_category_2}
+                    color="primary"
+                    component="span"
+                    sx={{ ml: 1 }}
+                  />
+                )}
+                {user?.priority_category_3 && (
+                  <Chip
+                    label={user.priority_category_3}
+                    color="primary"
+                    component="span"
+                    sx={{ ml: 1 }}
+                  />
+                )}
                 <Chip
-                  label="Health"
+                  label="Edit"
                   color="primary"
-                  sx={{ ml: 1 }}
                   component="span"
-                />
-                <Chip
-                  label="Fitness"
-                  color="primary"
-                  sx={{ ml: 1 }}
-                  component="span"
+                  onClick={() => {
+                    console.log("asd")
+                  }}
                 />
               </Typography>
             </Typography>
