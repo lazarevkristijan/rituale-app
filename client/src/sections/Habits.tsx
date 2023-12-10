@@ -116,83 +116,110 @@ const Habits = () => {
           onSubmit={(e) =>
             handleToggleHabit(e, user ? user.id : 0, habitToToggle)
           }
-          style={{ display: "flex", justifyContent: "space-evenly" }}
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            flexWrap: "wrap",
+            rowGap: 40,
+          }}
         >
           {data.map((habit: HabitTypes) => (
-            <Box
-              key={habit.id}
-              sx={{
-                bgcolor: "#fff",
-                color: "#000",
-                width: 300,
-                borderRadius: 2,
-                textAlign: "center",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ p: 2 }}>
-                <Typography>{habit.description}</Typography>
-                <Typography>{habit.difficulty}</Typography>
-                <br />
-                <Chip
-                  label={habit.category_1}
-                  color="primary"
-                  sx={{ fontSize: 16 }}
-                />
-                {habit.category_2 && (
-                  <Chip
-                    label={habit.category_2}
-                    color="primary"
-                    sx={{ fontSize: 16 }}
-                  />
-                )}
-                {habit.category_3 && (
-                  <Chip
-                    label={habit.category_3}
-                    color="primary"
-                    sx={{ fontSize: 16 }}
-                  />
-                )}
-              </Box>
-              <Box>
-                {user ? (
-                  <Button
-                    sx={{ width: "100%" }}
-                    type="submit"
-                    onClick={() => {
-                      setHabitToToggle(habit.id)
+            <Box sx={{ display: "flex" }}>
+              <Box
+                key={habit.id}
+                sx={{
+                  bgcolor: "#fff",
+                  color: "#000",
+                  width: 300,
+                  borderRadius: 2,
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ p: 2, height: 175 }}>
+                  <Typography>{habit.description}</Typography>
+                  <Box sx={{ height: 50 }}>
+                    <Chip
+                      label={habit.difficulty}
+                      color={
+                        habit.difficulty === "Easy"
+                          ? "success"
+                          : habit.difficulty === "Medium"
+                          ? "warning"
+                          : "error"
+                      }
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      height: 70,
                     }}
                   >
-                    {completedHabits?.includes(habit.id)
-                      ? "Completed"
-                      : "Not completed"}
-                  </Button>
-                ) : (
-                  <Tooltip
-                    title="Login to access"
-                    arrow
-                  >
-                    <Box
-                      onClick={() => navigate("/login")}
-                      component="div"
-                      sx={{
-                        width: "100%",
-                        bgcolor: "primary.main",
-                        borderBottomLeftRadius: "inherit",
-                        borderBottomRightRadius: "inherit",
-                        ":hover": {
-                          cursor: "pointer",
-                        },
+                    <Chip
+                      label={habit.category_1}
+                      color="primary"
+                      sx={{ fontSize: 16 }}
+                    />
+                    {habit.category_2 && (
+                      <Chip
+                        label={habit.category_2}
+                        color="primary"
+                        sx={{ fontSize: 16 }}
+                      />
+                    )}
+                    {habit.category_3 && (
+                      <Chip
+                        label={habit.category_3}
+                        color="primary"
+                        sx={{ fontSize: 16 }}
+                      />
+                    )}
+                  </Box>
+                </Box>
+                <Box>
+                  {user ? (
+                    <Button
+                      sx={{ width: "100%" }}
+                      type="submit"
+                      onClick={() => {
+                        setHabitToToggle(habit.id)
                       }}
                     >
-                      <IconButton>
-                        <LockPersonIcon />
-                      </IconButton>
-                    </Box>
-                  </Tooltip>
-                )}
+                      {completedHabits?.includes(habit.id)
+                        ? "Completed"
+                        : "Not completed"}
+                    </Button>
+                  ) : (
+                    <Tooltip
+                      title="Login to access"
+                      arrow
+                    >
+                      <Box
+                        onClick={() => navigate("/login")}
+                        component="div"
+                        sx={{
+                          width: "100%",
+                          bgcolor: "primary.main",
+                          borderBottomLeftRadius: "inherit",
+                          borderBottomRightRadius: "inherit",
+                          ":hover": {
+                            cursor: "pointer",
+                          },
+                        }}
+                      >
+                        <IconButton>
+                          <LockPersonIcon />
+                        </IconButton>
+                      </Box>
+                    </Tooltip>
+                  )}
+                </Box>
               </Box>
             </Box>
           ))}

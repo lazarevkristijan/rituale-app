@@ -32,6 +32,7 @@ import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { changeColorTheme } from "../features/settings/settingsSlice"
 import { useQuery } from "react-query"
 import { CategoryTypes } from "../Types"
+import EditIcon from "@mui/icons-material/Edit"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -192,7 +193,8 @@ const Profile = () => {
                 )}
                 <Chip
                   label="Edit"
-                  color="primary"
+                  icon={<EditIcon />}
+                  color="warning"
                   component="span"
                   onClick={() => setIsCategoryDialogOpen(true)}
                 />

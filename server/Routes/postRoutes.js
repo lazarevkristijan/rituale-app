@@ -89,7 +89,6 @@ export const postLogin = async (req, res) => {
             path: "/",
             maxAge: 1000 * 60 * 60 * 24 * 1,
           })
-          console.log("logged in user", user[0])
           return res.json(user[0])
         } else {
           return res.status(401).json({ error: "Invalid password" })
