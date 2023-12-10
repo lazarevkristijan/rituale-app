@@ -98,3 +98,16 @@ export const getUserSettings = async (req, res) => {
     return res.status(500).json({ error: "Error getting user settings" })
   }
 }
+
+export const getHabitCategories = async (req, res) => {
+  try {
+    const categories = await sql`
+    SELECT *
+    FROM habit_categories`
+
+    res.json(categories)
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting all categories" })
+  }
+}

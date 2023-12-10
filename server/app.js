@@ -7,6 +7,7 @@ import { verifyToken } from "./middleware/verifyToken.js"
 import {
   getCheckAuth,
   getCompletedHabits,
+  getHabitCategories,
   getHabits,
   getLogout,
   getResetHabitProgress,
@@ -21,9 +22,11 @@ import {
   postRemoveHabit,
 } from "./Routes/postRoutes.js"
 import {
+  patchAddPriorityCategory,
   patchChangeLanguage,
   patchChangeTheme,
   patchChangeUserData,
+  patchRemovePriorityCategory,
 } from "./Routes/patchRoutes.js"
 import { deleteUser } from "./Routes/deleteRoutes.js"
 
@@ -48,6 +51,7 @@ app.get("/check-auth", verifyToken, getCheckAuth)
 app.get("/users", getUsers)
 app.get("/habits", getHabits)
 app.get("/completed-habits/:id", getCompletedHabits)
+app.get("/habit-categories", getHabitCategories)
 
 app.post("/login", postLogin)
 app.post("/register", postRegister)
@@ -66,6 +70,13 @@ app.patch(
   patchChangeLanguage
 )
 app.patch("/change-user-data/:id", verifyToken, patchChangeUserData)
+app.patch("/add-priority-category/:id", verifyToken, patchAddPriorityCategory)
+app.patch(
+  "/remove-priority-category/:id",
+  verifyToken,
+  patchRemovePriorityCategory
+)
+
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
 )

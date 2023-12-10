@@ -7,6 +7,11 @@ export type HabitTypes = {
   difficulty: string
 }
 
+export type CategoryTypes = {
+  id: number
+  category: string
+}
+
 export type CompletedHabitTypes = {
   id: number
   user_id: number

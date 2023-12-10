@@ -15,9 +15,32 @@ export const sessionSlice = createSlice({
     logout: (state) => {
       state.user = null
     },
+    addCategory: (state, action) => {
+      if (state.user) {
+        if (!state.user.priority_category_1) {
+          state.user.priority_category_1 = action.payload
+        } else if (!state.user.priority_category_2) {
+          state.user.priority_category_2 = action.payload
+        } else if (!state.user.priority_category_3) {
+          state.user.priority_category_3 = action.payload
+        }
+      }
+    },
+    removeCategory: (state, action) => {
+      if (state.user) {
+        if (action.payload.category_1) {
+          state.user.priority_category_1 = null
+        } else if (action.payload.category_2) {
+          state.user.priority_category_2 = null
+        } else if (action.payload.category_3) {
+          state.user.priority_category_3 = null
+        }
+      }
+    },
   },
 })
 
-export const { login, logout } = sessionSlice.actions
+export const { login, logout, removeCategory, addCategory } =
+  sessionSlice.actions
 
 export default sessionSlice.reducer
