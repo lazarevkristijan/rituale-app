@@ -46,11 +46,11 @@ const Login = () => {
         dispatch(login(response.data))
         axios
           .get(`http://localhost:5432/user-settings/${response.data.id}`)
-          .then((response) => {
-            const colorTheme = response.data.filter(
+          .then((innerResponse) => {
+            const colorTheme = innerResponse.data.filter(
               (setting: UserSettingsTypes) => setting.setting_id === 1
             )
-            const language = response.data.filter(
+            const language = innerResponse.data.filter(
               (setting: UserSettingsTypes) => setting.setting_id === 2
             )
             dispatch(changeColorTheme(colorTheme[0].value))

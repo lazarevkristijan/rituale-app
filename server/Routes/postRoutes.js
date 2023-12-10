@@ -76,8 +76,10 @@ export const postLogin = async (req, res) => {
           return res.status(500).json({ error: "Error comparing passwords" })
         } else if (result) {
           const user = await sql`
-      SELECT * 
-      FROM users
+      SELECT a.id,a.first_name,a.last_name,a.email,a.password, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+      LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
+      LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
+      LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
       WHERE email = ${email}`
 
           const token = jwt.sign({ userId: user[0].id }, JWTsecret)
@@ -87,7 +89,7 @@ export const postLogin = async (req, res) => {
             path: "/",
             maxAge: 1000 * 60 * 60 * 24 * 1,
           })
-
+          console.log("logged in user", user[0])
           return res.json(user[0])
         } else {
           return res.status(401).json({ error: "Invalid password" })
