@@ -90,7 +90,7 @@ const Profile = () => {
       categoryData.cat3 === categoryData.catToChange
     ) {
       await axios.patch(
-        `http://localhost:5432/remove-priority-category/${user?.id}`,
+        `http://localhost:5432/remove-priority-category`,
         JSON.stringify(
           categoryData.cat1 === categoryData.catToChange
             ? { category_1: categoryData.cat1 }
@@ -110,7 +110,7 @@ const Profile = () => {
         return
       }
       await axios.patch(
-        `http://localhost:5432/add-priority-category/${user?.id}`,
+        `http://localhost:5432/add-priority-category`,
         JSON.stringify(categoryData),
         {
           headers: { "Content-Type": "application/json" },

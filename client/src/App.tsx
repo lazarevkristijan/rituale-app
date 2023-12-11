@@ -54,17 +54,15 @@ const App = () => {
       if (id === 0) {
         return
       }
-      axios
-        .get(`http://localhost:5432/completed-habits/${id}`)
-        .then((response) => {
-          if (!response.data.length) return
+      axios.get(`http://localhost:5432/completed-habits`).then((response) => {
+        if (!response.data.length) return
 
-          const habitIds = response.data.map(
-            (habit: CompletedHabitTypes) => habit.habit_id
-          )
+        const habitIds = response.data.map(
+          (habit: CompletedHabitTypes) => habit.habit_id
+        )
 
-          dispatch(addHabit(habitIds))
-        })
+        dispatch(addHabit(habitIds))
+      })
     }
     getCompletedHabits(userId)
   }, [dispatch, userId])
@@ -74,18 +72,16 @@ const App = () => {
       if (id === 0) {
         return
       }
-      axios
-        .get(`http://localhost:5432/user-settings/${id}`)
-        .then((response) => {
-          const colorTheme = response.data.filter(
-            (setting: UserSettingsTypes) => setting.setting_id === 1
-          )
-          const language = response.data.filter(
-            (setting: UserSettingsTypes) => setting.setting_id === 2
-          )
-          dispatch(changeColorTheme(colorTheme[0].value))
-          dispatch(changeLanguage(language[0].value))
-        })
+      axios.get(`http://localhost:5432/user-settings`).then((response) => {
+        const colorTheme = response.data.filter(
+          (setting: UserSettingsTypes) => setting.setting_id === 1
+        )
+        const language = response.data.filter(
+          (setting: UserSettingsTypes) => setting.setting_id === 2
+        )
+        dispatch(changeColorTheme(colorTheme[0].value))
+        dispatch(changeLanguage(language[0].value))
+      })
     }
     getUserSettings(userId)
   }, [dispatch, userId])

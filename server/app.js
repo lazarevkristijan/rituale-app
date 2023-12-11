@@ -50,32 +50,24 @@ app.get("/check-auth", verifyToken, getCheckAuth)
 
 app.get("/users", getUsers)
 app.get("/habits", getHabits)
-app.get("/completed-habits/:id", getCompletedHabits)
+app.get("/completed-habits", verifyToken, getCompletedHabits)
 app.get("/habit-categories", getHabitCategories)
 
 app.post("/login", postLogin)
 app.post("/register", postRegister)
 app.get("/logout", getLogout)
-app.delete("/delete-user/:id", verifyToken, deleteUser)
+app.delete("/delete-user", verifyToken, deleteUser)
 
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 
-app.get("/user-settings/:id", getUserSettings)
-app.patch("/user-settings/change-theme/:id", verifyToken, patchChangeTheme)
-app.patch(
-  "/user-settings/change-language/:id",
-  verifyToken,
-  patchChangeLanguage
-)
-app.patch("/change-user-data/:id", verifyToken, patchChangeUserData)
-app.patch("/add-priority-category/:id", verifyToken, patchAddPriorityCategory)
-app.patch(
-  "/remove-priority-category/:id",
-  verifyToken,
-  patchRemovePriorityCategory
-)
+app.get("/user-settings", verifyToken, getUserSettings)
+app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
+app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
+app.patch("/change-user-data", verifyToken, patchChangeUserData)
+app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
+app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

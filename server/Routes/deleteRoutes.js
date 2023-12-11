@@ -2,11 +2,11 @@ import sql from "../db.js"
 
 export const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params
+    const userId = req.userId
 
     await sql`
         DELETE FROM users
-        WHERE id = ${id}`
+        WHERE id = ${userId}`
 
     res.clearCookie("user")
     return res.json({ success: "User successfully deleted" })

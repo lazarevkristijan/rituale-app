@@ -43,7 +43,7 @@ const Settings = () => {
   const handleThemeChange = () => {
     axios
       .patch(
-        `http://localhost:5432/user-settings/change-theme/${user?.id}`,
+        `http://localhost:5432/user-settings/change-theme`,
         JSON.stringify({ theme: colorTheme === "dark" ? "light" : "dark" }),
         {
           headers: { "Content-Type": "application/json" },
@@ -57,7 +57,7 @@ const Settings = () => {
 
   const handleDeleteUser = () => {
     axios
-      .delete(`http://localhost:5432/delete-user/${user?.id}`, {
+      .delete(`http://localhost:5432/delete-user`, {
         withCredentials: true,
       })
       .then(() => {
@@ -81,7 +81,7 @@ const Settings = () => {
 
     axios
       .patch(
-        `http://localhost:5432/change-user-data/${user?.id}`,
+        `http://localhost:5432/change-user-data`,
         JSON.stringify(userData),
         {
           headers: { "Content-Type": "application/json" },

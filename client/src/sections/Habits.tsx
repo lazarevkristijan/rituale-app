@@ -38,14 +38,12 @@ const Habits = () => {
   const [habitToToggle, setHabitToToggle] = useState(0)
   const handleToggleHabit = (
     e: React.FormEvent<HTMLFormElement>,
-    userId: number,
     habitId: number
   ) => {
     e.preventDefault()
 
     const habitToToggle = {
       habitId: habitId,
-      userId: userId,
       date: new Date().toISOString().split("T")[0],
     }
 
@@ -74,13 +72,12 @@ const Habits = () => {
         )
         .then(() => {
           const arrayId = [habitId]
-          console.log(arrayId)
           dispatch(addHabit(arrayId))
         })
     }
   }
 
-  const handleResetClick = () => {
+  const handleResetHabits = () => {
     axios
       .get("http://localhost:5432/reset-habit-progress", {
         withCredentials: true,
@@ -107,15 +104,13 @@ const Habits = () => {
         {user && (
           <Button
             sx={{ mb: 2 }}
-            onClick={handleResetClick}
+            onClick={handleResetHabits}
           >
             Reset habits
           </Button>
         )}
         <form
-          onSubmit={(e) =>
-            handleToggleHabit(e, user ? user.id : 0, habitToToggle)
-          }
+          onSubmit={(e) => handleToggleHabit(e, habitToToggle)}
           style={{
             display: "flex",
             justifyContent: "space-evenly",

@@ -103,7 +103,8 @@ export const postLogin = async (req, res) => {
 
 export const postCompleteHabit = async (req, res) => {
   try {
-    const { userId, habitId, date } = req.body
+    const { habitId, date } = req.body
+    const userId = req.userId
 
     await sql`
     INSERT INTO completed_habits(user_id, habit_id, completion_date)
@@ -117,7 +118,8 @@ export const postCompleteHabit = async (req, res) => {
 
 export const postRemoveHabit = async (req, res) => {
   try {
-    const { userId, habitId } = req.body
+    const { habitId } = req.body
+    const userId = req.userId
 
     await sql`
   DELETE FROM completed_habits

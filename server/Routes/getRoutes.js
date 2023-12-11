@@ -30,11 +30,12 @@ export const getHabits = async (req, res) => {
 
 export const getCompletedHabits = async (req, res) => {
   try {
-    const { id } = req.params
+    const userId = req.userId
+
     const completedHabits = await sql`
     SELECT *
     FROM completed_habits
-    WHERE user_id = ${id}`
+    WHERE user_id = ${userId}`
     return res.json(completedHabits)
   } catch (error) {
     console.error("Error is: ", error)
@@ -70,7 +71,7 @@ export const getLogout = async (req, res) => {
 
 export const getResetHabitProgress = async (req, res) => {
   try {
-    const { userId } = req
+    const userId = req.userId
 
     await sql`
     DELETE FROM completed_habits
@@ -85,12 +86,12 @@ export const getResetHabitProgress = async (req, res) => {
 
 export const getUserSettings = async (req, res) => {
   try {
-    const { id } = req.params
+    const userId = req.userId
 
     const userSettings = await sql`
     SELECT *
     FROM user_settings
-    WHERE user_id = ${id}`
+    WHERE user_id = ${userId}`
 
     return res.json(userSettings)
   } catch (error) {

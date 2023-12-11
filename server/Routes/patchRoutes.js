@@ -4,13 +4,13 @@ import bcrypt from "bcrypt"
 
 export const patchChangeTheme = async (req, res) => {
   try {
-    const { id } = req.params
+    const userId = req.userId
     const { theme } = req.body
 
     await sql`
   UPDATE user_settings
   SET value = ${theme}
-  WHERE setting_id = 1 AND user_id = ${id}`
+  WHERE setting_id = 1 AND user_id = ${userId}`
 
     return res.json({ theme: theme })
   } catch (error) {
@@ -21,13 +21,13 @@ export const patchChangeTheme = async (req, res) => {
 
 export const patchChangeUserData = async (req, res) => {
   try {
-    const { id } = req.params
+    const { userId } = req.userId
     let updatedUser = {}
 
     const user = await sql`
      SELECT *
      FROM users
-     WHERE id = ${id}`
+     WHERE id = ${userId}`
 
     const {
       firstName,
@@ -65,7 +65,7 @@ export const patchChangeUserData = async (req, res) => {
       await sql`
       UPDATE users 
       SET first_name = ${firstName}
-      WHERE id = ${id}`
+      WHERE id = ${userId}`
 
       updatedUser = { ...updatedUser, first_name: firstName }
     }
@@ -73,7 +73,7 @@ export const patchChangeUserData = async (req, res) => {
       await sql`
       UPDATE users 
       SET last_name = ${lastName}
-      WHERE id = ${id}`
+      WHERE id = ${userId}`
 
       updatedUser = { ...updatedUser, last_name: lastName }
     }
@@ -81,7 +81,7 @@ export const patchChangeUserData = async (req, res) => {
       await sql`
       UPDATE users 
       SET email = ${email}
-      WHERE id = ${id}`
+      WHERE id = ${userId}`
 
       updatedUser = { ...updatedUser, email: email }
     }
@@ -119,7 +119,7 @@ export const patchChangeUserData = async (req, res) => {
       await sql`
       UPDATE users
       SET password = ${hashedPassword}
-      WHERE id = ${id}`
+      WHERE id = ${userId}`
 
       updatedUser = { ...updatedUser, password: hashedPassword }
     }
@@ -134,12 +134,13 @@ export const patchChangeUserData = async (req, res) => {
 
 export const patchChangeLanguage = async (req, res) => {
   try {
-    const { id } = req.params
+    const userId = req.userId
     const { language } = req.body
+
     await sql`
     UPDATE user_settings
     SET value = ${language}
-    WHERE user_id = ${id} AND setting_id = 2`
+    WHERE user_id = ${userId} AND setting_id = 2`
   } catch (error) {
     console.error("Error is: ", error)
     res.status(500).json({ error: "Error when changing language" })
@@ -148,7 +149,8 @@ export const patchChangeLanguage = async (req, res) => {
 
 export const patchAddPriorityCategory = async (req, res) => {
   try {
-    const { cat1, cat2, cat3, userId, idCatToChange } = req.body
+    const { cat1, cat2, cat3, idCatToChange } = req.body
+    const userId = req.userId
 
     if (!cat1) {
       await sql`
