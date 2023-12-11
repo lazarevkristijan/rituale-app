@@ -96,7 +96,7 @@ const Settings = () => {
 
   const handleLanguageChange = (lang: string) => {
     axios.patch(
-      `http://localhost:5432/user-settings/change-language/${user?.id}`,
+      `http://localhost:5432/user-settings/change-language`,
       JSON.stringify({ language: lang }),
       {
         headers: {

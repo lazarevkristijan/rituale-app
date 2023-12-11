@@ -45,7 +45,7 @@ const Login = () => {
       .then((response) => {
         dispatch(login(response.data))
         axios
-          .get(`http://localhost:5432/user-settings`)
+          .get(`http://localhost:5432/user-settings`, { withCredentials: true })
           .then((innerResponse) => {
             const colorTheme = innerResponse.data.filter(
               (setting: UserSettingsTypes) => setting.setting_id === 1

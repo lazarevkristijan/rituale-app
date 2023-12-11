@@ -70,7 +70,7 @@ const Profile = () => {
     "habit categories",
     getHabitCategories
   )
-  console.log("rendering of profile")
+
   const handleChangePriorityCategory = async (
     newCategory: string,
     newCategoryId: number
