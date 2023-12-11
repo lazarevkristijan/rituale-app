@@ -21,7 +21,7 @@ export const patchChangeTheme = async (req, res) => {
 
 export const patchChangeUserData = async (req, res) => {
   try {
-    const { userId } = req.userId
+    const userId = req.userId
     let updatedUser = {}
 
     const user = await sql`

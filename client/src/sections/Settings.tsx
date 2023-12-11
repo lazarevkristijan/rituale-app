@@ -151,8 +151,8 @@ const Settings = () => {
             />
             <TextField
               label="Last Name"
-              sx={{ mb: 1 }}
               value={userData.lastName}
+              sx={{ mb: 1 }}
               onChange={(e) => {
                 if (!changedFields.lastName) {
                   setChangedFields({ ...changedFields, lastName: true })
@@ -167,10 +167,10 @@ const Settings = () => {
             />
           </Box>
           <TextField
-            label="email"
-            type="email"
-            sx={{ mb: 1 }}
+            label="Email"
             value={userData.email}
+            sx={{ mb: 1 }}
+            type="email"
             onChange={(e) => {
               if (!changedFields.email) {
                 setChangedFields({ ...changedFields, email: true })

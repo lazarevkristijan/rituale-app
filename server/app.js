@@ -50,7 +50,6 @@ app.get("/check-auth", verifyToken, getCheckAuth)
 
 app.get("/users", getUsers)
 app.get("/habits", getHabits)
-app.get("/completed-habits", verifyToken, getCompletedHabits)
 app.get("/habit-categories", getHabitCategories)
 
 app.post("/login", postLogin)
@@ -58,6 +57,7 @@ app.post("/register", postRegister)
 app.get("/logout", getLogout)
 app.delete("/delete-user", verifyToken, deleteUser)
 
+app.get("/completed-habits", verifyToken, getCompletedHabits)
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
