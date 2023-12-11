@@ -6,11 +6,12 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { emailRegex, passwordRegex } from "../Regex"
 import { RootState } from "../Store"
-import { UserSettingsTypes } from "../Types"
+import { CompletedHabitTypes, UserSettingsTypes } from "../Types"
 import {
   changeColorTheme,
   changeLanguage,
 } from "../features/settings/settingsSlice"
+import { addHabit } from "../features/completedHabits/completedHabitsSlice"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -55,6 +56,18 @@ const Login = () => {
             )
             dispatch(changeColorTheme(colorTheme[0].value))
             dispatch(changeLanguage(language[0].value))
+          })
+        axios
+          .get(`http://localhost:5432/completed-habits`, {
+            withCredentials: true,
+          })
+          .then((response) => {
+            if (!response.data.length) return
+
+            const habitIds = response.data.map(
+              (habit: CompletedHabitTypes) => habit.habit_id
+            )
+            dispatch(addHabit(habitIds))
           })
         navigate("/profile")
       })

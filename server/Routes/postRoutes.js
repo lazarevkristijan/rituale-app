@@ -63,7 +63,7 @@ export const postLogin = async (req, res) => {
     FROM users
     WHERE email = ${email}`
 
-    if (!Object.values(storedPassword).length) {
+    if (!storedPassword.length) {
       return res.status(401).json({ error: "Email doesn't exist" })
     }
 

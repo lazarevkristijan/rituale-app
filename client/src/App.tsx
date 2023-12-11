@@ -64,7 +64,6 @@ const App = () => {
           const habitIds = response.data.map(
             (habit: CompletedHabitTypes) => habit.habit_id
           )
-
           dispatch(addHabit(habitIds))
         })
     }
