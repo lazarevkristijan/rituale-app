@@ -124,7 +124,6 @@ export const patchChangeUserData = async (req, res) => {
       updatedUser = { ...updatedUser, password: hashedPassword }
     }
 
-    console.log("Updated User", updatedUser)
     return res.json(updatedUser)
   } catch (error) {
     console.error("Error is: ", error)

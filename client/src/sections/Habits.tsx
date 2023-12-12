@@ -5,6 +5,10 @@ import {
   IconButton,
   Typography,
   Tooltip,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material"
 import axios from "axios"
 import { useQuery } from "react-query"
@@ -33,6 +37,28 @@ const Habits = () => {
     const res = await axios.get("http://localhost:5432/habits")
     return res.data
   }
+
+  const [filterCategories, setFilterCategories] = useState({
+    health: true,
+    appearance: true,
+    communication: true,
+    finance: true,
+    productivity: true,
+    creativity: true,
+    networking: true,
+    relationships: true,
+    personalGrowth: true,
+  })
+  const [filterDifficulty, setFilterDifficulty] = useState({
+    easy: true,
+    medium: true,
+    hard: true,
+  })
+  const [filterCompleted, setFilterCompleted] = useState({
+    completed: true,
+    notCompleted: true,
+  })
+
   const { data, isLoading, error } = useQuery("habits", getHabits)
 
   const [habitToToggle, setHabitToToggle] = useState(0)
@@ -118,106 +144,108 @@ const Habits = () => {
             rowGap: 40,
           }}
         >
-          {data.map((habit: HabitTypes) => (
-            <Box sx={{ display: "flex" }}>
-              <Box
-                key={habit.id}
-                sx={{
-                  bgcolor: "#fff",
-                  color: "#000",
-                  width: 300,
-                  borderRadius: 2,
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box sx={{ p: 2, height: 175 }}>
-                  <Typography>{habit.description}</Typography>
-                  <Box sx={{ height: 50 }}>
-                    <Chip
-                      label={habit.difficulty}
-                      color={
-                        habit.difficulty === "Easy"
-                          ? "success"
-                          : habit.difficulty === "Medium"
-                          ? "warning"
-                          : "error"
-                      }
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                      height: 70,
-                    }}
-                  >
-                    <Chip
-                      label={habit.category_1}
-                      color="primary"
-                      sx={{ fontSize: 16 }}
-                    />
-                    {habit.category_2 && (
+          {data
+            .filter((h: HabitTypes) => h.category_1 === "Health")
+            .map((habit: HabitTypes) => (
+              <Box sx={{ display: "flex" }}>
+                <Box
+                  key={habit.id}
+                  sx={{
+                    bgcolor: "#fff",
+                    color: "#000",
+                    width: 300,
+                    borderRadius: 2,
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box sx={{ p: 2, height: 175 }}>
+                    <Typography>{habit.description}</Typography>
+                    <Box sx={{ height: 50 }}>
                       <Chip
-                        label={habit.category_2}
-                        color="primary"
-                        sx={{ fontSize: 16 }}
+                        label={habit.difficulty}
+                        color={
+                          habit.difficulty === "Easy"
+                            ? "success"
+                            : habit.difficulty === "Medium"
+                            ? "warning"
+                            : "error"
+                        }
                       />
-                    )}
-                    {habit.category_3 && (
-                      <Chip
-                        label={habit.category_3}
-                        color="primary"
-                        sx={{ fontSize: 16 }}
-                      />
-                    )}
-                  </Box>
-                </Box>
-                <Box>
-                  {user ? (
-                    <Button
-                      sx={{ width: "100%" }}
-                      type="submit"
-                      onClick={() => {
-                        setHabitToToggle(habit.id)
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                        height: 70,
                       }}
                     >
-                      {completedHabits?.includes(habit.id)
-                        ? "Completed"
-                        : "Not completed"}
-                    </Button>
-                  ) : (
-                    <Tooltip
-                      title="Login to access"
-                      arrow
-                    >
-                      <Box
-                        onClick={() => navigate("/login")}
-                        component="div"
-                        sx={{
-                          width: "100%",
-                          bgcolor: "primary.main",
-                          borderBottomLeftRadius: "inherit",
-                          borderBottomRightRadius: "inherit",
-                          ":hover": {
-                            cursor: "pointer",
-                          },
+                      <Chip
+                        label={habit.category_1}
+                        color="primary"
+                        sx={{ fontSize: 16 }}
+                      />
+                      {habit.category_2 && (
+                        <Chip
+                          label={habit.category_2}
+                          color="primary"
+                          sx={{ fontSize: 16 }}
+                        />
+                      )}
+                      {habit.category_3 && (
+                        <Chip
+                          label={habit.category_3}
+                          color="primary"
+                          sx={{ fontSize: 16 }}
+                        />
+                      )}
+                    </Box>
+                  </Box>
+                  <Box>
+                    {user ? (
+                      <Button
+                        sx={{ width: "100%" }}
+                        type="submit"
+                        onClick={() => {
+                          setHabitToToggle(habit.id)
                         }}
                       >
-                        <IconButton>
-                          <LockPersonIcon />
-                        </IconButton>
-                      </Box>
-                    </Tooltip>
-                  )}
+                        {completedHabits?.includes(habit.id)
+                          ? "Completed"
+                          : "Not completed"}
+                      </Button>
+                    ) : (
+                      <Tooltip
+                        title="Login to access"
+                        arrow
+                      >
+                        <Box
+                          onClick={() => navigate("/login")}
+                          component="div"
+                          sx={{
+                            width: "100%",
+                            bgcolor: "primary.main",
+                            borderBottomLeftRadius: "inherit",
+                            borderBottomRightRadius: "inherit",
+                            ":hover": {
+                              cursor: "pointer",
+                            },
+                          }}
+                        >
+                          <IconButton>
+                            <LockPersonIcon />
+                          </IconButton>
+                        </Box>
+                      </Tooltip>
+                    )}
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
         </form>
       </Box>
     </Box>

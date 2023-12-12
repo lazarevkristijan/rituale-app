@@ -89,7 +89,6 @@ const Settings = () => {
         }
       )
       .then((response) => {
-        console.log("res data", response.data)
         dispatch(login({ ...user, ...response.data }))
       })
   }
