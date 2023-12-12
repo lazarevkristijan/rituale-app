@@ -5,10 +5,17 @@ import {
   IconButton,
   Typography,
   Tooltip,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  List,
+  ListItemButton,
+  ListItemText,
+  FormGroup,
+  Divider,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material"
 import axios from "axios"
 import { useQuery } from "react-query"
@@ -23,6 +30,7 @@ import {
   clearHabits,
   removeHabit,
 } from "../features/completedHabits/completedHabitsSlice"
+import { categoryFilterOptions, statusFilterOptions } from "../constants"
 
 const Habits = () => {
   const navigate = useNavigate()
@@ -58,6 +66,8 @@ const Habits = () => {
     completed: true,
     notCompleted: true,
   })
+
+  const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false)
 
   const { data, isLoading, error } = useQuery("habits", getHabits)
 
@@ -127,14 +137,50 @@ const Habits = () => {
         Habits
       </Typography>
       <Box>
-        {user && (
+        <Box sx={{ mb: 2 }}>
+          {user && <Button onClick={handleResetHabits}>Reset habits</Button>}
           <Button
-            sx={{ mb: 2 }}
-            onClick={handleResetHabits}
+            sx={{ ml: 2 }}
+            onClick={() => setIsFilterDialogOpen(true)}
           >
-            Reset habits
+            filters
           </Button>
-        )}
+          <Dialog
+            open={isFilterDialogOpen}
+            onClose={() => setIsFilterDialogOpen(false)}
+            aria-labelledby="habit filter dialog"
+          >
+            <DialogTitle>Filter habits</DialogTitle>
+            <DialogContent>
+              <FormGroup>
+                <FormControlLabel
+                  label="Completed"
+                  control={<Checkbox checked={filterCompleted.completed} />}
+                  onChange={() => {
+                    const currentStatus = filterCompleted.completed
+                    setFilterCompleted({
+                      ...filterCompleted,
+                      completed: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Not completed"
+                  control={<Checkbox checked={filterCompleted.notCompleted} />}
+                  onChange={() => {
+                    const currentStatus = filterCompleted.notCompleted
+                    setFilterCompleted({
+                      ...filterCompleted,
+                      notCompleted: !currentStatus,
+                    })
+                  }}
+                />
+                <Divider />
+              </FormGroup>
+            </DialogContent>
+            <DialogActions></DialogActions>
+          </Dialog>
+        </Box>
         <form
           onSubmit={(e) => handleToggleHabit(e, habitToToggle)}
           style={{
@@ -145,11 +191,21 @@ const Habits = () => {
           }}
         >
           {data
-            .filter((h: HabitTypes) => h.category_1 === "Health")
+            .filter((h: HabitTypes) =>
+              filterCompleted.completed && filterCompleted.notCompleted
+                ? h
+                : !filterCompleted.completed && filterCompleted.notCompleted
+                ? !completedHabits.includes(h.id)
+                : filterCompleted.completed && !filterCompleted.notCompleted
+                ? completedHabits.includes(h.id)
+                : null
+            )
             .map((habit: HabitTypes) => (
-              <Box sx={{ display: "flex" }}>
+              <Box
+                key={habit.id}
+                sx={{ display: "flex" }}
+              >
                 <Box
-                  key={habit.id}
                   sx={{
                     bgcolor: "#fff",
                     color: "#000",
