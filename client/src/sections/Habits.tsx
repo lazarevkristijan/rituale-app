@@ -191,15 +191,18 @@ const Habits = () => {
           }}
         >
           {data
-            .filter((h: HabitTypes) =>
-              filterCompleted.completed && filterCompleted.notCompleted
-                ? h
-                : !filterCompleted.completed && filterCompleted.notCompleted
-                ? !completedHabits.includes(h.id)
-                : filterCompleted.completed && !filterCompleted.notCompleted
-                ? completedHabits.includes(h.id)
-                : null
-            )
+            .filter((h: HabitTypes) => {
+              if (filterCompleted.completed) {
+                return h
+              }
+              return !completedHabits.includes(h.id)
+            })
+            .filter((h: HabitTypes) => {
+              if (filterCompleted.notCompleted) {
+                return h
+              }
+              return completedHabits.includes(h.id)
+            })
             .map((habit: HabitTypes) => (
               <Box
                 key={habit.id}
