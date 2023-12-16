@@ -7,6 +7,7 @@ import { verifyToken } from "./middleware/verifyToken.js"
 import {
   getCheckAuth,
   getCompletedHabits,
+  getCountries,
   getHabitCategories,
   getHabits,
   getLogout,
@@ -27,6 +28,7 @@ import {
   patchChangeTheme,
   patchChangeUserData,
   patchRemovePriorityCategory,
+  patchChangeCountry,
 } from "./Routes/patchRoutes.js"
 import { deleteUser } from "./Routes/deleteRoutes.js"
 
@@ -51,6 +53,7 @@ app.get("/check-auth", verifyToken, getCheckAuth)
 app.get("/users", getUsers)
 app.get("/habits", getHabits)
 app.get("/habit-categories", getHabitCategories)
+app.get("/countries", getCountries)
 
 app.post("/login", postLogin)
 app.post("/register", postRegister)
@@ -65,6 +68,7 @@ app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 app.get("/user-settings", verifyToken, getUserSettings)
 app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
 app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
+app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
 app.patch("/change-user-data", verifyToken, patchChangeUserData)
 app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
 app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)

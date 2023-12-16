@@ -37,10 +37,15 @@ export const sessionSlice = createSlice({
         }
       }
     },
+    changeCountry: (state, action) => {
+      if (state.user) {
+        state.user.country = action.payload
+      }
+    },
   },
 })
 
-export const { login, logout, removeCategory, addCategory } =
+export const { login, logout, removeCategory, addCategory, changeCountry } =
   sessionSlice.actions
 
 export default sessionSlice.reducer

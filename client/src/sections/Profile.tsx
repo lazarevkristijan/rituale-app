@@ -143,7 +143,8 @@ const Profile = () => {
               <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
                 {user?.first_name} <br />
                 {user?.last_name} <br />
-                {user?.email}
+                {user?.email} <br />
+                {user?.country || "NO COUNTRY"}
               </Typography>
               <Tooltip
                 title="User No."

@@ -46,10 +46,11 @@ export const getCompletedHabits = async (req, res) => {
 export const getCheckAuth = async (req, res) => {
   try {
     const user = await sql`
-    SELECT a.id,a.first_name,a.last_name,a.email,a.password, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+    SELECT a.id,a.first_name,a.last_name,a.email,a.password, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
+    LEFT JOIN countries as e ON a.country = e.id
     WHERE a.id = ${req.userId}`
 
     return res.json({ user: user[0] })
@@ -106,9 +107,22 @@ export const getHabitCategories = async (req, res) => {
     SELECT *
     FROM habit_categories`
 
-    res.json(categories)
+    return res.json(categories)
   } catch (error) {
     console.error("Error is: ", error)
     return res.status(500).json({ error: "Error getting all categories" })
+  }
+}
+
+export const getCountries = async (req, res) => {
+  try {
+    const countries = await sql`
+    SELECT *
+    FROM countries`
+
+    return res.json(countries)
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting all countries" })
   }
 }

@@ -207,3 +207,25 @@ export const patchRemovePriorityCategory = async (req, res) => {
     res.status(500).json({ error: "Error when removing priority category" })
   }
 }
+
+export const patchChangeCountry = async (req, res) => {
+  try {
+    const userId = req.userId
+    const { country } = req.body
+
+    const fetchedCountry = await sql`
+    SELECT *
+    FROM countries
+    WHERE country_name = ${country}`
+
+    await sql`
+    UPDATE users
+    SET country = ${fetchedCountry[0].id}
+    WHERE id = ${userId}`
+
+    return res.json({ success: "Successfully changed country" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    res.status(500).json({ error: "Error when changing country" })
+  }
+}

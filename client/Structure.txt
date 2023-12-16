@@ -3,6 +3,7 @@ TODO:
 - location select
 - profile bio
 - pfp uploading
+- send auth code to email 
 - login with google
 - other users profile previewing
 - At least 200 - 300 Personalized habits that will apply to specific people only
@@ -11,6 +12,8 @@ TODO:
 - habit of the day / daily challenge
 - Feedback and support for the app
 - Amount of users :D + amount of who have all habits finished
+- Forgot password
+- Accept cookies
 ---
 
 

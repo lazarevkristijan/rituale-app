@@ -5,11 +5,16 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  InputLabel,
   List,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Switch,
   TextField,
   Typography,
@@ -22,11 +27,11 @@ import {
 } from "../features/settings/settingsSlice"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import { login, logout } from "../features/session/sessionSlice"
+import { changeCountry, login, logout } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useState } from "react"
 import { emailRegex, nameRegex, passwordRegex } from "../Regex"
-import { languages } from "../constants"
+import { allCountries, languages } from "../constants"
 
 const Settings = () => {
   const dispatch = useDispatch()
@@ -114,7 +119,23 @@ const Settings = () => {
     newPassword: false,
     confirmNewPassword: false,
   })
-
+  const handleCountryChange = (e: SelectChangeEvent) => {
+    if (!e.target.value) {
+      return console.log("e target is empty")
+    }
+    axios
+      .patch(
+        "http://localhost:5432/user-settings/change-country",
+        JSON.stringify({ country: e.target.value }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then(() => {
+        dispatch(changeCountry(e.target.value))
+      })
+  }
   return (
     <Box>
       <Typography
@@ -123,6 +144,80 @@ const Settings = () => {
       >
         {user?.first_name}'s settings
       </Typography>
+
+      <FormControl fullWidth>
+        <InputLabel>Country</InputLabel>
+        <Select
+          value={user?.country || ""}
+          onChange={handleCountryChange}
+        >
+          <MenuItem value="">SELECT</MenuItem>
+          {allCountries.map((country: string) => (
+            <MenuItem value={country}>{country}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Typography>Current country: {user?.country}</Typography>
+
+      <br />
+
+      <Button onClick={() => setIsDialogOpen(true)}>change language</Button>
+      <Typography>
+        Current language:{" "}
+        {language === "en"
+          ? "English"
+          : language === "es"
+          ? "Spanish"
+          : language === "it"
+          ? "Italian"
+          : language === "de"
+          ? "German"
+          : "French"}{" "}
+        <Box
+          component="img"
+          src={`/flags/${language}.svg`}
+          width={20}
+          height={20}
+          sx={{ display: "inline", verticalAlign: "middle" }}
+        />
+      </Typography>
+      <Dialog
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        aria-labelledby="langauge dialog"
+      >
+        <DialogTitle>Change Language</DialogTitle>
+        <DialogContent>
+          <List>
+            {languages.map((lang, index) => (
+              <Box key={index}>
+                <ListItemButton
+                  selected={lang.shortHand === language}
+                  onClick={() => {
+                    dispatch(changeLanguage(lang.shortHand))
+                    handleLanguageChange(lang.shortHand)
+                  }}
+                >
+                  <ListItemText primary={lang.fullName} />
+                </ListItemButton>
+                {index !== 4 ? <Divider /> : ""}
+              </Box>
+            ))}
+          </List>
+        </DialogContent>
+      </Dialog>
+
+      <br />
+      <FormGroup sx={{ display: "block" }}>
+        <FormControlLabel
+          control={<Switch />}
+          checked={colorTheme === "dark"}
+          label="Dark Mode"
+          labelPlacement="start"
+          onChange={handleThemeChange}
+        />
+      </FormGroup>
+      <br />
       <form onSubmit={(e) => handleUserDataChange(e)}>
         <Typography
           component="h3"
@@ -230,42 +325,6 @@ const Settings = () => {
       <br />
       <br />
 
-      <Button onClick={() => setIsDialogOpen(true)}>change language</Button>
-      <Dialog
-        open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        aria-labelledby="langauge dialog"
-      >
-        <DialogTitle>Change Language</DialogTitle>
-        <DialogContent>
-          <List>
-            {languages.map((lang, index) => (
-              <Box key={index}>
-                <ListItemButton
-                  selected={lang.shortHand === language}
-                  onClick={() => {
-                    dispatch(changeLanguage(lang.shortHand))
-                    handleLanguageChange(lang.shortHand)
-                  }}
-                >
-                  <ListItemText primary={lang.fullName} />
-                </ListItemButton>
-                {index !== 4 ? <Divider /> : ""}
-              </Box>
-            ))}
-          </List>
-        </DialogContent>
-      </Dialog>
-
-      <FormGroup sx={{ display: "block" }}>
-        <FormControlLabel
-          control={<Switch />}
-          checked={colorTheme === "dark"}
-          label="Dark Mode"
-          labelPlacement="start"
-          onChange={handleThemeChange}
-        />
-      </FormGroup>
       <Typography
         component="h3"
         sx={{ color: "red", fontWeight: "bold", fontSize: 35 }}
