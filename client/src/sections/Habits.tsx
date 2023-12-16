@@ -63,7 +63,9 @@ const Habits = () => {
     notCompleted: true,
   })
 
-  const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false)
+  const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false)
+  const [isDifficultyFilterOpen, setIsDifficultyFilterOpen] = useState(false)
+  const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false)
 
   const { data, isLoading, error } = useQuery("habits", getHabits)
 
@@ -152,79 +154,33 @@ const Habits = () => {
           {user && <Button onClick={handleResetHabits}>Reset habits</Button>}
           <Button
             sx={{ ml: 2 }}
-            onClick={() => setIsFilterDialogOpen(true)}
+            onClick={() => setIsCategoryFilterOpen(true)}
           >
-            filters
+            category filters
           </Button>
-          <Dialog
-            open={isFilterDialogOpen}
-            onClose={() => setIsFilterDialogOpen(false)}
-            aria-labelledby="habit filter dialog"
+
+          <Button
+            sx={{ ml: 2 }}
+            onClick={() => setIsDifficultyFilterOpen(true)}
           >
-            <DialogTitle>Filter habits</DialogTitle>
+            difficulty filters
+          </Button>
+
+          <Button
+            sx={{ ml: 2 }}
+            onClick={() => setIsStatusFilterOpen(true)}
+          >
+            status filters
+          </Button>
+
+          <Dialog
+            open={isCategoryFilterOpen}
+            onClose={() => setIsCategoryFilterOpen(false)}
+            aria-labelledby="category filter dialog"
+          >
+            <DialogTitle>Filter categories</DialogTitle>
             <DialogContent>
               <FormGroup>
-                <FormControlLabel
-                  label="Completed"
-                  control={<Checkbox checked={filterCompleted.completed} />}
-                  onChange={() => {
-                    const currentStatus = filterCompleted.completed
-                    setFilterCompleted({
-                      ...filterCompleted,
-                      completed: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Not completed"
-                  control={<Checkbox checked={filterCompleted.notCompleted} />}
-                  onChange={() => {
-                    const currentStatus = filterCompleted.notCompleted
-                    setFilterCompleted({
-                      ...filterCompleted,
-                      notCompleted: !currentStatus,
-                    })
-                  }}
-                />
-
-                <Divider />
-
-                <FormControlLabel
-                  label="Easy"
-                  control={<Checkbox checked={filterDifficulty.easy} />}
-                  onChange={() => {
-                    const currentStatus = filterDifficulty.easy
-                    setFilterDifficulty({
-                      ...filterDifficulty,
-                      easy: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Medium"
-                  control={<Checkbox checked={filterDifficulty.medium} />}
-                  onChange={() => {
-                    const currentStatus = filterDifficulty.medium
-                    setFilterDifficulty({
-                      ...filterDifficulty,
-                      medium: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Hard"
-                  control={<Checkbox checked={filterDifficulty.hard} />}
-                  onChange={() => {
-                    const currentStatus = filterDifficulty.hard
-                    setFilterDifficulty({
-                      ...filterDifficulty,
-                      hard: !currentStatus,
-                    })
-                  }}
-                />
-
-                <Divider />
-
                 <FormControlLabel
                   label="Health"
                   control={<Checkbox checked={filterCategories.health} />}
@@ -333,7 +289,96 @@ const Habits = () => {
               </FormGroup>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() => setIsFilterDialogOpen(false)}>
+              <Button onClick={() => setIsCategoryFilterOpen(false)}>
+                close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={isDifficultyFilterOpen}
+            onClose={() => setIsDifficultyFilterOpen(false)}
+            aria-labelledby="difficulty filter dialog"
+          >
+            <DialogTitle>Filter difficulties</DialogTitle>
+            <DialogContent>
+              <FormControlLabel
+                label="Easy"
+                control={<Checkbox checked={filterDifficulty.easy} />}
+                onChange={() => {
+                  const currentStatus = filterDifficulty.easy
+                  setFilterDifficulty({
+                    ...filterDifficulty,
+                    easy: !currentStatus,
+                  })
+                }}
+              />
+              <Divider />
+              <FormControlLabel
+                label="Medium"
+                control={<Checkbox checked={filterDifficulty.medium} />}
+                onChange={() => {
+                  const currentStatus = filterDifficulty.medium
+                  setFilterDifficulty({
+                    ...filterDifficulty,
+                    medium: !currentStatus,
+                  })
+                }}
+              />
+              <Divider />
+              <FormControlLabel
+                label="Hard"
+                control={<Checkbox checked={filterDifficulty.hard} />}
+                onChange={() => {
+                  const currentStatus = filterDifficulty.hard
+                  setFilterDifficulty({
+                    ...filterDifficulty,
+                    hard: !currentStatus,
+                  })
+                }}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setIsDifficultyFilterOpen(false)}>
+                close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={isStatusFilterOpen}
+            onClose={() => setIsStatusFilterOpen(false)}
+            aria-labelledby="status filter dialog"
+          >
+            <DialogTitle>Filter statuses</DialogTitle>
+            <DialogContent>
+              <FormGroup>
+                <FormControlLabel
+                  label="Completed"
+                  control={<Checkbox checked={filterCompleted.completed} />}
+                  onChange={() => {
+                    const currentStatus = filterCompleted.completed
+                    setFilterCompleted({
+                      ...filterCompleted,
+                      completed: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Not completed"
+                  control={<Checkbox checked={filterCompleted.notCompleted} />}
+                  onChange={() => {
+                    const currentStatus = filterCompleted.notCompleted
+                    setFilterCompleted({
+                      ...filterCompleted,
+                      notCompleted: !currentStatus,
+                    })
+                  }}
+                />
+              </FormGroup>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setIsStatusFilterOpen(false)}>
                 close
               </Button>
             </DialogActions>
