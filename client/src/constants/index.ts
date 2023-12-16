@@ -20,17 +20,3 @@ export const languages = [
     shortHand: "fr",
   },
 ]
-
-export const categoryFilterOptions = [
-  "Health",
-  "Appearance",
-  "Communication",
-  "Finance",
-  "Productivity",
-  "creativity",
-  "Networking",
-  "Relationships",
-  "Personal growth",
-]
-export const difficultyFitlerOptions = ["Easy", "Medium", "Hard"]
-export const statusFilterOptions = ["Completed", "Not completed"]

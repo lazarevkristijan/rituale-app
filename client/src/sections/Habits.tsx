@@ -9,9 +9,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  List,
-  ListItemButton,
-  ListItemText,
   FormGroup,
   Divider,
   FormControlLabel,
@@ -30,7 +27,6 @@ import {
   clearHabits,
   removeHabit,
 } from "../features/completedHabits/completedHabitsSlice"
-import { categoryFilterOptions, statusFilterOptions } from "../constants"
 
 const Habits = () => {
   const navigate = useNavigate()
@@ -128,6 +124,21 @@ const Habits = () => {
     return <Typography component="h1">Error getting habits</Typography>
   }
 
+  const filterByCategory = (
+    h: HabitTypes,
+    condition: boolean,
+    category: string
+  ) => {
+    if (condition) {
+      return h
+    }
+    return (
+      h.category_1 !== category &&
+      h.category_2 !== category &&
+      h.category_3 !== category
+    )
+  }
+
   return (
     <Box>
       <Typography
@@ -175,11 +186,197 @@ const Habits = () => {
                     })
                   }}
                 />
+
                 <Divider />
+
+                <FormControlLabel
+                  label="Easy"
+                  control={<Checkbox checked={filterDifficulty.easy} />}
+                  onChange={() => {
+                    const currentStatus = filterDifficulty.easy
+                    setFilterDifficulty({
+                      ...filterDifficulty,
+                      easy: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Medium"
+                  control={<Checkbox checked={filterDifficulty.medium} />}
+                  onChange={() => {
+                    const currentStatus = filterDifficulty.medium
+                    setFilterDifficulty({
+                      ...filterDifficulty,
+                      medium: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Hard"
+                  control={<Checkbox checked={filterDifficulty.hard} />}
+                  onChange={() => {
+                    const currentStatus = filterDifficulty.hard
+                    setFilterDifficulty({
+                      ...filterDifficulty,
+                      hard: !currentStatus,
+                    })
+                  }}
+                />
+
+                <Divider />
+
+                <FormControlLabel
+                  label="Health"
+                  control={<Checkbox checked={filterCategories.health} />}
+                  onChange={() => {
+                    const currentStatus = filterCategories.health
+                    setFilterCategories({
+                      ...filterCategories,
+                      health: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Appearance"
+                  control={<Checkbox checked={filterCategories.appearance} />}
+                  onChange={() => {
+                    const currentStatus = filterCategories.appearance
+                    setFilterCategories({
+                      ...filterCategories,
+                      appearance: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Communication"
+                  control={
+                    <Checkbox checked={filterCategories.communication} />
+                  }
+                  onChange={() => {
+                    const currentStatus = filterCategories.communication
+                    setFilterCategories({
+                      ...filterCategories,
+                      communication: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Finance"
+                  control={<Checkbox checked={filterCategories.finance} />}
+                  onChange={() => {
+                    const currentStatus = filterCategories.finance
+                    setFilterCategories({
+                      ...filterCategories,
+                      finance: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Productivity"
+                  control={<Checkbox checked={filterCategories.productivity} />}
+                  onChange={() => {
+                    const currentStatus = filterCategories.productivity
+                    setFilterCategories({
+                      ...filterCategories,
+                      productivity: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Creativity"
+                  control={<Checkbox checked={filterCategories.creativity} />}
+                  onChange={() => {
+                    const currentStatus = filterCategories.creativity
+                    setFilterCategories({
+                      ...filterCategories,
+                      creativity: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Networking"
+                  control={<Checkbox checked={filterCategories.networking} />}
+                  onChange={() => {
+                    const currentStatus = filterCategories.networking
+                    setFilterCategories({
+                      ...filterCategories,
+                      networking: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Relationships"
+                  control={
+                    <Checkbox checked={filterCategories.relationships} />
+                  }
+                  onChange={() => {
+                    const currentStatus = filterCategories.relationships
+                    setFilterCategories({
+                      ...filterCategories,
+                      relationships: !currentStatus,
+                    })
+                  }}
+                />
+                <FormControlLabel
+                  label="Personal growth"
+                  control={
+                    <Checkbox checked={filterCategories.personalGrowth} />
+                  }
+                  onChange={() => {
+                    const currentStatus = filterCategories.personalGrowth
+                    setFilterCategories({
+                      ...filterCategories,
+                      personalGrowth: !currentStatus,
+                    })
+                  }}
+                />
               </FormGroup>
             </DialogContent>
-            <DialogActions></DialogActions>
+            <DialogActions>
+              <Button onClick={() => setIsFilterDialogOpen(false)}>
+                close
+              </Button>
+            </DialogActions>
           </Dialog>
+          <Typography>
+            {!filterCategories.health ||
+            !filterCategories.appearance ||
+            !filterCategories.communication ||
+            !filterCategories.finance ||
+            !filterCategories.productivity ||
+            !filterCategories.creativity ||
+            !filterCategories.networking ||
+            !filterCategories.relationships ||
+            !filterCategories.personalGrowth
+              ? "Currently excluding categories: "
+              : ""}
+            {!filterCategories.health && "Health, "}
+            {!filterCategories.appearance && "Appearance, "}
+            {!filterCategories.communication && "Communication, "}
+            {!filterCategories.finance && "Finance,  "}
+            {!filterCategories.productivity && "Productivity, "}
+            {!filterCategories.creativity && "Creativity, "}
+            {!filterCategories.networking && "Networking, "}
+            {!filterCategories.relationships && "Relationships, "}
+            {!filterCategories.personalGrowth && "Personal growth"}
+          </Typography>
+          <Typography>
+            {!filterDifficulty.easy ||
+            !filterDifficulty.medium ||
+            !filterDifficulty.hard
+              ? "Currently excluding difficulties: "
+              : ""}
+            {!filterDifficulty.easy && "Easy, "}
+            {!filterDifficulty.medium && "Medium, "}
+            {!filterDifficulty.hard && "Hard"}
+          </Typography>
+          <Typography>
+            {!filterCompleted.completed || !filterCompleted.notCompleted
+              ? "Currently excluding status: "
+              : ""}
+            {!filterCompleted.completed && "Completed, "}
+            {!filterCompleted.notCompleted && "Not completed"}
+          </Typography>
         </Box>
         <form
           onSubmit={(e) => handleToggleHabit(e, habitToToggle)}
@@ -203,6 +400,63 @@ const Habits = () => {
               }
               return completedHabits.includes(h.id)
             })
+            .filter((h: HabitTypes) => {
+              if (filterDifficulty.easy) {
+                return h
+              }
+              return h.difficulty !== "Easy"
+            })
+            .filter((h: HabitTypes) => {
+              if (filterDifficulty.medium) {
+                return h
+              }
+              return h.difficulty !== "Medium"
+            })
+            .filter((h: HabitTypes) => {
+              if (filterDifficulty.hard) {
+                return h
+              }
+              return h.difficulty !== "Hard"
+            })
+            .filter((h: HabitTypes) =>
+              filterByCategory(h, filterCategories.health, "Health")
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(h, filterCategories.appearance, "Appearance")
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(
+                h,
+                filterCategories.communication,
+                "Communication"
+              )
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(h, filterCategories.finance, "Finance")
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(h, filterCategories.productivity, "Productivity")
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(h, filterCategories.creativity, "Creativity")
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(h, filterCategories.networking, "Networking")
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(
+                h,
+                filterCategories.relationships,
+                "Relationships"
+              )
+            )
+            .filter((h: HabitTypes) =>
+              filterByCategory(
+                h,
+                filterCategories.personalGrowth,
+                "Personal growth"
+              )
+            )
             .map((habit: HabitTypes) => (
               <Box
                 key={habit.id}
