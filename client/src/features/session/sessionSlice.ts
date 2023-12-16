@@ -42,10 +42,21 @@ export const sessionSlice = createSlice({
         state.user.country = action.payload
       }
     },
+    changeBio: (state, action) => {
+      if (state.user) {
+        state.user.bio = action.payload
+      }
+    },
   },
 })
 
-export const { login, logout, removeCategory, addCategory, changeCountry } =
-  sessionSlice.actions
+export const {
+  login,
+  logout,
+  removeCategory,
+  addCategory,
+  changeCountry,
+  changeBio,
+} = sessionSlice.actions
 
 export default sessionSlice.reducer

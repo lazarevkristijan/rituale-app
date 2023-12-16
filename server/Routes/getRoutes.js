@@ -46,7 +46,7 @@ export const getCompletedHabits = async (req, res) => {
 export const getCheckAuth = async (req, res) => {
   try {
     const user = await sql`
-    SELECT a.id,a.first_name,a.last_name,a.email,a.password, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+    SELECT a.id,a.first_name,a.last_name,a.email,a.password, a.bio, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id

@@ -1,7 +1,10 @@
 TODO:
 
-- add country flag on profile 
 - profile bio
+- don't load anything until all laods, so no flickering happens
+- add edit main goals in settings
+- all same paths in app.js /user-settings/ etc.
+- if name/email/pass is same value as initial - make btn disabled settings
 - pfp uploading
 - send auth code to email 
 - login with google

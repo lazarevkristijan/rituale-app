@@ -229,3 +229,24 @@ export const patchChangeCountry = async (req, res) => {
     res.status(500).json({ error: "Error when changing country" })
   }
 }
+
+export const patchChangeBio = async (req, res) => {
+  try {
+    const userId = req.userId
+    const { bio } = req.body
+
+    if (bio.length > 200) {
+      return res.status(400).json({ error: "Bio is over 200 characters" })
+    }
+
+    await sql`
+    UPDATE users
+    SET bio = ${bio}
+    WHERE id = ${userId}`
+
+    return res.json({ success: "Successfully changed bio" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    res.status(500).json({ error: "Error when changing bio" })
+  }
+}

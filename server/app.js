@@ -29,6 +29,7 @@ import {
   patchChangeUserData,
   patchRemovePriorityCategory,
   patchChangeCountry,
+  patchChangeBio,
 } from "./Routes/patchRoutes.js"
 import { deleteUser } from "./Routes/deleteRoutes.js"
 
@@ -72,6 +73,7 @@ app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
 app.patch("/change-user-data", verifyToken, patchChangeUserData)
 app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
 app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
+app.patch("/user-settings/change-bio", verifyToken, patchChangeBio)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

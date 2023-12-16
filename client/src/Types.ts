@@ -80,6 +80,7 @@ export type SessionSliceTypes = {
     priority_category_2: string | null
     priority_category_3: string | null
     country: string | null
+    bio: string | null
   } | null
 }
 

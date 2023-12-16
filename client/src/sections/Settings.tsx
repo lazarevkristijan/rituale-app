@@ -27,7 +27,12 @@ import {
 } from "../features/settings/settingsSlice"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import { changeCountry, login, logout } from "../features/session/sessionSlice"
+import {
+  changeBio,
+  changeCountry,
+  login,
+  logout,
+} from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useState } from "react"
 import { emailRegex, nameRegex, passwordRegex } from "../Regex"
@@ -136,6 +141,25 @@ const Settings = () => {
         dispatch(changeCountry(e.target.value))
       })
   }
+
+  const [bio, setBio] = useState(user?.bio || "")
+  const initialBioValue = user?.bio || ""
+  const [isBioChanged, setIsBioChanged] = useState(false)
+
+  const handleBioChange = () => {
+    axios
+      .patch(
+        "http://localhost:5432/user-settings/change-bio",
+        JSON.stringify({ bio: bio }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then(() => {
+        dispatch(changeBio(bio))
+      })
+  }
   return (
     <Box>
       <Typography
@@ -144,7 +168,34 @@ const Settings = () => {
       >
         {user?.first_name}'s settings
       </Typography>
+      <Box>
+        <Typography>Bio</Typography>
+        <TextField
+          multiline
+          maxRows={3}
+          value={bio}
+          onChange={(e) => {
+            setBio(e.target.value)
+            if (!isBioChanged) {
+              setIsBioChanged(true)
+            }
+            if (e.target.value === initialBioValue) {
+              setIsBioChanged(false)
+            }
+          }}
+          inputProps={{ maxLength: 200 }}
+          sx={{ width: 300 }}
+          placeholder="Something about yourself..."
+        />
 
+        <Button
+          onClick={handleBioChange}
+          disabled={!isBioChanged}
+        >
+          save changes
+        </Button>
+      </Box>
+      <br />
       <FormControl fullWidth>
         <InputLabel>Country</InputLabel>
         <Select
@@ -152,8 +203,13 @@ const Settings = () => {
           onChange={handleCountryChange}
         >
           <MenuItem value="">SELECT</MenuItem>
-          {allCountries.map((country: string) => (
-            <MenuItem value={country}>{country}</MenuItem>
+          {allCountries.map((country: string, index) => (
+            <MenuItem
+              key={index}
+              value={country}
+            >
+              {country}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

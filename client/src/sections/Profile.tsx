@@ -170,120 +170,119 @@ const Profile = () => {
                   {completedHabits.habits.length}
                 </Typography>
               </Typography>
-              <Typography>
-                Main Goals:{" "}
-                <Typography component="span">
-                  {user?.priority_category_1 && (
-                    <Chip
-                      label={user.priority_category_1}
-                      color="primary"
-                      component="span"
-                      sx={{ ml: 1 }}
-                    />
-                  )}
-                  {user?.priority_category_2 && (
-                    <Chip
-                      label={user.priority_category_2}
-                      color="primary"
-                      component="span"
-                      sx={{ ml: 1 }}
-                    />
-                  )}
-                  {user?.priority_category_3 && (
-                    <Chip
-                      label={user.priority_category_3}
-                      color="primary"
-                      component="span"
-                      sx={{ ml: 1 }}
-                    />
-                  )}
-                  <Chip
-                    label="Edit"
-                    icon={<EditIcon />}
-                    color="warning"
-                    component="span"
-                    onClick={() => setIsCategoryDialogOpen(true)}
-                  />
-                  <Dialog
-                    open={isCategoryDialogOpen}
-                    onClose={() => setIsCategoryDialogOpen(false)}
-                    aria-labelledby="priority category selection dialog"
-                  >
-                    <DialogTitle>Select priorty categories</DialogTitle>
-                    <DialogContent>
-                      <Typography variant="caption">
-                        Select a maximum of 3 categories you're focusing on
-                      </Typography>
-                      <FormGroup>
-                        {habitCategoriesData?.map(
-                          (category: CategoryTypes, index: number) => (
-                            <Box key={index}>
-                              <FormControlLabel
-                                label={category.category}
-                                control={
-                                  <Checkbox
-                                    checked={
-                                      user?.priority_category_1 ===
-                                        category.category ||
-                                      user?.priority_category_2 ===
-                                        category.category ||
-                                      user?.priority_category_3 ===
-                                        category.category
-                                    }
-                                  />
+              <Typography component="span">Main Goals: </Typography>
+              {user?.priority_category_1 && (
+                <Chip
+                  label={user.priority_category_1}
+                  color="primary"
+                  component="span"
+                  sx={{ ml: 1 }}
+                />
+              )}
+              {user?.priority_category_2 && (
+                <Chip
+                  label={user.priority_category_2}
+                  color="primary"
+                  component="span"
+                  sx={{ ml: 1 }}
+                />
+              )}
+              {user?.priority_category_3 && (
+                <Chip
+                  label={user.priority_category_3}
+                  color="primary"
+                  component="span"
+                  sx={{ ml: 1 }}
+                />
+              )}
+              <Chip
+                label="Edit"
+                icon={<EditIcon />}
+                color="warning"
+                component="span"
+                onClick={() => setIsCategoryDialogOpen(true)}
+              />
+              <Dialog
+                open={isCategoryDialogOpen}
+                onClose={() => setIsCategoryDialogOpen(false)}
+                aria-labelledby="priority category selection dialog"
+              >
+                <DialogTitle>Select priorty categories</DialogTitle>
+                <DialogContent>
+                  <Typography variant="caption">
+                    Select a maximum of 3 categories you're focusing on
+                  </Typography>
+                  <FormGroup>
+                    {habitCategoriesData?.map(
+                      (category: CategoryTypes, index: number) => (
+                        <Box key={index}>
+                          <FormControlLabel
+                            label={category.category}
+                            control={
+                              <Checkbox
+                                checked={
+                                  user?.priority_category_1 ===
+                                    category.category ||
+                                  user?.priority_category_2 ===
+                                    category.category ||
+                                  user?.priority_category_3 ===
+                                    category.category
                                 }
-                                onChange={() => {
-                                  handleChangePriorityCategory(
-                                    category.category,
-                                    category.id
-                                  )
-                                  if (
-                                    user?.priority_category_1 ===
-                                      category.category ||
-                                    user?.priority_category_2 ===
-                                      category.category ||
-                                    user?.priority_category_3 ===
-                                      category.category
-                                  ) {
-                                    dispatch(
-                                      removeCategory(
-                                        user?.priority_category_1 ===
-                                          category.category
-                                          ? { category_1: category.category }
-                                          : user?.priority_category_2 ===
-                                            category.category
-                                          ? { category_2: category.category }
-                                          : user.priority_category_3 ===
-                                            category.category
-                                          ? { category_3: category.category }
-                                          : ""
-                                      )
-                                    )
-                                  } else {
-                                    dispatch(addCategory(category.category))
-                                  }
-                                }}
                               />
-                              {index !== habitCategoriesData.length - 1 && (
-                                <Divider />
-                              )}
-                            </Box>
-                          )
-                        )}
-                      </FormGroup>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button
-                        sx={{ width: "100%" }}
-                        onClick={() => setIsCategoryDialogOpen(false)}
-                      >
-                        close
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </Typography>
-              </Typography>
+                            }
+                            onChange={() => {
+                              handleChangePriorityCategory(
+                                category.category,
+                                category.id
+                              )
+                              if (
+                                user?.priority_category_1 ===
+                                  category.category ||
+                                user?.priority_category_2 ===
+                                  category.category ||
+                                user?.priority_category_3 === category.category
+                              ) {
+                                dispatch(
+                                  removeCategory(
+                                    user?.priority_category_1 ===
+                                      category.category
+                                      ? { category_1: category.category }
+                                      : user?.priority_category_2 ===
+                                        category.category
+                                      ? { category_2: category.category }
+                                      : user.priority_category_3 ===
+                                        category.category
+                                      ? { category_3: category.category }
+                                      : ""
+                                  )
+                                )
+                              } else {
+                                dispatch(addCategory(category.category))
+                              }
+                            }}
+                          />
+                          {index !== habitCategoriesData.length - 1 && (
+                            <Divider />
+                          )}
+                        </Box>
+                      )
+                    )}
+                  </FormGroup>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    sx={{ width: "100%" }}
+                    onClick={() => setIsCategoryDialogOpen(false)}
+                  >
+                    close
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <br />
+              <br />
+              <Typography>{user?.bio || "NO BIO"}</Typography>
             </Box>
+
             <Box
               width="50%"
               sx={{
