@@ -161,6 +161,29 @@ const Habits = () => {
       .then(() => dispatch(clearHabits()))
   }
 
+  const handleResetFilters = () => {
+    setFilterCategories({
+      health: true,
+      appearance: true,
+      communication: true,
+      finance: true,
+      productivity: true,
+      creativity: true,
+      networking: true,
+      relationships: true,
+      personal_growth: true,
+    })
+    setFilterDifficulties({
+      easy: true,
+      medium: true,
+      hard: true,
+    })
+    setFilterStatus({
+      completed: true,
+      not_completed: true,
+    })
+  }
+
   if (isLoading) {
     return <Typography component="h1">Loading...</Typography>
   }
@@ -183,6 +206,19 @@ const Habits = () => {
     )
   }
 
+  const MenuButton = (
+    label: string,
+    onClick: () => void,
+    additionalStyles?: object
+  ) => (
+    <Button
+      sx={{ ml: 2, ...additionalStyles }}
+      onClick={onClick}
+    >
+      {label}
+    </Button>
+  )
+
   return (
     <Box>
       <Typography
@@ -193,28 +229,15 @@ const Habits = () => {
       </Typography>
       <Box>
         <Box sx={{ mb: 2 }}>
-          {user && <Button onClick={handleResetHabits}>Reset habits</Button>}
-          <Button
-            sx={{ ml: 2 }}
-            onClick={() => setIsCategoryFilterOpen(true)}
-          >
-            category filters
-          </Button>
-
-          <Button
-            sx={{ ml: 2 }}
-            onClick={() => setIsDifficultyFilterOpen(true)}
-          >
-            difficulty filters
-          </Button>
-
-          <Button
-            sx={{ ml: 2 }}
-            onClick={() => setIsStatusFilterOpen(true)}
-          >
-            status filters
-          </Button>
-
+          {MenuButton("category filters", () => setIsCategoryFilterOpen(true))}
+          {MenuButton("difficulty filters", () =>
+            setIsDifficultyFilterOpen(true)
+          )}
+          {MenuButton("status filters", () => setIsStatusFilterOpen(true))}
+          {MenuButton("reset filters", handleResetFilters)}
+          {user && MenuButton("reset habits", handleResetHabits)}
+        </Box>
+        <Box>
           <Dialog
             open={isCategoryFilterOpen}
             onClose={() => setIsCategoryFilterOpen(false)}
