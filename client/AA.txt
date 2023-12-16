@@ -1,30 +1,41 @@
-darkmode
-language
+TODO:
 
-changing username
-location select
-bio
-reset habits in profile
-main focus on which habit categories
-amount of habits completed
-pfp uploading
-login with google
-
+- location select
+- profile bio
+- pfp uploading
+- login with google
+- other users profile previewing
+- At least 200 - 300 Personalized habits that will apply to specific people only
+- Tips: Books, speakers, influencers etc. to follow/see etc.
+- user progress
+- habit of the day / daily challenge
+- Feedback and support for the app
+- Amount of users :D + amount of who have all habits finished
 ---
 
-Tips
-
-- Books, speakers, influencers etc. to follow/see etc.
 
 
-Sections:
-User progress
-Habit categories
-Habit of the day
-Search for specific habits
-Daily challenge
-Progress tracking
-Reminders and Notifications
-Educational content
-Feedback and support
-Other resources: Books, websites, influencers
+
+MUI components to use:
+Typography
+Button
+Text Field
+Select
+Rating
+
+Box
+Stack
+Skeleton
+
+Accordion
+Navbar
+Breadcrumbs
+Link
+Drawer - side panel
+Avatar
+Dialog
+Table
+Tabs - LAB
+
+
+ENSURE SEMANTIC HTML IS USED EVERYWHERE 
