@@ -37,19 +37,19 @@ import { countryShorthands } from "../constants"
 
 const Profile = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const user = useSelector((state: RootState) => state.session.user)
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits
   )
+  const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
+
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
   useEffect(() => {
     !user ? navigate("/login") : setIsLoading(false)
   }, [navigate, user])
 
-  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true)
-
-  const darkTheme = useSelector((state: RootState) => state.theme.value)
 
   const handleLogout = async () => {
     await axios
@@ -130,161 +130,179 @@ const Profile = () => {
           <Typography variant="h3">{user?.first_name}'s Profile</Typography>
           <Box
             sx={{
-              // bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
-              background: `url(/flags/${
-                countryShorthands[
-                  user?.country as keyof typeof countryShorthands
-                ]
-              }.svg) no-repeat right`,
-
+              bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
               borderRadius: 1,
               p: 1,
               mb: 2,
+              display: "flex",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-              <Avatar sx={{ bgcolor: deepPurple[500] }}>
-                {user?.first_name.charAt(0)}
-                {user?.last_name.charAt(0)}
-              </Avatar>
-              <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
-                {user?.first_name} <br />
-                {user?.last_name} <br />
-                {user?.email} <br />
-                {user?.country || "NO COUNTRY"}
-              </Typography>
-              <Tooltip
-                title="User No."
-                placement="bottom"
-                arrow
-                sx={{ ml: 1 }}
-              >
-                <Chip
-                  label={`#${user?.id}`}
-                  color="primary"
-                  component="span"
-                />
-              </Tooltip>
-            </Box>
-            <Typography>
-              Good Habits:{" "}
-              <Typography component="span">
-                {completedHabits.habits.length}
-              </Typography>
-            </Typography>
-            <Typography>
-              Main Goals:{" "}
-              <Typography component="span">
-                {user?.priority_category_1 && (
-                  <Chip
-                    label={user.priority_category_1}
-                    color="primary"
-                    component="span"
-                    sx={{ ml: 1 }}
-                  />
-                )}
-                {user?.priority_category_2 && (
-                  <Chip
-                    label={user.priority_category_2}
-                    color="primary"
-                    component="span"
-                    sx={{ ml: 1 }}
-                  />
-                )}
-                {user?.priority_category_3 && (
-                  <Chip
-                    label={user.priority_category_3}
-                    color="primary"
-                    component="span"
-                    sx={{ ml: 1 }}
-                  />
-                )}
-                <Chip
-                  label="Edit"
-                  icon={<EditIcon />}
-                  color="warning"
-                  component="span"
-                  onClick={() => setIsCategoryDialogOpen(true)}
-                />
-                <Dialog
-                  open={isCategoryDialogOpen}
-                  onClose={() => setIsCategoryDialogOpen(false)}
-                  aria-labelledby="priority category selection dialog"
+            <Box width="50%">
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <Avatar sx={{ bgcolor: deepPurple[500] }}>
+                  {user?.first_name.charAt(0)}
+                  {user?.last_name.charAt(0)}
+                </Avatar>
+                <Typography
+                  sx={{ alignSelf: "center", ml: 1, display: "flex" }}
                 >
-                  <DialogTitle>Select priorty categories</DialogTitle>
-                  <DialogContent>
-                    <Typography variant="caption">
-                      Select a maximum of 3 categories you're focusing on
-                    </Typography>
-                    <FormGroup>
-                      {habitCategoriesData?.map(
-                        (category: CategoryTypes, index: number) => (
-                          <Box key={index}>
-                            <FormControlLabel
-                              label={category.category}
-                              control={
-                                <Checkbox
-                                  checked={
+                  {user?.first_name} <br />
+                  {user?.last_name} <br />
+                  {user?.email} <br />
+                  {user?.country || "NO COUNTRY"}
+                </Typography>
+                <Tooltip
+                  title="User No."
+                  placement="bottom"
+                  arrow
+                  sx={{ ml: 1 }}
+                >
+                  <Chip
+                    label={`#${user?.id}`}
+                    color="primary"
+                    component="span"
+                  />
+                </Tooltip>
+              </Box>
+              <Typography>
+                Good Habits:{" "}
+                <Typography component="span">
+                  {completedHabits.habits.length}
+                </Typography>
+              </Typography>
+              <Typography>
+                Main Goals:{" "}
+                <Typography component="span">
+                  {user?.priority_category_1 && (
+                    <Chip
+                      label={user.priority_category_1}
+                      color="primary"
+                      component="span"
+                      sx={{ ml: 1 }}
+                    />
+                  )}
+                  {user?.priority_category_2 && (
+                    <Chip
+                      label={user.priority_category_2}
+                      color="primary"
+                      component="span"
+                      sx={{ ml: 1 }}
+                    />
+                  )}
+                  {user?.priority_category_3 && (
+                    <Chip
+                      label={user.priority_category_3}
+                      color="primary"
+                      component="span"
+                      sx={{ ml: 1 }}
+                    />
+                  )}
+                  <Chip
+                    label="Edit"
+                    icon={<EditIcon />}
+                    color="warning"
+                    component="span"
+                    onClick={() => setIsCategoryDialogOpen(true)}
+                  />
+                  <Dialog
+                    open={isCategoryDialogOpen}
+                    onClose={() => setIsCategoryDialogOpen(false)}
+                    aria-labelledby="priority category selection dialog"
+                  >
+                    <DialogTitle>Select priorty categories</DialogTitle>
+                    <DialogContent>
+                      <Typography variant="caption">
+                        Select a maximum of 3 categories you're focusing on
+                      </Typography>
+                      <FormGroup>
+                        {habitCategoriesData?.map(
+                          (category: CategoryTypes, index: number) => (
+                            <Box key={index}>
+                              <FormControlLabel
+                                label={category.category}
+                                control={
+                                  <Checkbox
+                                    checked={
+                                      user?.priority_category_1 ===
+                                        category.category ||
+                                      user?.priority_category_2 ===
+                                        category.category ||
+                                      user?.priority_category_3 ===
+                                        category.category
+                                    }
+                                  />
+                                }
+                                onChange={() => {
+                                  handleChangePriorityCategory(
+                                    category.category,
+                                    category.id
+                                  )
+                                  if (
                                     user?.priority_category_1 ===
                                       category.category ||
                                     user?.priority_category_2 ===
                                       category.category ||
                                     user?.priority_category_3 ===
                                       category.category
-                                  }
-                                />
-                              }
-                              onChange={() => {
-                                handleChangePriorityCategory(
-                                  category.category,
-                                  category.id
-                                )
-                                if (
-                                  user?.priority_category_1 ===
-                                    category.category ||
-                                  user?.priority_category_2 ===
-                                    category.category ||
-                                  user?.priority_category_3 ===
-                                    category.category
-                                ) {
-                                  dispatch(
-                                    removeCategory(
-                                      user?.priority_category_1 ===
-                                        category.category
-                                        ? { category_1: category.category }
-                                        : user?.priority_category_2 ===
+                                  ) {
+                                    dispatch(
+                                      removeCategory(
+                                        user?.priority_category_1 ===
                                           category.category
-                                        ? { category_2: category.category }
-                                        : user.priority_category_3 ===
-                                          category.category
-                                        ? { category_3: category.category }
-                                        : ""
+                                          ? { category_1: category.category }
+                                          : user?.priority_category_2 ===
+                                            category.category
+                                          ? { category_2: category.category }
+                                          : user.priority_category_3 ===
+                                            category.category
+                                          ? { category_3: category.category }
+                                          : ""
+                                      )
                                     )
-                                  )
-                                } else {
-                                  dispatch(addCategory(category.category))
-                                }
-                              }}
-                            />
-                            {index !== habitCategoriesData.length - 1 && (
-                              <Divider />
-                            )}
-                          </Box>
-                        )
-                      )}
-                    </FormGroup>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button
-                      sx={{ width: "100%" }}
-                      onClick={() => setIsCategoryDialogOpen(false)}
-                    >
-                      close
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+                                  } else {
+                                    dispatch(addCategory(category.category))
+                                  }
+                                }}
+                              />
+                              {index !== habitCategoriesData.length - 1 && (
+                                <Divider />
+                              )}
+                            </Box>
+                          )
+                        )}
+                      </FormGroup>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        sx={{ width: "100%" }}
+                        onClick={() => setIsCategoryDialogOpen(false)}
+                      >
+                        close
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </Typography>
               </Typography>
-            </Typography>
+            </Box>
+            <Box
+              width="50%"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                component="img"
+                src={`/flags/${
+                  countryShorthands[
+                    user?.country as keyof typeof countryShorthands
+                  ]
+                }.svg`}
+                width={150}
+                height={150}
+              />
+            </Box>
           </Box>
           <Stack
             spacing={1}

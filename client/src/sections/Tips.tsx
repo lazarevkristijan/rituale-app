@@ -7,11 +7,11 @@ const Tips = () => {
   const tablesContent = () => {
     switch (language) {
       case "en":
-        return <p>Spanish tips </p>
+        return <p>English tips </p>
       case "es":
         return <p>Spanish tips </p>
       case "de":
-        return <p>Spanish tips </p>
+        return <p>German tips </p>
       case "fr":
         return <p>French tips</p>
       case "it":

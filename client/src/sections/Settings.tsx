@@ -174,7 +174,7 @@ const Settings = () => {
 
       <Button onClick={() => setIsDialogOpen(true)}>change language</Button>
       <Typography>
-        Current language:{" "}
+        Current interface language:{" "}
         {language === "en"
           ? "English"
           : language === "es"
