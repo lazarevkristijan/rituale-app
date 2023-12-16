@@ -31,7 +31,7 @@ import { changeCountry, login, logout } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useState } from "react"
 import { emailRegex, nameRegex, passwordRegex } from "../Regex"
-import { allCountries, languages } from "../constants"
+import { allCountries, countryShorthands, languages } from "../constants"
 
 const Settings = () => {
   const dispatch = useDispatch()
@@ -157,7 +157,18 @@ const Settings = () => {
           ))}
         </Select>
       </FormControl>
-      <Typography>Current country: {user?.country}</Typography>
+      <Typography>
+        Current country: {user?.country}{" "}
+        <Box
+          component="img"
+          src={`/flags/${
+            countryShorthands[user?.country as keyof typeof countryShorthands]
+          }.svg`}
+          width={20}
+          height={20}
+          sx={{ verticalAlign: "middle" }}
+        />
+      </Typography>
 
       <br />
 

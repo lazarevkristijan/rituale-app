@@ -33,6 +33,7 @@ import { changeColorTheme } from "../features/settings/settingsSlice"
 import { useQuery } from "react-query"
 import { CategoryTypes } from "../Types"
 import EditIcon from "@mui/icons-material/Edit"
+import { countryShorthands } from "../constants"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -129,7 +130,13 @@ const Profile = () => {
           <Typography variant="h3">{user?.first_name}'s Profile</Typography>
           <Box
             sx={{
-              bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
+              // bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
+              background: `url(/flags/${
+                countryShorthands[
+                  user?.country as keyof typeof countryShorthands
+                ]
+              }.svg) no-repeat right`,
+
               borderRadius: 1,
               p: 1,
               mb: 2,

@@ -1,6 +1,6 @@
 TODO:
 
-- location select
+- add country flag on profile 
 - profile bio
 - pfp uploading
 - send auth code to email 
