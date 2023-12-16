@@ -26,6 +26,35 @@ export type UserSettingsTypes = {
   value: string
 }
 
+export type FilterCategoriesTypes = {
+  health: boolean
+  appearance: boolean
+  communication: boolean
+  finance: boolean
+  productivity: boolean
+  creativity: boolean
+  networking: boolean
+  relationships: boolean
+  personal_growth: boolean
+}
+
+export type FilterDifficultyTypes = {
+  easy: boolean
+  medium: boolean
+  hard: boolean
+}
+
+export type FilterStatusTypes = {
+  completed: boolean
+  not_completed: boolean
+}
+
+export type FilterTypes = {
+  categories: FilterCategoriesTypes
+  difficulty: FilterDifficultyTypes
+  status: FilterStatusTypes
+}
+
 // SLICE TYPES
 export type CompletedHabitsSliceTypes = {
   habits: number[]

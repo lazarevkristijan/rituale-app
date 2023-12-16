@@ -16,7 +16,12 @@ import {
 } from "@mui/material"
 import axios from "axios"
 import { useQuery } from "react-query"
-import { HabitTypes } from "../Types"
+import {
+  FilterCategoriesTypes,
+  FilterDifficultyTypes,
+  FilterStatusTypes,
+  HabitTypes,
+} from "../Types"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { useState } from "react"
@@ -27,6 +32,24 @@ import {
   clearHabits,
   removeHabit,
 } from "../features/completedHabits/completedHabitsSlice"
+
+const FilterCheckbox = ({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string
+  checked: boolean
+  onChange: () => void
+}) => {
+  return (
+    <FormControlLabel
+      label={label}
+      control={<Checkbox checked={checked} />}
+      onChange={onChange}
+    />
+  )
+}
 
 const Habits = () => {
   const navigate = useNavigate()
@@ -51,17 +74,36 @@ const Habits = () => {
     creativity: true,
     networking: true,
     relationships: true,
-    personalGrowth: true,
+    personal_growth: true,
   })
-  const [filterDifficulty, setFilterDifficulty] = useState({
+  const [filterDifficulties, setFilterDifficulties] = useState({
     easy: true,
     medium: true,
     hard: true,
   })
-  const [filterCompleted, setFilterCompleted] = useState({
+  const [filterStatus, setFilterStatus] = useState({
     completed: true,
-    notCompleted: true,
+    not_completed: true,
   })
+
+  const handleCategoriesCheckboxChange = (
+    category: keyof FilterCategoriesTypes
+  ) => {
+    setFilterCategories((prev) => ({ ...prev, [category]: !prev[category] }))
+  }
+
+  const handleDifficultyCheckboxChange = (
+    difficulty: keyof FilterDifficultyTypes
+  ) => {
+    setFilterDifficulties((prev) => ({
+      ...prev,
+      [difficulty]: !prev[difficulty],
+    }))
+  }
+
+  const handleStatusCheckboxChange = (status: keyof FilterStatusTypes) => {
+    setFilterStatus((prev) => ({ ...prev, [status]: !prev[status] }))
+  }
 
   const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false)
   const [isDifficultyFilterOpen, setIsDifficultyFilterOpen] = useState(false)
@@ -181,111 +223,25 @@ const Habits = () => {
             <DialogTitle>Filter categories</DialogTitle>
             <DialogContent>
               <FormGroup>
-                <FormControlLabel
-                  label="Health"
-                  control={<Checkbox checked={filterCategories.health} />}
-                  onChange={() => {
-                    const currentStatus = filterCategories.health
-                    setFilterCategories({
-                      ...filterCategories,
-                      health: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Appearance"
-                  control={<Checkbox checked={filterCategories.appearance} />}
-                  onChange={() => {
-                    const currentStatus = filterCategories.appearance
-                    setFilterCategories({
-                      ...filterCategories,
-                      appearance: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Communication"
-                  control={
-                    <Checkbox checked={filterCategories.communication} />
-                  }
-                  onChange={() => {
-                    const currentStatus = filterCategories.communication
-                    setFilterCategories({
-                      ...filterCategories,
-                      communication: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Finance"
-                  control={<Checkbox checked={filterCategories.finance} />}
-                  onChange={() => {
-                    const currentStatus = filterCategories.finance
-                    setFilterCategories({
-                      ...filterCategories,
-                      finance: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Productivity"
-                  control={<Checkbox checked={filterCategories.productivity} />}
-                  onChange={() => {
-                    const currentStatus = filterCategories.productivity
-                    setFilterCategories({
-                      ...filterCategories,
-                      productivity: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Creativity"
-                  control={<Checkbox checked={filterCategories.creativity} />}
-                  onChange={() => {
-                    const currentStatus = filterCategories.creativity
-                    setFilterCategories({
-                      ...filterCategories,
-                      creativity: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Networking"
-                  control={<Checkbox checked={filterCategories.networking} />}
-                  onChange={() => {
-                    const currentStatus = filterCategories.networking
-                    setFilterCategories({
-                      ...filterCategories,
-                      networking: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Relationships"
-                  control={
-                    <Checkbox checked={filterCategories.relationships} />
-                  }
-                  onChange={() => {
-                    const currentStatus = filterCategories.relationships
-                    setFilterCategories({
-                      ...filterCategories,
-                      relationships: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Personal growth"
-                  control={
-                    <Checkbox checked={filterCategories.personalGrowth} />
-                  }
-                  onChange={() => {
-                    const currentStatus = filterCategories.personalGrowth
-                    setFilterCategories({
-                      ...filterCategories,
-                      personalGrowth: !currentStatus,
-                    })
-                  }}
-                />
+                {Object.entries(filterCategories).map(([key, value], index) => (
+                  <Box key={key}>
+                    <FilterCheckbox
+                      label={
+                        key.charAt(0).toUpperCase() +
+                        key.slice(1).split("_").join(" ")
+                      }
+                      checked={value}
+                      onChange={() =>
+                        handleCategoriesCheckboxChange(
+                          key as keyof FilterCategoriesTypes
+                        )
+                      }
+                    />
+                    {index !== Object.entries(filterCategories).length - 1 && (
+                      <Divider />
+                    )}
+                  </Box>
+                ))}
               </FormGroup>
             </DialogContent>
             <DialogActions>
@@ -302,41 +258,25 @@ const Habits = () => {
           >
             <DialogTitle>Filter difficulties</DialogTitle>
             <DialogContent>
-              <FormControlLabel
-                label="Easy"
-                control={<Checkbox checked={filterDifficulty.easy} />}
-                onChange={() => {
-                  const currentStatus = filterDifficulty.easy
-                  setFilterDifficulty({
-                    ...filterDifficulty,
-                    easy: !currentStatus,
-                  })
-                }}
-              />
-              <Divider />
-              <FormControlLabel
-                label="Medium"
-                control={<Checkbox checked={filterDifficulty.medium} />}
-                onChange={() => {
-                  const currentStatus = filterDifficulty.medium
-                  setFilterDifficulty({
-                    ...filterDifficulty,
-                    medium: !currentStatus,
-                  })
-                }}
-              />
-              <Divider />
-              <FormControlLabel
-                label="Hard"
-                control={<Checkbox checked={filterDifficulty.hard} />}
-                onChange={() => {
-                  const currentStatus = filterDifficulty.hard
-                  setFilterDifficulty({
-                    ...filterDifficulty,
-                    hard: !currentStatus,
-                  })
-                }}
-              />
+              {Object.entries(filterDifficulties).map(([key, value], index) => (
+                <Box key={key}>
+                  <FilterCheckbox
+                    label={
+                      key.charAt(0).toUpperCase() +
+                      key.slice(1).split("_").join(" ")
+                    }
+                    checked={value}
+                    onChange={() =>
+                      handleDifficultyCheckboxChange(
+                        key as keyof FilterDifficultyTypes
+                      )
+                    }
+                  />
+                  {index !== Object.entries(filterDifficulties).length - 1 && (
+                    <Divider />
+                  )}
+                </Box>
+              ))}
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setIsDifficultyFilterOpen(false)}>
@@ -353,28 +293,25 @@ const Habits = () => {
             <DialogTitle>Filter statuses</DialogTitle>
             <DialogContent>
               <FormGroup>
-                <FormControlLabel
-                  label="Completed"
-                  control={<Checkbox checked={filterCompleted.completed} />}
-                  onChange={() => {
-                    const currentStatus = filterCompleted.completed
-                    setFilterCompleted({
-                      ...filterCompleted,
-                      completed: !currentStatus,
-                    })
-                  }}
-                />
-                <FormControlLabel
-                  label="Not completed"
-                  control={<Checkbox checked={filterCompleted.notCompleted} />}
-                  onChange={() => {
-                    const currentStatus = filterCompleted.notCompleted
-                    setFilterCompleted({
-                      ...filterCompleted,
-                      notCompleted: !currentStatus,
-                    })
-                  }}
-                />
+                {Object.entries(filterStatus).map(([key, value], index) => (
+                  <Box key={key}>
+                    <FilterCheckbox
+                      label={
+                        key.charAt(0).toUpperCase() +
+                        key.slice(1).split("_").join(" ")
+                      }
+                      checked={value}
+                      onChange={() =>
+                        handleStatusCheckboxChange(
+                          key as keyof FilterStatusTypes
+                        )
+                      }
+                    />
+                    {index !== Object.entries(filterStatus).length && (
+                      <Divider />
+                    )}
+                  </Box>
+                ))}
               </FormGroup>
             </DialogContent>
             <DialogActions>
@@ -392,7 +329,7 @@ const Habits = () => {
             !filterCategories.creativity ||
             !filterCategories.networking ||
             !filterCategories.relationships ||
-            !filterCategories.personalGrowth
+            !filterCategories.personal_growth
               ? "Currently excluding categories: "
               : ""}
             {!filterCategories.health && "Health, "}
@@ -403,24 +340,24 @@ const Habits = () => {
             {!filterCategories.creativity && "Creativity, "}
             {!filterCategories.networking && "Networking, "}
             {!filterCategories.relationships && "Relationships, "}
-            {!filterCategories.personalGrowth && "Personal growth"}
+            {!filterCategories.personal_growth && "Personal growth"}
           </Typography>
           <Typography>
-            {!filterDifficulty.easy ||
-            !filterDifficulty.medium ||
-            !filterDifficulty.hard
+            {!filterDifficulties.easy ||
+            !filterDifficulties.medium ||
+            !filterDifficulties.hard
               ? "Currently excluding difficulties: "
               : ""}
-            {!filterDifficulty.easy && "Easy, "}
-            {!filterDifficulty.medium && "Medium, "}
-            {!filterDifficulty.hard && "Hard"}
+            {!filterDifficulties.easy && "Easy, "}
+            {!filterDifficulties.medium && "Medium, "}
+            {!filterDifficulties.hard && "Hard"}
           </Typography>
           <Typography>
-            {!filterCompleted.completed || !filterCompleted.notCompleted
+            {!filterStatus.completed || !filterStatus.not_completed
               ? "Currently excluding status: "
               : ""}
-            {!filterCompleted.completed && "Completed, "}
-            {!filterCompleted.notCompleted && "Not completed"}
+            {!filterStatus.completed && "Completed, "}
+            {!filterStatus.not_completed && "Not completed"}
           </Typography>
         </Box>
         <form
@@ -434,31 +371,31 @@ const Habits = () => {
         >
           {data
             .filter((h: HabitTypes) => {
-              if (filterCompleted.completed) {
+              if (filterStatus.completed) {
                 return h
               }
               return !completedHabits.includes(h.id)
             })
             .filter((h: HabitTypes) => {
-              if (filterCompleted.notCompleted) {
+              if (filterStatus.not_completed) {
                 return h
               }
               return completedHabits.includes(h.id)
             })
             .filter((h: HabitTypes) => {
-              if (filterDifficulty.easy) {
+              if (filterDifficulties.easy) {
                 return h
               }
               return h.difficulty !== "Easy"
             })
             .filter((h: HabitTypes) => {
-              if (filterDifficulty.medium) {
+              if (filterDifficulties.medium) {
                 return h
               }
               return h.difficulty !== "Medium"
             })
             .filter((h: HabitTypes) => {
-              if (filterDifficulty.hard) {
+              if (filterDifficulties.hard) {
                 return h
               }
               return h.difficulty !== "Hard"
@@ -498,7 +435,7 @@ const Habits = () => {
             .filter((h: HabitTypes) =>
               filterByCategory(
                 h,
-                filterCategories.personalGrowth,
+                filterCategories.personal_growth,
                 "Personal growth"
               )
             )
