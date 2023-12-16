@@ -126,7 +126,7 @@ const Profile = () => {
         <Typography component="h1">Loading...</Typography>
       ) : (
         <>
-          <Typography variant="h3">My Profile</Typography>
+          <Typography variant="h3">{user?.first_name}'s Profile</Typography>
           <Box
             sx={{
               bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
