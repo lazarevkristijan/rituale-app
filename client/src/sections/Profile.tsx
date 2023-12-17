@@ -34,6 +34,7 @@ import { useQuery } from "react-query"
 import { CategoryTypes } from "../Types"
 import EditIcon from "@mui/icons-material/Edit"
 import { countryShorthands } from "../constants"
+import { ProfileSkeleton } from "../components"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -124,7 +125,7 @@ const Profile = () => {
   return (
     <Box>
       {isLoading ? (
-        <Typography component="h1">Loading...</Typography>
+        <ProfileSkeleton />
       ) : (
         <>
           <Typography variant="h3">{user?.first_name}'s Profile</Typography>

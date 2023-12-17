@@ -1,7 +1,7 @@
 TODO:
 
-- profile bio
-- don't load anything until all laods, so no flickering happens
+- don't load anything until all laods
+- no color flickering on loading
 - add edit main goals in settings
 - all same paths in app.js /user-settings/ etc.
 - if name/email/pass is same value as initial - make btn disabled settings

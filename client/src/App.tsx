@@ -1,8 +1,10 @@
 import {
+  Box,
   Container,
   CssBaseline,
   PaletteMode,
   ThemeProvider,
+  Typography,
   createTheme,
 } from "@mui/material"
 import {
@@ -34,6 +36,7 @@ import {
 const App = () => {
   const dispatch = useDispatch()
   const [userId, setUserId] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const checkAuth = () => {
@@ -87,6 +90,9 @@ const App = () => {
           dispatch(changeColorTheme(colorTheme[0].value))
           dispatch(changeLanguage(language[0].value))
         })
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
     getUserSettings(userId)
   }, [dispatch, userId])
@@ -107,53 +113,66 @@ const App = () => {
       },
     },
   })
-
   return (
-    <ThemeProvider theme={theme}>
-      <ReactQueryDevtools />
-      <CssBaseline enableColorScheme />
-      <Container sx={{ minHeight: "100vh" }}>
-        <Routes>
-          <Route
-            path="/"
-            element={<Home />}
+    <Box>
+      {isLoading ? (
+        <Box sx={{ textAlign: "center" }}>
+          <Box
+            component="img"
+            src="/logo-text.svg"
+            width={300}
+            height={100}
           />
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-          <Route
-            path="/register"
-            element={<Register />}
-          />
-          <Route
-            path="/profile"
-            element={<Profile />}
-          />
-          <Route
-            path="/habits"
-            element={<Habits />}
-          />
-          <Route
-            path="/tips"
-            element={<Tips />}
-          />
-          <Route
-            path="/forgot-password"
-            element={<ForgotPassword />}
-          />
-          <Route
-            path="/settings"
-            element={<Settings />}
-          />
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
-        </Routes>
-      </Container>
-      <BottomNavbar />
-    </ThemeProvider>
+          <Typography>Loading...</Typography>
+        </Box>
+      ) : (
+        <ThemeProvider theme={theme}>
+          <ReactQueryDevtools />
+          <CssBaseline enableColorScheme />
+          <Container sx={{ minHeight: "100vh" }}>
+            <Routes>
+              <Route
+                path="/"
+                element={<Home />}
+              />
+              <Route
+                path="/login"
+                element={<Login />}
+              />
+              <Route
+                path="/register"
+                element={<Register />}
+              />
+              <Route
+                path="/profile"
+                element={<Profile />}
+              />
+              <Route
+                path="/habits"
+                element={<Habits />}
+              />
+              <Route
+                path="/tips"
+                element={<Tips />}
+              />
+              <Route
+                path="/forgot-password"
+                element={<ForgotPassword />}
+              />
+              <Route
+                path="/settings"
+                element={<Settings />}
+              />
+              <Route
+                path="*"
+                element={<NotFound />}
+              />
+            </Routes>
+          </Container>
+          <BottomNavbar />
+        </ThemeProvider>
+      )}
+    </Box>
   )
 }
 

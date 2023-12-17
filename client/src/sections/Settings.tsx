@@ -160,6 +160,7 @@ const Settings = () => {
         dispatch(changeBio(bio))
       })
   }
+
   return (
     <Box>
       <Typography
