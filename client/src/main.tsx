@@ -7,7 +7,6 @@ import { Provider } from "react-redux"
 import { QueryClient, QueryClientProvider } from "react-query"
 
 const queryClient = new QueryClient()
-console.log("Main rendering")
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
@@ -19,5 +18,3 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </Provider>
   </React.StrictMode>
 )
-
-console.log("after main rendering")

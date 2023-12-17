@@ -110,7 +110,7 @@ const App = () => {
       },
     },
   })
-  console.log("App tsx end of code, next is returning jsx")
+
   return (
     <Box>
       {isLoading ? (

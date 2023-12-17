@@ -94,6 +94,15 @@ const Settings = () => {
     confirmNewPassword: "",
   })
 
+  const initialUserData = {
+    firstName: user?.first_name || "",
+    lastName: user?.last_name || "",
+    email: user?.email || "",
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  }
+
   const handleUserDataChange = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -166,6 +175,7 @@ const Settings = () => {
       )
       .then(() => {
         dispatch(changeBio(bio))
+        setIsBioChanged(false)
       })
   }
 
@@ -236,25 +246,42 @@ const Settings = () => {
       >
         {user?.first_name}'s settings
       </Typography>
+      <Typography variant="caption">
+        Settings that don't have a "SAVE CHANGES" button are auto saved
+      </Typography>
+      <br />
+      <br />
       <Box>
         <Typography>Bio</Typography>
-        <TextField
-          multiline
-          maxRows={3}
-          value={bio}
-          onChange={(e) => {
-            setBio(e.target.value)
-            if (!isBioChanged) {
-              setIsBioChanged(true)
-            }
-            if (e.target.value === initialBioValue) {
-              setIsBioChanged(false)
-            }
-          }}
-          inputProps={{ maxLength: 200 }}
-          sx={{ width: 300 }}
-          placeholder="Something about yourself..."
-        />
+        <Box sx={{ position: "relative", width: "fit-content" }}>
+          <textarea
+            style={{
+              resize: "none",
+              padding: 10,
+              paddingRight: 75,
+            }}
+            rows={3}
+            cols={40}
+            value={bio}
+            onChange={(e) => {
+              setBio(e.target.value)
+              if (!isBioChanged) {
+                setIsBioChanged(true)
+              }
+              if (e.target.value === initialBioValue) {
+                setIsBioChanged(false)
+              }
+            }}
+            placeholder="Something about yourself..."
+            maxLength={100}
+          />
+          <Typography
+            component="span"
+            sx={{ position: "absolute", bottom: 10, right: 10 }}
+          >
+            {bio.length}/100
+          </Typography>
+        </Box>
 
         <Button
           onClick={handleBioChange}
@@ -273,6 +300,16 @@ const Settings = () => {
         >
           focused categories
         </Button>
+        <Typography>
+          Current focused categories:{" "}
+          {user?.priority_category_1 && user.priority_category_1 + ", "}
+          {user?.priority_category_2 && user.priority_category_2 + ", "}
+          {user?.priority_category_3 && user?.priority_category_3}
+          {!user?.priority_category_1 &&
+            !user?.priority_category_2 &&
+            !user?.priority_category_3 &&
+            "None"}
+        </Typography>
         <Dialog
           open={isCategoryDialogOpen}
           onClose={() => setIsCategoryDialogOpen(false)}
@@ -535,7 +572,13 @@ const Settings = () => {
             (!passwordRegex.test(userData.newPassword) &&
               changedFields.newPassword) ||
             (!passwordRegex.test(userData.confirmNewPassword) &&
-              changedFields.confirmNewPassword)
+              changedFields.confirmNewPassword) ||
+            userData.firstName === initialUserData.firstName ||
+            userData.lastName === initialUserData.lastName ||
+            userData.email === initialUserData.email ||
+            userData.oldPassword === initialUserData.oldPassword ||
+            userData.newPassword === initialUserData.newPassword ||
+            userData.confirmNewPassword === initialUserData.confirmNewPassword
           }
           startIcon={<SaveIcon />}
         >

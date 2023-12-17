@@ -13,6 +13,7 @@ import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { changeColorTheme } from "../features/settings/settingsSlice"
 import { countryShorthands } from "../constants"
 import { ProfileSkeleton } from "../components"
+import React from "react"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -28,7 +29,6 @@ const Profile = () => {
   }, [navigate, user])
 
   const [isLoading, setIsLoading] = useState(true)
-
   const handleLogout = async () => {
     await axios
       .get("http://localhost:5432/logout", { withCredentials: true })
@@ -39,7 +39,19 @@ const Profile = () => {
         document.body.style.backgroundColor = "#fff"
         navigate("/")
       })
-      .catch((err) => console.error("Error logging out: ", err))
+  }
+
+  const displayBio = (bio: string | null | undefined) => {
+    if (bio === null || bio === undefined) {
+      return "NO BIO"
+    }
+    const formattedBio = bio.split("\n").map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))
+    return formattedBio
   }
 
   return (
@@ -91,7 +103,13 @@ const Profile = () => {
                   {completedHabits.habits.length}
                 </Typography>
               </Typography>
-              <Typography component="span">Main Goals: </Typography>
+              <Typography component="span">
+                Main Goals:{" "}
+                {!user?.priority_category_1 &&
+                  !user?.priority_category_2 &&
+                  !user?.priority_category_3 &&
+                  "None"}{" "}
+              </Typography>
               {user?.priority_category_1 && (
                 <Chip
                   label={user.priority_category_1}
@@ -119,7 +137,7 @@ const Profile = () => {
 
               <br />
               <br />
-              <Typography>{user?.bio || "NO BIO"}</Typography>
+              <Typography component="p">{displayBio(user?.bio)}</Typography>
             </Box>
 
             <Box
