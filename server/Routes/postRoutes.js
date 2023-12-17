@@ -47,6 +47,15 @@ export const postRegister = async (req, res) => {
     FROM users
     WHERE email = ${email}`
 
+    const userTheme = await sql`
+    SELECT value
+    FROM user_settings
+    WHERE user_id = ${user[0].id} AND setting_id = 1`
+
+    res.cookie("theme", userTheme[0].value, {
+      expires: new Date("9999-12-31T23:59:59"),
+    })
+
     return res.json(registeredUser[0])
   } catch (error) {
     console.error("Error is: ", error)
@@ -89,6 +98,15 @@ export const postLogin = async (req, res) => {
             domain: "localhost",
             path: "/",
             maxAge: 1000 * 60 * 60 * 24 * 1,
+          })
+
+          const userTheme = await sql`
+          SELECT value
+          FROM user_settings
+          WHERE user_id = ${user[0].id} AND setting_id = 1`
+
+          res.cookie("theme", userTheme[0].value, {
+            expires: new Date("9999-12-31T23:59:59"),
           })
           return res.json(user[0])
         } else {

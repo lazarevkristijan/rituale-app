@@ -23,5 +23,27 @@
       type="module"
       src="/src/main.tsx"
     ></script>
+    <script>
+      const getCookie = (name) => {
+        const cookies = document.cookie.split(";")
+        for (const cookie of cookies) {
+          const [cookieName, cookieValue] = cookie
+            .split("=")
+            .map((c) => c.trim())
+          if (cookieName === name) {
+            return cookieValue
+          }
+        }
+        return null
+      }
+
+      const themeValue = getCookie("theme")
+
+      if (themeValue === "dark") {
+        document.body.style.backgroundColor = "#121212"
+      } else {
+        document.body.style.backgroundColor = "#fff"
+      }
+    </script>
   </body>
 </html>

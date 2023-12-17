@@ -74,10 +74,7 @@ const App = () => {
   }, [dispatch, userId])
 
   useEffect(() => {
-    const getUserSettings = (id: number) => {
-      if (id === 0) {
-        return
-      }
+    const getUserSettings = () => {
       axios
         .get(`http://localhost:5432/user-settings`, { withCredentials: true })
         .then((response) => {
@@ -94,7 +91,7 @@ const App = () => {
           setIsLoading(false)
         })
     }
-    getUserSettings(userId)
+    getUserSettings()
   }, [dispatch, userId])
 
   const colorTheme = useSelector(

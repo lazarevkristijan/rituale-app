@@ -63,6 +63,7 @@ export const getCheckAuth = async (req, res) => {
 export const getLogout = async (req, res) => {
   try {
     res.clearCookie("user")
+    res.clearCookie("theme")
     return res.json({ success: 'Session cookie "user" deleted successfully ' })
   } catch (error) {
     console.error("Error is: ", error)
