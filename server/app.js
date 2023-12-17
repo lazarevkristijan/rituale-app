@@ -26,10 +26,10 @@ import {
   patchAddPriorityCategory,
   patchChangeLanguage,
   patchChangeTheme,
-  patchChangeUserData,
   patchRemovePriorityCategory,
   patchChangeCountry,
   patchChangeBio,
+  patchChangeCreds,
 } from "./Routes/patchRoutes.js"
 import { deleteUser } from "./Routes/deleteRoutes.js"
 
@@ -48,32 +48,37 @@ app.use(
 app.use(bodyParser.json())
 app.use(cookieParser())
 
+// GENERAL
 app.get("/", getRoot)
 app.get("/check-auth", verifyToken, getCheckAuth)
 
+// GET DATA
 app.get("/users", getUsers)
 app.get("/habits", getHabits)
 app.get("/habit-categories", getHabitCategories)
 app.get("/countries", getCountries)
 
+// AUTHENTICATION RELATED
 app.post("/login", postLogin)
 app.post("/register", postRegister)
 app.get("/logout", getLogout)
 app.delete("/delete-user", verifyToken, deleteUser)
 
+// HABIT RELATED
 app.get("/completed-habits", verifyToken, getCompletedHabits)
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
+app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
+app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
 
+// USER SETTINGS
 app.get("/user-settings", verifyToken, getUserSettings)
 app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
 app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
 app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
-app.patch("/change-user-data", verifyToken, patchChangeUserData)
-app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
-app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
 app.patch("/user-settings/change-bio", verifyToken, patchChangeBio)
+app.patch("/user-settings/change-creds", verifyToken, patchChangeCreds)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

@@ -1,7 +1,7 @@
 TODO:
 
-- add edit main goals in settings
 - all same paths in app.js /user-settings/ etc.
+- make bio go in max 3 lines, if written in 3 lines
 - if name/email/pass is same value as initial - make btn disabled settings
 - pfp uploading
 - send auth code to email 

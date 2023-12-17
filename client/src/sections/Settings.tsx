@@ -99,7 +99,7 @@ const Settings = () => {
 
     axios
       .patch(
-        `http://localhost:5432/change-user-data`,
+        `http://localhost:5432/user-settings/change-creds`,
         JSON.stringify(userData),
         {
           headers: { "Content-Type": "application/json" },
