@@ -17,6 +17,7 @@ TODO:
 - Amount of users :D + amount of who have all habits finished
 - Forgot password
 - Accept cookies
+- Divide code in more and more components
 ---
 
 

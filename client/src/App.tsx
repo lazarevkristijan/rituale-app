@@ -4,7 +4,6 @@ import {
   CssBaseline,
   PaletteMode,
   ThemeProvider,
-  Typography,
   createTheme,
 } from "@mui/material"
 import {
@@ -32,6 +31,7 @@ import {
   changeColorTheme,
   changeLanguage,
 } from "./features/settings/settingsSlice"
+import MainLoadingScreen from "./skeletons/MainLoadingScreen"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -113,18 +113,11 @@ const App = () => {
       },
     },
   })
+  console.log("App tsx end of code, next is returning jsx")
   return (
     <Box>
       {isLoading ? (
-        <Box sx={{ textAlign: "center" }}>
-          <Box
-            component="img"
-            src="/logo-text.svg"
-            width={300}
-            height={100}
-          />
-          <Typography>Loading...</Typography>
-        </Box>
+        <MainLoadingScreen />
       ) : (
         <ThemeProvider theme={theme}>
           <ReactQueryDevtools />
