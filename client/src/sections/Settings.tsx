@@ -1,7 +1,9 @@
 import {
   Box,
   Button,
+  Checkbox,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
@@ -28,15 +30,21 @@ import {
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import {
+  addCategory,
   changeBio,
   changeCountry,
   login,
   logout,
+  removeCategory,
 } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useState } from "react"
 import { emailRegex, nameRegex, passwordRegex } from "../Regex"
 import { allCountries, countryShorthands, languages } from "../constants"
+import EditIcon from "@mui/icons-material/Edit"
+import { CategoryTypes } from "../Types"
+import { useQuery } from "react-query"
+import SaveIcon from "@mui/icons-material/Save"
 
 const Settings = () => {
   const dispatch = useDispatch()
@@ -161,6 +169,65 @@ const Settings = () => {
       })
   }
 
+  const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
+  const getHabitCategories = async () => {
+    const res = await axios.get("http://localhost:5432/habit-categories")
+    return res.data
+  }
+  const { data: habitCategoriesData } = useQuery(
+    "habit categories",
+    getHabitCategories
+  )
+
+  const handleChangePriorityCategory = async (
+    newCategory: string,
+    newCategoryId: number
+  ) => {
+    const categoryData = {
+      cat1: user?.priority_category_1,
+      cat2: user?.priority_category_2,
+      cat3: user?.priority_category_3,
+      userId: user?.id,
+      catToChange: newCategory,
+      idCatToChange: newCategoryId,
+    }
+
+    if (
+      categoryData.cat1 === categoryData.catToChange ||
+      categoryData.cat2 === categoryData.catToChange ||
+      categoryData.cat3 === categoryData.catToChange
+    ) {
+      await axios.patch(
+        `http://localhost:5432/remove-priority-category`,
+        JSON.stringify(
+          categoryData.cat1 === categoryData.catToChange
+            ? { category_1: categoryData.cat1 }
+            : categoryData.cat2 === categoryData.catToChange
+            ? { category_2: categoryData.cat2 }
+            : categoryData.cat3 === categoryData.catToChange
+            ? { category_3: categoryData.cat3 }
+            : ""
+        ),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+    } else {
+      if (categoryData.cat1 && categoryData.cat2 && categoryData.cat3) {
+        return
+      }
+      await axios.patch(
+        `http://localhost:5432/add-priority-category`,
+        JSON.stringify(categoryData),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+    }
+  }
+
   return (
     <Box>
       <Typography
@@ -192,10 +259,89 @@ const Settings = () => {
         <Button
           onClick={handleBioChange}
           disabled={!isBioChanged}
+          startIcon={<SaveIcon />}
         >
           save changes
         </Button>
       </Box>
+      <br />
+
+      <Box>
+        <Button
+          startIcon={<EditIcon />}
+          onClick={() => setIsCategoryDialogOpen(true)}
+        >
+          focused categories
+        </Button>
+        <Dialog
+          open={isCategoryDialogOpen}
+          onClose={() => setIsCategoryDialogOpen(false)}
+          aria-labelledby="priority category selection dialog"
+        >
+          <DialogTitle>Select priorty categories</DialogTitle>
+          <DialogContent>
+            <Typography variant="caption">
+              Select a maximum of 3 categories you're focusing on
+            </Typography>
+            <FormGroup>
+              {habitCategoriesData?.map(
+                (category: CategoryTypes, index: number) => (
+                  <Box key={index}>
+                    <FormControlLabel
+                      label={category.category}
+                      control={
+                        <Checkbox
+                          checked={
+                            user?.priority_category_1 === category.category ||
+                            user?.priority_category_2 === category.category ||
+                            user?.priority_category_3 === category.category
+                          }
+                        />
+                      }
+                      onChange={() => {
+                        handleChangePriorityCategory(
+                          category.category,
+                          category.id
+                        )
+                        if (
+                          user?.priority_category_1 === category.category ||
+                          user?.priority_category_2 === category.category ||
+                          user?.priority_category_3 === category.category
+                        ) {
+                          dispatch(
+                            removeCategory(
+                              user?.priority_category_1 === category.category
+                                ? { category_1: category.category }
+                                : user?.priority_category_2 ===
+                                  category.category
+                                ? { category_2: category.category }
+                                : user.priority_category_3 === category.category
+                                ? { category_3: category.category }
+                                : ""
+                            )
+                          )
+                        } else {
+                          dispatch(addCategory(category.category))
+                        }
+                      }}
+                    />
+                    {index !== habitCategoriesData.length - 1 && <Divider />}
+                  </Box>
+                )
+              )}
+            </FormGroup>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              sx={{ width: "100%" }}
+              onClick={() => setIsCategoryDialogOpen(false)}
+            >
+              close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
+
       <br />
       <FormControl fullWidth>
         <InputLabel>Country</InputLabel>
@@ -229,7 +375,12 @@ const Settings = () => {
 
       <br />
 
-      <Button onClick={() => setIsDialogOpen(true)}>change language</Button>
+      <Button
+        startIcon={<EditIcon />}
+        onClick={() => setIsDialogOpen(true)}
+      >
+        change language
+      </Button>
       <Typography>
         Current interface language:{" "}
         {language === "en"
@@ -386,6 +537,7 @@ const Settings = () => {
             (!passwordRegex.test(userData.confirmNewPassword) &&
               changedFields.confirmNewPassword)
           }
+          startIcon={<SaveIcon />}
         >
           save changes
         </Button>
