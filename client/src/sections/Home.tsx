@@ -65,12 +65,14 @@ const Home = () => {
           ? "Bonjour"
           : "Ciao"}{" "}
         {user ? user.first_name : "Guest"}
-        <img
-          src={`/flags/${language}.svg`}
-          alt={`${language} flag`}
-          width={20}
-          height={20}
-        />
+        {user && (
+          <img
+            src={`/flags/${language}.svg`}
+            alt={`${language} flag`}
+            width={20}
+            height={20}
+          />
+        )}
       </p>
       <Typography variant="overline">
         {language === "en"

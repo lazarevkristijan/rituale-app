@@ -47,24 +47,27 @@ const Login = () => {
         dispatch(login(response.data))
         axios
           .get(`http://localhost:5432/user-settings`, { withCredentials: true })
-          .then((innerResponse) => {
-            const colorTheme = innerResponse.data.filter(
+          .then((innerResponse1) => {
+            const colorTheme = innerResponse1.data.filter(
               (setting: UserSettingsTypes) => setting.setting_id === 1
             )
-            const language = innerResponse.data.filter(
+            const language = innerResponse1.data.filter(
               (setting: UserSettingsTypes) => setting.setting_id === 2
             )
             dispatch(changeColorTheme(colorTheme[0].value))
             dispatch(changeLanguage(language[0].value))
+            console.log("on login color theme", colorTheme[0].value)
+            document.body.style.backgroundColor =
+              colorTheme[0].value === "dark" ? "#121212" : "#fff"
           })
         axios
           .get(`http://localhost:5432/completed-habits`, {
             withCredentials: true,
           })
-          .then((response) => {
-            if (!response.data.length) return
+          .then((innerResponse2) => {
+            if (!innerResponse2.data.length) return
 
-            const habitIds = response.data.map(
+            const habitIds = innerResponse2.data.map(
               (habit: CompletedHabitTypes) => habit.habit_id
             )
             dispatch(addHabit(habitIds))

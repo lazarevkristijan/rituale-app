@@ -59,6 +59,7 @@ const Profile = () => {
         dispatch(logout())
         dispatch(clearHabits())
         dispatch(changeColorTheme("light"))
+        document.body.style.backgroundColor = "#fff"
         navigate("/")
       })
       .catch((err) => console.error("Error logging out: ", err))
