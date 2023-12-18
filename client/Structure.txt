@@ -1,8 +1,7 @@
 TODO:
 
-- make bio go in max 3 lines, if written in 3 lines
-- if name/email/pass is same value as initial - make btn disabled settings
 - pfp uploading
+- if png to have a background color select
 - send auth code to email 
 - login with google
 - other users profile previewing

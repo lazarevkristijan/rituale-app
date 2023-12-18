@@ -251,6 +251,23 @@ const Settings = () => {
       </Typography>
       <br />
       <br />
+
+      <Box>
+        <Typography>Profile picture</Typography>
+        <form
+          action="http://localhost:5432/user-settings/change-profile-picture"
+          method="POST"
+          encType="multipart/form-data"
+        >
+          <input
+            type="file"
+            name="profilePicture"
+          />
+
+          <Button type="submit">submit</Button>
+        </form>
+      </Box>
+
       <Box>
         <Typography>Bio</Typography>
         <Box sx={{ position: "relative", width: "fit-content" }}>

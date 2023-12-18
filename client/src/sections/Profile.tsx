@@ -54,6 +54,12 @@ const Profile = () => {
     return formattedBio
   }
 
+  let pfpURL
+  if (user?.profile_picture) {
+    const pfpData = JSON.parse(user?.profile_picture)
+    pfpURL = pfpData.url
+  }
+
   return (
     <Box>
       {isLoading ? (
@@ -72,10 +78,22 @@ const Profile = () => {
           >
             <Box width="50%">
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                <Avatar sx={{ bgcolor: deepPurple[500] }}>
-                  {user?.first_name.charAt(0)}
-                  {user?.last_name.charAt(0)}
-                </Avatar>
+                {user?.profile_picture ? (
+                  <Box
+                    sx={{
+                      background: `url('${pfpURL}') no-repeat center/cover #fff`,
+                      width: 100,
+                      height: 100,
+                      borderRadius: 20,
+                      border: "3px solid black",
+                    }}
+                  ></Box>
+                ) : (
+                  <Avatar sx={{ bgcolor: deepPurple[500] }}>
+                    {user?.first_name.charAt(0)}
+                    {user?.last_name.charAt(0)}
+                  </Avatar>
+                )}
                 <Typography
                   sx={{ alignSelf: "center", ml: 1, display: "flex" }}
                 >

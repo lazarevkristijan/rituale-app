@@ -81,6 +81,7 @@ export type SessionSliceTypes = {
     priority_category_3: string | null
     country: string | null
     bio: string | null
+    profile_picture: string | null
   } | null
 }
 
