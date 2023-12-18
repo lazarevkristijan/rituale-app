@@ -537,16 +537,18 @@ const Settings = () => {
         </Select>
       </FormControl>
       <Typography>
-        Current country: {user?.country}{" "}
-        <Box
-          component="img"
-          src={`/flags/${
-            countryShorthands[user?.country as keyof typeof countryShorthands]
-          }.svg`}
-          width={20}
-          height={20}
-          sx={{ verticalAlign: "middle" }}
-        />
+        Current country: {user?.country || "None"}{" "}
+        {user?.country && (
+          <Box
+            component="img"
+            src={`/flags/${
+              countryShorthands[user?.country as keyof typeof countryShorthands]
+            }.svg`}
+            width={20}
+            height={20}
+            sx={{ verticalAlign: "middle" }}
+          />
+        )}
       </Typography>
 
       <br />

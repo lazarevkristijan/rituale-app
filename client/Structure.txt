@@ -4,6 +4,7 @@ TODO:
 - if png to have a background color select
 - send auth code to email 
 - login with google
+- when logging in to diff acc, language stays from prev, also look to reset everything to default when loggout
 - other users profile previewing
 - At least 200 - 300 Personalized habits that will apply to specific people only
 - Tips: Books, speakers, influencers etc. to follow/see etc.

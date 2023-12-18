@@ -50,7 +50,7 @@ export const postRegister = async (req, res) => {
     const userTheme = await sql`
     SELECT value
     FROM user_settings
-    WHERE user_id = ${user[0].id} AND setting_id = 1`
+    WHERE user_id = ${userId[0].id} AND setting_id = 1`
 
     res.cookie("theme", userTheme[0].value, {
       expires: new Date("9999-12-31T23:59:59"),

@@ -89,7 +89,14 @@ const Profile = () => {
                     }}
                   ></Box>
                 ) : (
-                  <Avatar sx={{ bgcolor: deepPurple[500] }}>
+                  <Avatar
+                    sx={{
+                      bgcolor: deepPurple[500],
+                      width: 100,
+                      height: 100,
+                      fontSize: 40,
+                    }}
+                  >
                     {user?.first_name.charAt(0)}
                     {user?.last_name.charAt(0)}
                   </Avatar>
@@ -152,7 +159,6 @@ const Profile = () => {
                   sx={{ ml: 1 }}
                 />
               )}
-
               <br />
               <br />
               <Typography component="p">{displayBio(user?.bio)}</Typography>
@@ -166,16 +172,18 @@ const Profile = () => {
                 alignItems: "center",
               }}
             >
-              <Box
-                component="img"
-                src={`/flags/${
-                  countryShorthands[
-                    user?.country as keyof typeof countryShorthands
-                  ]
-                }.svg`}
-                width={150}
-                height={150}
-              />
+              {user?.country && (
+                <Box
+                  component="img"
+                  src={`/flags/${
+                    countryShorthands[
+                      user?.country as keyof typeof countryShorthands
+                    ]
+                  }.svg`}
+                  width={150}
+                  height={150}
+                />
+              )}
             </Box>
           </Box>
           <Stack
