@@ -56,7 +56,6 @@ const Login = () => {
             )
             dispatch(changeColorTheme(colorTheme[0].value))
             dispatch(changeLanguage(language[0].value))
-            console.log("on login color theme", colorTheme[0].value)
             document.body.style.backgroundColor =
               colorTheme[0].value === "dark" ? "#121212" : "#fff"
           })

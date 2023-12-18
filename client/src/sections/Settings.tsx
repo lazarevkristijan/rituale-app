@@ -39,7 +39,7 @@ import {
   removeCategory,
 } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { emailRegex, nameRegex, passwordRegex } from "../Regex"
 import { allCountries, countryShorthands, languages } from "../constants"
 import EditIcon from "@mui/icons-material/Edit"
@@ -144,7 +144,7 @@ const Settings = () => {
   })
   const handleCountryChange = (e: SelectChangeEvent) => {
     if (!e.target.value) {
-      return console.log("e target is empty")
+      return console.error("e target is empty")
     }
     axios
       .patch(
@@ -247,7 +247,7 @@ const Settings = () => {
     if (profilePicture) {
       const formData = new FormData()
       formData.append("profilePicture", profilePicture)
-
+      console.log("form data", formData)
       axios
         .patch(
           "http://localhost:5432/user-settings/change-profile-picture",
@@ -260,12 +260,12 @@ const Settings = () => {
           }
         )
         .then((res) => {
-          console.log("pfp url in return axios settigns: ", res.data)
           dispatch(changeProfilePicture(res.data))
         })
     } else {
-      console.log("no file selected")
+      console.error("no file selected")
     }
+    setProfilePicture(null)
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -274,6 +274,13 @@ const Settings = () => {
       setProfilePicture(file)
     }
   }
+  const [pfpURL, setPfpURL] = useState("")
+  useEffect(() => {
+    if (user?.profile_picture) {
+      const pfpData = JSON.parse(user?.profile_picture)
+      setPfpURL(pfpData.url)
+    }
+  }, [user?.profile_picture])
 
   return (
     <Box>
@@ -295,13 +302,91 @@ const Settings = () => {
           onSubmit={(e) => handleProfilePictureChange(e)}
           encType="multipart/form-data"
         >
-          <input
-            type="file"
-            name="profilePicture"
-            onChange={(e) => handleFileChange(e)}
-          />
+          <Box
+            width={100}
+            height={100}
+            borderRadius={20}
+            sx={{
+              background: `url('${pfpURL}') no-repeat center/cover #fff`,
+              width: 100,
+              height: 100,
+              borderRadius: 20,
+              border: "3px solid black",
+              position: "relative",
+              cursor: "pointer",
+              overflow: "hidden",
+            }}
+          >
+            <input
+              type="file"
+              id="test123"
+              name="profilePicture"
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={(e) => {
+                if (e.target.files) {
+                  if (
+                    e.target.files[0].type !== "image/png" &&
+                    e.target.files[0].type !== "image/jpeg" &&
+                    e.target.files[0].type !== "image/jpg"
+                  ) {
+                    return console.error("File is not from supported types")
+                  } else if (e.target.files[0].size > 5 * 1048576) {
+                    return console.error("File is above 5mb")
+                  } else {
+                    const reader = new FileReader()
+                    reader.onload = (readerEvent) => {
+                      if (readerEvent.target) {
+                        const url = readerEvent.target.result
+                        if (url) {
+                          setPfpURL(url as string)
+                        }
+                      }
+                    }
+                    if (e.target.files) {
+                      reader.readAsDataURL(e.target.files[0])
+                    }
+                    handleFileChange(e)
+                  }
+                } else {
+                  return console.error("Error when uploading file")
+                }
+              }}
+              style={{
+                opacity: 0.3,
+                width: "100%",
+                height: 150,
+                bottom: 0,
+                backgroundColor: "#555",
+                cursor: "pointer",
+                position: "absolute",
+                borderRadius: 50,
+              }}
+            />
+          </Box>
+          <Typography variant="caption">Max 5mb</Typography>
+          <Button
+            disabled={!profilePicture}
+            onClick={() => {
+              const inputEl = document.getElementById(
+                "test123"
+              ) as HTMLInputElement
+              inputEl.value = ""
+              setProfilePicture(null)
 
-          <Button type="submit">submit</Button>
+              if (user?.profile_picture) {
+                const pfpData = JSON.parse(user?.profile_picture)
+                setPfpURL(pfpData.url)
+              }
+            }}
+          >
+            reset
+          </Button>
+          <Button
+            type="submit"
+            disabled={!profilePicture}
+          >
+            submit
+          </Button>
         </form>
       </Box>
 
