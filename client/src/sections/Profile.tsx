@@ -56,6 +56,7 @@ const Profile = () => {
 
   let pfpURL
   if (user?.profile_picture) {
+    console.log(JSON.parse(user?.profile_picture))
     const pfpData = JSON.parse(user?.profile_picture)
     pfpURL = pfpData.url
   }

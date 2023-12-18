@@ -33,6 +33,7 @@ import {
   addCategory,
   changeBio,
   changeCountry,
+  changeProfilePicture,
   login,
   logout,
   removeCategory,
@@ -238,6 +239,42 @@ const Settings = () => {
     }
   }
 
+  const [profilePicture, setProfilePicture] = useState<File | null>(null)
+
+  const handleProfilePictureChange = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (profilePicture) {
+      const formData = new FormData()
+      formData.append("profilePicture", profilePicture)
+
+      axios
+        .patch(
+          "http://localhost:5432/user-settings/change-profile-picture",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          console.log("pfp url in return axios settigns: ", res.data)
+          dispatch(changeProfilePicture(res.data))
+        })
+    } else {
+      console.log("no file selected")
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0]
+    if (file !== undefined && file !== null) {
+      setProfilePicture(file)
+    }
+  }
+
   return (
     <Box>
       <Typography
@@ -255,13 +292,13 @@ const Settings = () => {
       <Box>
         <Typography>Profile picture</Typography>
         <form
-          action="http://localhost:5432/user-settings/change-profile-picture"
-          method="POST"
+          onSubmit={(e) => handleProfilePictureChange(e)}
           encType="multipart/form-data"
         >
           <input
             type="file"
             name="profilePicture"
+            onChange={(e) => handleFileChange(e)}
           />
 
           <Button type="submit">submit</Button>

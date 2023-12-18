@@ -149,24 +149,3 @@ export const postRemoveHabit = async (req, res) => {
     return res.status(500).json({ error: "Error when removing habit" })
   }
 }
-
-export const postChangeProfilePicture = async (req, res) => {
-  try {
-    const userId = req.userId
-
-    const pfpData = { url: req.file.path, fileName: req.file.filename }
-    const stringedPfp = JSON.stringify(pfpData)
-
-    await sql`
-    UPDATE users
-    SET profile_picture = ${stringedPfp}
-    WHERE id = ${userId}`
-
-    return res.json({ success: "Successfully changed profile picture" })
-  } catch (error) {
-    console.error("Error is: ", error)
-    return res
-      .status(500)
-      .json({ error: "Error when changing profile picture" })
-  }
-}

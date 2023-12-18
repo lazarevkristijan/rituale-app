@@ -17,7 +17,6 @@ import {
   getUsers,
 } from "./Routes/getRoutes.js"
 import {
-  postChangeProfilePicture,
   postCompleteHabit,
   postLogin,
   postRegister,
@@ -31,6 +30,7 @@ import {
   patchChangeCountry,
   patchChangeBio,
   patchChangeCreds,
+  patchChangeProfilePicture,
 } from "./Routes/patchRoutes.js"
 import { deleteUser } from "./Routes/deleteRoutes.js"
 import multer from "multer"
@@ -83,11 +83,11 @@ app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
 app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
 app.patch("/user-settings/change-bio", verifyToken, patchChangeBio)
 app.patch("/user-settings/change-creds", verifyToken, patchChangeCreds)
-app.post(
+app.patch(
   "/user-settings/change-profile-picture",
   verifyToken,
   upload.single("profilePicture"),
-  postChangeProfilePicture
+  patchChangeProfilePicture
 )
 
 const server = app.listen(port, () =>

@@ -47,6 +47,11 @@ export const sessionSlice = createSlice({
         state.user.bio = action.payload
       }
     },
+    changeProfilePicture: (state, action) => {
+      if (state.user) {
+        state.user.profile_picture = action.payload
+      }
+    },
   },
 })
 
@@ -57,6 +62,7 @@ export const {
   addCategory,
   changeCountry,
   changeBio,
+  changeProfilePicture,
 } = sessionSlice.actions
 
 export default sessionSlice.reducer
