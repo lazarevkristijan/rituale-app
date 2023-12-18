@@ -85,12 +85,12 @@ export const postLogin = async (req, res) => {
           return res.status(500).json({ error: "Error comparing passwords" })
         } else if (result) {
           const user = await sql`
-      SELECT a.id,a.first_name,a.last_name,a.email,a.password, a.bio, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
-      LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
-      LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
-      LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
-      LEFT JOIN countries as e ON a.country = e.id
-      WHERE email = ${email}`
+          SELECT a.id, a.first_name, a.last_name, a.email, a.password, a.bio, a.profile_picture, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+          LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
+          LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
+          LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
+          LEFT JOIN countries as e ON a.country = e.id
+          WHERE email = ${email}`
 
           const token = jwt.sign({ userId: user[0].id }, JWTsecret)
           res.cookie("user", token, {
@@ -147,5 +147,26 @@ export const postRemoveHabit = async (req, res) => {
   } catch (error) {
     console.error("Error is: ", error)
     return res.status(500).json({ error: "Error when removing habit" })
+  }
+}
+
+export const postChangeProfilePicture = async (req, res) => {
+  try {
+    const userId = req.userId
+
+    const pfpData = { url: req.file.path, fileName: req.file.filename }
+    const stringedPfp = JSON.stringify(pfpData)
+
+    await sql`
+    UPDATE users
+    SET profile_picture = ${stringedPfp}
+    WHERE id = ${userId}`
+
+    return res.json({ success: "Successfully changed profile picture" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res
+      .status(500)
+      .json({ error: "Error when changing profile picture" })
   }
 }

@@ -17,6 +17,7 @@ import {
   getUsers,
 } from "./Routes/getRoutes.js"
 import {
+  postChangeProfilePicture,
   postCompleteHabit,
   postLogin,
   postRegister,
@@ -32,6 +33,9 @@ import {
   patchChangeCreds,
 } from "./Routes/patchRoutes.js"
 import { deleteUser } from "./Routes/deleteRoutes.js"
+import multer from "multer"
+import { storage } from "./cloudinary/index.js"
+const upload = multer({ storage })
 
 dotenv.config()
 
@@ -79,6 +83,12 @@ app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
 app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
 app.patch("/user-settings/change-bio", verifyToken, patchChangeBio)
 app.patch("/user-settings/change-creds", verifyToken, patchChangeCreds)
+app.post(
+  "/user-settings/change-profile-picture",
+  verifyToken,
+  upload.single("profilePicture"),
+  postChangeProfilePicture
+)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)
