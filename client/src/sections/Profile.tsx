@@ -10,7 +10,10 @@ import { RootState } from "../Store"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
-import { changeColorTheme } from "../features/settings/settingsSlice"
+import {
+  changeColorTheme,
+  changeLanguage,
+} from "../features/settings/settingsSlice"
 import { countryShorthands } from "../constants"
 import { ProfileSkeleton } from "../components"
 import React from "react"
@@ -36,6 +39,7 @@ const Profile = () => {
         dispatch(logout())
         dispatch(clearHabits())
         dispatch(changeColorTheme("light"))
+        dispatch(changeLanguage("en"))
         document.body.style.backgroundColor = "#fff"
         navigate("/")
       })

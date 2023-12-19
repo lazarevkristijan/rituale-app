@@ -247,7 +247,6 @@ const Settings = () => {
     if (profilePicture) {
       const formData = new FormData()
       formData.append("profilePicture", profilePicture)
-      console.log("form data", formData)
       axios
         .patch(
           "http://localhost:5432/user-settings/change-profile-picture",

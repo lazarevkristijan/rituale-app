@@ -6,7 +6,8 @@ import { JWTsecret } from "../middleware/verifyToken.js"
 
 export const postRegister = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body
+    const { firstName, lastName, email: defaultEmail, password } = req.body
+    const email = defaultEmail.toLowerCase()
 
     const sameEmail = await sql`
     SELECT email
@@ -65,8 +66,8 @@ export const postRegister = async (req, res) => {
 
 export const postLogin = async (req, res) => {
   try {
-    const { email, password } = req.body
-
+    const { email: defaultEmail, password } = req.body
+    const email = defaultEmail.toLowerCase()
     const storedPassword = await sql`
     SELECT password
     FROM users
@@ -104,7 +105,6 @@ export const postLogin = async (req, res) => {
           SELECT value
           FROM user_settings
           WHERE user_id = ${user[0].id} AND setting_id = 1`
-
           res.cookie("theme", userTheme[0].value, {
             expires: new Date("9999-12-31T23:59:59"),
           })
