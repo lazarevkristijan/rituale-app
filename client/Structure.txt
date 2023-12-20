@@ -1,6 +1,7 @@
 TODO:
 
 - other users profile previewing
+- profanity checker on register
 - add change location in all files
 - At least 200 - 300 Personalized habits that will apply to specific people only
 - Tips: Books, speakers, influencers etc. to follow/see etc.

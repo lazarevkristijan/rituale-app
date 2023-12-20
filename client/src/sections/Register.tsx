@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from "@mui/material"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { emailRegex, nameRegex, passwordRegex } from "../Regex"
+import { emailRegex, nameRegex, passwordRegex, profanityRegex } from "../Regex"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../features/session/sessionSlice"
 import { RootState } from "../Store"
@@ -34,6 +34,14 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (
+      profanityRegex.test(formData.firstName) ||
+      profanityRegex.test(formData.lastName) ||
+      profanityRegex.test(formData.email)
+    ) {
+      console.log("profanity word")
+      return
+    }
     await axios
       .post("http://localhost:5432/register", JSON.stringify(formData), {
         headers: {

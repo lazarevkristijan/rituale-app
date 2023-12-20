@@ -8,14 +8,6 @@ import { Box, Button, Chip, Stack, Tooltip, Typography } from "@mui/material"
 import { RootState } from "../Store"
 import React from "react"
 import { countryShorthands } from "../constants"
-import SettingsIcon from "@mui/icons-material/Settings"
-import LogoutIcon from "@mui/icons-material/Logout"
-import { logout } from "../features/session/sessionSlice"
-import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
-import {
-  changeColorTheme,
-  changeLanguage,
-} from "../features/settings/settingsSlice"
 
 const UserProfile = () => {
   const dispatch = useDispatch()
@@ -58,19 +50,6 @@ const UserProfile = () => {
   if (userData?.profile_picture) {
     const pfpData = JSON.parse(userData?.profile_picture)
     pfpURL = pfpData.url
-  }
-
-  const handleLogout = async () => {
-    await axios
-      .get("http://localhost:5432/logout", { withCredentials: true })
-      .then(() => {
-        dispatch(logout())
-        dispatch(clearHabits())
-        dispatch(changeColorTheme("light"))
-        dispatch(changeLanguage("en"))
-        document.body.style.backgroundColor = "#fff"
-        navigate("/")
-      })
   }
 
   return (
@@ -184,18 +163,7 @@ const UserProfile = () => {
         spacing={1}
         direction="row"
       >
-        <Button
-          endIcon={<SettingsIcon />}
-          onClick={() => navigate("/settings")}
-        >
-          settings
-        </Button>
-        <Button
-          endIcon={<LogoutIcon />}
-          onClick={handleLogout}
-        >
-          logout
-        </Button>
+        <Button onClick={() => navigate("/settings")}>settings</Button>
       </Stack>
     </>
   )
