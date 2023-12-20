@@ -1,18 +1,17 @@
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import { Box, Button, Chip, Stack, Tooltip, Typography } from "@mui/material"
+import { Box, Chip, Tooltip, Typography } from "@mui/material"
 import { RootState } from "../Store"
 import React from "react"
 import { countryShorthands } from "../constants"
 import { useQuery } from "react-query"
-import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
+import { ProfileSkeleton } from "../components"
 
-const UserProfile = () => {
+const PreviewProfile = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   dispatch(changeLocation(1))
 
   const { id } = useParams()
@@ -23,7 +22,10 @@ const UserProfile = () => {
     const res = await axios.get(`http://localhost:5432/user/${id}`)
     return res.data
   }
-  const { data, isLoading } = useQuery("external-user-profile", getNewUser)
+  const { data: previewUser, isLoading } = useQuery(
+    "preview-user-profile",
+    getNewUser
+  )
 
   const getNewCompletedHabits = async () => {
     const res = await axios.get(
@@ -53,10 +55,12 @@ const UserProfile = () => {
   return (
     <Box>
       {isLoading || isNewLoading ? (
-        <MainLoadingScreen />
+        <ProfileSkeleton />
       ) : (
         <>
-          <Typography variant="h3">{data.first_name}'s Profile</Typography>
+          <Typography variant="h3">
+            {previewUser.first_name}'s Profile
+          </Typography>
 
           <Box
             sx={{
@@ -73,7 +77,7 @@ const UserProfile = () => {
                 <Box
                   sx={{
                     background: `url('${getPfpLink(
-                      data.profile_picture
+                      previewUser.profile_picture
                     )}') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,
@@ -84,9 +88,9 @@ const UserProfile = () => {
                 <Typography
                   sx={{ alignSelf: "center", ml: 1, display: "flex" }}
                 >
-                  {data.first_name} <br />
-                  {data.last_name} <br />
-                  {data.country || "NO COUNTRY"}
+                  {previewUser.first_name} <br />
+                  {previewUser.last_name} <br />
+                  {previewUser.country || "NO COUNTRY"}
                 </Typography>
                 <Tooltip
                   title="User No."
@@ -95,7 +99,7 @@ const UserProfile = () => {
                   sx={{ ml: 1 }}
                 >
                   <Chip
-                    label={`#${data.id}`}
+                    label={`#${previewUser.id}`}
                     color="primary"
                     component="span"
                   />
@@ -109,30 +113,30 @@ const UserProfile = () => {
               </Typography>
               <Typography component="span">
                 Main Goals:{" "}
-                {!data.priority_category_1 &&
-                  !data.priority_category_2 &&
-                  !data.priority_category_3 &&
+                {!previewUser.priority_category_1 &&
+                  !previewUser.priority_category_2 &&
+                  !previewUser.priority_category_3 &&
                   "None"}{" "}
               </Typography>
-              {data.priority_category_1 && (
+              {previewUser.priority_category_1 && (
                 <Chip
-                  label={data.priority_category_1}
+                  label={previewUser.priority_category_1}
                   color="primary"
                   component="span"
                   sx={{ ml: 1 }}
                 />
               )}
-              {data.priority_category_2 && (
+              {previewUser.priority_category_2 && (
                 <Chip
-                  label={data.priority_category_2}
+                  label={previewUser.priority_category_2}
                   color="primary"
                   component="span"
                   sx={{ ml: 1 }}
                 />
               )}
-              {data?.priority_category_3 && (
+              {previewUser?.priority_category_3 && (
                 <Chip
-                  label={data.priority_category_3}
+                  label={previewUser.priority_category_3}
                   color="primary"
                   component="span"
                   sx={{ ml: 1 }}
@@ -140,7 +144,9 @@ const UserProfile = () => {
               )}
               <br />
               <br />
-              <Typography component="p">{displayBio(data?.bio)}</Typography>
+              <Typography component="p">
+                {displayBio(previewUser?.bio)}
+              </Typography>
             </Box>
 
             <Box
@@ -151,12 +157,12 @@ const UserProfile = () => {
                 alignItems: "center",
               }}
             >
-              {data?.country && (
+              {previewUser?.country && (
                 <Box
                   component="img"
                   src={`/flags/${
                     countryShorthands[
-                      data?.country as keyof typeof countryShorthands
+                      previewUser?.country as keyof typeof countryShorthands
                     ]
                   }.svg`}
                   width={150}
@@ -165,16 +171,10 @@ const UserProfile = () => {
               )}
             </Box>
           </Box>
-          <Stack
-            spacing={1}
-            direction="row"
-          >
-            <Button onClick={() => navigate("/settings")}>settings</Button>
-          </Stack>
         </>
       )}
     </Box>
   )
 }
 
-export default UserProfile
+export default PreviewProfile

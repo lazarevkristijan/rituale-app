@@ -17,6 +17,7 @@ import { ProfileSkeleton } from "../components"
 import React from "react"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { useQuery } from "react-query"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -24,10 +25,10 @@ const Profile = () => {
   dispatch(changeLocation(4))
 
   const user = useSelector((state: RootState) => state.session.user)
+  const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits
   )
-  const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
 
   useEffect(() => {
     !user ? navigate("/login") : setIsLoading(false)
@@ -59,6 +60,12 @@ const Profile = () => {
     ))
     return formattedBio
   }
+
+  const getHabits = async () => {
+    const res = await axios.get("http://localhost:5432/habits")
+    return res.data
+  }
+  const { data: allHabits } = useQuery("get-all-habits", getHabits)
 
   return (
     <Box>
@@ -111,11 +118,50 @@ const Profile = () => {
                 </Tooltip>
               </Box>
               <Typography>
-                Good Habits:{" "}
-                <Typography component="span">
-                  {completedHabits.habits.length}
+                Good Habits:
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {completedHabits.habits.length}{" "}
+                </Typography>
+                out of{" "}
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {allHabits?.length}
                 </Typography>
               </Typography>
+
+              <Box
+                sx={{
+                  border: "2px solid black",
+                  width: 200,
+                  borderRadius: 2,
+                  mb: 1,
+                  p: 0.3,
+                  bgcolor: "white",
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: `${Math.round(
+                      (completedHabits.habits.length / allHabits?.length) * 100
+                    )}%`,
+                    textAlign: "right",
+                    bgcolor: "green",
+                    borderRadius: 2,
+                  }}
+                >
+                  {Math.round(
+                    (completedHabits.habits.length / allHabits?.length) * 100
+                  )}
+                  %
+                </Box>
+              </Box>
               <Typography component="span">
                 Main Goals:{" "}
                 {!user?.priority_category_1 &&

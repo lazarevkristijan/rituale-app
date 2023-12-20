@@ -33,7 +33,7 @@ import {
   changeLanguage,
 } from "./features/settings/settingsSlice"
 import MainLoadingScreen from "./skeletons/MainLoadingScreen"
-import UserProfile from "./sections/UserProfile"
+import PreviewProfile from "./sections/PreviewProfile"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -141,7 +141,7 @@ const App = () => {
               />
               <Route
                 path="/user/:id"
-                element={<UserProfile />}
+                element={<PreviewProfile />}
               />
               <Route
                 path="/search"

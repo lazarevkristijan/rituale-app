@@ -9,7 +9,7 @@ import NotFound from "./NotFound"
 import ForgotPassword from "./ForgotPassword"
 import Settings from "./Settings"
 import Search from "./Search"
-
+import PreviewProfile from "./PreviewProfile"
 export {
   Settings,
   ForgotPassword,
@@ -22,4 +22,5 @@ export {
   BottomNavbar,
   Home,
   Search,
+  PreviewProfile,
 }

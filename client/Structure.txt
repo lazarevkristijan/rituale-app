@@ -1,13 +1,12 @@
 TODO:
 
-- if selecting your own account, go to /profile, else /user/:id
-- At least 200 - 300 Personalized habits that will apply to specific people only
-- Tips: Books, speakers, influencers etc. to follow/see etc.
 - user progress
+- Tips: Books, speakers, influencers etc. to follow/see etc.
 - habit of the day / daily challenge
 - Feedback and support for the app
 - Amount of users :D + amount of who have all habits finished
 - Forgot password
+- At least 200 - 300 Personalized habits that will apply to specific people only
 - send auth code to email 
 - login with google
 - Accept cookies
