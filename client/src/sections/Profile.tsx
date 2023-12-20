@@ -15,6 +15,7 @@ import {
 import { countryShorthands } from "../constants"
 import { ProfileSkeleton } from "../components"
 import React from "react"
+import { getPfpLink } from "../HelperFunctions/getPfpLink"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -56,12 +57,6 @@ const Profile = () => {
     return formattedBio
   }
 
-  let pfpURL
-  if (user?.profile_picture) {
-    const pfpData = JSON.parse(user?.profile_picture)
-    pfpURL = pfpData.url
-  }
-
   return (
     <Box>
       {isLoading ? (
@@ -83,7 +78,9 @@ const Profile = () => {
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Box
                   sx={{
-                    background: `url('${pfpURL}') no-repeat center/cover #fff`,
+                    background: `url('${
+                      user?.profile_picture && getPfpLink(user?.profile_picture)
+                    }') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,
                     borderRadius: 20,

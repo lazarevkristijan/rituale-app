@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import SearchIcon from "@mui/icons-material/Search"
+import { getPfpLink } from "../HelperFunctions/getPfpLink"
 const BottomNavbar = () => {
   const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.session.user)
@@ -15,12 +16,6 @@ const BottomNavbar = () => {
     (state: RootState) => state.bottomNav.value
   )
   const dispatch = useDispatch()
-
-  let pfpURL
-  if (user?.profile_picture) {
-    const pfpData = JSON.parse(user?.profile_picture)
-    pfpURL = pfpData.url
-  }
 
   return (
     <BottomNavigation
@@ -61,7 +56,7 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="Profile"
         icon={
-          user ? (
+          user?.profile_picture ? (
             <Box
               component="img"
               sx={{
@@ -69,7 +64,7 @@ const BottomNavbar = () => {
                 border: "3px solid black",
                 backgroundColor: "#fff",
               }}
-              src={pfpURL}
+              src={getPfpLink(user.profile_picture)}
               width={30}
               height={30}
             />

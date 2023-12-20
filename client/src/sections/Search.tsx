@@ -5,6 +5,7 @@ import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { useQuery } from "react-query"
 import { UserTypes } from "../Types"
 import { useNavigate } from "react-router-dom"
+import { getPfpLink } from "../HelperFunctions/getPfpLink"
 const Search = () => {
   const [searchValue, setSearchValue] = useState("")
   const navigate = useNavigate()
@@ -47,12 +48,6 @@ const Search = () => {
               return fullName.toLowerCase().includes(searchValue.toLowerCase())
             })
             .map((user: UserTypes) => {
-              let pfpURL
-              if (user?.profile_picture) {
-                const pfpData = JSON.parse(user?.profile_picture)
-                pfpURL = pfpData.url
-              }
-
               return (
                 <Box
                   sx={{
@@ -70,7 +65,9 @@ const Search = () => {
                   <Box>
                     <Box
                       component="img"
-                      src={pfpURL}
+                      src={
+                        user.profile_picture && getPfpLink(user.profile_picture)
+                      }
                       width={50}
                       height={50}
                       borderRadius={20}

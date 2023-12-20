@@ -8,6 +8,7 @@ import React from "react"
 import { countryShorthands } from "../constants"
 import { useQuery } from "react-query"
 import MainLoadingScreen from "../skeletons/MainLoadingScreen"
+import { getPfpLink } from "../HelperFunctions/getPfpLink"
 
 const UserProfile = () => {
   const dispatch = useDispatch()
@@ -28,6 +29,7 @@ const UserProfile = () => {
     const res = await axios.get(
       `http://localhost:5432/new-completed-habits/${id}`
     )
+
     return res.data
   }
   const { data: newCompletedHabits, isLoading: isNewLoading } = useQuery(
@@ -46,12 +48,6 @@ const UserProfile = () => {
       </React.Fragment>
     ))
     return formattedBio
-  }
-
-  let pfpURL
-  if (data) {
-    const pfpData = JSON.parse(data.profile_picture)
-    pfpURL = pfpData.url
   }
 
   return (
@@ -76,7 +72,9 @@ const UserProfile = () => {
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Box
                   sx={{
-                    background: `url('${pfpURL}') no-repeat center/cover #fff`,
+                    background: `url('${getPfpLink(
+                      data.profile_picture
+                    )}') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,
                     borderRadius: 20,

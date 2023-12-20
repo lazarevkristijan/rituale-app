@@ -1,8 +1,5 @@
 TODO:
 
-- do i need email anyway
-- use query everywhere needed
-- divide autosave vs not in setttings
 - pfpurl func exported?
 - add change location in all files
 - completed habits qty is not working on visitng profile

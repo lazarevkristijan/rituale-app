@@ -292,6 +292,7 @@ const Settings = () => {
       <Typography variant="caption">
         Settings that don't have a "SAVE CHANGES" button are auto saved
       </Typography>
+
       <br />
       <br />
 
@@ -363,6 +364,7 @@ const Settings = () => {
             />
           </Box>
           <Typography variant="caption">Max 5mb</Typography>
+          <br />
           <Button
             disabled={!profilePicture}
             onClick={() => {
@@ -388,6 +390,7 @@ const Settings = () => {
           </Button>
         </form>
       </Box>
+      <br />
 
       <Box>
         <Typography>Bio</Typography>
@@ -516,42 +519,6 @@ const Settings = () => {
           </DialogActions>
         </Dialog>
       </Box>
-
-      <br />
-      <FormControl fullWidth>
-        <InputLabel>Country</InputLabel>
-        <Select
-          value={user?.country || ""}
-          onChange={handleCountryChange}
-        >
-          <MenuItem value="">SELECT</MenuItem>
-          {allCountries.map((country: string, index) => (
-            <MenuItem
-              key={index}
-              value={country}
-            >
-              {country}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Typography>
-        Current country: {user?.country || "None"}{" "}
-        {user?.country && (
-          <Box
-            component="img"
-            src={`/flags/${
-              countryShorthands[user?.country as keyof typeof countryShorthands]
-            }.svg`}
-            width={20}
-            height={20}
-            sx={{ verticalAlign: "middle" }}
-          />
-        )}
-      </Typography>
-
-      <br />
-
       <Button
         startIcon={<EditIcon />}
         onClick={() => setIsDialogOpen(true)}
@@ -602,8 +569,6 @@ const Settings = () => {
           </List>
         </DialogContent>
       </Dialog>
-
-      <br />
       <FormGroup sx={{ display: "block" }}>
         <FormControlLabel
           control={<Switch />}
@@ -613,7 +578,43 @@ const Settings = () => {
           onChange={handleThemeChange}
         />
       </FormGroup>
+
       <br />
+
+      <FormControl fullWidth>
+        <InputLabel>Country</InputLabel>
+        <Select
+          value={user?.country || ""}
+          onChange={handleCountryChange}
+        >
+          <MenuItem value="">SELECT</MenuItem>
+          {allCountries.map((country: string, index) => (
+            <MenuItem
+              key={index}
+              value={country}
+            >
+              {country}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Typography>
+        Current country: {user?.country || "None"}{" "}
+        {user?.country && (
+          <Box
+            component="img"
+            src={`/flags/${
+              countryShorthands[user?.country as keyof typeof countryShorthands]
+            }.svg`}
+            width={20}
+            height={20}
+            sx={{ verticalAlign: "middle" }}
+          />
+        )}
+      </Typography>
+
+      <br />
+
       <form onSubmit={(e) => handleUserDataChange(e)}>
         <Typography
           component="h3"
