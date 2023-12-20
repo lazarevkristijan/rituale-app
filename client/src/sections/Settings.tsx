@@ -46,10 +46,12 @@ import EditIcon from "@mui/icons-material/Edit"
 import { CategoryTypes } from "../Types"
 import { useQuery } from "react-query"
 import SaveIcon from "@mui/icons-material/Save"
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 
 const Settings = () => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  dispatch(changeLocation(4))
 
   const user = useSelector((state: RootState) => state.session.user)
   const colorTheme = useSelector(

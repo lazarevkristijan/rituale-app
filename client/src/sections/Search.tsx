@@ -6,9 +6,14 @@ import { useQuery } from "react-query"
 import { UserTypes } from "../Types"
 import { useNavigate } from "react-router-dom"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
+import { useDispatch } from "react-redux"
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 const Search = () => {
-  const [searchValue, setSearchValue] = useState("")
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  dispatch(changeLocation(1))
+  const [searchValue, setSearchValue] = useState("")
+
   const getUsers = async () => {
     const res = await axios.get("http://localhost:5432/users", {
       withCredentials: true,

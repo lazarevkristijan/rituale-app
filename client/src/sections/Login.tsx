@@ -20,15 +20,18 @@ import {
 import { addHabit } from "../features/completedHabits/completedHabitsSlice"
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import HttpsIcon from "@mui/icons-material/Https"
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 
 const Login = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  dispatch(changeLocation(4))
+
   const user = useSelector((state: RootState) => state.session.user)
   useEffect(() => {
     user ? navigate("/profile") : setIsLoading(false)
   }, [navigate, user])
 
-  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true)
 
   const [formData, setFormData] = useState({

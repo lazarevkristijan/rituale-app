@@ -1,10 +1,14 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import type { RootState } from "../Store"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 
 const Home = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  dispatch(changeLocation(0))
+
   const user = useSelector((state: RootState) => state.session.user)
   const language = useSelector((state: RootState) => state.settings.language)
 

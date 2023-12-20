@@ -16,10 +16,13 @@ import { countryShorthands } from "../constants"
 import { ProfileSkeleton } from "../components"
 import React from "react"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 
 const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  dispatch(changeLocation(4))
+
   const user = useSelector((state: RootState) => state.session.user)
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits

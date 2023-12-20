@@ -11,8 +11,6 @@ import {
   DialogActions,
   FormGroup,
   Divider,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material"
 import axios from "axios"
 import { useQuery } from "react-query"
@@ -33,28 +31,13 @@ import {
   removeHabit,
 } from "../features/completedHabits/completedHabitsSlice"
 import HabitsSkeleton from "../skeletons/HabitsSkeleton"
-
-const FilterCheckbox = ({
-  label,
-  checked,
-  onChange,
-}: {
-  label: string
-  checked: boolean
-  onChange: () => void
-}) => {
-  return (
-    <FormControlLabel
-      label={label}
-      control={<Checkbox checked={checked} />}
-      onChange={onChange}
-    />
-  )
-}
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { FilterCheckbox } from "../HelperFunctions/filterHabitCheckbox"
 
 const Habits = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  dispatch(changeLocation(2))
 
   const user = useSelector((state: RootState) => state.session.user)
   const completedHabits = useSelector(

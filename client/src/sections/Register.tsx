@@ -15,15 +15,18 @@ import { RootState } from "../Store"
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import HttpsIcon from "@mui/icons-material/Https"
+import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 
 const Register = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  dispatch(changeLocation(1))
+
   const user = useSelector((state: RootState) => state.session.user)
   useEffect(() => {
     user ? navigate("/profile") : setIsLoading(false)
   }, [navigate, user])
 
-  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true)
 
   const [formData, setFormData] = useState({
