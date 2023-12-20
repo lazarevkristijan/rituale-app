@@ -95,7 +95,6 @@ const Profile = () => {
                 >
                   {user?.first_name} <br />
                   {user?.last_name} <br />
-                  {user?.email} <br />
                   {user?.country || "NO COUNTRY"}
                 </Typography>
                 <Tooltip

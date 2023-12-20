@@ -1,6 +1,5 @@
 TODO:
 
-- other users profile previewing
 - do i need email anyway
 - use query everywhere needed
 - divide autosave vs not in setttings

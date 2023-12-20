@@ -88,7 +88,6 @@ const UserProfile = () => {
                 >
                   {data.first_name} <br />
                   {data.last_name} <br />
-                  {data.email} <br />
                   {data.country || "NO COUNTRY"}
                 </Typography>
                 <Tooltip

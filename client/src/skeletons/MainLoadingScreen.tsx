@@ -15,7 +15,9 @@ const MainLoadingScreen = () => {
         width={300}
         height={100}
       />
-      <Typography>Loading...</Typography>
+      <Typography color={colorTheme === "dark" ? "#fff" : "#000"}>
+        Loading...
+      </Typography>
     </Box>
   )
 }
