@@ -1,4 +1,10 @@
-import { Box, Button, TextField, Typography } from "@mui/material"
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -6,6 +12,9 @@ import { emailRegex, nameRegex, passwordRegex, profanityRegex } from "../Regex"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../features/session/sessionSlice"
 import { RootState } from "../Store"
+import AccountCircle from "@mui/icons-material/AccountCircle"
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
+import HttpsIcon from "@mui/icons-material/Https"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -86,6 +95,23 @@ const Register = () => {
           <TextField
             label="First Name"
             sx={{ mb: 1 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle
+                    color={
+                      !nameRegex.test(formData.firstName) &&
+                      touchedFields.firstName
+                        ? "error"
+                        : !nameRegex.test(formData.firstName) &&
+                          !touchedFields.firstName
+                        ? "primary"
+                        : "success"
+                    }
+                  />
+                </InputAdornment>
+              ),
+            }}
             value={formData.firstName}
             onChange={(e) => {
               const capitalizedFirstName =
@@ -105,6 +131,23 @@ const Register = () => {
           <TextField
             label="Last Name"
             sx={{ mb: 1 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle
+                    color={
+                      !nameRegex.test(formData.lastName) &&
+                      touchedFields.lastName
+                        ? "error"
+                        : !nameRegex.test(formData.lastName) &&
+                          !touchedFields.lastName
+                        ? "primary"
+                        : "success"
+                    }
+                  />
+                </InputAdornment>
+              ),
+            }}
             value={formData.lastName}
             onChange={(e) => {
               const capitalizedLastName =
@@ -121,6 +164,22 @@ const Register = () => {
           <TextField
             type="email"
             label="Email"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AlternateEmailIcon
+                    color={
+                      !emailRegex.test(formData.email) && touchedFields.email
+                        ? "error"
+                        : !emailRegex.test(formData.email) &&
+                          !touchedFields.email
+                        ? "primary"
+                        : "success"
+                    }
+                  />
+                </InputAdornment>
+              ),
+            }}
             value={formData.email}
             sx={{ mb: 1 }}
             onChange={(e) =>
@@ -133,6 +192,23 @@ const Register = () => {
           <TextField
             type="password"
             label="Password"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <HttpsIcon
+                    color={
+                      !passwordRegex.test(formData.password) &&
+                      touchedFields.password
+                        ? "error"
+                        : !passwordRegex.test(formData.password) &&
+                          !touchedFields.password
+                        ? "primary"
+                        : "success"
+                    }
+                  />
+                </InputAdornment>
+              ),
+            }}
             value={formData.password}
             sx={{ mb: 3 }}
             onChange={(e) =>

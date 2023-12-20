@@ -76,6 +76,7 @@ const Profile = () => {
               p: 1,
               mb: 2,
               display: "flex",
+              height: 300,
             }}
           >
             <Box width="50%">

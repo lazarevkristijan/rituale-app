@@ -1,10 +1,10 @@
 TODO:
 
 - other users profile previewing
-- profanity checker on register
-- visibility 0 on settings pfp
 - do i need email anyway
 - use query everywhere needed
+- divide autosave vs not in setttings
+- pfpurl func exported?
 - add change location in all files
 - completed habits qty is not working on visitng profile
 - if selecting your own account, go to /profile, else /user/:id
