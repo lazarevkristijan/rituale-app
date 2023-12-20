@@ -1,7 +1,5 @@
 TODO:
 
-- add change location in all files
-- completed habits qty is not working on visitng profile
 - if selecting your own account, go to /profile, else /user/:id
 - At least 200 - 300 Personalized habits that will apply to specific people only
 - Tips: Books, speakers, influencers etc. to follow/see etc.

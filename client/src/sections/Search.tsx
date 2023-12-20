@@ -6,13 +6,16 @@ import { useQuery } from "react-query"
 import { UserTypes } from "../Types"
 import { useNavigate } from "react-router-dom"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { RootState } from "../Store"
 const Search = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(1))
   const [searchValue, setSearchValue] = useState("")
+
+  const user = useSelector((state: RootState) => state.session.user)
 
   const getUsers = async () => {
     const res = await axios.get("http://localhost:5432/users", {
@@ -47,12 +50,13 @@ const Search = () => {
           }}
         >
           {data
-            .filter((user: UserTypes) => {
-              const fullName = `${user.first_name} ${user.last_name}`
+            .filter((profile: UserTypes) => {
+              const fullName = `${profile.first_name} ${profile.last_name}`
 
               return fullName.toLowerCase().includes(searchValue.toLowerCase())
             })
-            .map((user: UserTypes) => {
+            .map((profile: UserTypes) => {
+              if (profile.id === user?.id) return
               return (
                 <Box
                   sx={{
@@ -65,13 +69,14 @@ const Search = () => {
                     flexDirection: "column",
                     justifyContent: "space-between",
                   }}
-                  key={user.id}
+                  key={profile.id}
                 >
                   <Box>
                     <Box
                       component="img"
                       src={
-                        user.profile_picture && getPfpLink(user.profile_picture)
+                        profile.profile_picture &&
+                        getPfpLink(profile.profile_picture)
                       }
                       width={50}
                       height={50}
@@ -79,26 +84,27 @@ const Search = () => {
                       sx={{ border: "3px solid black", bgcolor: "#fff" }}
                     />
                     <Typography component="span">
-                      Full name: {user.first_name} {user.last_name}
+                      Full name: {profile.first_name} {profile.last_name}
                     </Typography>
-                    <Typography>Country: {user.country}</Typography>
+                    <Typography>Country: {profile.country}</Typography>
                     <Typography>
                       Main focus:{" "}
-                      {user.priority_category_1 &&
-                        user.priority_category_1 + ", "}
-                      {user.priority_category_2 &&
-                        user.priority_category_2 + ", "}{" "}
-                      {user.priority_category_2 && user.priority_category_3}
-                      {!user.priority_category_1 &&
-                        !user.priority_category_2 &&
-                        !user.priority_category_3 &&
+                      {profile.priority_category_1 &&
+                        profile.priority_category_1 + ", "}
+                      {profile.priority_category_2 &&
+                        profile.priority_category_2 + ", "}{" "}
+                      {profile.priority_category_2 &&
+                        profile.priority_category_3}
+                      {!profile.priority_category_1 &&
+                        !profile.priority_category_2 &&
+                        !profile.priority_category_3 &&
                         "None"}
                     </Typography>
                   </Box>
                   <Box sx={{ display: "flex", justifyContent: "end" }}>
                     <Button
                       onClick={() => {
-                        navigate(`/user/${user.id}`)
+                        navigate(`/user/${profile.id}`)
                       }}
                     >
                       view
