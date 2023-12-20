@@ -17,6 +17,7 @@ import {
   NotFound,
   ForgotPassword,
   Settings,
+  Search,
 } from "./sections"
 import { Routes, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
@@ -120,7 +121,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <ReactQueryDevtools />
           <CssBaseline enableColorScheme />
-          <Container sx={{ minHeight: "100vh" }}>
+          <Container sx={{ minHeight: "100vh", mt: 2 }}>
             <Routes>
               <Route
                 path="/"
@@ -141,6 +142,10 @@ const App = () => {
               <Route
                 path="/user/:id"
                 element={<UserProfile />}
+              />
+              <Route
+                path="/search"
+                element={<Search />}
               />
               <Route
                 path="/habits"

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-
+import SearchIcon from "@mui/icons-material/Search"
 const BottomNavbar = () => {
   const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.session.user)
@@ -41,12 +41,18 @@ const BottomNavbar = () => {
         icon={<HomeIcon />}
         onClick={() => navigate("/")}
       />
+      <BottomNavigationAction
+        label="Search"
+        icon={<SearchIcon />}
+        onClick={() => navigate("/search")}
+      />
 
       <BottomNavigationAction
         label="Habits"
         icon={<SelfImprovementIcon />}
         onClick={() => navigate("/habits")}
       />
+
       <BottomNavigationAction
         label="Tips"
         icon={<TipsAndUpdatesIcon />}

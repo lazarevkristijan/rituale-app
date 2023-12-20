@@ -8,6 +8,7 @@ import Tips from "./Tips"
 import NotFound from "./NotFound"
 import ForgotPassword from "./ForgotPassword"
 import Settings from "./Settings"
+import Search from "./Search"
 
 export {
   Settings,
@@ -20,4 +21,5 @@ export {
   Login,
   BottomNavbar,
   Home,
+  Search,
 }
