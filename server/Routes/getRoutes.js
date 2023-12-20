@@ -9,8 +9,7 @@ export const getUsers = async (req, res) => {
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
-    LEFT JOIN countries as e ON a.country = e.id
-    WHERE a.id = ${userId}`
+    LEFT JOIN countries as e ON a.country = e.id`
 
     return res.json(users)
   } catch (error) {

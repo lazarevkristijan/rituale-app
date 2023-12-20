@@ -1,4 +1,10 @@
-import { Box, Button, TextField, Typography } from "@mui/material"
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../features/session/sessionSlice"
@@ -12,6 +18,8 @@ import {
   changeLanguage,
 } from "../features/settings/settingsSlice"
 import { addHabit } from "../features/completedHabits/completedHabitsSlice"
+import AccountCircle from "@mui/icons-material/AccountCircle"
+import HttpsIcon from "@mui/icons-material/Https"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -109,6 +117,22 @@ const Login = () => {
             <TextField
               label="Email"
               type="email"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle
+                      color={
+                        !emailRegex.test(formData.email) && touchedFields.email
+                          ? "error"
+                          : !emailRegex.test(formData.email) &&
+                            !touchedFields.email
+                          ? "primary"
+                          : "success"
+                      }
+                    />
+                  </InputAdornment>
+                ),
+              }}
               autoFocus
               value={formData.email}
               onChange={(e) =>
@@ -122,6 +146,23 @@ const Login = () => {
             <TextField
               label="Password"
               type="password"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <HttpsIcon
+                      color={
+                        !passwordRegex.test(formData.password) &&
+                        touchedFields.password
+                          ? "error"
+                          : !passwordRegex.test(formData.password) &&
+                            !touchedFields.password
+                          ? "primary"
+                          : "success"
+                      }
+                    />
+                  </InputAdornment>
+                ),
+              }}
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })

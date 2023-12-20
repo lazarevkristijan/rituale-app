@@ -61,11 +61,6 @@ const Habits = () => {
     (state: RootState) => state.completedHabits.habits
   )
 
-  const getHabits = async () => {
-    const res = await axios.get("http://localhost:5432/habits")
-    return res.data
-  }
-
   const [filterCategories, setFilterCategories] = useState({
     health: true,
     appearance: true,
@@ -110,6 +105,10 @@ const Habits = () => {
   const [isDifficultyFilterOpen, setIsDifficultyFilterOpen] = useState(false)
   const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false)
 
+  const getHabits = async () => {
+    const res = await axios.get("http://localhost:5432/habits")
+    return res.data
+  }
   const {
     data,
     isLoading: areHabitsLoading,
