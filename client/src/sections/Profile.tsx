@@ -1,11 +1,9 @@
 import { Box, Button, Chip, Stack, Tooltip, Typography } from "@mui/material"
-import Avatar from "@mui/material/Avatar"
-import { deepPurple } from "@mui/material/colors"
 import SettingsIcon from "@mui/icons-material/Settings"
+import LogoutIcon from "@mui/icons-material/Logout"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/session/sessionSlice"
-import LogoutIcon from "@mui/icons-material/Logout"
 import { RootState } from "../Store"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -82,29 +80,15 @@ const Profile = () => {
           >
             <Box width="50%">
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                {user?.profile_picture ? (
-                  <Box
-                    sx={{
-                      background: `url('${pfpURL}') no-repeat center/cover #fff`,
-                      width: 100,
-                      height: 100,
-                      borderRadius: 20,
-                      border: "3px solid black",
-                    }}
-                  ></Box>
-                ) : (
-                  <Avatar
-                    sx={{
-                      bgcolor: deepPurple[500],
-                      width: 100,
-                      height: 100,
-                      fontSize: 40,
-                    }}
-                  >
-                    {user?.first_name.charAt(0)}
-                    {user?.last_name.charAt(0)}
-                  </Avatar>
-                )}
+                <Box
+                  sx={{
+                    background: `url('${pfpURL}') no-repeat center/cover #fff`,
+                    width: 100,
+                    height: 100,
+                    borderRadius: 20,
+                    border: "3px solid black",
+                  }}
+                ></Box>
                 <Typography
                   sx={{ alignSelf: "center", ml: 1, display: "flex" }}
                 >

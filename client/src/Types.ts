@@ -7,6 +7,19 @@ export type HabitTypes = {
   difficulty: string
 }
 
+export type UserTypes = {
+  first_name: string
+  last_name: string
+  email: string
+  id: number
+  priority_category_1: string | null
+  priority_category_2: string | null
+  priority_category_3: string | null
+  country: string | null
+  bio: string | null
+  profile_picture: string | null
+}
+
 export type CategoryTypes = {
   id: number
   category: string
