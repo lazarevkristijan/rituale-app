@@ -1,7 +1,7 @@
 TODO:
 
-- when logging in to diff acc, language stays from prev, also look to reset everything to default when loggout
 - other users profile previewing
+- add change location in all files
 - At least 200 - 300 Personalized habits that will apply to specific people only
 - Tips: Books, speakers, influencers etc. to follow/see etc.
 - user progress

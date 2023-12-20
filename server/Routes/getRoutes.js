@@ -14,6 +14,22 @@ export const getUsers = async (req, res) => {
   }
 }
 
+export const getUser = async (req, res) => {
+  try {
+    const userId = req.params.id
+
+    const user = await sql`
+    SELECT id, first_name, last_name, email, bio, profile_picture, country, priority_category_1, priority_category_2, priority_category_3
+    FROM users
+    WHERE id = ${userId}`
+
+    return res.json({ user: user[0] })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting user" })
+  }
+}
+
 export const getHabits = async (req, res) => {
   try {
     const habits = await sql`
@@ -47,14 +63,14 @@ export const getCheckAuth = async (req, res) => {
   try {
     const userId = req.userId
     const user = await sql`
-    SELECT a.id, a.first_name, a.last_name, a.email, a.password, a.bio, a.profile_picture, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
     LEFT JOIN countries as e ON a.country = e.id
     WHERE a.id = ${userId}`
 
-    return res.json({ user: user[0] })
+    return res.json(user[0])
   } catch (error) {
     console.error("Error is: ", error)
     return res.status(500).json({ error: "Error checking auth" })

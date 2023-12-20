@@ -32,6 +32,7 @@ import {
   changeLanguage,
 } from "./features/settings/settingsSlice"
 import MainLoadingScreen from "./skeletons/MainLoadingScreen"
+import UserProfile from "./sections/UserProfile"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -136,6 +137,10 @@ const App = () => {
               <Route
                 path="/profile"
                 element={<Profile />}
+              />
+              <Route
+                path="/user/:id"
+                element={<UserProfile />}
               />
               <Route
                 path="/habits"

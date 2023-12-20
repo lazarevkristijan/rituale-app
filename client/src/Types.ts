@@ -75,7 +75,6 @@ export type SessionSliceTypes = {
     last_name: string
     email: string
     id: number
-    password: string
     priority_category_1: string | null
     priority_category_2: string | null
     priority_category_3: string | null

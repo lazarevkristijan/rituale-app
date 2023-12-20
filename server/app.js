@@ -13,6 +13,7 @@ import {
   getLogout,
   getResetHabitProgress,
   getRoot,
+  getUser,
   getUserSettings,
   getUsers,
 } from "./Routes/getRoutes.js"
@@ -58,6 +59,7 @@ app.get("/check-auth", verifyToken, getCheckAuth)
 
 // GET DATA
 app.get("/users", getUsers)
+app.get("/user/:id", getUser)
 app.get("/habits", getHabits)
 app.get("/habit-categories", getHabitCategories)
 app.get("/countries", getCountries)

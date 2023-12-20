@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import { useEffect } from "react"
 
 const BottomNavbar = () => {
   const navigate = useNavigate()
@@ -16,28 +15,6 @@ const BottomNavbar = () => {
     (state: RootState) => state.bottomNav.value
   )
   const dispatch = useDispatch()
-
-  const TLD = "http://localhost:5173"
-
-  useEffect(() => {
-    window.location.href === `${TLD}/`
-      ? dispatch(changeLocation(0))
-      : window.location.href === `${TLD}/habits`
-      ? dispatch(changeLocation(1))
-      : window.location.href === `${TLD}/tips`
-      ? dispatch(changeLocation(2))
-      : window.location.href === `${TLD}/profile`
-      ? dispatch(changeLocation(3))
-      : window.location.href === `${TLD}/login`
-      ? dispatch(changeLocation(3))
-      : window.location.href === `${TLD}/forgot-password`
-      ? dispatch(changeLocation(3))
-      : window.location.href === `${TLD}/register`
-      ? dispatch(changeLocation(3))
-      : window.location.href === `${TLD}/settings`
-      ? dispatch(changeLocation(3))
-      : navigate("/not-found")
-  }, [navigate, dispatch])
 
   return (
     <BottomNavigation
