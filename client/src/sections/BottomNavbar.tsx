@@ -1,4 +1,4 @@
-import { BottomNavigation, BottomNavigationAction } from "@mui/material"
+import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material"
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement"
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
@@ -15,6 +15,12 @@ const BottomNavbar = () => {
     (state: RootState) => state.bottomNav.value
   )
   const dispatch = useDispatch()
+
+  let pfpURL
+  if (user?.profile_picture) {
+    const pfpData = JSON.parse(user?.profile_picture)
+    pfpURL = pfpData.url
+  }
 
   return (
     <BottomNavigation
@@ -48,7 +54,23 @@ const BottomNavbar = () => {
       />
       <BottomNavigationAction
         label="Profile"
-        icon={<AccountCircleIcon />}
+        icon={
+          user ? (
+            <Box
+              component="img"
+              sx={{
+                borderRadius: 20,
+                border: "3px solid black",
+                backgroundColor: "#fff",
+              }}
+              src={pfpURL}
+              width={40}
+              height={40}
+            />
+          ) : (
+            <AccountCircleIcon />
+          )
+        }
         onClick={() => navigate(user ? "/profile" : "/login")}
       />
     </BottomNavigation>
