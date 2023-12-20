@@ -3,11 +3,20 @@ import { nameRegex, emailRegex, passwordRegex } from "../Regex.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { JWTsecret } from "../middleware/verifyToken.js"
+import { profanityRegex } from "../Regex.js"
 
 export const postRegister = async (req, res) => {
   try {
-    const { firstName, lastName, email: defaultEmail, password } = req.body
-    const email = defaultEmail.toLowerCase()
+    const { firstName, lastName, email: sentEmail, password } = req.body
+    const email = sentEmail.toLowerCase()
+
+    if (
+      profanityRegex.test(firstName) ||
+      profanityRegex.test(lastName) ||
+      profanityRegex.test(email)
+    ) {
+      return res.status(400).json({ error: "Profanity word detected" })
+    }
 
     const sameEmail = await sql`
     SELECT email
