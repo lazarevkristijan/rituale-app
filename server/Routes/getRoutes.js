@@ -59,6 +59,7 @@ export const getCompletedHabits = async (req, res) => {
     SELECT *
     FROM completed_habits
     WHERE user_id = ${userId}`
+
     return res.json(completedHabits)
   } catch (error) {
     console.error("Error is: ", error)
@@ -66,6 +67,23 @@ export const getCompletedHabits = async (req, res) => {
   }
 }
 
+export const getNewCompletedHabits = async (req, res) => {
+  try {
+    const userId = req.params.id
+
+    const newCompletedHabits = await sql`
+    SELECT *
+    FROM completed_habits
+    WHERE user_id = ${userId}`
+
+    res.json(newCompletedHabits)
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res
+      .status(500)
+      .json({ error: "Error getting all new completed habits" })
+  }
+}
 export const getCheckAuth = async (req, res) => {
   try {
     const userId = req.userId

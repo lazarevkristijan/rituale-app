@@ -70,8 +70,8 @@ const BottomNavbar = () => {
                 backgroundColor: "#fff",
               }}
               src={pfpURL}
-              width={40}
-              height={40}
+              width={30}
+              height={30}
             />
           ) : (
             <AccountCircleIcon />

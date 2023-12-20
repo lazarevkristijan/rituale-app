@@ -12,24 +12,29 @@ import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 const UserProfile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  dispatch(changeLocation(2))
+  dispatch(changeLocation(1))
 
   const { id } = useParams()
 
   const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
-  const completedHabits = useSelector(
-    (state: RootState) => state.completedHabits
-  )
 
-  const getExternalUserData = async () => {
+  const getNewUser = async () => {
     const res = await axios.get(`http://localhost:5432/user/${id}`)
     return res.data
   }
+  const { data, isLoading } = useQuery("external-user-profile", getNewUser)
 
-  const { data, isLoading } = useQuery(
-    "external-user-profile",
-    getExternalUserData
+  const getNewCompletedHabits = async () => {
+    const res = await axios.get(
+      `http://localhost:5432/new-completed-habits/${id}`
+    )
+    return res.data
+  }
+  const { data: newCompletedHabits, isLoading: isNewLoading } = useQuery(
+    "get-external-completed-habits",
+    getNewCompletedHabits
   )
+
   const displayBio = (bio: string | null | undefined) => {
     if (bio === null || bio === undefined) {
       return "NO BIO"
@@ -51,7 +56,7 @@ const UserProfile = () => {
 
   return (
     <Box>
-      {isLoading ? (
+      {isLoading || isNewLoading ? (
         <MainLoadingScreen />
       ) : (
         <>
@@ -102,7 +107,7 @@ const UserProfile = () => {
               <Typography>
                 Good Habits:{" "}
                 <Typography component="span">
-                  {completedHabits.habits.length}
+                  {newCompletedHabits.length}
                 </Typography>
               </Typography>
               <Typography component="span">

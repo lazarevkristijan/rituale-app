@@ -48,8 +48,7 @@ const Register = () => {
       profanityRegex.test(formData.lastName) ||
       profanityRegex.test(formData.email)
     ) {
-      console.log("profanity word")
-      return
+      return console.error("profanity word")
     }
     await axios
       .post("http://localhost:5432/register", JSON.stringify(formData), {

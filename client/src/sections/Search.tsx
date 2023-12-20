@@ -9,7 +9,9 @@ const Search = () => {
   const [searchValue, setSearchValue] = useState("")
   const navigate = useNavigate()
   const getUsers = async () => {
-    const res = await axios.get("http://localhost:5432/users")
+    const res = await axios.get("http://localhost:5432/users", {
+      withCredentials: true,
+    })
     return res.data
   }
   const { data, isLoading } = useQuery("users", getUsers)
@@ -32,7 +34,11 @@ const Search = () => {
       ) : (
         <Grid
           gap={2}
-          sx={{ display: "flex" }}
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+          }}
         >
           {data
             .filter((user: UserTypes) => {
@@ -59,6 +65,7 @@ const Search = () => {
                     flexDirection: "column",
                     justifyContent: "space-between",
                   }}
+                  key={user.id}
                 >
                   <Box>
                     <Box

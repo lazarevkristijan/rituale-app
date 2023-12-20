@@ -11,6 +11,7 @@ import {
   getHabitCategories,
   getHabits,
   getLogout,
+  getNewCompletedHabits,
   getResetHabitProgress,
   getRoot,
   getUser,
@@ -72,6 +73,7 @@ app.delete("/delete-user", verifyToken, deleteUser)
 
 // HABIT RELATED
 app.get("/completed-habits", verifyToken, getCompletedHabits)
+app.get("/new-completed-habits/:id", getNewCompletedHabits)
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
