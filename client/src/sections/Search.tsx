@@ -20,6 +20,7 @@ const Search = () => {
       <TextField
         fullWidth
         label="User"
+        autoComplete="off"
         placeholder="Who?"
         value={searchValue}
         onChange={(e) => {
@@ -34,13 +35,11 @@ const Search = () => {
           sx={{ display: "flex" }}
         >
           {data
-            .filter(
-              (user: UserTypes) =>
-                user.first_name
-                  .toLowerCase()
-                  .includes(searchValue.toLowerCase()) ||
-                user.last_name.toLowerCase().includes(searchValue.toLowerCase())
-            )
+            .filter((user: UserTypes) => {
+              const fullName = `${user.first_name} ${user.last_name}`
+
+              return fullName.toLowerCase().includes(searchValue.toLowerCase())
+            })
             .map((user: UserTypes) => {
               let pfpURL
               if (user?.profile_picture) {
