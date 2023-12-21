@@ -25,6 +25,16 @@ export type CategoryTypes = {
   category: string
 }
 
+export type BlogTypes = {
+  id: number
+  title: string
+  author: string
+  date_posted: Date
+  short_description: string
+  link: string
+  image_url: string
+}
+
 export type CompletedHabitTypes = {
   id: number
   user_id: number

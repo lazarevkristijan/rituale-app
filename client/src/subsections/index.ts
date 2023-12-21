@@ -1,4 +1,4 @@
 import GeneralTabStatistics from "./GeneralTabStatistics"
-import GeneralTabTips from "./GeneralTabTips"
+import GeneralTabBlogs from "./GeneralTabBlogs"
 
-export { GeneralTabStatistics, GeneralTabTips }
+export { GeneralTabStatistics, GeneralTabBlogs }

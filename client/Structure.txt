@@ -5,8 +5,10 @@ TODO:
 - Feedback and support for the app
 - Amount of users :D + amount of who have all habits finished in tips section / general seciton rename?
 - Forgot password
+- back button / breadcrumbs or simialr
 - At least 200 - 300 Personalized habits that will apply to specific people only
-- send auth code to email 
+- all functions and stuff with getALL or just get for a single one
+- send auth code to email / verify with Oauth2 
 - login with google
 - Accept cookies
 - Divide code in more and more components

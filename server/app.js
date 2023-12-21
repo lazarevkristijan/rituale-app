@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import dotenv from "dotenv"
 import { verifyToken } from "./middleware/verifyToken.js"
 import {
+  getAllBlogs,
   getAllCompletedHabits,
   getCheckAuth,
   getCompletedHabits,
@@ -67,6 +68,7 @@ app.get("/user/:id", getUser)
 app.get("/all-habits", getHabits)
 app.get("/all-habit-categories", getHabitCategories)
 app.get("/all-countries", getCountries)
+app.get("/all-blogs", getAllBlogs)
 
 // AUTHENTICATION RELATED
 app.post("/login", postLogin)

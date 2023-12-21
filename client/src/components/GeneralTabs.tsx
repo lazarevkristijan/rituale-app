@@ -1,7 +1,7 @@
 import { Box, Tab } from "@mui/material"
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { useState } from "react"
-import { GeneralTabStatistics, GeneralTabTips } from "../subsections"
+import { GeneralTabStatistics, GeneralTabBlogs } from "../subsections"
 
 const GeneralTabs = () => {
   const [activeTab, setActiveTab] = useState("1")
@@ -29,7 +29,7 @@ const GeneralTabs = () => {
           </TabList>
         </Box>
         <TabPanel value="1">
-          <GeneralTabTips />
+          <GeneralTabBlogs />
         </TabPanel>
         <TabPanel value="2">
           <GeneralTabStatistics />

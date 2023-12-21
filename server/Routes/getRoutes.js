@@ -209,3 +209,17 @@ export const getCountries = async (req, res) => {
     return res.status(500).json({ error: "Error getting all countries" })
   }
 }
+
+export const getAllBlogs = async (req, res) => {
+  try {
+    const blogs = await sql`
+    SELECT *
+    FROM blogs`
+
+    console.log(blogs)
+    return res.json(blogs)
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting all blogs" })
+  }
+}
