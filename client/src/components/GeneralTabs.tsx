@@ -23,7 +23,7 @@ const GeneralTabs = () => {
               value="1"
             />
             <Tab
-              label="General"
+              label="Statistics"
               value="2"
             />
           </TabList>
@@ -43,7 +43,7 @@ const GeneralTabs = () => {
             <Tip />
           </Grid>
         </TabPanel>
-        <TabPanel value="2">General</TabPanel>
+        <TabPanel value="2">Statistics</TabPanel>
       </TabContext>
     </Box>
   )

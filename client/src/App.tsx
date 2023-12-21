@@ -13,7 +13,7 @@ import {
   Register,
   Profile,
   Habits,
-  Tips,
+  General,
   NotFound,
   ForgotPassword,
   Settings,
@@ -152,8 +152,8 @@ const App = () => {
                 element={<Habits />}
               />
               <Route
-                path="/tips"
-                element={<Tips />}
+                path="/general"
+                element={<General />}
               />
               <Route
                 path="/forgot-password"

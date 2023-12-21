@@ -49,9 +49,9 @@ const BottomNavbar = () => {
       />
 
       <BottomNavigationAction
-        label="Tips"
+        label="General"
         icon={<TipsAndUpdatesIcon />}
-        onClick={() => navigate("/tips")}
+        onClick={() => navigate("/general")}
       />
       <BottomNavigationAction
         label="Profile"
