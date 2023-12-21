@@ -185,7 +185,6 @@ const GeneralTabBlogs = () => {
                       .split("-")
                       .reverse()
                       .join(".")}
-                    short_description={blog.short_description}
                     blog_link={blog.link}
                     image_url={blog.image_url}
                   />

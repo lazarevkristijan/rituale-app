@@ -4,60 +4,57 @@ const Blog = ({
   title,
   author,
   date_posted,
-  short_description,
   blog_link,
   image_url,
 }: {
   title: string
   author: string
   date_posted: string
-  short_description: string
   blog_link: string
   image_url: string
 }) => {
   return (
     <Box
-      sx={{ width: 300, height: 450, bgcolor: "primary.dark", borderRadius: 2 }}
+      sx={{
+        width: 300,
+        height: 350,
+        bgcolor: "primary.dark",
+        borderRadius: 2,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
     >
       <Box
         sx={{
           background: `url('${image_url}') no-repeat center/cover`,
           width: 300,
           height: 150,
+          borderTopRightRadius: 8,
+          borderTopLeftRadius: 8,
         }}
       ></Box>
-      <Box
-        sx={{
-          p: 2,
-          display: "flex",
-          justifyContent: "space-between",
-          flexDirection: "column",
-        }}
-      >
-        <Box>
-          <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
-          <Typography sx={{ fontWeight: "bold", textDecoration: "underline" }}>
-            {author}
-          </Typography>
-          <br />
-          <Typography>{short_description}</Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+
+      <Box sx={{ p: 2 }}>
+        <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
+        <Typography sx={{ fontWeight: "bold", textDecoration: "underline" }}>
+          {author}
+        </Typography>
+        <br />
+        <Typography
+          component="p"
+          variant="caption"
+          sx={{ textAlign: "right" }}
         >
-          <a
-            href={blog_link}
-            target="_blank"
-          >
-            <Button>view</Button>
-          </a>
-          <Typography>{date_posted}</Typography>
-        </Box>
+          {date_posted}
+        </Typography>
       </Box>
+      <a
+        href={blog_link}
+        target="_blank"
+      >
+        <Button sx={{ width: "100%" }}>view</Button>
+      </a>
     </Box>
   )
 }
