@@ -1,6 +1,6 @@
 import GeneralTabs from "./GeneralTabs"
 import HabitSkeleton from "./HabitSkeleton"
 import ProfileSkeleton from "./ProfileSkeleton"
-import Tip from "./Tip"
+import Blog from "./Blog"
 
-export { HabitSkeleton, ProfileSkeleton, Tip, GeneralTabs }
+export { HabitSkeleton, ProfileSkeleton, Blog, GeneralTabs }

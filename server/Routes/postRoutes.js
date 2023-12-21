@@ -150,11 +150,27 @@ export const postRemoveHabit = async (req, res) => {
     const userId = req.userId
 
     await sql`
-  DELETE FROM completed_habits
-  WHERE user_id = ${userId} AND habit_id = ${habitId}`
+    DELETE FROM completed_habits
+    WHERE user_id = ${userId} AND habit_id = ${habitId}`
     return res.json({ success: "Successfully removed habit" })
   } catch (error) {
     console.error("Error is: ", error)
     return res.status(500).json({ error: "Error when removing habit" })
+  }
+}
+
+export const postAddBlog = async (req, res) => {
+  try {
+    const { title, author, short_description, link, image_url } = req.body
+    const date_posted = new Date().toISOString().split("T")[0]
+
+    await sql`
+    INSERT INTO blogs (title, author, date_posted, short_description, link, image_url)
+    VALUES (${title}, ${author}, ${date_posted}, ${short_description}, ${link}, ${image_url})`
+
+    return res.json({ success: "Successfully added blog" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error when adding blog" })
   }
 }

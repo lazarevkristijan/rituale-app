@@ -19,7 +19,7 @@ const GeneralTabs = () => {
             onChange={handleChange}
           >
             <Tab
-              label="Tips"
+              label="Blogs"
               value="1"
             />
             <Tab

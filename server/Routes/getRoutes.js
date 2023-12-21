@@ -216,7 +216,6 @@ export const getAllBlogs = async (req, res) => {
     SELECT *
     FROM blogs`
 
-    console.log(blogs)
     return res.json(blogs)
   } catch (error) {
     console.error("Error is: ", error)

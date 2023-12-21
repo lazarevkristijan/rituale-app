@@ -22,6 +22,7 @@ import {
   getUsers,
 } from "./Routes/getRoutes.js"
 import {
+  postAddBlog,
   postCompleteHabit,
   postLogin,
   postRegister,
@@ -85,6 +86,7 @@ app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
 app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
+app.post("/add-blog", postAddBlog)
 
 // USER SETTINGS
 app.get("/user-settings", verifyToken, getUserSettings)

@@ -29,7 +29,7 @@ export type BlogTypes = {
   id: number
   title: string
   author: string
-  date_posted: Date
+  date_posted: string
   short_description: string
   link: string
   image_url: string
