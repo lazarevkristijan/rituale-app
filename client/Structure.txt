@@ -1,8 +1,7 @@
 TODO:
 
-- back button / breadcrumbs or simialr
-- At least 200 - 300 Personalized habits that will apply to specific people only
 - all functions and stuff with getALL or just get for a single one
+- At least 200 - 300 Personalized habits that will apply to specific people only
 - send auth code to email / verify with Oauth2 
 - Forgot password
 - login with google

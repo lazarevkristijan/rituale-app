@@ -36,7 +36,7 @@ const PreviewProfile = () => {
 
   const getNewCompletedHabits = async () => {
     const res = await axios.get(
-      `http://localhost:5432/new-completed-habits/${id}`
+      `http://localhost:5432/preview-completed-habits/${id}`
     )
 
     return res.data

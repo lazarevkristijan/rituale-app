@@ -9,17 +9,17 @@ import {
   getAllCompletedHabits,
   getCheckAuth,
   getCompletedHabits,
-  getCountries,
-  getFinishedProfiles,
-  getHabitCategories,
-  getHabits,
+  getAllCountries,
+  getAllFinishedProfiles,
+  getAllHabitCategories,
+  getAllHabits,
   getLogout,
-  getNewCompletedHabits,
+  getPreviewCompletedHabits,
   getResetHabitProgress,
   getRoot,
   getUser,
   getUserSettings,
-  getUsers,
+  getAllUsers,
 } from "./Routes/getRoutes.js"
 import {
   postAddBlog,
@@ -63,12 +63,12 @@ app.get("/", getRoot)
 app.get("/check-auth", verifyToken, getCheckAuth)
 
 // GET DATA
-app.get("/all-users", getUsers)
-app.get("/all-finished-profiles", getFinishedProfiles)
+app.get("/all-users", getAllUsers)
+app.get("/all-finished-profiles", getAllFinishedProfiles)
 app.get("/user/:id", getUser)
-app.get("/all-habits", getHabits)
-app.get("/all-habit-categories", getHabitCategories)
-app.get("/all-countries", getCountries)
+app.get("/all-habits", getAllHabits)
+app.get("/all-habit-categories", getAllHabitCategories)
+app.get("/all-countries", getAllCountries)
 app.get("/all-blogs", getAllBlogs)
 
 // AUTHENTICATION RELATED
@@ -80,7 +80,8 @@ app.delete("/delete-user", verifyToken, deleteUser)
 // HABIT RELATED
 app.get("/completed-habits", verifyToken, getCompletedHabits)
 app.get("/all-completed-habits", getAllCompletedHabits)
-app.get("/new-completed-habits/:id", getNewCompletedHabits)
+app.get("/preview-completed-habits/:id", getPreviewCompletedHabits)
+
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)

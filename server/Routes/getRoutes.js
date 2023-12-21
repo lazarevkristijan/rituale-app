@@ -2,7 +2,7 @@ import sql from "../db.js"
 
 export const getRoot = (req, res) => res.send("DATABASE ROOT")
 
-export const getUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const users = await sql`
     SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
@@ -37,7 +37,7 @@ export const getUser = async (req, res) => {
   }
 }
 
-export const getHabits = async (req, res) => {
+export const getAllHabits = async (req, res) => {
   try {
     const habits = await sql`
     SELECT a.id,a.description,a.difficulty,b.category as category_1, c.category as category_2, d.category as category_3 FROM habits as a
@@ -82,7 +82,7 @@ export const getAllCompletedHabits = async (req, res) => {
   }
 }
 
-export const getNewCompletedHabits = async (req, res) => {
+export const getPreviewCompletedHabits = async (req, res) => {
   try {
     const userId = req.params.id
 
@@ -100,7 +100,7 @@ export const getNewCompletedHabits = async (req, res) => {
   }
 }
 
-export const getFinishedProfiles = async (req, res) => {
+export const getAllFinishedProfiles = async (req, res) => {
   try {
     const finishedProfiles = await sql`
     SELECT c.id
@@ -184,7 +184,7 @@ export const getUserSettings = async (req, res) => {
   }
 }
 
-export const getHabitCategories = async (req, res) => {
+export const getAllHabitCategories = async (req, res) => {
   try {
     const categories = await sql`
     SELECT *
@@ -197,7 +197,7 @@ export const getHabitCategories = async (req, res) => {
   }
 }
 
-export const getCountries = async (req, res) => {
+export const getAllCountries = async (req, res) => {
   try {
     const countries = await sql`
     SELECT *
