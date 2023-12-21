@@ -86,8 +86,8 @@ app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
 app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
-app.post("/add-blog", postAddBlog)
-app.delete("/remove-blog", deleteBlog)
+app.post("/add-blog", verifyToken, postAddBlog)
+app.delete("/remove-blog", verifyToken, deleteBlog)
 
 // USER SETTINGS
 app.get("/user-settings", verifyToken, getUserSettings)

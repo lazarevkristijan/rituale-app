@@ -161,6 +161,12 @@ export const postRemoveHabit = async (req, res) => {
 
 export const postAddBlog = async (req, res) => {
   try {
+    const userId = req.userId
+    if (userId !== 52)
+      return res
+        .status(400)
+        .json({ error: "Insufficient privileges to add blog" })
+
     const { title, author, link, image_url } = req.body
     const date_posted = new Date().toISOString().split("T")[0]
 

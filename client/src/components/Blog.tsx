@@ -33,9 +33,6 @@ const Blog = ({
         height: 350,
         bgcolor: "primary.dark",
         borderRadius: 2,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
       }}
     >
       <Box
@@ -48,35 +45,57 @@ const Blog = ({
         }}
       ></Box>
 
-      <Box sx={{ p: 2 }}>
-        <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
-        <Typography sx={{ fontWeight: "bold", textDecoration: "underline" }}>
-          {author}
-        </Typography>
-        <br />
-        <Typography
-          component="p"
-          variant="caption"
-          sx={{ textAlign: "right" }}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: 200,
+        }}
+      >
+        <Box
+          sx={{
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            flex: 1,
+          }}
         >
-          {date_posted}
-        </Typography>
-      </Box>
-      <Box>
-        <a
-          href={blog_link}
-          target="_blank"
-        >
-          <Button sx={{ width: user?.id === 52 ? "50%" : "100%" }}>view</Button>
-        </a>
-        {user?.id === 52 && (
-          <Button
-            onClick={handleBlogDelete}
-            sx={{ width: "50%" }}
+          <Box>
+            <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
+            <Typography
+              sx={{ fontWeight: "bold", textDecoration: "underline" }}
+            >
+              {author}
+            </Typography>
+          </Box>
+          <Typography
+            component="p"
+            variant="caption"
+            sx={{ textAlign: "right" }}
           >
-            delete
-          </Button>
-        )}
+            {date_posted}
+          </Typography>
+        </Box>
+        <Box>
+          <a
+            href={blog_link}
+            target="_blank"
+          >
+            <Button sx={{ width: user?.id === 52 ? "50%" : "100%" }}>
+              view
+            </Button>
+          </a>
+          {user?.id === 52 && (
+            <Button
+              onClick={handleBlogDelete}
+              sx={{ width: "50%" }}
+            >
+              delete
+            </Button>
+          )}
+        </Box>
       </Box>
     </Box>
   )

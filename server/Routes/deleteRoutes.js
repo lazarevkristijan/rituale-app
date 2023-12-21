@@ -18,6 +18,12 @@ export const deleteUser = async (req, res) => {
 
 export const deleteBlog = async (req, res) => {
   try {
+    const userId = req.userId
+    if (userId !== 52)
+      return res
+        .status(400)
+        .json({ error: "Insufficient privileges to remove blog" })
+
     const blogId = req.body.id
 
     await sql`
