@@ -1,5 +1,6 @@
 import {
   Box,
+  Breadcrumbs,
   Button,
   Checkbox,
   Dialog,
@@ -11,6 +12,7 @@ import {
   FormControlLabel,
   FormGroup,
   InputLabel,
+  Link,
   List,
   ListItemButton,
   ListItemText,
@@ -291,10 +293,19 @@ const Settings = () => {
       >
         {user?.first_name}'s settings
       </Typography>
+      <Breadcrumbs separator=">">
+        <Link
+          href="/profile"
+          underline="hover"
+        >
+          Profile
+        </Link>
+        <Typography>Settings</Typography>
+      </Breadcrumbs>
+
       <Typography variant="caption">
         Settings that don't have a "SAVE CHANGES" button are auto saved
       </Typography>
-
       <br />
       <br />
 

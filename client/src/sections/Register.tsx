@@ -20,7 +20,7 @@ import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  dispatch(changeLocation(1))
+  dispatch(changeLocation(4))
 
   const user = useSelector((state: RootState) => state.session.user)
   useEffect(() => {

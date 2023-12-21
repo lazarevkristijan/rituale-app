@@ -1,6 +1,5 @@
 TODO:
 
-- Not found section
 - back button / breadcrumbs or simialr
 - At least 200 - 300 Personalized habits that will apply to specific people only
 - all functions and stuff with getALL or just get for a single one

@@ -2,7 +2,14 @@ import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import { Box, Chip, Tooltip, Typography } from "@mui/material"
+import {
+  Box,
+  Breadcrumbs,
+  Chip,
+  Link,
+  Tooltip,
+  Typography,
+} from "@mui/material"
 import { RootState } from "../Store"
 import React from "react"
 import { countryShorthands } from "../constants"
@@ -61,7 +68,15 @@ const PreviewProfile = () => {
           <Typography variant="h3">
             {previewUser.first_name}'s Profile
           </Typography>
-
+          <Breadcrumbs separator=">">
+            <Link
+              underline="hover"
+              href="/search"
+            >
+              Search
+            </Link>
+            <Typography>Profile preview </Typography>
+          </Breadcrumbs>
           <Box
             sx={{
               bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
