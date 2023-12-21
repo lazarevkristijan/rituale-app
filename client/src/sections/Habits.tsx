@@ -89,7 +89,7 @@ const Habits = () => {
   const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false)
 
   const getHabits = async () => {
-    const res = await axios.get("http://localhost:5432/habits")
+    const res = await axios.get("http://localhost:5432/all-habits")
     return res.data
   }
   const {

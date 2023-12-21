@@ -184,7 +184,7 @@ const Settings = () => {
 
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
   const getHabitCategories = async () => {
-    const res = await axios.get("http://localhost:5432/habit-categories")
+    const res = await axios.get("http://localhost:5432/all-habit-categories")
     return res.data
   }
   const { data: habitCategoriesData } = useQuery(

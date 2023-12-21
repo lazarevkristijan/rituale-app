@@ -62,7 +62,7 @@ const Profile = () => {
   }
 
   const getHabits = async () => {
-    const res = await axios.get("http://localhost:5432/habits")
+    const res = await axios.get("http://localhost:5432/all-habits")
     return res.data
   }
   const { data: allHabits } = useQuery("get-all-habits", getHabits)

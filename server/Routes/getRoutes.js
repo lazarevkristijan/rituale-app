@@ -63,6 +63,21 @@ export const getCompletedHabits = async (req, res) => {
     return res.json(completedHabits)
   } catch (error) {
     console.error("Error is: ", error)
+    return res
+      .status(500)
+      .json({ error: "Error getting user's completed habits" })
+  }
+}
+
+export const getAllCompletedHabits = async (req, res) => {
+  try {
+    const allCompletedHabits = await sql`
+    SELECT *
+    FROM completed_habits`
+
+    return res.json(allCompletedHabits)
+  } catch (error) {
+    console.error("Error is: ", error)
     return res.status(500).json({ error: "Error getting all completed habits" })
   }
 }
@@ -79,11 +94,36 @@ export const getNewCompletedHabits = async (req, res) => {
     res.json(newCompletedHabits)
   } catch (error) {
     console.error("Error is: ", error)
-    return res
-      .status(500)
-      .json({ error: "Error getting all new completed habits" })
+    return res.status(500).json({
+      error: "Error getting all previewed user's completed habits",
+    })
   }
 }
+
+export const getFinishedProfiles = async (req, res) => {
+  try {
+    const finishedProfiles = await sql`
+    SELECT c.id
+    FROM users as c
+    WHERE NOT EXISTS (
+        SELECT h.id
+        FROM habits as h
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM completed_habits as a
+            WHERE a.habit_id = h.id AND a.user_id = c.id
+        )
+    )`
+
+    return res.json(finishedProfiles)
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({
+      error: "Error getting all current previewed user's completed habits",
+    })
+  }
+}
+
 export const getCheckAuth = async (req, res) => {
   try {
     const userId = req.userId

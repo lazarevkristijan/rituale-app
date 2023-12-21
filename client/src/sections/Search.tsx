@@ -18,7 +18,7 @@ const Search = () => {
   const user = useSelector((state: RootState) => state.session.user)
 
   const getUsers = async () => {
-    const res = await axios.get("http://localhost:5432/users", {
+    const res = await axios.get("http://localhost:5432/all-users", {
       withCredentials: true,
     })
     return res.data

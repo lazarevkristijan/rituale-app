@@ -5,9 +5,11 @@ import cookieParser from "cookie-parser"
 import dotenv from "dotenv"
 import { verifyToken } from "./middleware/verifyToken.js"
 import {
+  getAllCompletedHabits,
   getCheckAuth,
   getCompletedHabits,
   getCountries,
+  getFinishedProfiles,
   getHabitCategories,
   getHabits,
   getLogout,
@@ -59,11 +61,12 @@ app.get("/", getRoot)
 app.get("/check-auth", verifyToken, getCheckAuth)
 
 // GET DATA
-app.get("/users", getUsers)
+app.get("/all-users", getUsers)
+app.get("/all-finished-profiles", getFinishedProfiles)
 app.get("/user/:id", getUser)
-app.get("/habits", getHabits)
-app.get("/habit-categories", getHabitCategories)
-app.get("/countries", getCountries)
+app.get("/all-habits", getHabits)
+app.get("/all-habit-categories", getHabitCategories)
+app.get("/all-countries", getCountries)
 
 // AUTHENTICATION RELATED
 app.post("/login", postLogin)
@@ -73,6 +76,7 @@ app.delete("/delete-user", verifyToken, deleteUser)
 
 // HABIT RELATED
 app.get("/completed-habits", verifyToken, getCompletedHabits)
+app.get("/all-completed-habits", getAllCompletedHabits)
 app.get("/new-completed-habits/:id", getNewCompletedHabits)
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)

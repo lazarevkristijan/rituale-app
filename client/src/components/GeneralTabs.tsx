@@ -1,7 +1,7 @@
-import { Box, Grid, Tab } from "@mui/material"
+import { Box, Tab } from "@mui/material"
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { useState } from "react"
-import { Tip } from "."
+import { GeneralTabStatistics, GeneralTabTips } from "../subsections"
 
 const GeneralTabs = () => {
   const [activeTab, setActiveTab] = useState("1")
@@ -29,21 +29,11 @@ const GeneralTabs = () => {
           </TabList>
         </Box>
         <TabPanel value="1">
-          <Grid
-            gap={2}
-            sx={{
-              display: "flex",
-              justifyContent: "space-around",
-              flexWrap: "wrap",
-            }}
-          >
-            <Tip />
-            <Tip />
-            <Tip />
-            <Tip />
-          </Grid>
+          <GeneralTabTips />
         </TabPanel>
-        <TabPanel value="2">Statistics</TabPanel>
+        <TabPanel value="2">
+          <GeneralTabStatistics />
+        </TabPanel>
       </TabContext>
     </Box>
   )
