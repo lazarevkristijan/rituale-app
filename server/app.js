@@ -38,7 +38,7 @@ import {
   patchChangeCreds,
   patchChangeProfilePicture,
 } from "./Routes/patchRoutes.js"
-import { deleteUser } from "./Routes/deleteRoutes.js"
+import { deleteBlog, deleteUser } from "./Routes/deleteRoutes.js"
 import multer from "multer"
 import { storage } from "./cloudinary/index.js"
 const upload = multer({ storage })
@@ -87,6 +87,7 @@ app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
 app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
 app.post("/add-blog", postAddBlog)
+app.delete("/remove-blog", deleteBlog)
 
 // USER SETTINGS
 app.get("/user-settings", verifyToken, getUserSettings)

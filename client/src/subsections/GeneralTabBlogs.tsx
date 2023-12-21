@@ -22,7 +22,6 @@ const GeneralTabBlogs = () => {
 
   const getAllBlogs = async () => {
     const res = await axios.get("http://localhost:5432/all-blogs")
-    console.log(res.data)
     return res.data
   }
   const { data: blogs, isLoading: areBlogsLoading } = useQuery(
@@ -33,7 +32,6 @@ const GeneralTabBlogs = () => {
   const initialBlogData = {
     title: "",
     author: "",
-    short_description: "",
     link: "",
     image_url: "",
   }
@@ -97,19 +95,6 @@ const GeneralTabBlogs = () => {
                     }}
                   />
                   <TextField
-                    label="Short description"
-                    value={blogData.short_description}
-                    required
-                    autoComplete="off"
-                    error={blogData.short_description.length > 200}
-                    onChange={(e) => {
-                      setBlogData({
-                        ...blogData,
-                        short_description: e.target.value,
-                      })
-                    }}
-                  />
-                  <TextField
                     label="Link"
                     value={blogData.link}
                     required
@@ -143,12 +128,10 @@ const GeneralTabBlogs = () => {
                   disabled={
                     blogData.title.length > 50 ||
                     blogData.author.length > 50 ||
-                    blogData.short_description.length > 200 ||
                     blogData.link.length > 255 ||
                     blogData.image_url.length > 255 ||
                     blogData.title.length === 0 ||
                     blogData.author.length === 0 ||
-                    blogData.short_description.length === 0 ||
                     blogData.link.length === 0 ||
                     blogData.image_url.length === 0
                   }
@@ -161,23 +144,23 @@ const GeneralTabBlogs = () => {
         </Box>
       )}
 
-      <Grid
-        gap={2}
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          flexWrap: "wrap",
-        }}
-      >
+      <Box>
         {areBlogsLoading ? (
           <HabitsSkeleton />
         ) : (
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              flexWrap: "wrap",
+            }}
+          >
             {!blogs.length
               ? "No blogs"
               : blogs.map((blog: BlogTypes) => (
                   <Blog
                     key={blog.id}
+                    id={blog.id}
                     title={blog.title}
                     author={blog.author}
                     date_posted={blog.date_posted
@@ -191,7 +174,7 @@ const GeneralTabBlogs = () => {
                 ))}
           </Box>
         )}
-      </Grid>
+      </Box>
     </Box>
   )
 }

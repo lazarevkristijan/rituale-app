@@ -1,6 +1,6 @@
 TODO:
 
-- Tips: Books, speakers, influencers etc. to follow/see etc.
+- remove blog func
 - habit of the day / daily challenge
 - Feedback and support for the app
 - Amount of users :D + amount of who have all habits finished in tips section / general seciton rename?

@@ -1,18 +1,31 @@
 import { Box, Button, Typography } from "@mui/material"
+import { useSelector } from "react-redux"
+import { RootState } from "../Store"
+import axios from "axios"
 
 const Blog = ({
+  id,
   title,
   author,
   date_posted,
   blog_link,
   image_url,
 }: {
+  id: number
   title: string
   author: string
   date_posted: string
   blog_link: string
   image_url: string
 }) => {
+  const user = useSelector((state: RootState) => state.session.user)
+
+  const handleBlogDelete = () => {
+    axios.delete("http://localhost:5432/remove-blog", {
+      data: JSON.stringify({ id: id }),
+      headers: { "Content-Type": "application/json" },
+    })
+  }
   return (
     <Box
       sx={{
@@ -49,12 +62,22 @@ const Blog = ({
           {date_posted}
         </Typography>
       </Box>
-      <a
-        href={blog_link}
-        target="_blank"
-      >
-        <Button sx={{ width: "100%" }}>view</Button>
-      </a>
+      <Box>
+        <a
+          href={blog_link}
+          target="_blank"
+        >
+          <Button sx={{ width: user?.id === 52 ? "50%" : "100%" }}>view</Button>
+        </a>
+        {user?.id === 52 && (
+          <Button
+            onClick={handleBlogDelete}
+            sx={{ width: "50%" }}
+          >
+            delete
+          </Button>
+        )}
+      </Box>
     </Box>
   )
 }

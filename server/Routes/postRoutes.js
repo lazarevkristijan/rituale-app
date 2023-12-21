@@ -161,12 +161,12 @@ export const postRemoveHabit = async (req, res) => {
 
 export const postAddBlog = async (req, res) => {
   try {
-    const { title, author, short_description, link, image_url } = req.body
+    const { title, author, link, image_url } = req.body
     const date_posted = new Date().toISOString().split("T")[0]
 
     await sql`
-    INSERT INTO blogs (title, author, date_posted, short_description, link, image_url)
-    VALUES (${title}, ${author}, ${date_posted}, ${short_description}, ${link}, ${image_url})`
+    INSERT INTO blogs (title, author, date_posted, link, image_url)
+    VALUES (${title}, ${author}, ${date_posted}, ${link}, ${image_url})`
 
     return res.json({ success: "Successfully added blog" })
   } catch (error) {
