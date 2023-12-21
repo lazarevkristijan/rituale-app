@@ -1,11 +1,11 @@
 TODO:
 
-- all functions and stuff with getALL or just get for a single one
 - At least 200 - 300 Personalized habits that will apply to specific people only
 - send auth code to email / verify with Oauth2 
 - Forgot password
 - login with google
 - Accept cookies
+- Terms of service / terms of use?
 - Divide code in more and more components
 ---
 

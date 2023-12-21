@@ -11,6 +11,7 @@ import {
   DialogActions,
   FormGroup,
   Divider,
+  Grid,
 } from "@mui/material"
 import axios from "axios"
 import { useQuery } from "react-query"
@@ -456,11 +457,19 @@ const Habits = () => {
               .map((habit: HabitTypes) => (
                 <Box
                   key={habit.id}
-                  sx={{ display: "flex" }}
+                  sx={{
+                    display: "flex",
+                  }}
                 >
                   <Box
                     sx={{
-                      bgcolor: "#fff",
+                      bgcolor:
+                        habit.difficulty === "Easy"
+                          ? "success.light"
+                          : habit.difficulty === "Medium"
+                          ? "warning.light"
+                          : "error.light",
+
                       color: "#000",
                       width: 300,
                       borderRadius: 2,
@@ -470,7 +479,7 @@ const Habits = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Box sx={{ p: 2, height: 175 }}>
+                    <Box sx={{ p: 2 }}>
                       <Typography>{habit.description}</Typography>
                       <Box sx={{ height: 50 }}>
                         <Chip
@@ -484,13 +493,13 @@ const Habits = () => {
                           }
                         />
                       </Box>
-                      <Box
+                      <Grid
+                        gap={1}
                         sx={{
                           display: "flex",
                           justifyContent: "center",
                           flexWrap: "wrap",
                           alignItems: "center",
-                          height: 70,
                         }}
                       >
                         <Chip
@@ -512,7 +521,7 @@ const Habits = () => {
                             sx={{ fontSize: 16 }}
                           />
                         )}
-                      </Box>
+                      </Grid>
                     </Box>
                     <Box>
                       {user ? (
