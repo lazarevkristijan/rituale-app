@@ -1,6 +1,7 @@
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useDispatch } from "react-redux"
+import GeneralTabs from "../components/GeneralTabs"
 
 const Tips = () => {
   const dispatch = useDispatch()
@@ -8,8 +9,10 @@ const Tips = () => {
 
   return (
     <Box>
-      <Box>
-        <h1>Tips</h1>
+      <Typography variant="h2">Tips & General</Typography>
+
+      <Box width="100%">
+        <GeneralTabs />
       </Box>
     </Box>
   )

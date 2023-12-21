@@ -1,10 +1,9 @@
 TODO:
 
-- user progress
 - Tips: Books, speakers, influencers etc. to follow/see etc.
 - habit of the day / daily challenge
 - Feedback and support for the app
-- Amount of users :D + amount of who have all habits finished
+- Amount of users :D + amount of who have all habits finished in tips section / general seciton rename?
 - Forgot password
 - At least 200 - 300 Personalized habits that will apply to specific people only
 - send auth code to email 
@@ -17,25 +16,13 @@ TODO:
 
 
 MUI components to use:
-Typography
-Button
-Text Field
-Select
 Rating
 
-Box
-Stack
-Skeleton
-
 Accordion
-Navbar
 Breadcrumbs
 Link
 Drawer - side panel
-Avatar
 Dialog
-Table
-Tabs - LAB
 
 
 ENSURE SEMANTIC HTML IS USED EVERYWHERE 
