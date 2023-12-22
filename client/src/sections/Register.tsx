@@ -16,6 +16,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import HttpsIcon from "@mui/icons-material/Https"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import ReCAPTCHA from "react-google-recaptcha"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -28,12 +29,13 @@ const Register = () => {
   }, [navigate, user])
 
   const [isLoading, setIsLoading] = useState(true)
-
+  const [didReCaptchaSucceed, setDidReCaptchaSucceed] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    captchaVerified: false,
   })
 
   const [touchedFields, setTouchedFields] = useState({
@@ -43,7 +45,7 @@ const Register = () => {
     password: false,
   })
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (
@@ -70,6 +72,7 @@ const Register = () => {
           lastName: "",
           email: "",
           password: "",
+          captchaVerified: false,
         })
         setTouchedFields({
           firstName: false,
@@ -80,6 +83,20 @@ const Register = () => {
         console.error("Error during POST request on registration: ", error)
       })
   }
+
+  const onReCaptchaChnage = (value: string | null) => {
+    const success = !!value
+    console.log("did we pass?: ", success)
+    if (success) {
+      setDidReCaptchaSucceed(true)
+      formData.captchaVerified = true
+    } else {
+      setDidReCaptchaSucceed(false)
+      formData.captchaVerified = false
+    }
+  }
+
+  console.log("did re captcha ssucceed?: ", didReCaptchaSucceed)
 
   return (
     <Box
@@ -93,7 +110,7 @@ const Register = () => {
       {isLoading ? (
         <Typography component="h1">Loading...</Typography>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleRegister}>
           <TextField
             label="First Name"
             sx={{ mb: 1 }}
@@ -232,7 +249,8 @@ const Register = () => {
                 !nameRegex.test(formData.firstName) ||
                 !nameRegex.test(formData.lastName) ||
                 !emailRegex.test(formData.email) ||
-                !passwordRegex.test(formData.password)
+                !passwordRegex.test(formData.password) ||
+                !didReCaptchaSucceed
               }
             >
               register
@@ -240,6 +258,11 @@ const Register = () => {
           </Box>
         </form>
       )}
+      <ReCAPTCHA
+        sitekey="6LfOUDkpAAAAAAoLAOSkixwE-7AyyuYv5a8SrCgv"
+        onChange={(token) => onReCaptchaChnage(token)}
+        onExpired={() => setDidReCaptchaSucceed(false)}
+      />
     </Box>
   )
 }

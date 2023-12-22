@@ -1,6 +1,11 @@
 TODO:
 
-- At least 200 - 300 Personalized habits that will apply to specific people only
+- Add captcha on register
+- Translate app into any language?
+- Delete pfp option + del from cloudinary
+- On delete user delete anything connected to user
+
+- At least 100 Universal habits 
 - send auth code to email / verify with Oauth2 
 - Forgot password
 - login with google
