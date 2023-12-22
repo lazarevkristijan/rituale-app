@@ -43,12 +43,18 @@ import {
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useEffect, useState } from "react"
 import { emailRegex, nameRegex, passwordRegex } from "../Regex"
-import { allCountries, countryShorthands, languages } from "../constants"
+import {
+  allCountries,
+  countryShorthands,
+  defaultPfpURL,
+  languages,
+} from "../constants"
 import EditIcon from "@mui/icons-material/Edit"
 import { CategoryTypes } from "../Types"
 import { useQuery } from "react-query"
 import SaveIcon from "@mui/icons-material/Save"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { getPfpFileName } from "../HelperFunctions/getPfpFileName"
 
 const Settings = () => {
   const navigate = useNavigate()
@@ -285,6 +291,18 @@ const Settings = () => {
     }
   }, [user?.profile_picture])
 
+  const handlePfpDelete = () => {
+    if (user?.profile_picture) {
+      const pfpFileName = getPfpFileName(user.profile_picture)
+      axios.delete(
+        "http://localhost:5432/user-settings/delete-profile-picture",
+        {
+          headers: { "Content-Type": "application/json" },
+          data: JSON.stringify({ pfpFileName: pfpFileName }),
+        }
+      )
+    }
+  }
   return (
     <Box>
       <Typography
@@ -320,7 +338,9 @@ const Settings = () => {
             height={100}
             borderRadius={20}
             sx={{
-              background: `url('${pfpURL}') no-repeat center/cover #fff`,
+              background: `url('${
+                user?.profile_picture ? pfpURL : defaultPfpURL
+              }') no-repeat center/cover #fff`,
               width: 100,
               height: 100,
               borderRadius: 20,
@@ -332,7 +352,7 @@ const Settings = () => {
           >
             <input
               type="file"
-              id="test123"
+              id="pfpInput"
               name="profilePicture"
               accept="image/png, image/jpeg, image/jpg"
               onChange={(e) => {
@@ -382,7 +402,7 @@ const Settings = () => {
             disabled={!profilePicture}
             onClick={() => {
               const inputEl = document.getElementById(
-                "test123"
+                "pfpInput"
               ) as HTMLInputElement
               inputEl.value = ""
               setProfilePicture(null)
@@ -390,6 +410,8 @@ const Settings = () => {
               if (user?.profile_picture) {
                 const pfpData = JSON.parse(user?.profile_picture)
                 setPfpURL(pfpData.url)
+              } else {
+                setPfpURL(defaultPfpURL)
               }
             }}
           >
@@ -402,6 +424,12 @@ const Settings = () => {
             submit
           </Button>
         </form>
+        <Button
+          onClick={handlePfpDelete}
+          disabled={!user?.profile_picture}
+        >
+          delete pfp
+        </Button>
       </Box>
       <br />
 

@@ -1,7 +1,5 @@
 TODO:
 
-- Add captcha on register
-- Translate app into any language?
 - Delete pfp option + del from cloudinary
 - On delete user delete anything connected to user
 

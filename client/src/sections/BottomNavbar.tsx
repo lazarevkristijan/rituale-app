@@ -9,6 +9,7 @@ import { RootState } from "../Store"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import SearchIcon from "@mui/icons-material/Search"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
+import { defaultPfpURL } from "../constants"
 const BottomNavbar = () => {
   const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.session.user)
@@ -56,7 +57,9 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="Profile"
         icon={
-          user?.profile_picture ? (
+          !user ? (
+            <AccountCircleIcon />
+          ) : (
             <Box
               component="img"
               sx={{
@@ -64,12 +67,14 @@ const BottomNavbar = () => {
                 border: "3px solid black",
                 backgroundColor: "#fff",
               }}
-              src={getPfpLink(user.profile_picture)}
+              src={
+                user.profile_picture
+                  ? getPfpLink(user.profile_picture)
+                  : defaultPfpURL
+              }
               width={30}
               height={30}
             />
-          ) : (
-            <AccountCircleIcon />
           )
         }
         onClick={() => navigate(user ? "/profile" : "/login")}

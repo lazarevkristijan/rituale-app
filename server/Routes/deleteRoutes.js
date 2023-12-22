@@ -36,3 +36,17 @@ export const deleteBlog = async (req, res) => {
     return res.status(500).json({ error: "Error when deleting blog" })
   }
 }
+
+export const deleteProfilePicture = async (req, res) => {
+  try {
+    console.log("req body is: ", req.body)
+
+    // await sql`
+    // UPDATE users`
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res
+      .status(500)
+      .json({ error: "Error when deleting profile picture" })
+  }
+}

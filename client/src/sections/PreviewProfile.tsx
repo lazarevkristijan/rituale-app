@@ -12,7 +12,7 @@ import {
 } from "@mui/material"
 import { RootState } from "../Store"
 import React from "react"
-import { countryShorthands } from "../constants"
+import { countryShorthands, defaultPfpURL } from "../constants"
 import { useQuery } from "react-query"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { ProfileSkeleton } from "../components"
@@ -91,9 +91,11 @@ const PreviewProfile = () => {
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Box
                   sx={{
-                    background: `url('${getPfpLink(
+                    background: `url('${
                       previewUser.profile_picture
-                    )}') no-repeat center/cover #fff`,
+                        ? getPfpLink(previewUser.profile_picture)
+                        : defaultPfpURL
+                    }') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,
                     borderRadius: 20,

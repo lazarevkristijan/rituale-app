@@ -38,7 +38,11 @@ import {
   patchChangeCreds,
   patchChangeProfilePicture,
 } from "./Routes/patchRoutes.js"
-import { deleteBlog, deleteUser } from "./Routes/deleteRoutes.js"
+import {
+  deleteBlog,
+  deleteProfilePicture,
+  deleteUser,
+} from "./Routes/deleteRoutes.js"
 import multer from "multer"
 import { storage } from "./cloudinary/index.js"
 const upload = multer({ storage })
@@ -103,6 +107,7 @@ app.patch(
   upload.single("profilePicture"),
   patchChangeProfilePicture
 )
+app.delete("/user-settings/delete-profile-picture", deleteProfilePicture)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

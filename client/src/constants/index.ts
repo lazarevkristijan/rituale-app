@@ -1,3 +1,6 @@
+export const defaultPfpURL =
+  "https://www.eol.ucar.edu/sites/default/files/styles/square/public/2022-06/user.png?itok=0aS_ePfk"
+
 export const languages = [
   {
     fullName: "English",

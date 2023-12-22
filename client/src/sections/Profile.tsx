@@ -12,7 +12,7 @@ import {
   changeColorTheme,
   changeLanguage,
 } from "../features/settings/settingsSlice"
-import { countryShorthands } from "../constants"
+import { countryShorthands, defaultPfpURL } from "../constants"
 import { ProfileSkeleton } from "../components"
 import React from "react"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
@@ -89,7 +89,9 @@ const Profile = () => {
                 <Box
                   sx={{
                     background: `url('${
-                      user?.profile_picture && getPfpLink(user?.profile_picture)
+                      user?.profile_picture
+                        ? getPfpLink(user?.profile_picture)
+                        : defaultPfpURL
                     }') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,

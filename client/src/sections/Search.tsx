@@ -9,6 +9,7 @@ import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { useDispatch, useSelector } from "react-redux"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { RootState } from "../Store"
+import { defaultPfpURL } from "../constants"
 const Search = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -75,8 +76,9 @@ const Search = () => {
                     <Box
                       component="img"
                       src={
-                        profile.profile_picture &&
-                        getPfpLink(profile.profile_picture)
+                        profile.profile_picture
+                          ? getPfpLink(profile.profile_picture)
+                          : defaultPfpURL
                       }
                       width={50}
                       height={50}
