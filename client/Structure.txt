@@ -1,6 +1,5 @@
 TODO:
 
-- Delete pfp option + del from cloudinary
 - On delete user delete anything connected to user
 
 - At least 100 Universal habits 

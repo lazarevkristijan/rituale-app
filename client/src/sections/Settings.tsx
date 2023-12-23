@@ -54,7 +54,7 @@ import { CategoryTypes } from "../Types"
 import { useQuery } from "react-query"
 import SaveIcon from "@mui/icons-material/Save"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import { getPfpFileName } from "../HelperFunctions/getPfpFileName"
+import { handlePfpDelete } from "../HelperFunctions/handlePfpDelete"
 
 const Settings = () => {
   const navigate = useNavigate()
@@ -256,8 +256,7 @@ const Settings = () => {
     e.preventDefault()
 
     if (user?.profile_picture) {
-      handlePfpDelete()
-      console.log("old pfp deleted")
+      handlePfpDelete(user.profile_picture, dispatch)
     }
 
     if (profilePicture) {
@@ -298,20 +297,6 @@ const Settings = () => {
     }
   }, [user?.profile_picture])
 
-  const handlePfpDelete = () => {
-    if (user?.profile_picture) {
-      const pfpFileName = getPfpFileName(user.profile_picture)
-      axios
-        .delete("http://localhost:5432/user-settings/delete-profile-picture", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-          data: JSON.stringify({ pfpFileName: pfpFileName }),
-        })
-        .then(() => {
-          dispatch(changeProfilePicture(null))
-        })
-    }
-  }
   return (
     <Box>
       <Typography
@@ -434,7 +419,7 @@ const Settings = () => {
           </Button>
         </form>
         <Button
-          onClick={handlePfpDelete}
+          onClick={() => handlePfpDelete(user?.profile_picture,dispatch)}
           disabled={!user?.profile_picture}
         >
           delete pfp
