@@ -6,12 +6,18 @@ export const patchChangeTheme = async (req, res) => {
   try {
     const userId = req.userId
     const { theme } = req.body
+    const themeCookie = req.cookies.theme
+    console.log("themecookie: ", themeCookie)
+    if (themeCookie) {
+      res.clearCookie("theme")
+    }
 
     await sql`
   UPDATE user_settings
   SET value = ${theme}
   WHERE setting_id = 1 AND user_id = ${userId}`
 
+    res.cookie("theme", theme)
     return res.json({ theme: theme })
   } catch (error) {
     console.error("Error is: ", error)

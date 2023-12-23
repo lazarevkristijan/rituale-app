@@ -1,6 +1,6 @@
 TODO:
 
-- On delete user delete anything connected to user
+- dark mode not working
 
 - At least 100 Universal habits 
 - send auth code to email / verify with Oauth2 

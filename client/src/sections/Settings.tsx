@@ -81,6 +81,11 @@ const Settings = () => {
       )
       .then((response) => {
         dispatch(changeColorTheme(response.data.theme))
+        if (response.data.theme === "dark") {
+          document.body.style.backgroundColor = "#121212"
+        } else {
+          document.body.style.backgroundColor = "#fff"
+        }
       })
   }
 
@@ -97,6 +102,7 @@ const Settings = () => {
         dispatch(logout())
         dispatch(clearHabits())
         dispatch(changeColorTheme("light"))
+        document.body.style.backgroundColor = "#fff"
         dispatch(changeLanguage("en"))
         navigate("/login")
       })
