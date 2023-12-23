@@ -6,10 +6,19 @@ export const deleteUser = async (req, res) => {
     const userId = req.userId
 
     await sql`
-        DELETE FROM users
-        WHERE id = ${userId}`
+    DELETE FROM user_settings
+    WHERE user_id = ${userId}`
+
+    await sql`
+    DELETE FROM completed_habits
+    WHERE user_id = ${userId}`
+
+    await sql`
+    DELETE FROM users
+    WHERE id = ${userId}`
 
     res.clearCookie("user")
+    res.clearCookie("theme")
     return res.json({ success: "Successfully deleted user" })
   } catch (error) {
     console.error("Error is: ", error)

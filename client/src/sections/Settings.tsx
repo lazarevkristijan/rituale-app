@@ -85,6 +85,10 @@ const Settings = () => {
   }
 
   const handleUserDelete = () => {
+    if (user?.profile_picture) {
+      handlePfpDelete(user?.profile_picture, dispatch)
+    }
+
     axios
       .delete(`http://localhost:5432/delete-user`, {
         withCredentials: true,
@@ -92,6 +96,8 @@ const Settings = () => {
       .then(() => {
         dispatch(logout())
         dispatch(clearHabits())
+        dispatch(changeColorTheme("light"))
+        dispatch(changeLanguage("en"))
         navigate("/login")
       })
   }
@@ -419,7 +425,7 @@ const Settings = () => {
           </Button>
         </form>
         <Button
-          onClick={() => handlePfpDelete(user?.profile_picture,dispatch)}
+          onClick={() => handlePfpDelete(user?.profile_picture, dispatch)}
           disabled={!user?.profile_picture}
         >
           delete pfp
