@@ -71,11 +71,6 @@ const BottomNavbar = () => {
                     : defaultPfpURL
                 }') no-repeat center/cover #fff`,
               }}
-              // src={
-              //   user.profile_picture
-              //     ? getPfpLink(user.profile_picture)
-              //     : defaultPfpURL
-              // }
               width={30}
               height={30}
             />

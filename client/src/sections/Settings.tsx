@@ -250,9 +250,22 @@ const Settings = () => {
   }
 
   const [profilePicture, setProfilePicture] = useState<File | null>(null)
-
-  const handleProfilePictureChange = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleProfilePictureChange = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault()
+
+    if (user?.profile_picture) {
+      const pfpFileName = getPfpFileName(user.profile_picture)
+      await axios.delete(
+        "http://localhost:5432/user-settings/delete-profile-picture",
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+          data: JSON.stringify({ pfpFileName: pfpFileName }),
+        }
+      )
+    }
 
     if (profilePicture) {
       const formData = new FormData()
@@ -298,11 +311,10 @@ const Settings = () => {
         .delete("http://localhost:5432/user-settings/delete-profile-picture", {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-          data: JSON.stringify({ pfpFileName: pfpFileName }), 
-          
+          data: JSON.stringify({ pfpFileName: pfpFileName }),
         })
         .then(() => {
-          console.log('profile picture will change');
+          console.log("profile picture will change")
           changeProfilePicture(null)
         })
     }
