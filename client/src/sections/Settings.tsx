@@ -256,15 +256,8 @@ const Settings = () => {
     e.preventDefault()
 
     if (user?.profile_picture) {
-      const pfpFileName = getPfpFileName(user.profile_picture)
-      await axios.delete(
-        "http://localhost:5432/user-settings/delete-profile-picture",
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-          data: JSON.stringify({ pfpFileName: pfpFileName }),
-        }
-      )
+      handlePfpDelete()
+      console.log("old pfp deleted")
     }
 
     if (profilePicture) {
@@ -296,6 +289,7 @@ const Settings = () => {
       setProfilePicture(file)
     }
   }
+
   const [pfpURL, setPfpURL] = useState("")
   useEffect(() => {
     if (user?.profile_picture) {
@@ -314,8 +308,7 @@ const Settings = () => {
           data: JSON.stringify({ pfpFileName: pfpFileName }),
         })
         .then(() => {
-          console.log("profile picture will change")
-          changeProfilePicture(null)
+          dispatch(changeProfilePicture(null))
         })
     }
   }
