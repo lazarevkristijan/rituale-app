@@ -61,17 +61,21 @@ const BottomNavbar = () => {
             <AccountCircleIcon />
           ) : (
             <Box
-              component="img"
               sx={{
                 borderRadius: 20,
                 border: "3px solid black",
                 backgroundColor: "#fff",
+                background: `url('${
+                  user?.profile_picture
+                    ? getPfpLink(user?.profile_picture)
+                    : defaultPfpURL
+                }') no-repeat center/cover #fff`,
               }}
-              src={
-                user.profile_picture
-                  ? getPfpLink(user.profile_picture)
-                  : defaultPfpURL
-              }
+              // src={
+              //   user.profile_picture
+              //     ? getPfpLink(user.profile_picture)
+              //     : defaultPfpURL
+              // }
               width={30}
               height={30}
             />

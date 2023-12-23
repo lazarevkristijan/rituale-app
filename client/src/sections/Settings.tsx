@@ -84,7 +84,7 @@ const Settings = () => {
       })
   }
 
-  const handleDeleteUser = () => {
+  const handleUserDelete = () => {
     axios
       .delete(`http://localhost:5432/delete-user`, {
         withCredentials: true,
@@ -294,13 +294,17 @@ const Settings = () => {
   const handlePfpDelete = () => {
     if (user?.profile_picture) {
       const pfpFileName = getPfpFileName(user.profile_picture)
-      axios.delete(
-        "http://localhost:5432/user-settings/delete-profile-picture",
-        {
+      axios
+        .delete("http://localhost:5432/user-settings/delete-profile-picture", {
           headers: { "Content-Type": "application/json" },
-          data: JSON.stringify({ pfpFileName: pfpFileName }),
-        }
-      )
+          withCredentials: true,
+          data: JSON.stringify({ pfpFileName: pfpFileName }), 
+          
+        })
+        .then(() => {
+          console.log('profile picture will change');
+          changeProfilePicture(null)
+        })
     }
   }
   return (
@@ -776,7 +780,7 @@ const Settings = () => {
       >
         Danger Zone
       </Typography>
-      <Button onDoubleClick={handleDeleteUser}>delete profile</Button>
+      <Button onDoubleClick={handleUserDelete}>delete profile</Button>
     </Box>
   )
 }

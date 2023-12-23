@@ -107,7 +107,11 @@ app.patch(
   upload.single("profilePicture"),
   patchChangeProfilePicture
 )
-app.delete("/user-settings/delete-profile-picture", deleteProfilePicture)
+app.delete(
+  "/user-settings/delete-profile-picture",
+  verifyToken,
+  deleteProfilePicture
+)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

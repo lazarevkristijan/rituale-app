@@ -1,4 +1,5 @@
 import sql from "../db.js"
+import { cloudinary } from "../cloudinary/index.js"
 
 export const deleteUser = async (req, res) => {
   try {
@@ -39,10 +40,17 @@ export const deleteBlog = async (req, res) => {
 
 export const deleteProfilePicture = async (req, res) => {
   try {
-    console.log("req body is: ", req.body)
+    const userId = req.userId
+    const picturePath = req.body.pfpFileName
 
-    // await sql`
-    // UPDATE users`
+    await sql`
+    UPDATE users
+    SET profile_picture = NULL
+    WHERE id = ${userId}`
+
+    cloudinary.uploader.destroy(picturePath)
+
+    return res.json({ success: "Successfully deleted profile picture" })
   } catch (error) {
     console.error("Error is: ", error)
     return res
