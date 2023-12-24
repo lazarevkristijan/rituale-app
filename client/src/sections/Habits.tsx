@@ -484,6 +484,7 @@ const Habits = () => {
                       <Box sx={{ height: 50 }}>
                         <Chip
                           label={habit.difficulty}
+                          sx={{ color: "#000" }}
                           color={
                             habit.difficulty === "Easy"
                               ? "success"
