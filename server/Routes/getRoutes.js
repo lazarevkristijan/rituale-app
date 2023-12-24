@@ -5,7 +5,7 @@ export const getRoot = (req, res) => res.send("DATABASE ROOT")
 export const getAllUsers = async (req, res) => {
   try {
     const users = await sql`
-    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, a.pinned_habit, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
@@ -23,11 +23,12 @@ export const getUser = async (req, res) => {
     const userId = req.params.id
 
     const user = await sql`
-    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, f.id as pinned_habit, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
     LEFT JOIN countries as e ON a.country = e.id
+    LEFT JOIN habits as f ON a.pinned_habit = f.id
     WHERE a.id = ${userId}`
 
     return res.json(user[0])
@@ -128,12 +129,15 @@ export const getCheckAuth = async (req, res) => {
   try {
     const userId = req.userId
     const user = await sql`
-    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, f.id as pinned_habit, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
     LEFT JOIN countries as e ON a.country = e.id
+    LEFT JOIN habits as f ON a.pinned_habit = f.id
     WHERE a.id = ${userId}`
+
+    console.log(user[0])
 
     return res.json({ user: user[0] })
   } catch (error) {

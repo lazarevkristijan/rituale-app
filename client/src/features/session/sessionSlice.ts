@@ -52,6 +52,11 @@ export const sessionSlice = createSlice({
         state.user.profile_picture = action.payload
       }
     },
+    changePinnedHabit: (state, action) => {
+      if (state.user) {
+        state.user.pinned_habit = action.payload
+      }
+    },
   },
 })
 
@@ -63,6 +68,7 @@ export const {
   changeCountry,
   changeBio,
   changeProfilePicture,
+  changePinnedHabit,
 } = sessionSlice.actions
 
 export default sessionSlice.reducer

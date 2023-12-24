@@ -18,6 +18,7 @@ export type UserTypes = {
   country: string | null
   bio: string | null
   profile_picture: string | null
+  pinned_habit: number | null
 }
 
 export type CategoryTypes = {
@@ -103,6 +104,7 @@ export type SessionSliceTypes = {
     country: string | null
     bio: string | null
     profile_picture: string | null
+    pinned_habit: number | null
   } | null
 }
 

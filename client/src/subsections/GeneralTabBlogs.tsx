@@ -149,7 +149,8 @@ const GeneralTabBlogs = () => {
         {areBlogsLoading ? (
           <HabitsSkeleton />
         ) : (
-          <Box
+          <Grid
+            gap={2}
             sx={{
               display: "flex",
               justifyContent: "space-around",
@@ -173,7 +174,7 @@ const GeneralTabBlogs = () => {
                     image_url={blog.image_url}
                   />
                 ))}
-          </Box>
+          </Grid>
         )}
       </Box>
     </Box>

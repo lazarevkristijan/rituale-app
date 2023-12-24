@@ -37,6 +37,7 @@ import {
   patchChangeBio,
   patchChangeCreds,
   patchChangeProfilePicture,
+  patchPinHabit,
 } from "./Routes/patchRoutes.js"
 import {
   deleteBlog,
@@ -89,8 +90,11 @@ app.get("/preview-completed-habits/:id", getPreviewCompletedHabits)
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
+app.patch("/pin-habit", verifyToken, patchPinHabit)
+
 app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
 app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
+
 app.post("/add-blog", verifyToken, postAddBlog)
 app.delete("/remove-blog", verifyToken, deleteBlog)
 

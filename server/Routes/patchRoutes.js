@@ -277,3 +277,20 @@ export const patchChangeProfilePicture = async (req, res) => {
       .json({ error: "Error when changing profile picture" })
   }
 }
+
+export const patchPinHabit = async (req, res) => {
+  try {
+    const { habitId } = req.body
+    const userId = req.userId
+
+    await sql`
+      UPDATE users
+      SET pinned_habit = ${habitId}
+      WHERE id = ${userId}`
+
+    return res.json({ success: "Successfully pinned/unpinned habit" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error when pinning habit" })
+  }
+}

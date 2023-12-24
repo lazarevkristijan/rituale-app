@@ -34,6 +34,8 @@ import {
 import HabitsSkeleton from "../skeletons/HabitsSkeleton"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { FilterCheckbox } from "../HelperFunctions/filterHabitCheckbox"
+import PushPinIcon from "@mui/icons-material/PushPin"
+import { changePinnedHabit } from "../features/session/sessionSlice"
 
 const Habits = () => {
   const navigate = useNavigate()
@@ -203,6 +205,19 @@ const Habits = () => {
       {label}
     </Button>
   )
+
+  const handlePinHabit = (habitId: number | null) => {
+    axios.patch(
+      "http://localhost:5432/pin-habit",
+      JSON.stringify({ habitId: habitId }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    )
+  }
 
   return (
     <Box>
@@ -454,17 +469,27 @@ const Habits = () => {
                   "Personal growth"
                 )
               )
+              .slice()
+              .sort((a: HabitTypes, b: HabitTypes) => {
+                if (a.id === user?.pinned_habit) return -1
+                if (b.id === user?.pinned_habit) return 1
+                return 0
+              })
+
               .map((habit: HabitTypes) => (
                 <Box
                   key={habit.id}
                   sx={{
                     display: "flex",
+                    position: "relative",
                   }}
                 >
                   <Box
                     sx={{
                       bgcolor:
-                        habit.difficulty === "Easy"
+                        user?.pinned_habit === habit.id
+                          ? "yellow"
+                          : habit.difficulty === "Easy"
                           ? "success.light"
                           : habit.difficulty === "Medium"
                           ? "warning.light"
@@ -524,6 +549,29 @@ const Habits = () => {
                         )}
                       </Grid>
                     </Box>
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        right: 5,
+                        bottom: 45,
+                      }}
+                      onClick={() => {
+                        if (user?.pinned_habit === habit.id) {
+                          handlePinHabit(null)
+                          dispatch(changePinnedHabit(null))
+                        } else {
+                          handlePinHabit(habit.id)
+                          dispatch(changePinnedHabit(habit.id))
+                        }
+                      }}
+                    >
+                      <PushPinIcon
+                        sx={{
+                          color:
+                            user?.pinned_habit === habit.id ? "purple" : "blue",
+                        }}
+                      />
+                    </IconButton>
                     <Box>
                       {user ? (
                         <Button
