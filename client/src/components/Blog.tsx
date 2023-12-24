@@ -24,6 +24,7 @@ const Blog = ({
     axios.delete("http://localhost:5432/remove-blog", {
       data: JSON.stringify({ id: id }),
       headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     })
   }
   return (

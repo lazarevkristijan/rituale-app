@@ -44,6 +44,7 @@ const GeneralTabBlogs = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       })
       .then(() => {
         setBlogData(initialBlogData)
