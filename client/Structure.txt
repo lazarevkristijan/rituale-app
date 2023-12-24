@@ -1,8 +1,6 @@
 TODO:
 
-- dark mode not working
-
-- At least 100 Universal habits 
+- At least 100 Universal habits
 - send auth code to email / verify with Oauth2 
 - Forgot password
 - login with google

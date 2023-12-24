@@ -28,7 +28,6 @@ const BottomNavbar = () => {
         position: "sticky",
         bottom: 0,
         width: "100%",
-        display: { xs: "flex" },
         height: 50,
       }}
     >
@@ -71,8 +70,8 @@ const BottomNavbar = () => {
                     : defaultPfpURL
                 }') no-repeat center/cover #fff`,
               }}
-              width={30}
-              height={30}
+              width={22.5}
+              height={22.5}
             />
           )
         }

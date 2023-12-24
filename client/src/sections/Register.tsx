@@ -86,7 +86,6 @@ const Register = () => {
 
   const onReCaptchaChnage = (value: string | null) => {
     const success = !!value
-    console.log("did we pass?: ", success)
     if (success) {
       setDidReCaptchaSucceed(true)
       formData.captchaVerified = true
@@ -95,8 +94,6 @@ const Register = () => {
       formData.captchaVerified = false
     }
   }
-
-  console.log("did re captcha ssucceed?: ", didReCaptchaSucceed)
 
   return (
     <Box

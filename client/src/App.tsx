@@ -87,6 +87,7 @@ const App = () => {
             (setting: UserSettingsTypes) => setting.setting_id === 2
           )
           dispatch(changeColorTheme(colorTheme[0].value))
+          document.body.style.backgroundColor = colorTheme[0].value
           dispatch(changeLanguage(language[0].value))
         })
         .finally(() => {

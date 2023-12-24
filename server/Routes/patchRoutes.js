@@ -7,7 +7,7 @@ export const patchChangeTheme = async (req, res) => {
     const userId = req.userId
     const { theme } = req.body
     const themeCookie = req.cookies.theme
-    console.log("themecookie: ", themeCookie)
+
     if (themeCookie) {
       res.clearCookie("theme")
     }
