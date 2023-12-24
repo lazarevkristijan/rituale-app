@@ -480,7 +480,6 @@ const Habits = () => {
                 if (b.id === user?.pinned_habit) return 1
                 return 0
               })
-
               .map((habit: HabitTypes) => (
                 <Box
                   component="div"
@@ -489,8 +488,14 @@ const Habits = () => {
                     display: "flex",
                     position: "relative",
                   }}
-                  onMouseOver={() => setPinnedHabitIdShown(habit.id)}
-                  onMouseLeave={() => setPinnedHabitIdShown(null)}
+                  onMouseOver={() => {
+                    if (!user) return
+                    setPinnedHabitIdShown(habit.id)
+                  }}
+                  onMouseLeave={() => {
+                    if (!user) return
+                    setPinnedHabitIdShown(null)
+                  }}
                 >
                   {user?.pinned_habit === habit.id && (
                     <StarIcon

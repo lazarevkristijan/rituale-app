@@ -1,6 +1,5 @@
 TODO:
 
-- pin habit functionality
 - send auth code to email / verify with Oauth2 
 - Forgot password
 - login with google
