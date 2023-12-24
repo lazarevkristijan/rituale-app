@@ -36,6 +36,7 @@ import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { FilterCheckbox } from "../HelperFunctions/filterHabitCheckbox"
 import PushPinIcon from "@mui/icons-material/PushPin"
 import { changePinnedHabit } from "../features/session/sessionSlice"
+import StarIcon from "@mui/icons-material/Star"
 
 const Habits = () => {
   const navigate = useNavigate()
@@ -67,6 +68,10 @@ const Habits = () => {
     completed: true,
     not_completed: true,
   })
+
+  const [pinnedHabitIdShown, setPinnedHabitIdShown] = useState<number | null>(
+    null
+  )
 
   const handleCategoriesCheckboxChange = (
     category: keyof FilterCategoriesTypes
@@ -478,12 +483,25 @@ const Habits = () => {
 
               .map((habit: HabitTypes) => (
                 <Box
+                  component="div"
                   key={habit.id}
                   sx={{
                     display: "flex",
                     position: "relative",
                   }}
+                  onMouseOver={() => setPinnedHabitIdShown(habit.id)}
+                  onMouseLeave={() => setPinnedHabitIdShown(null)}
                 >
+                  {user?.pinned_habit === habit.id && (
+                    <StarIcon
+                      sx={{
+                        color: "black",
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                      }}
+                    />
+                  )}
                   <Box
                     sx={{
                       bgcolor:
@@ -549,29 +567,37 @@ const Habits = () => {
                         )}
                       </Grid>
                     </Box>
-                    <IconButton
-                      sx={{
-                        position: "absolute",
-                        right: 5,
-                        bottom: 45,
-                      }}
-                      onClick={() => {
-                        if (user?.pinned_habit === habit.id) {
-                          handlePinHabit(null)
-                          dispatch(changePinnedHabit(null))
-                        } else {
-                          handlePinHabit(habit.id)
-                          dispatch(changePinnedHabit(habit.id))
+                    {pinnedHabitIdShown === habit.id && (
+                      <Tooltip
+                        title={
+                          user?.pinned_habit === habit.id ? "Unpin" : "Pin"
                         }
-                      }}
-                    >
-                      <PushPinIcon
-                        sx={{
-                          color:
-                            user?.pinned_habit === habit.id ? "purple" : "blue",
-                        }}
-                      />
-                    </IconButton>
+                        arrow
+                      >
+                        <IconButton
+                          sx={{
+                            position: "absolute",
+                            right: 5,
+                            bottom: 45,
+                          }}
+                          onClick={() => {
+                            if (user?.pinned_habit === habit.id) {
+                              handlePinHabit(null)
+                              dispatch(changePinnedHabit(null))
+                            } else {
+                              handlePinHabit(habit.id)
+                              dispatch(changePinnedHabit(habit.id))
+                            }
+                          }}
+                        >
+                          <PushPinIcon
+                            sx={{
+                              color: "black",
+                            }}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                     <Box>
                       {user ? (
                         <Button
