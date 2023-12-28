@@ -54,14 +54,16 @@ export const getAllHabits = async (req, res) => {
 
 export const getCompletedHabits = async (req, res) => {
   try {
-    const userId = req.userId
+    console.log(req.body)
 
-    const completedHabits = await sql`
-    SELECT *
-    FROM completed_habits
-    WHERE user_id = ${userId}`
+    // const userId = req.userId
 
-    return res.json(completedHabits)
+    // const completedHabits = await sql`
+    // SELECT *
+    // FROM completed_habits
+    // WHERE user_id = ${userId}`
+
+    // return res.json(completedHabits)
   } catch (error) {
     console.error("Error is: ", error)
     return res

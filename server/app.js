@@ -23,6 +23,7 @@ import {
 } from "./Routes/getRoutes.js"
 import {
   postAddBlog,
+  postAuth0Register,
   postCompleteHabit,
   postLogin,
   postRegister,
@@ -81,9 +82,10 @@ app.post("/login", postLogin)
 app.post("/register", postRegister)
 app.get("/logout", getLogout)
 app.delete("/delete-user", verifyToken, deleteUser)
+app.post("/auth0-register", postAuth0Register)
 
 // HABIT RELATED
-app.get("/completed-habits", verifyToken, getCompletedHabits)
+app.get("/completed-habits", getCompletedHabits)
 app.get("/all-completed-habits", getAllCompletedHabits)
 app.get("/preview-completed-habits/:id", getPreviewCompletedHabits)
 

@@ -130,6 +130,29 @@ export const postLogin = async (req, res) => {
   }
 }
 
+export const postAuth0Register = async (req, res) => {
+  try {
+    const { given_name, family_name, picture, email, sub } = req.body
+
+    console.log(req.body)
+
+    // const emailExists = await sql`
+    // SELECT *
+    // FROM users
+    // WHERE email = ${email}`
+
+    // if (emailExists) return res.json({ info: "User exists" })
+
+    // await sql`
+    // INSERT INTO users(first_name, email, profile_picture)`
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res
+      .status(500)
+      .json({ error: "Error when logging in or registering" })
+  }
+}
+
 export const postCompleteHabit = async (req, res) => {
   try {
     const { habitId, date } = req.body

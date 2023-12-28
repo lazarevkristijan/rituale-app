@@ -21,11 +21,19 @@ import { addHabit } from "../features/completedHabits/completedHabitsSlice"
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import HttpsIcon from "@mui/icons-material/Https"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { useAuth0 } from "@auth0/auth0-react"
 
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(4))
+  const {
+    loginWithRedirect,
+    logout,
+    user: auth0User,
+    isAuthenticated,
+    isLoading: isAuth0Loading,
+  } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   useEffect(() => {
@@ -106,108 +114,141 @@ const Login = () => {
         justifyContent: "center",
       }}
     >
-      {isLoading ? (
-        <Typography component="h1">Loading...</Typography>
+      {isAuth0Loading ? (
+        <h1>Loading...</h1>
       ) : (
         <>
-          <Typography
-            variant="h3"
-            sx={{ textAlign: "center", mb: 2 }}
+          <Button
+            onClick={() => {
+              loginWithRedirect()
+            }}
           >
-            LOGIN
-          </Typography>
-          <form onSubmit={handleLogin}>
-            <TextField
-              label="Email"
-              type="email"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle
-                      color={
-                        !emailRegex.test(formData.email) && touchedFields.email
-                          ? "error"
-                          : !emailRegex.test(formData.email) &&
-                            !touchedFields.email
-                          ? "primary"
-                          : "success"
-                      }
-                    />
-                  </InputAdornment>
-                ),
-              }}
-              autoFocus
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              error={!emailRegex.test(formData.email) && touchedFields.email}
-              onBlur={() => setTouchedFields({ ...touchedFields, email: true })}
-              sx={{ mb: 1 }}
-              required
-            />
-            <TextField
-              label="Password"
-              type="password"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <HttpsIcon
-                      color={
-                        !passwordRegex.test(formData.password) &&
-                        touchedFields.password
-                          ? "error"
-                          : !passwordRegex.test(formData.password) &&
-                            !touchedFields.password
-                          ? "primary"
-                          : "success"
-                      }
-                    />
-                  </InputAdornment>
-                ),
-              }}
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              error={
-                !passwordRegex.test(formData.password) && touchedFields.password
-              }
-              onBlur={() =>
-                setTouchedFields({ ...touchedFields, password: true })
-              }
-              sx={{ mb: 3 }}
-              required
-            />
-
-            <Button
-              sx={{ mr: 1 }}
-              type="submit"
-              disabled={
-                !emailRegex.test(formData.email) ||
-                !passwordRegex.test(formData.password)
-              }
-            >
-              login
-            </Button>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Box>
-                <Button
-                  type="button"
-                  onClick={() => navigate("/forgot-password")}
-                >
-                  forgot password?
-                </Button>
-              </Box>
-              <Button
-                type="button"
-                onClick={() => navigate("/register")}
-              >
-                register
-              </Button>
+            login auth0
+          </Button>
+          <Button onClick={() => logout()}>logout auth0</Button>
+          {isAuthenticated ? (
+            <Box>
+              <Box
+                component="img"
+                src={auth0User?.picture}
+              />
+              {auth0User?.email_verified}
+              <Typography>{auth0User?.given_name}</Typography>
+              <Typography>{auth0User?.family_name}</Typography>
             </Box>
-          </form>
+          ) : (
+            "Not authenticated"
+          )}
+          {isLoading ? (
+            <Typography component="h1">Loading...</Typography>
+          ) : (
+            <>
+              <Typography
+                variant="h3"
+                sx={{ textAlign: "center", mb: 2 }}
+              >
+                LOGIN
+              </Typography>
+              <form onSubmit={handleLogin}>
+                <TextField
+                  label="Email"
+                  type="email"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle
+                          color={
+                            !emailRegex.test(formData.email) &&
+                            touchedFields.email
+                              ? "error"
+                              : !emailRegex.test(formData.email) &&
+                                !touchedFields.email
+                              ? "primary"
+                              : "success"
+                          }
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                  autoFocus
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  error={
+                    !emailRegex.test(formData.email) && touchedFields.email
+                  }
+                  onBlur={() =>
+                    setTouchedFields({ ...touchedFields, email: true })
+                  }
+                  sx={{ mb: 1 }}
+                  required
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <HttpsIcon
+                          color={
+                            !passwordRegex.test(formData.password) &&
+                            touchedFields.password
+                              ? "error"
+                              : !passwordRegex.test(formData.password) &&
+                                !touchedFields.password
+                              ? "primary"
+                              : "success"
+                          }
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  error={
+                    !passwordRegex.test(formData.password) &&
+                    touchedFields.password
+                  }
+                  onBlur={() =>
+                    setTouchedFields({ ...touchedFields, password: true })
+                  }
+                  sx={{ mb: 3 }}
+                  required
+                />
+
+                <Button
+                  sx={{ mr: 1 }}
+                  type="submit"
+                  disabled={
+                    !emailRegex.test(formData.email) ||
+                    !passwordRegex.test(formData.password)
+                  }
+                >
+                  login
+                </Button>
+
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Box>
+                    <Button
+                      type="button"
+                      onClick={() => navigate("/forgot-password")}
+                    >
+                      forgot password?
+                    </Button>
+                  </Box>
+                  <Button
+                    type="button"
+                    onClick={() => navigate("/register")}
+                  >
+                    register
+                  </Button>
+                </Box>
+              </form>
+            </>
+          )}
         </>
       )}
     </Box>

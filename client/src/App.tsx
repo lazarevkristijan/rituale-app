@@ -24,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./Store"
 import { ReactQueryDevtools } from "react-query/devtools"
 import axios from "axios"
-import { login } from "./features/session/sessionSlice"
 import { addHabit } from "./features/completedHabits/completedHabitsSlice"
 import { useEffect, useState } from "react"
 import { CompletedHabitTypes, UserSettingsTypes } from "./Types"
@@ -34,34 +33,26 @@ import {
 } from "./features/settings/settingsSlice"
 import MainLoadingScreen from "./skeletons/MainLoadingScreen"
 import PreviewProfile from "./sections/PreviewProfile"
+import { useAuth0 } from "@auth0/auth0-react"
 
 const App = () => {
   const dispatch = useDispatch()
-  const [userId, setUserId] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const { isAuthenticated, user: auth0User } = useAuth0()
 
   useEffect(() => {
-    const checkAuth = () => {
-      axios
-        .get("http://localhost:5432/check-auth", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          dispatch(login(response.data.user))
-          setUserId(response.data.user.id)
-        })
+    const postLoginOrRegister = () => {
+      axios.post(
+        "http://localhost:5432/login-or-register",
+        JSON.stringify(auth0User),
+        { headers: { "Content-Type": "application/json" } }
+      )
     }
-    checkAuth()
-  }, [dispatch])
 
-  useEffect(() => {
-    const getCompletedHabits = (id: number) => {
-      if (id === 0) {
-        return
-      }
+    const getCompletedHabits = () => {
       axios
-        .get(`http://localhost:5432/completed-habits`, {
-          withCredentials: true,
+        .get(`http://localhost:5432/completed-habits/${auth0User?.sub}`, {
+          headers: { "Content-Type": "application/json" },
         })
         .then((response) => {
           if (!response.data.length) return
@@ -72,10 +63,7 @@ const App = () => {
           dispatch(addHabit(habitIds))
         })
     }
-    getCompletedHabits(userId)
-  }, [dispatch, userId])
 
-  useEffect(() => {
     const getUserSettings = () => {
       axios
         .get(`http://localhost:5432/user-settings`, { withCredentials: true })
@@ -94,8 +82,10 @@ const App = () => {
           setIsLoading(false)
         })
     }
-    getUserSettings()
-  }, [dispatch, userId])
+    isAuthenticated && postLoginOrRegister()
+    isAuthenticated && getCompletedHabits()
+    isAuthenticated && getUserSettings()
+  }, [isAuthenticated, dispatch, auth0User])
 
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
@@ -113,6 +103,10 @@ const App = () => {
       },
     },
   })
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [])
 
   return (
     <Box>

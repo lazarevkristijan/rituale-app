@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom"
 import { store } from "./Store.ts"
 import { Provider } from "react-redux"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { Auth0Provider } from "@auth0/auth0-react"
 
 const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -12,7 +13,15 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
+          <Auth0Provider
+            domain="rituale.eu.auth0.com"
+            clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+            authorizationParams={{
+              redirect_uri: window.location.origin,
+            }}
+          >
+            <App />
+          </Auth0Provider>
         </BrowserRouter>
       </QueryClientProvider>
     </Provider>

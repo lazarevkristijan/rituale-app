@@ -16,7 +16,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import HttpsIcon from "@mui/icons-material/Https"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import ReCAPTCHA from "react-google-recaptcha"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -29,13 +28,11 @@ const Register = () => {
   }, [navigate, user])
 
   const [isLoading, setIsLoading] = useState(true)
-  const [didReCaptchaSucceed, setDidReCaptchaSucceed] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    captchaVerified: false,
   })
 
   const [touchedFields, setTouchedFields] = useState({
@@ -72,7 +69,6 @@ const Register = () => {
           lastName: "",
           email: "",
           password: "",
-          captchaVerified: false,
         })
         setTouchedFields({
           firstName: false,
@@ -82,17 +78,6 @@ const Register = () => {
         })
         console.error("Error during POST request on registration: ", error)
       })
-  }
-
-  const onReCaptchaChnage = (value: string | null) => {
-    const success = !!value
-    if (success) {
-      setDidReCaptchaSucceed(true)
-      formData.captchaVerified = true
-    } else {
-      setDidReCaptchaSucceed(false)
-      formData.captchaVerified = false
-    }
   }
 
   return (
@@ -246,8 +231,7 @@ const Register = () => {
                 !nameRegex.test(formData.firstName) ||
                 !nameRegex.test(formData.lastName) ||
                 !emailRegex.test(formData.email) ||
-                !passwordRegex.test(formData.password) ||
-                !didReCaptchaSucceed
+                !passwordRegex.test(formData.password)
               }
             >
               register
@@ -255,11 +239,6 @@ const Register = () => {
           </Box>
         </form>
       )}
-      <ReCAPTCHA
-        sitekey="6LfOUDkpAAAAAAoLAOSkixwE-7AyyuYv5a8SrCgv"
-        onChange={(token) => onReCaptchaChnage(token)}
-        onExpired={() => setDidReCaptchaSucceed(false)}
-      />
     </Box>
   )
 }
