@@ -135,6 +135,7 @@ export const postAuth0Register = async (req, res) => {
     const { given_name, family_name, picture, email, sub } = req.body
 
     console.log(req.body)
+    return req
 
     // const emailExists = await sql`
     // SELECT *
