@@ -77,7 +77,7 @@ app.get("/all-blogs", getAllBlogs)
 
 // AUTHENTICATION RELATED
 app.get("/logout", getLogout)
-app.delete("/delete-user", verifyToken, deleteUser)
+app.delete("/delete-user", deleteUser)
 app.post("/login-or-register", postLoginOrRegister)
 
 // HABIT RELATED
@@ -85,35 +85,30 @@ app.get("/completed-habits/:id", getCompletedHabits)
 app.get("/all-completed-habits", getAllCompletedHabits)
 app.get("/preview-completed-habits/:id", getPreviewCompletedHabits)
 
-app.post("/complete-habit", verifyToken, postCompleteHabit)
-app.post("/remove-habit", verifyToken, postRemoveHabit)
-app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
-app.patch("/pin-habit", verifyToken, patchPinHabit)
+app.post("/complete-habit", postCompleteHabit)
+app.post("/remove-habit", postRemoveHabit)
+app.get("/reset-habit-progress", getResetHabitProgress)
+app.patch("/pin-habit", patchPinHabit)
 
-app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
-app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
+app.patch("/add-priority-category", patchAddPriorityCategory)
+app.patch("/remove-priority-category", patchRemovePriorityCategory)
 
-app.post("/add-blog", verifyToken, postAddBlog)
-app.delete("/remove-blog", verifyToken, deleteBlog)
+app.post("/add-blog", postAddBlog)
+app.delete("/remove-blog", deleteBlog)
 
 // USER SETTINGS
-app.get("/user-settings", verifyToken, getUserSettings)
-app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
-app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
-app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
-app.patch("/user-settings/change-bio", verifyToken, patchChangeBio)
-app.patch("/user-settings/change-creds", verifyToken, patchChangeCreds)
+app.get("/user-settings/:id", getUserSettings)
+app.patch("/user-settings/change-theme", patchChangeTheme)
+app.patch("/user-settings/change-language", patchChangeLanguage)
+app.patch("/user-settings/change-country", patchChangeCountry)
+app.patch("/user-settings/change-bio", patchChangeBio)
+app.patch("/user-settings/change-creds", patchChangeCreds)
 app.patch(
   "/user-settings/change-profile-picture",
-  verifyToken,
   upload.single("profilePicture"),
   patchChangeProfilePicture
 )
-app.delete(
-  "/user-settings/delete-profile-picture",
-  verifyToken,
-  deleteProfilePicture
-)
+app.delete("/user-settings/delete-profile-picture", deleteProfilePicture)
 
 const server = app.listen(port, () =>
   console.log(`Rituale db is listening on port ${port}!`)

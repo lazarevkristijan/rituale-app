@@ -174,12 +174,12 @@ export const getResetHabitProgress = async (req, res) => {
 
 export const getUserSettings = async (req, res) => {
   try {
-    const userId = req.userId
+    const { id } = req.params
 
     const userSettings = await sql`
     SELECT *
     FROM user_settings
-    WHERE user_id = ${userId}`
+    WHERE user_id = ${id}`
 
     return res.json(userSettings)
   } catch (error) {
