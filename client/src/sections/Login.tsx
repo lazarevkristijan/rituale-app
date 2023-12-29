@@ -27,13 +27,7 @@ const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(4))
-  const {
-    loginWithRedirect,
-    logout,
-    user: auth0User,
-    isAuthenticated,
-    isLoading: isAuth0Loading,
-  } = useAuth0()
+  const { loginWithRedirect, logout, isLoading: isAuth0Loading } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   useEffect(() => {
@@ -118,27 +112,8 @@ const Login = () => {
         <h1>Loading...</h1>
       ) : (
         <>
-          <Button
-            onClick={() => {
-              loginWithRedirect()
-            }}
-          >
-            login auth0
-          </Button>
+          <Button onClick={() => loginWithRedirect()}>login auth0</Button>
           <Button onClick={() => logout()}>logout auth0</Button>
-          {isAuthenticated ? (
-            <Box>
-              <Box
-                component="img"
-                src={auth0User?.picture}
-              />
-              {auth0User?.email_verified}
-              <Typography>{auth0User?.given_name}</Typography>
-              <Typography>{auth0User?.family_name}</Typography>
-            </Box>
-          ) : (
-            "Not authenticated"
-          )}
           {isLoading ? (
             <Typography component="h1">Loading...</Typography>
           ) : (

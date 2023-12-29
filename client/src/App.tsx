@@ -25,7 +25,7 @@ import { RootState } from "./Store"
 import { ReactQueryDevtools } from "react-query/devtools"
 import axios from "axios"
 import { addHabit } from "./features/completedHabits/completedHabitsSlice"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { CompletedHabitTypes, UserSettingsTypes } from "./Types"
 import {
   changeColorTheme,
@@ -34,26 +34,35 @@ import {
 import MainLoadingScreen from "./skeletons/MainLoadingScreen"
 import PreviewProfile from "./sections/PreviewProfile"
 import { useAuth0 } from "@auth0/auth0-react"
+import { login } from "./features/session/sessionSlice"
 
 const App = () => {
   const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(true)
-  const { isAuthenticated, user: auth0User } = useAuth0()
+  const { isAuthenticated, user: auth0User, isLoading } = useAuth0()
 
   useEffect(() => {
     const postLoginOrRegister = () => {
-      axios.post(
-        "http://localhost:5432/login-or-register",
-        JSON.stringify(auth0User),
-        { headers: { "Content-Type": "application/json" } }
-      )
+      axios
+        .post(
+          "http://localhost:5432/login-or-register",
+          JSON.stringify(auth0User),
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          dispatch(login(response.data[0]))
+        })
     }
 
     const getCompletedHabits = () => {
       axios
-        .get(`http://localhost:5432/completed-habits/${auth0User?.sub}`, {
-          headers: { "Content-Type": "application/json" },
-        })
+        .get(
+          `http://localhost:5432/completed-habits/${
+            auth0User?.sub?.split("|")[1]
+          }`,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        )
         .then((response) => {
           if (!response.data.length) return
 
@@ -78,9 +87,6 @@ const App = () => {
           document.body.style.backgroundColor = colorTheme[0].value
           dispatch(changeLanguage(language[0].value))
         })
-        .finally(() => {
-          setIsLoading(false)
-        })
     }
     isAuthenticated && postLoginOrRegister()
     isAuthenticated && getCompletedHabits()
@@ -103,10 +109,6 @@ const App = () => {
       },
     },
   })
-
-  useEffect(() => {
-    setIsLoading(false)
-  }, [])
 
   return (
     <Box>

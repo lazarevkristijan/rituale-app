@@ -130,22 +130,23 @@ export const postLogin = async (req, res) => {
   }
 }
 
-export const postAuth0Register = async (req, res) => {
+export const postLoginOrRegister = async (req, res) => {
   try {
-    const { given_name, family_name, picture, email, sub } = req.body
+    const { given_name, family_name, picture, email } = req.body
 
-    console.log(req.body)
-    return req
+    const existingUser = await sql`
+    SELECT *
+    FROM users
+    WHERE email = ${email}`
 
-    // const emailExists = await sql`
-    // SELECT *
-    // FROM users
-    // WHERE email = ${email}`
+    if (existingUser.length) return res.json(existingUser)
 
-    // if (emailExists) return res.json({ info: "User exists" })
+    const newUser =
+      await sql`INSERT INTO users(first_name, last_name, email, profile_picture)
+    VALUES(${given_name}, ${family_name}, ${email}, ${picture})
+    RETURNING bio, country, id, pinned_habit, priority_category_1, priority_category_2, priority_category_3, profile_picture`
 
-    // await sql`
-    // INSERT INTO users(first_name, email, profile_picture)`
+    return res.json(newUser)
   } catch (error) {
     console.error("Error is: ", error)
     return res

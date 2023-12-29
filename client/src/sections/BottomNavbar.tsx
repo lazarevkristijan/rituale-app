@@ -10,8 +10,14 @@ import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import SearchIcon from "@mui/icons-material/Search"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { defaultPfpURL } from "../constants"
+import { useAuth0 } from "@auth0/auth0-react"
+import LoginIcon from "@mui/icons-material/Login"
+
 const BottomNavbar = () => {
   const navigate = useNavigate()
+
+  const { isAuthenticated, loginWithRedirect } = useAuth0()
+
   const user = useSelector((state: RootState) => state.session.user)
   const bottomNavLocation = useSelector(
     (state: RootState) => state.bottomNav.value
@@ -53,30 +59,57 @@ const BottomNavbar = () => {
         icon={<TipsAndUpdatesIcon />}
         onClick={() => navigate("/general")}
       />
-      <BottomNavigationAction
-        label="Profile"
-        icon={
-          !user ? (
-            <AccountCircleIcon />
-          ) : (
-            <Box
-              sx={{
-                borderRadius: 20,
-                border: "3px solid black",
-                backgroundColor: "#fff",
-                background: `url('${
-                  user?.profile_picture
-                    ? getPfpLink(user?.profile_picture)
-                    : defaultPfpURL
-                }') no-repeat center/cover #fff`,
-              }}
-              width={22.5}
-              height={22.5}
-            />
-          )
-        }
-        onClick={() => navigate(user ? "/profile" : "/login")}
-      />
+      {isAuthenticated ? (
+        <BottomNavigationAction
+          label="Profile"
+          icon={
+            !user ? (
+              <AccountCircleIcon />
+            ) : (
+              <Box
+                sx={{
+                  borderRadius: 20,
+                  border: "2px solid black",
+                  backgroundColor: "#fff",
+                  background: `url('${
+                    user?.profile_picture
+                      ? getPfpLink(user?.profile_picture)
+                      : defaultPfpURL
+                  }') no-repeat center/cover #fff`,
+                }}
+                width={22.5}
+                height={22.5}
+              />
+            )
+          }
+          onClick={() => navigate(user ? "/profile" : "/login")}
+        />
+      ) : (
+        <BottomNavigationAction
+          label={user ? "Profile" : ""}
+          icon={
+            user ? (
+              <Box
+                sx={{
+                  borderRadius: 20,
+                  border: "2px solid black",
+                  backgroundColor: "#fff",
+                  background: `url('${
+                    user?.profile_picture
+                      ? getPfpLink(user?.profile_picture)
+                      : defaultPfpURL
+                  }') no-repeat center/cover #fff`,
+                }}
+                width={22.5}
+                height={22.5}
+              />
+            ) : (
+              <LoginIcon />
+            )
+          }
+          onClick={() => loginWithRedirect()}
+        />
+      )}
     </BottomNavigation>
   )
 }

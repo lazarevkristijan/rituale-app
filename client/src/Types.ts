@@ -94,10 +94,10 @@ export type SettingsSliceTypes = {
 
 export type SessionSliceTypes = {
   user: {
-    first_name: string
-    last_name: string
-    email: string
     id: number
+    email: string
+    first_name: string
+    last_name: string | null
     priority_category_1: string | null
     priority_category_2: string | null
     priority_category_3: string | null
