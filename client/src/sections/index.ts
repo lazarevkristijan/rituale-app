@@ -1,7 +1,5 @@
 import Home from "./Home"
 import BottomNavbar from "./BottomNavbar"
-import Login from "./Login"
-import Register from "./Register"
 import Profile from "./Profile"
 import Habits from "./Habits"
 import General from "./General"
@@ -17,8 +15,6 @@ export {
   General,
   Habits,
   Profile,
-  Register,
-  Login,
   BottomNavbar,
   Home,
   Search,

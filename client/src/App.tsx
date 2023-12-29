@@ -9,8 +9,6 @@ import {
 import {
   Home,
   BottomNavbar,
-  Login,
-  Register,
   Profile,
   Habits,
   General,
@@ -39,6 +37,7 @@ import { login } from "./features/session/sessionSlice"
 const App = () => {
   const dispatch = useDispatch()
   const { isAuthenticated, user: auth0User, isLoading } = useAuth0()
+  const user = useSelector((state: RootState) => state.session.user)
 
   useEffect(() => {
     const postLoginOrRegister = () => {
@@ -55,14 +54,9 @@ const App = () => {
 
     const getCompletedHabits = () => {
       axios
-        .get(
-          `http://localhost:5432/completed-habits/${
-            auth0User?.sub?.split("|")[1]
-          }`,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        )
+        .get(`http://localhost:5432/completed-habits/${user?.id}`, {
+          headers: { "Content-Type": "application/json" },
+        })
         .then((response) => {
           if (!response.data.length) return
 
@@ -75,7 +69,9 @@ const App = () => {
 
     const getUserSettings = () => {
       axios
-        .get(`http://localhost:5432/user-settings`, { withCredentials: true })
+        .get(`http://localhost:5432/user-settings/${user?.id}`, {
+          withCredentials: true,
+        })
         .then((response) => {
           const colorTheme = response.data.filter(
             (setting: UserSettingsTypes) => setting.setting_id === 1
@@ -91,7 +87,7 @@ const App = () => {
     isAuthenticated && postLoginOrRegister()
     isAuthenticated && getCompletedHabits()
     isAuthenticated && getUserSettings()
-  }, [isAuthenticated, dispatch, auth0User])
+  }, [isAuthenticated, dispatch, auth0User, user?.id])
 
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
@@ -124,14 +120,7 @@ const App = () => {
                 path="/"
                 element={<Home />}
               />
-              <Route
-                path="/login"
-                element={<Login />}
-              />
-              <Route
-                path="/register"
-                element={<Register />}
-              />
+
               <Route
                 path="/profile"
                 element={<Profile />}

@@ -18,11 +18,14 @@ import React from "react"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useQuery } from "react-query"
+import { useAuth0 } from "@auth0/auth0-react"
 
 const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(4))
+
+  const { logout: auth0logout } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
@@ -36,16 +39,12 @@ const Profile = () => {
 
   const [isLoading, setIsLoading] = useState(true)
   const handleLogout = async () => {
-    await axios
-      .get("http://localhost:5432/logout", { withCredentials: true })
-      .then(() => {
-        dispatch(logout())
-        dispatch(clearHabits())
-        dispatch(changeColorTheme("light"))
-        dispatch(changeLanguage("en"))
-        document.body.style.backgroundColor = "#fff"
-        navigate("/")
-      })
+    dispatch(logout())
+    dispatch(clearHabits())
+    dispatch(changeColorTheme("light"))
+    dispatch(changeLanguage("en"))
+    document.body.style.backgroundColor = "#fff"
+    auth0logout()
   }
 
   const displayBio = (bio: string | null | undefined) => {

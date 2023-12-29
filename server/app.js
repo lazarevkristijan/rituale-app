@@ -24,9 +24,7 @@ import {
 import {
   postAddBlog,
   postCompleteHabit,
-  postLogin,
   postLoginOrRegister,
-  postRegister,
   postRemoveHabit,
 } from "./Routes/postRoutes.js"
 import {
@@ -78,14 +76,12 @@ app.get("/all-countries", getAllCountries)
 app.get("/all-blogs", getAllBlogs)
 
 // AUTHENTICATION RELATED
-app.post("/login", postLogin)
-app.post("/register", postRegister)
 app.get("/logout", getLogout)
 app.delete("/delete-user", verifyToken, deleteUser)
 app.post("/login-or-register", postLoginOrRegister)
 
 // HABIT RELATED
-app.get("/completed-habits", getCompletedHabits)
+app.get("/completed-habits/:id", getCompletedHabits)
 app.get("/all-completed-habits", getAllCompletedHabits)
 app.get("/preview-completed-habits/:id", getPreviewCompletedHabits)
 
