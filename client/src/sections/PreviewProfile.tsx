@@ -78,11 +78,9 @@ const PreviewProfile = () => {
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Box
                   sx={{
-                    background: `url('${
-                      previewUser.profile_picture
-                        ? getPfpLink(previewUser.profile_picture)
-                        : defaultPfpURL
-                    }') no-repeat center/cover #fff`,
+                    background: `url('${getPfpLink(
+                      previewUser.profile_picture || defaultPfpURL
+                    )}') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,
                     borderRadius: 20,

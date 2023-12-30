@@ -116,6 +116,11 @@ const Settings = () => {
     lastName: user?.last_name || "",
   }
 
+  const [changedFields, setChangedFields] = useState({
+    firstName: false,
+    lastName: false,
+  })
+
   const handleUserDataChange = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -146,10 +151,6 @@ const Settings = () => {
     )
   }
 
-  const [changedFields, setChangedFields] = useState({
-    firstName: false,
-    lastName: false,
-  })
   const handleCountryChange = (e: SelectChangeEvent) => {
     if (!e.target.value) {
       return console.error("e target is empty")
@@ -653,7 +654,7 @@ const Settings = () => {
           component="h3"
           sx={{ fontSize: 35 }}
         >
-          Change credentials
+          Change name
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ flexDirection: "row" }}>
@@ -696,8 +697,8 @@ const Settings = () => {
           disabled={
             !nameRegex.test(userData.firstName) ||
             !nameRegex.test(userData.lastName) ||
-            userData.firstName === initialUserData.firstName ||
-            userData.lastName === initialUserData.lastName
+            (initialUserData.firstName === userData.firstName &&
+              initialUserData.lastName === userData.lastName)
           }
           startIcon={<SaveIcon />}
         >

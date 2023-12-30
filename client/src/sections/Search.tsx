@@ -74,11 +74,9 @@ const Search = () => {
                       <Box>
                         <Box
                           component="img"
-                          src={
-                            profile.profile_picture
-                              ? getPfpLink(profile.profile_picture)
-                              : defaultPfpURL
-                          }
+                          src={getPfpLink(
+                            profile.profile_picture || defaultPfpURL
+                          )}
                           width={50}
                           height={50}
                           borderRadius={20}

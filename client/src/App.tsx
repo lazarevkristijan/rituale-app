@@ -22,7 +22,7 @@ import { RootState } from "./Store"
 import { ReactQueryDevtools } from "react-query/devtools"
 import axios from "axios"
 import { addHabit } from "./features/completedHabits/completedHabitsSlice"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { CompletedHabitTypes, UserSettingsTypes } from "./Types"
 import {
   changeColorTheme,
@@ -38,9 +38,11 @@ const App = () => {
   const {
     isAuthenticated: auth0authenticated,
     user: auth0User,
-    isLoading,
+    isLoading: auth0loading,
   } = useAuth0()
   const user = useSelector((state: RootState) => state.session.user)
+
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const postLoginOrRegister = () => {
@@ -85,12 +87,15 @@ const App = () => {
                 colorTheme[0].value === "dark" ? "#121212" : "#fff"
               dispatch(changeColorTheme(colorTheme[0].value))
               dispatch(changeLanguage(language[0].value))
+
+              setIsLoading(false)
             })
         })
     }
 
     auth0authenticated && postLoginOrRegister()
-  }, [auth0authenticated, dispatch, auth0User, user?.id])
+    !auth0authenticated && !auth0loading && setIsLoading(false)
+  }, [auth0authenticated, auth0loading, auth0User, user?.id, dispatch])
 
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
