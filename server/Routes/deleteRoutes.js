@@ -57,7 +57,9 @@ export const deleteProfilePicture = async (req, res) => {
     SET profile_picture = NULL
     WHERE id = ${userId}`
 
-    cloudinary.uploader.destroy(picturePath)
+    if (picturePath) {
+      cloudinary.uploader.destroy(picturePath)
+    }
 
     return res.json({ success: "Successfully deleted profile picture" })
   } catch (error) {

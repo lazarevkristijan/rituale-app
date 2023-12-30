@@ -25,7 +25,11 @@ const Profile = () => {
   const dispatch = useDispatch()
   dispatch(changeLocation(4))
 
-  const { logout: auth0logout } = useAuth0()
+  const {
+    logout: auth0logout,
+    loginWithPopup: auth0login,
+    isAuthenticated: auth0authenticated,
+  } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
@@ -34,8 +38,8 @@ const Profile = () => {
   )
 
   useEffect(() => {
-    !user ? navigate("/login") : setIsLoading(false)
-  }, [navigate, user])
+    auth0authenticated ? setIsLoading(false) : auth0login()
+  }, [auth0authenticated, auth0login])
 
   const [isLoading, setIsLoading] = useState(true)
   const handleLogout = async () => {
@@ -60,11 +64,11 @@ const Profile = () => {
     return formattedBio
   }
 
-  const getHabits = async () => {
+  const getAllHabits = async () => {
     const res = await axios.get("http://localhost:5432/all-habits")
     return res.data
   }
-  const { data: allHabits } = useQuery("get-all-habits", getHabits)
+  const { data: allHabits } = useQuery("get-all-habits", getAllHabits)
 
   return (
     <Box>

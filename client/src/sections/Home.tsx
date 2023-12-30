@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom"
 import type { RootState } from "../Store"
 import { useDispatch, useSelector } from "react-redux"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { useAuth0 } from "@auth0/auth0-react"
 
 const Home = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(0))
+
+  const { loginWithPopup: auth0login } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const language = useSelector((state: RootState) => state.settings.language)
@@ -36,7 +39,7 @@ const Home = () => {
       </Typography>
       <Button
         sx={{ mx: "auto" }}
-        onClick={() => navigate(user ? "/habits" : "/login")}
+        onClick={() => (user ? navigate("/habits") : auth0login())}
       >
         {user
           ? language === "en"

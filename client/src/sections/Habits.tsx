@@ -25,7 +25,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { useState } from "react"
 import LockPersonIcon from "@mui/icons-material/LockPerson"
-import { useNavigate } from "react-router-dom"
 import {
   addHabit,
   clearHabits,
@@ -37,11 +36,11 @@ import { FilterCheckbox } from "../HelperFunctions/filterHabitCheckbox"
 import PushPinIcon from "@mui/icons-material/PushPin"
 import { changePinnedHabit } from "../features/session/sessionSlice"
 import StarIcon from "@mui/icons-material/Star"
-
+import { useAuth0 } from "@auth0/auth0-react"
 const Habits = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(2))
+  const { loginWithPopup: auth0login } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const completedHabits = useSelector(
@@ -622,7 +621,7 @@ const Habits = () => {
                           arrow
                         >
                           <Box
-                            onClick={() => navigate("/login")}
+                            onClick={() => auth0login()}
                             component="div"
                             sx={{
                               width: "100%",

@@ -5,10 +5,15 @@ import { useNavigate } from "react-router-dom"
 import HomeIcon from "@mui/icons-material/Home"
 import LoginIcon from "@mui/icons-material/Login"
 import PersonIcon from "@mui/icons-material/Person"
+import { useAuth0 } from "@auth0/auth0-react"
+
 const NotFound = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   dispatch(changeLocation(0))
+
+  const { loginWithPopup: auth0login, isAuthenticated: auth0authenticated } =
+    useAuth0()
 
   return (
     <Box
@@ -34,19 +39,21 @@ const NotFound = () => {
           return home?
         </Button>
 
-        <Button
-          onClick={() => navigate("/login")}
-          startIcon={<LoginIcon />}
-        >
-          to login?
-        </Button>
-
-        <Button
-          onClick={() => navigate("/profile")}
-          startIcon={<PersonIcon />}
-        >
-          to profile?
-        </Button>
+        {auth0authenticated ? (
+          <Button
+            onClick={() => navigate("/profile")}
+            startIcon={<PersonIcon />}
+          >
+            to profile?
+          </Button>
+        ) : (
+          <Button
+            onClick={() => auth0login()}
+            startIcon={<LoginIcon />}
+          >
+            to login?
+          </Button>
+        )}
       </Stack>
     </Box>
   )

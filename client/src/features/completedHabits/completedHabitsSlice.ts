@@ -10,7 +10,9 @@ export const completedHabitsSlice = createSlice({
   initialState,
   reducers: {
     addHabit: (state, action) => {
-      state.habits = [...state.habits, ...action.payload]
+      action.payload.map((id: number) => {
+        if (!state.habits.includes(id)) state.habits.push(id)
+      })
     },
     removeHabit: (state, action) => {
       if (state.habits) {

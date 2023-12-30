@@ -54,12 +54,12 @@ export const getAllHabits = async (req, res) => {
 
 export const getCompletedHabits = async (req, res) => {
   try {
-    const { id } = req.params
+    const userId = req.userId
 
     const completedHabits = await sql`
     SELECT *
     FROM completed_habits
-    WHERE user_id = ${id}`
+    WHERE user_id = ${userId}`
 
     return res.json(completedHabits)
   } catch (error) {
@@ -137,8 +137,6 @@ export const getCheckAuth = async (req, res) => {
     LEFT JOIN habits as f ON a.pinned_habit = f.id
     WHERE a.id = ${userId}`
 
-    console.log(user[0])
-
     return res.json({ user: user[0] })
   } catch (error) {
     console.error("Error is: ", error)
@@ -146,16 +144,16 @@ export const getCheckAuth = async (req, res) => {
   }
 }
 
-export const getLogout = async (req, res) => {
-  try {
-    res.clearCookie("user")
-    res.clearCookie("theme")
-    return res.json({ success: 'Session cookie "user" deleted successfully ' })
-  } catch (error) {
-    console.error("Error is: ", error)
-    return res.status(500).json({ error: "Error logging out" })
-  }
-}
+// export const getLogout = async (req, res) => {
+//   try {
+//     res.clearCookie("user")
+//     res.clearCookie("theme")
+//     return res.json({ success: 'Session cookie "user" deleted successfully ' })
+//   } catch (error) {
+//     console.error("Error is: ", error)
+//     return res.status(500).json({ error: "Error logging out" })
+//   }
+// }
 
 export const getResetHabitProgress = async (req, res) => {
   try {
@@ -174,12 +172,12 @@ export const getResetHabitProgress = async (req, res) => {
 
 export const getUserSettings = async (req, res) => {
   try {
-    const { id } = req.params
+    const userId = req.userId
 
     const userSettings = await sql`
     SELECT *
     FROM user_settings
-    WHERE user_id = ${id}`
+    WHERE user_id = ${userId}`
 
     return res.json(userSettings)
   } catch (error) {

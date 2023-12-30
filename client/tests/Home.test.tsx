@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/react"
-import { store } from "../src/Store.ts"
-import Login from "../src/sections/Login.tsx"
+import { store } from "../src/Store"
+import { Home } from "../src/sections"
 import { Provider } from "react-redux"
 import { BrowserRouter as Router } from "react-router-dom"
 
-test("Renders h1", () => {
+test("renders top header", () => {
   render(
     <Provider store={store}>
       <Router>
-        <Login />
+        <Home />
       </Router>
     </Provider>
   )
-  const header = screen.getByRole("heading", { level: 3 })
+  const header = screen.getByRole("heading", { level: 1 })
   expect(header).toBeInTheDocument()
 })

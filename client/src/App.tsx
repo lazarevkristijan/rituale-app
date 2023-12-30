@@ -36,7 +36,11 @@ import { login } from "./features/session/sessionSlice"
 
 const App = () => {
   const dispatch = useDispatch()
-  const { isAuthenticated, user: auth0User, isLoading } = useAuth0()
+  const {
+    isAuthenticated: auth0authenticated,
+    user: auth0User,
+    isLoading,
+  } = useAuth0()
   const user = useSelector((state: RootState) => state.session.user)
 
   useEffect(() => {
@@ -45,49 +49,47 @@ const App = () => {
         .post(
           "http://localhost:5432/login-or-register",
           JSON.stringify(auth0User),
-          { headers: { "Content-Type": "application/json" } }
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
         )
         .then((response) => {
           dispatch(login(response.data[0]))
+          axios
+            .get(`http://localhost:5432/completed-habits`, {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            })
+            .then((innerResponse1) => {
+              if (!innerResponse1.data.length) return
+
+              const habitIds = innerResponse1.data.map(
+                (habit: CompletedHabitTypes) => habit.habit_id
+              )
+              dispatch(addHabit(habitIds))
+            })
+
+          axios
+            .get(`http://localhost:5432/user-settings`, {
+              withCredentials: true,
+            })
+            .then((innerResponse2) => {
+              const colorTheme = innerResponse2.data.filter(
+                (setting: UserSettingsTypes) => setting.setting_id === 1
+              )
+              const language = innerResponse2.data.filter(
+                (setting: UserSettingsTypes) => setting.setting_id === 2
+              )
+              dispatch(changeColorTheme(colorTheme[0].value))
+              document.body.style.backgroundColor = colorTheme[0].value
+              dispatch(changeLanguage(language[0].value))
+            })
         })
     }
 
-    const getCompletedHabits = () => {
-      axios
-        .get(`http://localhost:5432/completed-habits/${user?.id}`, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => {
-          if (!response.data.length) return
-
-          const habitIds = response.data.map(
-            (habit: CompletedHabitTypes) => habit.habit_id
-          )
-          dispatch(addHabit(habitIds))
-        })
-    }
-
-    const getUserSettings = () => {
-      axios
-        .get(`http://localhost:5432/user-settings/${user?.id}`, {
-          withCredentials: true,
-        })
-        .then((response) => {
-          const colorTheme = response.data.filter(
-            (setting: UserSettingsTypes) => setting.setting_id === 1
-          )
-          const language = response.data.filter(
-            (setting: UserSettingsTypes) => setting.setting_id === 2
-          )
-          dispatch(changeColorTheme(colorTheme[0].value))
-          document.body.style.backgroundColor = colorTheme[0].value
-          dispatch(changeLanguage(language[0].value))
-        })
-    }
-    isAuthenticated && postLoginOrRegister()
-    isAuthenticated && getCompletedHabits()
-    isAuthenticated && getUserSettings()
-  }, [isAuthenticated, dispatch, auth0User, user?.id])
+    auth0authenticated && postLoginOrRegister()
+  }, [auth0authenticated, dispatch, auth0User, user?.id])
 
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme

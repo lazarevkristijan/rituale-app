@@ -145,7 +145,7 @@ export const patchChangeLanguage = async (req, res) => {
     await sql`
     UPDATE user_settings
     SET value = ${language}
-    WHERE user_id = ${userId} AND setting_id = 2`
+    WHERE setting_id = 2 AND user_id = ${userId}`
   } catch (error) {
     console.error("Error is: ", error)
     res.status(500).json({ error: "Error when changing language" })

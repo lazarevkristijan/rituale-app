@@ -30,7 +30,6 @@ import {
   changeLanguage,
 } from "../features/settings/settingsSlice"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
 import {
   addCategory,
   changeBio,
@@ -55,11 +54,14 @@ import { useQuery } from "react-query"
 import SaveIcon from "@mui/icons-material/Save"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { handlePfpDelete } from "../HelperFunctions/handlePfpDelete"
+import { useAuth0 } from "@auth0/auth0-react"
+import { getPfpLink } from "../HelperFunctions/getPfpLink"
 
 const Settings = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(4))
+
+  const { logout: auth0logout } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const colorTheme = useSelector(
@@ -91,21 +93,17 @@ const Settings = () => {
 
   const handleUserDelete = () => {
     if (user?.profile_picture) {
-      handlePfpDelete(user?.profile_picture, dispatch)
+      handlePfpDelete(user?.profile_picture, dispatch, user.id)
     }
 
-    axios
-      .delete(`http://localhost:5432/delete-user`, {
-        withCredentials: true,
-      })
-      .then(() => {
-        dispatch(logout())
-        dispatch(clearHabits())
-        dispatch(changeColorTheme("light"))
-        document.body.style.backgroundColor = "#fff"
-        dispatch(changeLanguage("en"))
-        navigate("/login")
-      })
+    axios.delete(`http://localhost:5432/delete-user/${user?.id}`).then(() => {
+      dispatch(logout())
+      dispatch(clearHabits())
+      dispatch(changeColorTheme("light"))
+      document.body.style.backgroundColor = "#fff"
+      dispatch(changeLanguage("en"))
+      auth0logout()
+    })
   }
 
   const [userData, setUserData] = useState({
@@ -170,7 +168,7 @@ const Settings = () => {
     }
     axios
       .patch(
-        "http://localhost:5432/user-settings/change-country",
+        `http://localhost:5432/user-settings/change-country`,
         JSON.stringify({ country: e.target.value }),
         {
           headers: { "Content-Type": "application/json" },
@@ -189,7 +187,7 @@ const Settings = () => {
   const handleBioChange = () => {
     axios
       .patch(
-        "http://localhost:5432/user-settings/change-bio",
+        `http://localhost:5432/user-settings/change-bio`,
         JSON.stringify({ bio: bio }),
         {
           headers: { "Content-Type": "application/json" },
@@ -268,7 +266,7 @@ const Settings = () => {
     e.preventDefault()
 
     if (user?.profile_picture) {
-      handlePfpDelete(user.profile_picture, dispatch)
+      handlePfpDelete(user.profile_picture, dispatch, user?.id)
     }
 
     if (profilePicture) {
@@ -276,7 +274,7 @@ const Settings = () => {
       formData.append("profilePicture", profilePicture)
       axios
         .patch(
-          "http://localhost:5432/user-settings/change-profile-picture",
+          `http://localhost:5432/user-settings/change-profile-picture`,
           formData,
           {
             headers: {
@@ -304,8 +302,7 @@ const Settings = () => {
   const [pfpURL, setPfpURL] = useState("")
   useEffect(() => {
     if (user?.profile_picture) {
-      const pfpData = JSON.parse(user?.profile_picture)
-      setPfpURL(pfpData.url)
+      setPfpURL(getPfpLink(user?.profile_picture))
     }
   }, [user?.profile_picture])
 
@@ -414,10 +411,7 @@ const Settings = () => {
               setProfilePicture(null)
 
               if (user?.profile_picture) {
-                const pfpData = JSON.parse(user?.profile_picture)
-                setPfpURL(pfpData.url)
-              } else {
-                setPfpURL(defaultPfpURL)
+                setPfpURL(getPfpLink(user.profile_picture))
               }
             }}
           >
@@ -431,7 +425,9 @@ const Settings = () => {
           </Button>
         </form>
         <Button
-          onClick={() => handlePfpDelete(user?.profile_picture, dispatch)}
+          onClick={() =>
+            handlePfpDelete(user?.profile_picture, dispatch, user?.id)
+          }
           disabled={!user?.profile_picture}
         >
           delete pfp
