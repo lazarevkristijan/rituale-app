@@ -169,13 +169,17 @@ export const patchChangeBio = async (req, res) => {
     const userId = req.userId
     const { bio } = req.body
 
-    if (bio.length > 200) {
-      return res.status(400).json({ error: "Bio is over 200 characters" })
+    if (bio.length > 100) {
+      return res.status(400).json({ error: "Bio is over 100 characters" })
     }
 
     await sql`
     UPDATE users
-    SET bio = ${bio}
+    SET bio = ${
+      bio.split("\n").slice(0, 3).join("\n") +
+      " " +
+      bio.split("\n").slice(3).join(" ")
+    }
     WHERE id = ${userId}`
 
     return res.json({ success: "Successfully changed bio" })

@@ -11,11 +11,11 @@ import {
   Typography,
 } from "@mui/material"
 import { RootState } from "../Store"
-import React from "react"
 import { countryShorthands, defaultPfpURL } from "../constants"
 import { useQuery } from "react-query"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { ProfileSkeleton } from "../components"
+import { displayBio } from "../HelperFunctions/displayBio"
 
 const PreviewProfile = () => {
   const dispatch = useDispatch()
@@ -45,19 +45,6 @@ const PreviewProfile = () => {
     "get-external-completed-habits",
     getNewCompletedHabits
   )
-
-  const displayBio = (bio: string | null | undefined) => {
-    if (bio === null || bio === undefined) {
-      return "NO BIO"
-    }
-    const formattedBio = bio.split("\n").map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        <br />
-      </React.Fragment>
-    ))
-    return formattedBio
-  }
 
   return (
     <Box>

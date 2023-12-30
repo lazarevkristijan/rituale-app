@@ -413,7 +413,9 @@ const Settings = () => {
           </Button>
         </form>
         <Button
-          onClick={() => handlePfpDelete(user?.profile_picture || defaultPfpURL, dispatch)}
+          onClick={() =>
+            handlePfpDelete(user?.profile_picture || defaultPfpURL, dispatch)
+          }
           disabled={!user?.profile_picture}
         >
           delete pfp
@@ -423,6 +425,7 @@ const Settings = () => {
 
       <Box>
         <Typography>Bio</Typography>
+        <Typography variant="caption">Max 3 rows</Typography>
         <Box sx={{ position: "relative", width: "fit-content" }}>
           <textarea
             style={{
@@ -430,6 +433,7 @@ const Settings = () => {
               padding: 10,
               paddingRight: 75,
             }}
+            wrap="hard"
             rows={3}
             cols={40}
             value={bio}

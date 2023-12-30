@@ -14,11 +14,11 @@ import {
 } from "../features/settings/settingsSlice"
 import { countryShorthands, defaultPfpURL } from "../constants"
 import { ProfileSkeleton } from "../components"
-import React from "react"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useQuery } from "react-query"
 import { useAuth0 } from "@auth0/auth0-react"
+import { displayBio } from "../HelperFunctions/displayBio"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -51,19 +51,6 @@ const Profile = () => {
     auth0logout()
   }
 
-  const displayBio = (bio: string | null | undefined) => {
-    if (bio === null || bio === undefined) {
-      return "NO BIO"
-    }
-    const formattedBio = bio.split("\n").map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        <br />
-      </React.Fragment>
-    ))
-    return formattedBio
-  }
-
   const getAllHabits = async () => {
     const res = await axios.get("http://localhost:5432/all-habits")
     return res.data
@@ -84,7 +71,6 @@ const Profile = () => {
               p: 1,
               mb: 2,
               display: "flex",
-              height: 300,
             }}
           >
             <Box width="50%">
