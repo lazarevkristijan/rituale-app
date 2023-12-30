@@ -32,7 +32,9 @@ const Profile = () => {
   } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
-  const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits
   )
@@ -66,7 +68,7 @@ const Profile = () => {
           <Typography variant="h3">{user?.first_name}'s Profile</Typography>
           <Box
             sx={{
-              bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
+              bgcolor: `primary.${colorTheme === "dark" ? "dark" : "light"}`,
               borderRadius: 1,
               p: 1,
               mb: 2,
@@ -83,7 +85,9 @@ const Profile = () => {
                     width: 100,
                     height: 100,
                     borderRadius: 20,
-                    border: "3px solid black",
+                    border: `3px solid ${
+                      colorTheme === "dark" ? "white" : "black"
+                    }`,
                   }}
                 ></Box>
                 <Typography

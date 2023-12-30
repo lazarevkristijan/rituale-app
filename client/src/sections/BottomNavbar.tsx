@@ -22,6 +22,9 @@ const BottomNavbar = () => {
   const bottomNavLocation = useSelector(
     (state: RootState) => state.bottomNav.value
   )
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
   const dispatch = useDispatch()
 
   return (
@@ -66,7 +69,9 @@ const BottomNavbar = () => {
             <Box
               sx={{
                 borderRadius: 20,
-                border: "2px solid black",
+                border: `2px solid ${
+                  colorTheme === "dark" ? "white" : "black"
+                }`,
                 backgroundColor: "#fff",
                 background: `url('${getPfpLink(
                   user?.profile_picture || defaultPfpURL
