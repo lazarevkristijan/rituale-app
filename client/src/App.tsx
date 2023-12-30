@@ -13,7 +13,6 @@ import {
   Habits,
   General,
   NotFound,
-  ForgotPassword,
   Settings,
   Search,
 } from "./sections"
@@ -81,8 +80,10 @@ const App = () => {
               const language = innerResponse2.data.filter(
                 (setting: UserSettingsTypes) => setting.setting_id === 2
               )
+
+              document.body.style.backgroundColor =
+                colorTheme[0].value === "dark" ? "#121212" : "#fff"
               dispatch(changeColorTheme(colorTheme[0].value))
-              document.body.style.backgroundColor = colorTheme[0].value
               dispatch(changeLanguage(language[0].value))
             })
         })
@@ -142,10 +143,6 @@ const App = () => {
               <Route
                 path="/general"
                 element={<General />}
-              />
-              <Route
-                path="/forgot-password"
-                element={<ForgotPassword />}
               />
               <Route
                 path="/settings"

@@ -7,7 +7,6 @@ import { verifyToken } from "./middleware/verifyToken.js"
 import {
   getAllBlogs,
   getAllCompletedHabits,
-  getCheckAuth,
   getCompletedHabits,
   getAllCountries,
   getAllFinishedProfiles,

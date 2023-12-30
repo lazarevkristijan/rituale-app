@@ -1,9 +1,6 @@
 TODO:
 
-- make secure routes verified
-- send auth code to email / verify with Oauth2 
-- Forgot password
-- login with google
+- ensure everything works as expected 
 - Accept cookies
 - Terms of service / terms of use?
 - Divide code in more and more components

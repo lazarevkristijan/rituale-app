@@ -1,6 +1,8 @@
 import sql from "../db.js"
 import jwt from "jsonwebtoken"
 import { JWTsecret } from "../middleware/verifyToken.js"
+import { cookieOptions } from "../constants/index.js"
+
 export const postLoginOrRegister = async (req, res) => {
   try {
     const { given_name, family_name, picture, email } = req.body
@@ -21,12 +23,6 @@ export const postLoginOrRegister = async (req, res) => {
       SELECT value
       FROM user_settings
       WHERE user_id = ${existingUser[0].id} AND setting_id = 1`
-
-      const cookieOptions = {
-        httpOnly: true,
-        domain: "localhost",
-        path: "/",
-      }
 
       res.cookie("user", token, {
         ...cookieOptions,
@@ -58,12 +54,6 @@ export const postLoginOrRegister = async (req, res) => {
     SELECT value
     FROM user_settings
     WHERE user_id = ${newUser[0].id} AND setting_id = 1`
-
-    const cookieOptions = {
-      httpOnly: true,
-      domain: "localhost",
-      path: "/",
-    }
 
     res.cookie("user", token, {
       ...cookieOptions,

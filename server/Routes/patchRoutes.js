@@ -1,23 +1,21 @@
-import { emailRegex, nameRegex, passwordRegex } from "../Regex.js"
+import { nameRegex } from "../Regex.js"
 import sql from "../db.js"
-import bcrypt from "bcrypt"
+import { cookieOptions } from "../constants/index.js"
 
 export const patchChangeTheme = async (req, res) => {
   try {
     const userId = req.userId
     const { theme } = req.body
-    const themeCookie = req.cookies.theme
-
-    if (themeCookie) {
-      res.clearCookie("theme")
-    }
 
     await sql`
   UPDATE user_settings
   SET value = ${theme}
   WHERE setting_id = 1 AND user_id = ${userId}`
 
-    res.cookie("theme", theme)
+    res.cookie("theme", theme, {
+      ...cookieOptions,
+      expires: new Date("9999-12-31T23:59:59"),
+    })
     return res.json({ theme: theme })
   } catch (error) {
     console.error("Error is: ", error)
@@ -35,36 +33,12 @@ export const patchChangeCreds = async (req, res) => {
      FROM users
      WHERE id = ${userId}`
 
-    const {
-      firstName,
-      lastName,
-      email,
-      oldPassword,
-      newPassword,
-      confirmNewPassword,
-    } = req.body
+    const { firstName, lastName } = req.body
 
-    if (user[0].email !== email) {
-      const sameEmail = await sql`
-      SELECT email
-      FROM users
-      WHERE email = ${email}`
-
-      if (sameEmail.length !== 0) {
-        return res.status(401).json({
-          error: "Email is already assosiated with a different account",
-        })
-      }
-    }
-
-    if (
-      !nameRegex.test(firstName) ||
-      !nameRegex.test(lastName) ||
-      !emailRegex.test(email)
-    ) {
+    if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
       return res
         .status(401)
-        .json({ error: "First name, last name or email have invalid format" })
+        .json({ error: "First name, last name  have invalid format" })
     }
 
     if (user[0].first_name !== firstName) {
@@ -82,52 +56,6 @@ export const patchChangeCreds = async (req, res) => {
       WHERE id = ${userId}`
 
       updatedUser = { ...updatedUser, last_name: lastName }
-    }
-    if (user[0].email !== email) {
-      await sql`
-      UPDATE users 
-      SET email = ${email}
-      WHERE id = ${userId}`
-
-      updatedUser = { ...updatedUser, email: email }
-    }
-
-    if (oldPassword || newPassword || confirmNewPassword) {
-      if (
-        !passwordRegex.test(oldPassword) ||
-        !passwordRegex.test(newPassword) ||
-        !passwordRegex.test(confirmNewPassword)
-      ) {
-        return res
-          .status(401)
-          .json({ error: "passwords are not formatted correctly" })
-      }
-
-      bcrypt.compare(oldPassword, user[0].password, async (err, result) => {
-        if (err) {
-          return res
-            .status(500)
-            .json({ error: "Error when comparing passwords" })
-        } else if (!result) {
-          return res.status(401).json({ error: "Old password isn't correct" })
-        }
-      })
-
-      if (oldPassword === newPassword) {
-        return res.status(401).json({ error: "Old and new password are same" })
-      } else if (newPassword !== confirmNewPassword) {
-        return res.status(401).json({
-          error: "New password and confirmed new password don't match",
-        })
-      }
-
-      const hashedPassword = await bcrypt.hash(newPassword, 10)
-      await sql`
-      UPDATE users
-      SET password = ${hashedPassword}
-      WHERE id = ${userId}`
-
-      updatedUser = { ...updatedUser, password: hashedPassword }
     }
 
     return res.json(updatedUser)

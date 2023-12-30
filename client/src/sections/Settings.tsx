@@ -41,7 +41,7 @@ import {
 } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useEffect, useState } from "react"
-import { emailRegex, nameRegex, passwordRegex } from "../Regex"
+import { nameRegex } from "../Regex"
 import {
   allCountries,
   countryShorthands,
@@ -93,7 +93,7 @@ const Settings = () => {
 
   const handleUserDelete = () => {
     if (user?.profile_picture) {
-      handlePfpDelete(user?.profile_picture, dispatch, user.id)
+      handlePfpDelete(user?.profile_picture, dispatch)
     }
 
     axios.delete(`http://localhost:5432/delete-user/${user?.id}`).then(() => {
@@ -109,19 +109,11 @@ const Settings = () => {
   const [userData, setUserData] = useState({
     firstName: user?.first_name || "",
     lastName: user?.last_name || "",
-    email: user?.email || "",
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
   })
 
   const initialUserData = {
     firstName: user?.first_name || "",
     lastName: user?.last_name || "",
-    email: user?.email || "",
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
   }
 
   const handleUserDataChange = (e: React.FormEvent<HTMLFormElement>) => {
@@ -157,10 +149,6 @@ const Settings = () => {
   const [changedFields, setChangedFields] = useState({
     firstName: false,
     lastName: false,
-    email: false,
-    oldPassword: false,
-    newPassword: false,
-    confirmNewPassword: false,
   })
   const handleCountryChange = (e: SelectChangeEvent) => {
     if (!e.target.value) {
@@ -266,7 +254,7 @@ const Settings = () => {
     e.preventDefault()
 
     if (user?.profile_picture) {
-      handlePfpDelete(user.profile_picture, dispatch, user?.id)
+      handlePfpDelete(user.profile_picture, dispatch)
     }
 
     if (profilePicture) {
@@ -425,9 +413,7 @@ const Settings = () => {
           </Button>
         </form>
         <Button
-          onClick={() =>
-            handlePfpDelete(user?.profile_picture, dispatch, user?.id)
-          }
+          onClick={() => handlePfpDelete(user?.profile_picture, dispatch)}
           disabled={!user?.profile_picture}
         >
           delete pfp
@@ -700,69 +686,14 @@ const Settings = () => {
               error={!nameRegex.test(userData.lastName)}
             />
           </Box>
-          <TextField
-            label="Email"
-            value={userData.email}
-            sx={{ mb: 1 }}
-            type="email"
-            onChange={(e) => {
-              if (!changedFields.email) {
-                setChangedFields({ ...changedFields, email: true })
-              }
-              setUserData({ ...userData, email: e.target.value })
-            }}
-            error={!emailRegex.test(userData.email)}
-          />
-          <TextField
-            label="Old password"
-            value={userData.oldPassword}
-            onChange={(e) => {
-              if (!changedFields.oldPassword) {
-                setChangedFields({ ...changedFields, oldPassword: true })
-              }
-              setUserData({ ...userData, oldPassword: e.target.value })
-            }}
-            helperText="Must be at least 8 characters long, have 1 lowercase, 1 uppercase letter and 1 number"
-          />
-          <TextField
-            label="New password"
-            value={userData.newPassword}
-            onChange={(e) => {
-              if (!changedFields.newPassword) {
-                setChangedFields({ ...changedFields, newPassword: true })
-              }
-              setUserData({ ...userData, newPassword: e.target.value })
-            }}
-          />
-          <TextField
-            label="Confirm new password"
-            value={userData.confirmNewPassword}
-            onChange={(e) => {
-              if (!changedFields.confirmNewPassword) {
-                setChangedFields({ ...changedFields, confirmNewPassword: true })
-              }
-              setUserData({ ...userData, confirmNewPassword: e.target.value })
-            }}
-          />
         </Box>
         <Button
           type="submit"
           disabled={
             !nameRegex.test(userData.firstName) ||
             !nameRegex.test(userData.lastName) ||
-            !emailRegex.test(userData.email) ||
-            (!passwordRegex.test(userData.oldPassword) &&
-              changedFields.oldPassword) ||
-            (!passwordRegex.test(userData.newPassword) &&
-              changedFields.newPassword) ||
-            (!passwordRegex.test(userData.confirmNewPassword) &&
-              changedFields.confirmNewPassword) ||
             userData.firstName === initialUserData.firstName ||
-            userData.lastName === initialUserData.lastName ||
-            userData.email === initialUserData.email ||
-            userData.oldPassword === initialUserData.oldPassword ||
-            userData.newPassword === initialUserData.newPassword ||
-            userData.confirmNewPassword === initialUserData.confirmNewPassword
+            userData.lastName === initialUserData.lastName
           }
           startIcon={<SaveIcon />}
         >
