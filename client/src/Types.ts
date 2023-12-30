@@ -17,7 +17,7 @@ export type UserTypes = {
   priority_category_3: string | null
   country: string | null
   bio: string | null
-  profile_picture: string | null
+  profile_picture: string
   pinned_habit: number | null
 }
 
@@ -103,7 +103,7 @@ export type SessionSliceTypes = {
     priority_category_3: string | null
     country: string | null
     bio: string | null
-    profile_picture: string | null
+    profile_picture: string
     pinned_habit: number | null
   } | null
 }

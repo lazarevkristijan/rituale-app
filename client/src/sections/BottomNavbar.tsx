@@ -68,11 +68,9 @@ const BottomNavbar = () => {
                 borderRadius: 20,
                 border: "2px solid black",
                 backgroundColor: "#fff",
-                background: `url('${
-                  user?.profile_picture
-                    ? getPfpLink(user?.profile_picture)
-                    : defaultPfpURL
-                }') no-repeat center/cover #fff`,
+                background: `url('${getPfpLink(
+                  user?.profile_picture || defaultPfpURL
+                )}') no-repeat center/cover #fff`,
               }}
               width={22.5}
               height={22.5}

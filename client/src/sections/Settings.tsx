@@ -96,7 +96,7 @@ const Settings = () => {
       handlePfpDelete(user?.profile_picture, dispatch)
     }
 
-    axios.delete(`http://localhost:5432/delete-user/${user?.id}`).then(() => {
+    axios.delete(`http://localhost:5432/delete-user`).then(() => {
       dispatch(logout())
       dispatch(clearHabits())
       dispatch(changeColorTheme("light"))
@@ -413,7 +413,7 @@ const Settings = () => {
           </Button>
         </form>
         <Button
-          onClick={() => handlePfpDelete(user?.profile_picture, dispatch)}
+          onClick={() => handlePfpDelete(user?.profile_picture || defaultPfpURL, dispatch)}
           disabled={!user?.profile_picture}
         >
           delete pfp

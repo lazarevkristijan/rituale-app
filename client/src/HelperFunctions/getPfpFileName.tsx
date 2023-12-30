@@ -1,5 +1,9 @@
 export const getPfpFileName = (linkString: string) => {
-  const pfpData = JSON.parse(linkString)
-  const pfpFileName = pfpData.fileName
-  return pfpFileName
+  try {
+    const pfpData = JSON.parse(linkString)
+    const pfpFileName = pfpData.fileName
+    return pfpFileName
+  } catch {
+    return linkString
+  }
 }

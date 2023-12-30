@@ -91,11 +91,9 @@ const Profile = () => {
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Box
                   sx={{
-                    background: `url('${
-                      user?.profile_picture
-                        ? getPfpLink(user?.profile_picture)
-                        : defaultPfpURL
-                    }') no-repeat center/cover #fff`,
+                    background: `url('${getPfpLink(
+                      user?.profile_picture || defaultPfpURL
+                    )}') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,
                     borderRadius: 20,

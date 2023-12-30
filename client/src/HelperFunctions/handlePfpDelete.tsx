@@ -2,11 +2,9 @@ import { getPfpFileName } from "./getPfpFileName"
 import axios from "axios"
 import { changeProfilePicture } from "../features/session/sessionSlice"
 import { AppDispatch } from "../Store"
+import { defaultPfpURL } from "../constants"
 
-export const handlePfpDelete = (
-  userPfp: string | null | undefined,
-  dispatch: AppDispatch
-) => {
+export const handlePfpDelete = (userPfp: string, dispatch: AppDispatch) => {
   if (userPfp) {
     const pfpFileName = getPfpFileName(userPfp)
     axios
@@ -16,7 +14,7 @@ export const handlePfpDelete = (
         data: JSON.stringify({ pfpFileName: pfpFileName }),
       })
       .then(() => {
-        dispatch(changeProfilePicture(null))
+        dispatch(changeProfilePicture(defaultPfpURL))
       })
   }
 }

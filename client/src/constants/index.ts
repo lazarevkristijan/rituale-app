@@ -1,5 +1,5 @@
 export const defaultPfpURL =
-  "https://www.eol.ucar.edu/sites/default/files/styles/square/public/2022-06/user.png?itok=0aS_ePfk"
+  "https://drive.google.com/uc?id=18he4mgr-Nu_RE4btnjEfi7B-_pAwu5MO"
 
 export const languages = [
   {
