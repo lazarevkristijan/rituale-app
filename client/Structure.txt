@@ -1,6 +1,7 @@
 TODO:
 
-- Register functionality - username + signup
+- change username
+- delete profile
 - Accept cookies
 - Terms of service / terms of use?
 - Divide code in more and more components

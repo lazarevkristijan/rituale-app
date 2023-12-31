@@ -1,4 +1,4 @@
-import { nameRegex } from "../Regex.js"
+import { nameRegex, usernameRegex } from "../Regex.js"
 import sql from "../db.js"
 import { cookieOptions } from "../constants/index.js"
 
@@ -33,12 +33,22 @@ export const patchChangeCreds = async (req, res) => {
      FROM users
      WHERE id = ${userId}`
 
-    const { firstName, lastName } = req.body
+    const { firstName, lastName, username } = req.body
 
-    if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+    if (
+      !nameRegex.test(firstName) ||
+      !nameRegex.test(lastName) ||
+      !usernameRegex.test(username)
+    ) {
       return res
         .status(401)
-        .json({ error: "First name, last name  have invalid format" })
+        .json({
+          error: "First name, last name or username have invalid format",
+        })
+    } else if (username.length < 2 || username.length > 50) {
+      return res.status(400).json({
+        error: "Username must be longer than 1 and shorter than 30 characters",
+      })
     }
 
     if (user[0].first_name !== firstName) {
@@ -56,6 +66,14 @@ export const patchChangeCreds = async (req, res) => {
       WHERE id = ${userId}`
 
       updatedUser = { ...updatedUser, last_name: lastName }
+    }
+    if (user[0].username !== username) {
+      await sql`
+      UPDATE users
+      SET username = ${username}
+      WHERE id = ${userId}`
+
+      updatedUser = { ...updatedUser, username: username }
     }
 
     return res.json(updatedUser)

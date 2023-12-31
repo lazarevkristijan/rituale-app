@@ -41,7 +41,7 @@ import {
 } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { useEffect, useState } from "react"
-import { nameRegex } from "../Regex"
+import { nameRegex, usernameRegex } from "../Regex"
 import {
   allCountries,
   countryShorthands,
@@ -114,19 +114,21 @@ const Settings = () => {
   const [userData, setUserData] = useState({
     firstName: user?.first_name || "",
     lastName: user?.last_name || "",
+    username: user?.username || "",
   })
 
   const initialUserData = {
     firstName: user?.first_name || "",
     lastName: user?.last_name || "",
+    username: user?.username || "",
   }
 
   const [changedFields, setChangedFields] = useState({
     firstName: false,
     lastName: false,
+    username: false,
   })
-  console.log("user data: ", userData)
-  console.log("initial user data: ", initialUserData)
+
   const handleUserDataChange = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -300,6 +302,15 @@ const Settings = () => {
       setPfpURL(getPfpLink(user?.profile_picture))
     }
   }, [user?.profile_picture])
+
+  console.log(
+    !nameRegex.test(userData.firstName) ||
+      userData.firstName === initialUserData.firstName ||
+      !nameRegex.test(userData.lastName) ||
+      userData.lastName === initialUserData.lastName ||
+      !usernameRegex.test(userData.username) ||
+      userData.username === initialUserData.username
+  )
 
   return (
     <Box>
@@ -660,7 +671,7 @@ const Settings = () => {
           component="h3"
           sx={{ fontSize: 35 }}
         >
-          Change name
+          Change credentials
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ flexDirection: "row" }}>
@@ -700,15 +711,34 @@ const Settings = () => {
                 !nameRegex.test(userData.lastName) && changedFields.lastName
               }
             />
+            <TextField
+              label="Username"
+              value={userData.username}
+              sx={{ mb: 1 }}
+              onChange={(e) => {
+                if (!changedFields.username) {
+                  setChangedFields({ ...changedFields, username: true })
+                }
+                setUserData({ ...userData, username: e.target.value })
+              }}
+              error={
+                (userData.username.length < 2 ||
+                  userData.username.length > 50) &&
+                changedFields.username
+              }
+              helperText="Limit 1 - 50 characters"
+            />
           </Box>
         </Box>
         <Button
           type="submit"
           disabled={
-            nameRegex.test(userData.firstName) &&
-            nameRegex.test(userData.lastName) &&
-            userData.firstName === initialUserData.firstName &&
-            userData.lastName === initialUserData.lastName
+            (!nameRegex.test(userData.firstName) ||
+              userData.firstName === initialUserData.firstName) &&
+            (!nameRegex.test(userData.lastName) ||
+              userData.lastName === initialUserData.lastName) &&
+            (!usernameRegex.test(userData.username) ||
+              userData.username === initialUserData.username)
           }
           startIcon={<SaveIcon />}
         >
