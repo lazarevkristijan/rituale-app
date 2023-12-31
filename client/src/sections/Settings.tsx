@@ -36,7 +36,6 @@ import {
   changeCountry,
   changeProfilePicture,
   login,
-  logout,
   removeCategory,
 } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
@@ -91,22 +90,19 @@ const Settings = () => {
       })
   }
 
-  const handleUserDelete = () => {
+  const handleUserDelete = async () => {
     if (user?.profile_picture) {
-      handlePfpDelete(user?.profile_picture, dispatch)
+      await handlePfpDelete(user?.profile_picture, dispatch)
     }
 
-    axios
+    await axios
       .delete(`http://localhost:5432/delete-user`, { withCredentials: true })
-      .then(async () => {
-        await axios.get("http://localhost:5432/logout", {
-          withCredentials: true,
-        })
-        dispatch(logout())
-        dispatch(clearHabits())
+      .then(() => {
         dispatch(changeColorTheme("light"))
         document.body.style.backgroundColor = "#fff"
         dispatch(changeLanguage("en"))
+
+        dispatch(clearHabits())
         auth0logout()
       })
   }
@@ -302,15 +298,6 @@ const Settings = () => {
       setPfpURL(getPfpLink(user?.profile_picture))
     }
   }, [user?.profile_picture])
-
-  console.log(
-    !nameRegex.test(userData.firstName) ||
-      userData.firstName === initialUserData.firstName ||
-      !nameRegex.test(userData.lastName) ||
-      userData.lastName === initialUserData.lastName ||
-      !usernameRegex.test(userData.username) ||
-      userData.username === initialUserData.username
-  )
 
   return (
     <Box>

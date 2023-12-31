@@ -29,7 +29,6 @@ const Profile = () => {
     logout: auth0logout,
     loginWithPopup: auth0login,
     isAuthenticated: auth0authenticated,
-    user: auth0user,
   } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
@@ -39,8 +38,6 @@ const Profile = () => {
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits
   )
-
-  console.log(auth0authenticated, auth0user)
 
   useEffect(() => {
     auth0authenticated ? setIsLoading(false) : auth0login()

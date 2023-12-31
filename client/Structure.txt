@@ -1,6 +1,5 @@
 TODO:
 
-- change username
 - delete profile
 - Accept cookies
 - Terms of service / terms of use?

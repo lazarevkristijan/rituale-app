@@ -6,7 +6,7 @@ import { cookieOptions } from "../constants/index.js"
 export const postLoginOrRegister = async (req, res) => {
   try {
     const { given_name, family_name, picture, email, nickname } = req.body
-    console.log(req.body)
+
     const existingUser = await sql`
     SELECT a.id, a.first_name, a.last_name, a.email, a.username, a.bio, a.profile_picture, f.id as pinned_habit, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id

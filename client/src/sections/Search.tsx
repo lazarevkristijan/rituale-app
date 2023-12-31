@@ -86,6 +86,9 @@ const Search = () => {
                           borderRadius={20}
                           sx={{ border: "3px solid black", bgcolor: "#fff" }}
                         />
+                        <Typography>
+                          {profile.username} {profile.id}
+                        </Typography>
                         <Typography component="span">
                           Full name: {profile.first_name} {profile.last_name}
                         </Typography>
