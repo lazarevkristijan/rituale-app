@@ -1,6 +1,6 @@
 TODO:
 
-- ensure everything works as expected 
+- Register functionality - username + signup
 - Accept cookies
 - Terms of service / terms of use?
 - Divide code in more and more components

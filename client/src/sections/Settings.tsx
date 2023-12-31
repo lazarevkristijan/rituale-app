@@ -96,14 +96,19 @@ const Settings = () => {
       handlePfpDelete(user?.profile_picture, dispatch)
     }
 
-    axios.delete(`http://localhost:5432/delete-user`).then(() => {
-      dispatch(logout())
-      dispatch(clearHabits())
-      dispatch(changeColorTheme("light"))
-      document.body.style.backgroundColor = "#fff"
-      dispatch(changeLanguage("en"))
-      auth0logout()
-    })
+    axios
+      .delete(`http://localhost:5432/delete-user`, { withCredentials: true })
+      .then(async () => {
+        await axios.get("http://localhost:5432/logout", {
+          withCredentials: true,
+        })
+        dispatch(logout())
+        dispatch(clearHabits())
+        dispatch(changeColorTheme("light"))
+        document.body.style.backgroundColor = "#fff"
+        dispatch(changeLanguage("en"))
+        auth0logout()
+      })
   }
 
   const [userData, setUserData] = useState({
@@ -120,7 +125,8 @@ const Settings = () => {
     firstName: false,
     lastName: false,
   })
-
+  console.log("user data: ", userData)
+  console.log("initial user data: ", initialUserData)
   const handleUserDataChange = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -672,7 +678,9 @@ const Settings = () => {
 
                 setUserData({ ...userData, firstName: capitalizedFirstName })
               }}
-              error={!nameRegex.test(userData.firstName)}
+              error={
+                !nameRegex.test(userData.firstName) && changedFields.firstName
+              }
             />
             <TextField
               label="Last Name"
@@ -688,17 +696,19 @@ const Settings = () => {
 
                 setUserData({ ...userData, lastName: capitalizedLastName })
               }}
-              error={!nameRegex.test(userData.lastName)}
+              error={
+                !nameRegex.test(userData.lastName) && changedFields.lastName
+              }
             />
           </Box>
         </Box>
         <Button
           type="submit"
           disabled={
-            !nameRegex.test(userData.firstName) ||
-            !nameRegex.test(userData.lastName) ||
-            (initialUserData.firstName === userData.firstName &&
-              initialUserData.lastName === userData.lastName)
+            nameRegex.test(userData.firstName) &&
+            nameRegex.test(userData.lastName) &&
+            userData.firstName === initialUserData.firstName &&
+            userData.lastName === initialUserData.lastName
           }
           startIcon={<SaveIcon />}
         >

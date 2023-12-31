@@ -3,17 +3,21 @@ import axios from "axios"
 import { useState } from "react"
 import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { useQuery } from "react-query"
-import { UserTypes } from "../Types"
+import { PreviewUserTypes } from "../Types"
 import { useNavigate } from "react-router-dom"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { defaultPfpURL } from "../constants"
+import { RootState } from "../Store"
 const Search = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   dispatch(changeLocation(1))
   const [searchValue, setSearchValue] = useState("")
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
 
   const getUsers = async () => {
     const res = await axios.get("http://localhost:5432/all-users", {
@@ -49,20 +53,20 @@ const Search = () => {
         >
           {allUsers.length
             ? allUsers
-                .filter((profile: UserTypes) => {
+                .filter((profile: PreviewUserTypes) => {
                   const fullName = `${profile.first_name} ${profile.last_name}`
 
                   return fullName
                     .toLowerCase()
                     .includes(searchValue.toLowerCase())
                 })
-                .map((profile: UserTypes) => {
+                .map((profile: PreviewUserTypes) => {
                   return (
                     <Box
                       sx={{
                         width: 300,
                         height: 200,
-                        bgcolor: "primary.dark",
+                        bgcolor: `primary.${colorTheme}`,
                         borderRadius: 2,
                         p: 1,
                         display: "flex",

@@ -7,17 +7,18 @@ export type HabitTypes = {
   difficulty: string
 }
 
-export type UserTypes = {
-  first_name: string
-  last_name: string
-  email: string
+export type PreviewUserTypes = {
   id: number
+  email: string
+  username: string
+  profile_picture: string
+  first_name: string | null
+  last_name: string | null
   priority_category_1: string | null
   priority_category_2: string | null
   priority_category_3: string | null
   country: string | null
   bio: string | null
-  profile_picture: string
   pinned_habit: number | null
 }
 
@@ -95,15 +96,16 @@ export type SettingsSliceTypes = {
 export type SessionSliceTypes = {
   user: {
     id: number
+    username: string
     email: string
-    first_name: string
+    profile_picture: string
+    first_name: string | null
     last_name: string | null
     priority_category_1: string | null
     priority_category_2: string | null
     priority_category_3: string | null
     country: string | null
     bio: string | null
-    profile_picture: string
     pinned_habit: number | null
   } | null
 }

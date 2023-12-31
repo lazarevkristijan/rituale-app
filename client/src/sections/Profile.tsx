@@ -29,6 +29,7 @@ const Profile = () => {
     logout: auth0logout,
     loginWithPopup: auth0login,
     isAuthenticated: auth0authenticated,
+    user: auth0user,
   } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
@@ -38,6 +39,8 @@ const Profile = () => {
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits
   )
+
+  console.log(auth0authenticated, auth0user)
 
   useEffect(() => {
     auth0authenticated ? setIsLoading(false) : auth0login()
@@ -65,10 +68,10 @@ const Profile = () => {
         <ProfileSkeleton />
       ) : (
         <>
-          <Typography variant="h3">{user?.first_name}'s Profile</Typography>
+          <Typography variant="h3">{user?.username}'s Profile</Typography>
           <Box
             sx={{
-              bgcolor: `primary.${colorTheme === "dark" ? "dark" : "light"}`,
+              bgcolor: `primary.${colorTheme}`,
               borderRadius: 1,
               p: 1,
               mb: 2,

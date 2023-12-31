@@ -12,7 +12,7 @@ import {
   getAllFinishedProfiles,
   getAllHabitCategories,
   getAllHabits,
-  // getLogout,
+  getLogout,
   getPreviewCompletedHabits,
   getResetHabitProgress,
   getRoot,
@@ -74,7 +74,7 @@ app.get("/all-countries", getAllCountries)
 app.get("/all-blogs", getAllBlogs)
 
 // AUTHENTICATION RELATED
-// app.get("/logout", getLogout)
+app.get("/logout", getLogout)
 app.delete("/delete-user", verifyToken, deleteUser)
 app.post("/login-or-register", postLoginOrRegister)
 

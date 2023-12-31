@@ -4,14 +4,7 @@ import { cloudinary } from "../cloudinary/index.js"
 export const deleteUser = async (req, res) => {
   try {
     const userId = req.userId
-
-    await sql`
-    DELETE FROM user_settings
-    WHERE user_id = ${userId}`
-
-    await sql`
-    DELETE FROM completed_habits
-    WHERE user_id = ${userId}`
+    console.log(userId)
 
     await sql`
     DELETE FROM users
@@ -19,6 +12,7 @@ export const deleteUser = async (req, res) => {
 
     res.clearCookie("user")
     res.clearCookie("theme")
+    console.log("everythin deleted")
     return res.json({ success: "Successfully deleted user" })
   } catch (error) {
     console.error("Error is: ", error)

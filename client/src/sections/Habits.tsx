@@ -46,6 +46,9 @@ const Habits = () => {
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits.habits
   )
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
 
   const [filterCategories, setFilterCategories] = useState({
     health: true,
@@ -203,7 +206,7 @@ const Habits = () => {
     additionalStyles?: object
   ) => (
     <Button
-      sx={{ ml: 2, ...additionalStyles }}
+      sx={{ ml: 2, bgcolor: `primary.${colorTheme}`, ...additionalStyles }}
       onClick={onClick}
     >
       {label}
@@ -512,10 +515,10 @@ const Habits = () => {
                         user?.pinned_habit === habit.id
                           ? "yellow"
                           : habit.difficulty === "Easy"
-                          ? "success.light"
+                          ? `success.${colorTheme}`
                           : habit.difficulty === "Medium"
-                          ? "warning.light"
-                          : "error.light",
+                          ? `warning.${colorTheme}`
+                          : `error.${colorTheme}`,
 
                       color: "#000",
                       width: 300,
@@ -531,14 +534,15 @@ const Habits = () => {
                       <Box sx={{ height: 50 }}>
                         <Chip
                           label={habit.difficulty}
-                          sx={{ color: "#000" }}
-                          color={
-                            habit.difficulty === "Easy"
-                              ? "success"
-                              : habit.difficulty === "Medium"
-                              ? "warning"
-                              : "error"
-                          }
+                          sx={{
+                            color: "#000",
+                            bgcolor:
+                              habit.difficulty === "Easy"
+                                ? `success`
+                                : habit.difficulty === "Medium"
+                                ? `warning`
+                                : `error`,
+                          }}
                         />
                       </Box>
                       <Grid
@@ -605,7 +609,10 @@ const Habits = () => {
                     <Box>
                       {user ? (
                         <Button
-                          sx={{ width: "100%" }}
+                          sx={{
+                            width: "100%",
+                            bgcolor: `primary.${colorTheme}`,
+                          }}
                           type="submit"
                           onClick={() => {
                             setHabitToToggle(habit.id)
@@ -625,7 +632,7 @@ const Habits = () => {
                             component="div"
                             sx={{
                               width: "100%",
-                              bgcolor: "primary.main",
+                              bgcolor: `primary.${colorTheme}`,
                               borderBottomLeftRadius: "inherit",
                               borderBottomRightRadius: "inherit",
                               ":hover": {

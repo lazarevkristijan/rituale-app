@@ -19,6 +19,9 @@ const Blog = ({
   image_url: string
 }) => {
   const user = useSelector((state: RootState) => state.session.user)
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
 
   const handleBlogDelete = () => {
     axios.delete("http://localhost:5432/remove-blog", {
@@ -32,7 +35,7 @@ const Blog = ({
       sx={{
         width: 300,
         height: 350,
-        bgcolor: "primary.dark",
+        bgcolor: `primary.${colorTheme}`,
         borderRadius: 2,
       }}
     >

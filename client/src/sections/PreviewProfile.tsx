@@ -16,6 +16,7 @@ import { useQuery } from "react-query"
 import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { ProfileSkeleton } from "../components"
 import { displayBio } from "../HelperFunctions/displayBio"
+import { PreviewUserTypes } from "../Types"
 
 const PreviewProfile = () => {
   const dispatch = useDispatch()
@@ -23,9 +24,11 @@ const PreviewProfile = () => {
 
   const { id } = useParams()
 
-  const darkTheme = useSelector((state: RootState) => state.settings.colorTheme)
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
 
-  const getNewUser = async () => {
+  const getNewUser = async (): Promise<PreviewUserTypes> => {
     const res = await axios.get(`http://localhost:5432/user/${id}`)
     return res.data
   }
@@ -53,7 +56,7 @@ const PreviewProfile = () => {
       ) : (
         <>
           <Typography variant="h3">
-            {previewUser.first_name}'s Profile
+            {previewUser?.username}'s Profile
           </Typography>
           <Breadcrumbs separator=">">
             <Link
@@ -66,7 +69,7 @@ const PreviewProfile = () => {
           </Breadcrumbs>
           <Box
             sx={{
-              bgcolor: `primary.${darkTheme ? "dark" : "light"}`,
+              bgcolor: `primary.${colorTheme}`,
               borderRadius: 1,
               p: 1,
               mb: 2,
@@ -79,7 +82,7 @@ const PreviewProfile = () => {
                 <Box
                   sx={{
                     background: `url('${getPfpLink(
-                      previewUser.profile_picture || defaultPfpURL
+                      previewUser?.profile_picture || defaultPfpURL
                     )}') no-repeat center/cover #fff`,
                     width: 100,
                     height: 100,
@@ -90,9 +93,9 @@ const PreviewProfile = () => {
                 <Typography
                   sx={{ alignSelf: "center", ml: 1, display: "flex" }}
                 >
-                  {previewUser.first_name} <br />
-                  {previewUser.last_name} <br />
-                  {previewUser.country || "NO COUNTRY"}
+                  {previewUser?.first_name} <br />
+                  {previewUser?.last_name} <br />
+                  {previewUser?.country || "NO COUNTRY"}
                 </Typography>
                 <Tooltip
                   title="User No."
@@ -101,7 +104,7 @@ const PreviewProfile = () => {
                   sx={{ ml: 1 }}
                 >
                   <Chip
-                    label={`#${previewUser.id}`}
+                    label={`#${previewUser?.id}`}
                     color="primary"
                     component="span"
                   />
@@ -115,22 +118,22 @@ const PreviewProfile = () => {
               </Typography>
               <Typography component="span">
                 Main Goals:{" "}
-                {!previewUser.priority_category_1 &&
-                  !previewUser.priority_category_2 &&
-                  !previewUser.priority_category_3 &&
+                {!previewUser?.priority_category_1 &&
+                  !previewUser?.priority_category_2 &&
+                  !previewUser?.priority_category_3 &&
                   "None"}{" "}
               </Typography>
-              {previewUser.priority_category_1 && (
+              {previewUser?.priority_category_1 && (
                 <Chip
-                  label={previewUser.priority_category_1}
+                  label={previewUser?.priority_category_1}
                   color="primary"
                   component="span"
                   sx={{ ml: 1 }}
                 />
               )}
-              {previewUser.priority_category_2 && (
+              {previewUser?.priority_category_2 && (
                 <Chip
-                  label={previewUser.priority_category_2}
+                  label={previewUser?.priority_category_2}
                   color="primary"
                   component="span"
                   sx={{ ml: 1 }}
@@ -138,7 +141,7 @@ const PreviewProfile = () => {
               )}
               {previewUser?.priority_category_3 && (
                 <Chip
-                  label={previewUser.priority_category_3}
+                  label={previewUser?.priority_category_3}
                   color="primary"
                   component="span"
                   sx={{ ml: 1 }}

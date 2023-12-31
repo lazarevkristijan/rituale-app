@@ -23,7 +23,7 @@ export const getUser = async (req, res) => {
     const userId = req.params.id
 
     const user = await sql`
-    SELECT a.id, a.first_name, a.last_name, a.email, a.bio, a.profile_picture, f.id as pinned_habit, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
+    SELECT a.id, a.first_name, a.last_name, a.email, a.username, a.bio, a.profile_picture, f.id as pinned_habit, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
     LEFT JOIN habit_categories as b ON a.priority_category_1 = b.id
     LEFT JOIN habit_categories as c ON a.priority_category_2 = c.id
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
@@ -125,16 +125,16 @@ export const getAllFinishedProfiles = async (req, res) => {
   }
 }
 
-// export const getLogout = async (req, res) => {
-//   try {
-//     res.clearCookie("user")
-//     res.clearCookie("theme")
-//     return res.json({ success: 'Session cookie "user" deleted successfully ' })
-//   } catch (error) {
-//     console.error("Error is: ", error)
-//     return res.status(500).json({ error: "Error logging out" })
-//   }
-// }
+export const getLogout = async (req, res) => {
+  try {
+    res.clearCookie("user")
+    res.clearCookie("theme")
+    return res.json({ success: "Cookies cleared, logging user out" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error logging out" })
+  }
+}
 
 export const getResetHabitProgress = async (req, res) => {
   try {
