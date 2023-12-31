@@ -128,7 +128,6 @@ const App = () => {
                 path="/"
                 element={<Home />}
               />
-
               <Route
                 path="/profile"
                 element={<Profile />}
@@ -138,7 +137,7 @@ const App = () => {
                 element={<PreviewProfile />}
               />
               <Route
-                path="/search"
+                path="/search/:page"
                 element={<Search />}
               />
               <Route

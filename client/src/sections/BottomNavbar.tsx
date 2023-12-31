@@ -48,7 +48,7 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="Search"
         icon={<SearchIcon />}
-        onClick={() => navigate("/search")}
+        onClick={() => navigate("/search/1")}
       />
 
       <BottomNavigationAction
