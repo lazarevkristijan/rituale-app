@@ -22,7 +22,8 @@ const Search = () => {
   const dispatch = useDispatch()
   dispatch(changeLocation(1))
 
-  const { page } = useParams()
+  const { page: pageNoParams } = useParams()
+  const [page, setPage] = useState(pageNoParams)
 
   const [searchValue, setSearchValue] = useState("")
   const colorTheme = useSelector(
@@ -47,6 +48,9 @@ const Search = () => {
         placeholder="Who?"
         value={searchValue}
         onChange={(e) => {
+          if (window.location.href !== "http://localhost:5173/search/1")
+            navigate("/search/1")
+          setPage("1")
           setSearchValue(e.target.value)
         }}
       />
@@ -132,8 +136,18 @@ const Search = () => {
           </Grid>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Pagination
-              count={Math.ceil(allUsers.length / 15)}
-              onChange={(_e, value) => navigate(`/search/${value}`)}
+              count={Math.ceil(
+                allUsers.filter((profile: PreviewUserTypes) => {
+                  return profile.username
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase())
+                }).length / 15
+              )}
+              onChange={(_e, value) => {
+                setPage(String(value))
+                navigate(`/search/${value}`)
+              }}
+              page={Number(page)}
             />
           </Box>
         </>

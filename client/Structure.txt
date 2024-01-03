@@ -1,7 +1,7 @@
 TODO:
 
+- pagination on search users - fix on search page number still max
 - pagination on habits
-- pagination on search users
 - pagination on blogs
 - Accept cookies
 - Terms of service / terms of use?
