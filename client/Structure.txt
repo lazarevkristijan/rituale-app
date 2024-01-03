@@ -1,6 +1,5 @@
 TODO:
 
-- pagination on search users - fix on search page number still max
 - pagination on habits
 - pagination on blogs
 - Accept cookies

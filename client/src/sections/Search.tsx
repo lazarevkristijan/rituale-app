@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material"
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { useQuery } from "react-query"
 import { PreviewUserTypes } from "../Types"
@@ -26,6 +26,14 @@ const Search = () => {
   const [page, setPage] = useState(pageNoParams)
 
   const [searchValue, setSearchValue] = useState("")
+  const [waitedValue, setWaitedValue] = useState("")
+  useEffect(() => {
+    const addValueTimeout = setTimeout(() => {
+      setSearchValue(waitedValue)
+    }, 500)
+
+    return () => clearTimeout(addValueTimeout)
+  }, [waitedValue])
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
   )
@@ -46,12 +54,15 @@ const Search = () => {
         label="User"
         autoComplete="off"
         placeholder="Who?"
-        value={searchValue}
+        value={waitedValue}
         onChange={(e) => {
-          if (window.location.href !== "http://localhost:5173/search/1")
+          console.log(e.target.value)
+          if (window.location.href !== "http://localhost:5173/search/1") {
             navigate("/search/1")
+          }
           setPage("1")
-          setSearchValue(e.target.value)
+          console.log(e.target.value)
+          setWaitedValue(e.target.value)
         }}
       />
       {isLoading ? (
