@@ -24,7 +24,7 @@ import {
 } from "../Types"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import LockPersonIcon from "@mui/icons-material/LockPerson"
 import {
   addHabit,
@@ -43,7 +43,10 @@ import { useNavigate, useParams } from "react-router-dom"
 const Habits = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  dispatch(changeLocation(2))
+  useEffect(() => {
+    dispatch(changeLocation(2))
+  }, [dispatch])
+
   const { loginWithPopup: auth0login } = useAuth0()
 
   const { page: pageNoParams } = useParams()

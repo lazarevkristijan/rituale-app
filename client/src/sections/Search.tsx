@@ -20,7 +20,9 @@ import { RootState } from "../Store"
 const Search = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  dispatch(changeLocation(1))
+  useEffect(() => {
+    dispatch(changeLocation(1))
+  }, [dispatch])
 
   const { page: pageNoParams } = useParams()
   const [page, setPage] = useState(pageNoParams)

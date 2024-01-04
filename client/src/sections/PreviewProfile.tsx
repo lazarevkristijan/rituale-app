@@ -17,11 +17,14 @@ import { getPfpLink } from "../HelperFunctions/getPfpLink"
 import { ProfileSkeleton } from "../components"
 import { displayBio } from "../HelperFunctions/displayBio"
 import { PreviewUserTypes } from "../Types"
+import { useEffect } from "react"
 
 const PreviewProfile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  dispatch(changeLocation(1))
+  useEffect(() => {
+    dispatch(changeLocation(1))
+  }, [dispatch])
 
   const { username } = useParams()
 

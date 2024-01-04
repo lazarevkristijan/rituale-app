@@ -6,11 +6,14 @@ import HomeIcon from "@mui/icons-material/Home"
 import LoginIcon from "@mui/icons-material/Login"
 import PersonIcon from "@mui/icons-material/Person"
 import { useAuth0 } from "@auth0/auth0-react"
+import { useEffect } from "react"
 
 const NotFound = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  dispatch(changeLocation(0))
+  useEffect(() => {
+    dispatch(changeLocation(0))
+  }, [dispatch])
 
   const { loginWithPopup: auth0login, isAuthenticated: auth0authenticated } =
     useAuth0()

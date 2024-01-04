@@ -2,10 +2,13 @@ import { Box, Typography } from "@mui/material"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useDispatch } from "react-redux"
 import GeneralTabs from "../components/GeneralTabs"
+import { useEffect } from "react"
 
 const General = () => {
   const dispatch = useDispatch()
-  dispatch(changeLocation(3))
+  useEffect(() => {
+    dispatch(changeLocation(3))
+  }, [dispatch])
 
   return (
     <Box>

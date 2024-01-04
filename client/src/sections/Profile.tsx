@@ -23,7 +23,9 @@ import { displayBio } from "../HelperFunctions/displayBio"
 const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  dispatch(changeLocation(4))
+  useEffect(() => {
+    dispatch(changeLocation(4))
+  }, [dispatch])
 
   const {
     logout: auth0logout,

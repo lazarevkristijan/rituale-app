@@ -58,7 +58,9 @@ import { getPfpLink } from "../HelperFunctions/getPfpLink"
 
 const Settings = () => {
   const dispatch = useDispatch()
-  dispatch(changeLocation(4))
+  useEffect(() => {
+    dispatch(changeLocation(4))
+  }, [dispatch])
 
   const { logout: auth0logout } = useAuth0()
 
