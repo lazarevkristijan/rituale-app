@@ -87,10 +87,7 @@ const Search = () => {
                       .toLowerCase()
                       .includes(searchValue.toLowerCase())
                   })
-                  .slice(() => {
-                    console.log(length)
-                    return (Number(page) - 1) * 15, Number(page) * 15
-                  })
+                  .slice((Number(page) - 1) * 15, Number(page) * 15)
                   .map((profile: PreviewUserTypes) => {
                     return (
                       <Box
@@ -140,7 +137,7 @@ const Search = () => {
                         <Box sx={{ display: "flex", justifyContent: "end" }}>
                           <Button
                             onClick={() => {
-                              navigate(`/user/${profile.id}`)
+                              navigate(`/user/${profile.username}`)
                             }}
                           >
                             view

@@ -134,7 +134,7 @@ const App = () => {
                 element={<Profile />}
               />
               <Route
-                path="/user/:id"
+                path="/user/:username"
                 element={<PreviewProfile />}
               />
               <Route

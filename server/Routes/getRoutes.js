@@ -20,7 +20,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const userId = req.params.id
+    const username = req.params.username
 
     const user = await sql`
     SELECT a.id, a.first_name, a.last_name, a.email, a.username, a.bio, a.profile_picture, f.id as pinned_habit, e.country_name as country, b.category as priority_category_1, c.category as priority_category_2, d.category as priority_category_3 FROM users as a
@@ -29,7 +29,7 @@ export const getUser = async (req, res) => {
     LEFT JOIN habit_categories as d ON a.priority_category_3 = d.id
     LEFT JOIN countries as e ON a.country = e.id
     LEFT JOIN habits as f ON a.pinned_habit = f.id
-    WHERE a.id = ${userId}`
+    WHERE a.username = ${username}`
 
     return res.json(user[0])
   } catch (error) {
@@ -85,12 +85,14 @@ export const getAllCompletedHabits = async (req, res) => {
 
 export const getPreviewCompletedHabits = async (req, res) => {
   try {
-    const userId = req.params.id
+    const username = req.params.username
 
     const newCompletedHabits = await sql`
-    SELECT *
-    FROM completed_habits
-    WHERE user_id = ${userId}`
+    SELECT a.habit_id
+    FROM completed_habits as a
+    JOIN users as b
+    ON a.user_id = b.id
+    WHERE b.username = ${username}`
 
     res.json(newCompletedHabits)
   } catch (error) {

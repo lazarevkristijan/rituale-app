@@ -67,7 +67,7 @@ app.get("/", getRoot)
 // GET DATA
 app.get("/all-users", getAllUsers)
 app.get("/all-finished-profiles", getAllFinishedProfiles)
-app.get("/user/:id", getUser)
+app.get("/user/:username", getUser)
 app.get("/all-habits", getAllHabits)
 app.get("/all-habit-categories", getAllHabitCategories)
 app.get("/all-countries", getAllCountries)
@@ -81,7 +81,7 @@ app.post("/login-or-register", postLoginOrRegister)
 // HABIT RELATED
 app.get("/completed-habits", verifyToken, getCompletedHabits)
 app.get("/all-completed-habits", getAllCompletedHabits)
-app.get("/preview-completed-habits/:id", getPreviewCompletedHabits)
+app.get("/preview-completed-habits/:username", getPreviewCompletedHabits)
 
 app.post("/complete-habit", verifyToken, postCompleteHabit)
 app.post("/remove-habit", verifyToken, postRemoveHabit)

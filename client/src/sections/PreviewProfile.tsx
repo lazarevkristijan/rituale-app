@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import {
   Box,
@@ -20,38 +20,44 @@ import { PreviewUserTypes } from "../Types"
 
 const PreviewProfile = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   dispatch(changeLocation(1))
 
-  const { id } = useParams()
+  const { username } = useParams()
 
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
   )
 
-  const getNewUser = async (): Promise<PreviewUserTypes> => {
-    const res = await axios.get(`http://localhost:5432/user/${id}`)
-    return res.data
+  const getPreviewUser = async (): Promise<PreviewUserTypes> => {
+    return await axios
+      .get(`http://localhost:5432/user/${username}`)
+      .then((response) => {
+        if (response.data) {
+          return response.data
+        } else {
+          return navigate("/not-found")
+        }
+      })
   }
-  const { data: previewUser, isLoading } = useQuery(
+  const { data: previewUser, isLoading: isUserLoading } = useQuery(
     "preview-user-profile",
-    getNewUser
+    getPreviewUser
   )
 
-  const getNewCompletedHabits = async () => {
+  const getPreviewCompletedHabits = async () => {
     const res = await axios.get(
-      `http://localhost:5432/preview-completed-habits/${id}`
+      `http://localhost:5432/preview-completed-habits/${username}`
     )
 
     return res.data
   }
-  const { data: newCompletedHabits, isLoading: isNewLoading } = useQuery(
-    "get-external-completed-habits",
-    getNewCompletedHabits
-  )
+  const { data: previewCompletedHabits, isLoading: areCompletedHabitsLoading } =
+    useQuery("get-external-completed-habits", getPreviewCompletedHabits)
 
   return (
     <Box>
-      {isLoading || isNewLoading ? (
+      {isUserLoading || areCompletedHabitsLoading ? (
         <ProfileSkeleton />
       ) : (
         <>
@@ -113,7 +119,7 @@ const PreviewProfile = () => {
               <Typography>
                 Good Habits:{" "}
                 <Typography component="span">
-                  {newCompletedHabits.length}
+                  {previewCompletedHabits.length}
                 </Typography>
               </Typography>
               <Typography component="span">
