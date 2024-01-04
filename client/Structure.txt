@@ -1,6 +1,5 @@
 TODO:
 
-- pagination on blogs
 - Accept cookies
 - Terms of service / terms of use?
 - Divide code in more and more components
@@ -11,10 +10,7 @@ MUI components to use:
 Rating
 
 Accordion
-Breadcrumbs
 Link
 Drawer - side panel
-Dialog
-
 
 ENSURE SEMANTIC HTML IS USED EVERYWHERE 

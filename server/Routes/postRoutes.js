@@ -33,6 +33,7 @@ export const postLoginOrRegister = async (req, res) => {
 
       res.cookie("user", token, {
         ...cookieOptions,
+        httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 1,
       })
       res.cookie("theme", userTheme[0].value, {
@@ -66,6 +67,7 @@ export const postLoginOrRegister = async (req, res) => {
 
     res.cookie("user", token, {
       ...cookieOptions,
+      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 1,
     })
     res.cookie("theme", userTheme[0].value, {
