@@ -55,7 +55,7 @@ const GeneralTabBlogs = () => {
   const [blogData, setBlogData] = useState(initialBlogData)
   return (
     <Box>
-      {user?.id === 52 && (
+      {user?.id === 113 && (
         <Box sx={{ display: "flex", justifyContent: "end" }}>
           <Button
             onClick={() => {

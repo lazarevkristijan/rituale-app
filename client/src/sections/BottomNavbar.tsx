@@ -54,7 +54,7 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="Habits"
         icon={<SelfImprovementIcon />}
-        onClick={() => navigate("/habits")}
+        onClick={() => navigate("/habits/1")}
       />
 
       <BottomNavigationAction

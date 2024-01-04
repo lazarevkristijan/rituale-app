@@ -141,7 +141,7 @@ const App = () => {
                 element={<Search />}
               />
               <Route
-                path="/habits"
+                path="/habits/:page"
                 element={<Habits />}
               />
               <Route

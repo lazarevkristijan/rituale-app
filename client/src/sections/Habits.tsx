@@ -12,6 +12,7 @@ import {
   FormGroup,
   Divider,
   Grid,
+  Pagination,
 } from "@mui/material"
 import axios from "axios"
 import { useQuery } from "react-query"
@@ -23,7 +24,7 @@ import {
 } from "../Types"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
-import { useState } from "react"
+import React, { useState } from "react"
 import LockPersonIcon from "@mui/icons-material/LockPerson"
 import {
   addHabit,
@@ -37,10 +38,16 @@ import PushPinIcon from "@mui/icons-material/PushPin"
 import { changePinnedHabit } from "../features/session/sessionSlice"
 import StarIcon from "@mui/icons-material/Star"
 import { useAuth0 } from "@auth0/auth0-react"
+import { useNavigate, useParams } from "react-router-dom"
+
 const Habits = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   dispatch(changeLocation(2))
   const { loginWithPopup: auth0login } = useAuth0()
+
+  const { page: pageNoParams } = useParams()
+  const [page, setPage] = useState(pageNoParams)
 
   const user = useSelector((state: RootState) => state.session.user)
   const completedHabits = useSelector(
@@ -97,6 +104,13 @@ const Habits = () => {
   const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false)
   const [isDifficultyFilterOpen, setIsDifficultyFilterOpen] = useState(false)
   const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false)
+
+  const resetPage = () => {
+    if (window.location.href !== "http://localhost:5173/habits/1") {
+      navigate("/habits/1")
+    }
+    setPage("1")
+  }
 
   const getHabits = async () => {
     const res = await axios.get("http://localhost:5432/all-habits")
@@ -159,6 +173,8 @@ const Habits = () => {
   }
 
   const handleResetFilters = () => {
+    resetPage()
+
     setFilterCategories({
       health: true,
       appearance: true,
@@ -254,23 +270,25 @@ const Habits = () => {
             <DialogContent>
               <FormGroup>
                 {Object.entries(filterCategories).map(([key, value], index) => (
-                  <Box key={key}>
+                  <React.Fragment key={key}>
                     <FilterCheckbox
                       label={
                         key.charAt(0).toUpperCase() +
                         key.slice(1).split("_").join(" ")
                       }
                       checked={value}
-                      onChange={() =>
+                      onChange={() => {
+                        resetPage()
+
                         handleCategoriesCheckboxChange(
                           key as keyof FilterCategoriesTypes
                         )
-                      }
+                      }}
                     />
                     {index !== Object.entries(filterCategories).length - 1 && (
                       <Divider />
                     )}
-                  </Box>
+                  </React.Fragment>
                 ))}
               </FormGroup>
             </DialogContent>
@@ -289,23 +307,25 @@ const Habits = () => {
             <DialogTitle>Filter difficulties</DialogTitle>
             <DialogContent>
               {Object.entries(filterDifficulties).map(([key, value], index) => (
-                <Box key={key}>
+                <React.Fragment key={key}>
                   <FilterCheckbox
                     label={
                       key.charAt(0).toUpperCase() +
                       key.slice(1).split("_").join(" ")
                     }
                     checked={value}
-                    onChange={() =>
+                    onChange={() => {
+                      resetPage()
+
                       handleDifficultyCheckboxChange(
                         key as keyof FilterDifficultyTypes
                       )
-                    }
+                    }}
                   />
                   {index !== Object.entries(filterDifficulties).length - 1 && (
                     <Divider />
                   )}
-                </Box>
+                </React.Fragment>
               ))}
             </DialogContent>
             <DialogActions>
@@ -324,23 +344,25 @@ const Habits = () => {
             <DialogContent>
               <FormGroup>
                 {Object.entries(filterStatus).map(([key, value], index) => (
-                  <Box key={key}>
+                  <React.Fragment key={key}>
                     <FilterCheckbox
                       label={
                         key.charAt(0).toUpperCase() +
                         key.slice(1).split("_").join(" ")
                       }
                       checked={value}
-                      onChange={() =>
+                      onChange={() => {
+                        resetPage()
+
                         handleStatusCheckboxChange(
                           key as keyof FilterStatusTypes
                         )
-                      }
+                      }}
                     />
                     {index !== Object.entries(filterStatus).length && (
                       <Divider />
                     )}
-                  </Box>
+                  </React.Fragment>
                 ))}
               </FormGroup>
             </DialogContent>
@@ -390,266 +412,378 @@ const Habits = () => {
             {!filterStatus.not_completed && "Not completed"}
           </Typography>
         </Box>
-        <form
-          onSubmit={(e) => handleToggleHabit(e, habitToToggle)}
-          style={{
-            display: "flex",
-            justifyContent: "space-evenly",
-            flexWrap: "wrap",
-            rowGap: 40,
-          }}
-        >
+        <form onSubmit={(e) => handleToggleHabit(e, habitToToggle)}>
           {areHabitsLoading ? (
             <HabitsSkeleton />
           ) : (
-            data
-              .filter((h: HabitTypes) => {
-                if (filterStatus.completed) {
-                  return h
-                }
-                return !completedHabits.includes(h.id)
-              })
-              .filter((h: HabitTypes) => {
-                if (filterStatus.not_completed) {
-                  return h
-                }
-                return completedHabits.includes(h.id)
-              })
-              .filter((h: HabitTypes) => {
-                if (filterDifficulties.easy) {
-                  return h
-                }
-                return h.difficulty !== "Easy"
-              })
-              .filter((h: HabitTypes) => {
-                if (filterDifficulties.medium) {
-                  return h
-                }
-                return h.difficulty !== "Medium"
-              })
-              .filter((h: HabitTypes) => {
-                if (filterDifficulties.hard) {
-                  return h
-                }
-                return h.difficulty !== "Hard"
-              })
-              .filter((h: HabitTypes) =>
-                filterByCategory(h, filterCategories.health, "Health")
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(h, filterCategories.appearance, "Appearance")
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(
-                  h,
-                  filterCategories.communication,
-                  "Communication"
-                )
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(h, filterCategories.finance, "Finance")
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(
-                  h,
-                  filterCategories.productivity,
-                  "Productivity"
-                )
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(h, filterCategories.creativity, "Creativity")
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(h, filterCategories.networking, "Networking")
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(
-                  h,
-                  filterCategories.relationships,
-                  "Relationships"
-                )
-              )
-              .filter((h: HabitTypes) =>
-                filterByCategory(
-                  h,
-                  filterCategories.personal_growth,
-                  "Personal growth"
-                )
-              )
-              .slice()
-              .sort((a: HabitTypes, b: HabitTypes) => {
-                if (a.id === user?.pinned_habit) return -1
-                if (b.id === user?.pinned_habit) return 1
-                return 0
-              })
-              .map((habit: HabitTypes) => (
-                <Box
-                  component="div"
-                  key={habit.id}
-                  sx={{
-                    display: "flex",
-                    position: "relative",
-                  }}
-                  onMouseOver={() => {
-                    if (!user) return
-                    setPinnedHabitIdShown(habit.id)
-                  }}
-                  onMouseLeave={() => {
-                    if (!user) return
-                    setPinnedHabitIdShown(null)
-                  }}
-                >
-                  {user?.pinned_habit === habit.id && (
-                    <StarIcon
+            <>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  flexWrap: "wrap",
+                  rowGap: 3,
+                }}
+              >
+                {data
+                  .filter((h: HabitTypes) => {
+                    if (filterStatus.completed) {
+                      return h
+                    }
+                    return !completedHabits.includes(h.id)
+                  })
+                  .filter((h: HabitTypes) => {
+                    if (filterStatus.not_completed) {
+                      return h
+                    }
+                    return completedHabits.includes(h.id)
+                  })
+                  .filter((h: HabitTypes) => {
+                    if (filterDifficulties.easy) {
+                      return h
+                    }
+                    return h.difficulty !== "Easy"
+                  })
+                  .filter((h: HabitTypes) => {
+                    if (filterDifficulties.medium) {
+                      return h
+                    }
+                    return h.difficulty !== "Medium"
+                  })
+                  .filter((h: HabitTypes) => {
+                    if (filterDifficulties.hard) {
+                      return h
+                    }
+                    return h.difficulty !== "Hard"
+                  })
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(h, filterCategories.health, "Health")
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(
+                      h,
+                      filterCategories.appearance,
+                      "Appearance"
+                    )
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(
+                      h,
+                      filterCategories.communication,
+                      "Communication"
+                    )
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(h, filterCategories.finance, "Finance")
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(
+                      h,
+                      filterCategories.productivity,
+                      "Productivity"
+                    )
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(
+                      h,
+                      filterCategories.creativity,
+                      "Creativity"
+                    )
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(
+                      h,
+                      filterCategories.networking,
+                      "Networking"
+                    )
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(
+                      h,
+                      filterCategories.relationships,
+                      "Relationships"
+                    )
+                  )
+                  .filter((h: HabitTypes) =>
+                    filterByCategory(
+                      h,
+                      filterCategories.personal_growth,
+                      "Personal growth"
+                    )
+                  )
+                  .slice((Number(page) - 1) * 15, Number(page) * 15)
+                  .sort((a: HabitTypes, b: HabitTypes) => {
+                    if (a.id === user?.pinned_habit) return -1
+                    if (b.id === user?.pinned_habit) return 1
+                    return 0
+                  })
+                  .map((habit: HabitTypes) => (
+                    <Box
+                      component="div"
+                      key={habit.id}
                       sx={{
-                        color: "black",
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
+                        display: "flex",
+                        position: "relative",
                       }}
-                    />
-                  )}
-                  <Box
-                    sx={{
-                      bgcolor:
-                        user?.pinned_habit === habit.id
-                          ? "yellow"
-                          : habit.difficulty === "Easy"
-                          ? `success.${colorTheme}`
-                          : habit.difficulty === "Medium"
-                          ? `warning.${colorTheme}`
-                          : `error.${colorTheme}`,
-
-                      color: "#000",
-                      width: 300,
-                      borderRadius: 2,
-                      textAlign: "center",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Box sx={{ p: 2 }}>
-                      <Typography>{habit.description}</Typography>
-                      <Box sx={{ height: 50 }}>
-                        <Chip
-                          label={habit.difficulty}
+                      onMouseOver={() => {
+                        if (!user) return
+                        setPinnedHabitIdShown(habit.id)
+                      }}
+                      onMouseLeave={() => {
+                        if (!user) return
+                        setPinnedHabitIdShown(null)
+                      }}
+                    >
+                      {user?.pinned_habit === habit.id && (
+                        <StarIcon
                           sx={{
-                            color: "#000",
-                            bgcolor:
-                              habit.difficulty === "Easy"
-                                ? `success`
-                                : habit.difficulty === "Medium"
-                                ? `warning`
-                                : `error`,
+                            color: "black",
+                            position: "absolute",
+                            top: 0,
+                            right: 0,
                           }}
                         />
-                      </Box>
-                      <Grid
-                        gap={1}
+                      )}
+                      <Box
                         sx={{
+                          bgcolor:
+                            user?.pinned_habit === habit.id
+                              ? "yellow"
+                              : habit.difficulty === "Easy"
+                              ? `success.${colorTheme}`
+                              : habit.difficulty === "Medium"
+                              ? `warning.${colorTheme}`
+                              : `error.${colorTheme}`,
+
+                          color: "#000",
+                          width: 300,
+                          borderRadius: 2,
+                          textAlign: "center",
                           display: "flex",
-                          justifyContent: "center",
-                          flexWrap: "wrap",
-                          alignItems: "center",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <Chip
-                          label={habit.category_1}
-                          color="primary"
-                          sx={{ fontSize: 16 }}
-                        />
-                        {habit.category_2 && (
-                          <Chip
-                            label={habit.category_2}
-                            color="primary"
-                            sx={{ fontSize: 16 }}
-                          />
-                        )}
-                        {habit.category_3 && (
-                          <Chip
-                            label={habit.category_3}
-                            color="primary"
-                            sx={{ fontSize: 16 }}
-                          />
-                        )}
-                      </Grid>
-                    </Box>
-                    {pinnedHabitIdShown === habit.id && (
-                      <Tooltip
-                        title={
-                          user?.pinned_habit === habit.id ? "Unpin" : "Pin"
-                        }
-                        arrow
-                      >
-                        <IconButton
-                          sx={{
-                            position: "absolute",
-                            right: 5,
-                            bottom: 45,
-                          }}
-                          onClick={() => {
-                            if (user?.pinned_habit === habit.id) {
-                              handlePinHabit(null)
-                              dispatch(changePinnedHabit(null))
-                            } else {
-                              handlePinHabit(habit.id)
-                              dispatch(changePinnedHabit(habit.id))
-                            }
-                          }}
-                        >
-                          <PushPinIcon
+                        <Box sx={{ p: 2 }}>
+                          <Typography>{habit.description}</Typography>
+                          <Box sx={{ height: 50 }}>
+                            <Chip
+                              label={habit.difficulty}
+                              sx={{
+                                color: "#000",
+                                bgcolor:
+                                  habit.difficulty === "Easy"
+                                    ? `success`
+                                    : habit.difficulty === "Medium"
+                                    ? `warning`
+                                    : `error`,
+                              }}
+                            />
+                          </Box>
+                          <Grid
+                            gap={1}
                             sx={{
-                              color: "black",
-                            }}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                    <Box>
-                      {user ? (
-                        <Button
-                          sx={{
-                            width: "100%",
-                            bgcolor: `primary.${colorTheme}`,
-                          }}
-                          type="submit"
-                          onClick={() => {
-                            setHabitToToggle(habit.id)
-                          }}
-                        >
-                          {completedHabits?.includes(habit.id)
-                            ? "Completed"
-                            : "Not completed"}
-                        </Button>
-                      ) : (
-                        <Tooltip
-                          title="Login to access"
-                          arrow
-                        >
-                          <Box
-                            onClick={() => auth0login()}
-                            component="div"
-                            sx={{
-                              width: "100%",
-                              bgcolor: `primary.${colorTheme}`,
-                              borderBottomLeftRadius: "inherit",
-                              borderBottomRightRadius: "inherit",
-                              ":hover": {
-                                cursor: "pointer",
-                              },
+                              display: "flex",
+                              justifyContent: "center",
+                              flexWrap: "wrap",
+                              alignItems: "center",
                             }}
                           >
-                            <IconButton>
-                              <LockPersonIcon />
+                            <Chip
+                              label={habit.category_1}
+                              color="primary"
+                              sx={{ fontSize: 16 }}
+                            />
+                            {habit.category_2 && (
+                              <Chip
+                                label={habit.category_2}
+                                color="primary"
+                                sx={{ fontSize: 16 }}
+                              />
+                            )}
+                            {habit.category_3 && (
+                              <Chip
+                                label={habit.category_3}
+                                color="primary"
+                                sx={{ fontSize: 16 }}
+                              />
+                            )}
+                          </Grid>
+                        </Box>
+                        {pinnedHabitIdShown === habit.id && (
+                          <Tooltip
+                            title={
+                              user?.pinned_habit === habit.id ? "Unpin" : "Pin"
+                            }
+                            arrow
+                          >
+                            <IconButton
+                              sx={{
+                                position: "absolute",
+                                right: 5,
+                                bottom: 45,
+                              }}
+                              onClick={() => {
+                                if (user?.pinned_habit === habit.id) {
+                                  handlePinHabit(null)
+                                  dispatch(changePinnedHabit(null))
+                                } else {
+                                  handlePinHabit(habit.id)
+                                  dispatch(changePinnedHabit(habit.id))
+                                }
+                              }}
+                            >
+                              <PushPinIcon
+                                sx={{
+                                  color: "black",
+                                }}
+                              />
                             </IconButton>
-                          </Box>
-                        </Tooltip>
-                      )}
+                          </Tooltip>
+                        )}
+                        <Box>
+                          {user ? (
+                            <Button
+                              sx={{
+                                width: "100%",
+                                bgcolor: `primary.${colorTheme}`,
+                              }}
+                              type="submit"
+                              onClick={() => {
+                                setHabitToToggle(habit.id)
+                              }}
+                            >
+                              {completedHabits?.includes(habit.id)
+                                ? "Completed"
+                                : "Not completed"}
+                            </Button>
+                          ) : (
+                            <Tooltip
+                              title="Login to access"
+                              arrow
+                            >
+                              <Box
+                                onClick={() => auth0login()}
+                                component="div"
+                                sx={{
+                                  width: "100%",
+                                  bgcolor: `primary.${colorTheme}`,
+                                  borderBottomLeftRadius: "inherit",
+                                  borderBottomRightRadius: "inherit",
+                                  ":hover": {
+                                    cursor: "pointer",
+                                  },
+                                }}
+                              >
+                                <IconButton>
+                                  <LockPersonIcon />
+                                </IconButton>
+                              </Box>
+                            </Tooltip>
+                          )}
+                        </Box>
+                      </Box>
                     </Box>
-                  </Box>
-                </Box>
-              ))
+                  ))}
+              </Box>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Pagination
+                  count={Math.ceil(
+                    data
+                      .filter((h: HabitTypes) => {
+                        if (filterStatus.completed) {
+                          return h
+                        }
+                        return !completedHabits.includes(h.id)
+                      })
+                      .filter((h: HabitTypes) => {
+                        if (filterStatus.not_completed) {
+                          return h
+                        }
+                        return completedHabits.includes(h.id)
+                      })
+                      .filter((h: HabitTypes) => {
+                        if (filterDifficulties.easy) {
+                          return h
+                        }
+                        return h.difficulty !== "Easy"
+                      })
+                      .filter((h: HabitTypes) => {
+                        if (filterDifficulties.medium) {
+                          return h
+                        }
+                        return h.difficulty !== "Medium"
+                      })
+                      .filter((h: HabitTypes) => {
+                        if (filterDifficulties.hard) {
+                          return h
+                        }
+                        return h.difficulty !== "Hard"
+                      })
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(h, filterCategories.health, "Health")
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(
+                          h,
+                          filterCategories.appearance,
+                          "Appearance"
+                        )
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(
+                          h,
+                          filterCategories.communication,
+                          "Communication"
+                        )
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(h, filterCategories.finance, "Finance")
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(
+                          h,
+                          filterCategories.productivity,
+                          "Productivity"
+                        )
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(
+                          h,
+                          filterCategories.creativity,
+                          "Creativity"
+                        )
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(
+                          h,
+                          filterCategories.networking,
+                          "Networking"
+                        )
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(
+                          h,
+                          filterCategories.relationships,
+                          "Relationships"
+                        )
+                      )
+                      .filter((h: HabitTypes) =>
+                        filterByCategory(
+                          h,
+                          filterCategories.personal_growth,
+                          "Personal growth"
+                        )
+                      ).length / 15
+                  )}
+                  onChange={(_e, value) => {
+                    setPage(String(value))
+                    navigate(`/habits/${value}`)
+                  }}
+                  page={Number(page)}
+                />
+              </Box>
+            </>
           )}
         </form>
       </Box>

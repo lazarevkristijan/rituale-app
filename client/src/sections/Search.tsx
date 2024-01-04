@@ -56,12 +56,10 @@ const Search = () => {
         placeholder="Who?"
         value={waitedValue}
         onChange={(e) => {
-          console.log(e.target.value)
           if (window.location.href !== "http://localhost:5173/search/1") {
             navigate("/search/1")
           }
           setPage("1")
-          console.log(e.target.value)
           setWaitedValue(e.target.value)
         }}
       />

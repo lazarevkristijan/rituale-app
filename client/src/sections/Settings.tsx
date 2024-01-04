@@ -39,7 +39,7 @@ import {
   removeCategory,
 } from "../features/session/sessionSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { nameRegex, usernameRegex } from "../Regex"
 import {
   allCountries,
@@ -502,7 +502,7 @@ const Settings = () => {
             <FormGroup>
               {habitCategoriesData?.map(
                 (category: CategoryTypes, index: number) => (
-                  <Box key={index}>
+                  <React.Fragment key={index}>
                     <FormControlLabel
                       label={category.category}
                       control={
@@ -542,7 +542,7 @@ const Settings = () => {
                       }}
                     />
                     {index !== habitCategoriesData.length - 1 && <Divider />}
-                  </Box>
+                  </React.Fragment>
                 )
               )}
             </FormGroup>
@@ -591,7 +591,7 @@ const Settings = () => {
         <DialogContent>
           <List>
             {languages.map((lang, index) => (
-              <Box key={index}>
+              <React.Fragment key={index}>
                 <ListItemButton
                   selected={lang.shortHand === language}
                   onClick={() => {
@@ -602,7 +602,7 @@ const Settings = () => {
                   <ListItemText primary={lang.fullName} />
                 </ListItemButton>
                 {index !== 4 ? <Divider /> : ""}
-              </Box>
+              </React.Fragment>
             ))}
           </List>
         </DialogContent>
