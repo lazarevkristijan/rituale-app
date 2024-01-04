@@ -305,7 +305,7 @@ const Settings = () => {
         component="h2"
         sx={{ fontSize: 50 }}
       >
-        {user?.first_name}'s settings
+        {user?.username}'s settings
       </Typography>
       <Breadcrumbs separator=">">
         <Link

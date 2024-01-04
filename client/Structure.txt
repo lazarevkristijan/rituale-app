@@ -1,6 +1,5 @@
 TODO:
 
-- pagination on habits
 - pagination on blogs
 - Accept cookies
 - Terms of service / terms of use?

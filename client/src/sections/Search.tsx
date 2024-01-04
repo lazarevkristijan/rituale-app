@@ -75,14 +75,22 @@ const Search = () => {
               justifyContent: "space-around",
             }}
           >
-            {allUsers.length
+            {allUsers.length &&
+            allUsers.filter((profile: PreviewUserTypes) => {
+              return profile.username
+                .toLowerCase()
+                .includes(searchValue.toLowerCase())
+            }).length !== 0
               ? allUsers
                   .filter((profile: PreviewUserTypes) => {
                     return profile.username
                       .toLowerCase()
                       .includes(searchValue.toLowerCase())
                   })
-                  .slice((Number(page) - 1) * 15, Number(page) * 15)
+                  .slice(() => {
+                    console.log(length)
+                    return (Number(page) - 1) * 15, Number(page) * 15
+                  })
                   .map((profile: PreviewUserTypes) => {
                     return (
                       <Box

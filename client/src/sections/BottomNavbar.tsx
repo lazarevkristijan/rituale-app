@@ -60,7 +60,7 @@ const BottomNavbar = () => {
       <BottomNavigationAction
         label="General"
         icon={<TipsAndUpdatesIcon />}
-        onClick={() => navigate("/general")}
+        onClick={() => navigate("/general/blogs/1")}
       />
       {auth0authenticated ? (
         <BottomNavigationAction

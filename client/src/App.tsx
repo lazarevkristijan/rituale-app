@@ -32,6 +32,7 @@ import MainLoadingScreen from "./skeletons/MainLoadingScreen"
 import PreviewProfile from "./sections/PreviewProfile"
 import { useAuth0 } from "@auth0/auth0-react"
 import { login } from "./features/session/sessionSlice"
+import { GeneralTabBlogs, GeneralTabStatistics } from "./subsections"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -147,7 +148,16 @@ const App = () => {
               <Route
                 path="/general"
                 element={<General />}
-              />
+              >
+                <Route
+                  path="blogs/:page"
+                  element={<GeneralTabBlogs />}
+                />
+                <Route
+                  path="statistics"
+                  element={<GeneralTabStatistics />}
+                />
+              </Route>
               <Route
                 path="/settings"
                 element={<Settings />}

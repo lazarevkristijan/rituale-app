@@ -87,11 +87,11 @@ const Blog = ({
             href={blog_link}
             target="_blank"
           >
-            <Button sx={{ width: user?.id === 52 ? "50%" : "100%" }}>
+            <Button sx={{ width: user?.id === 113 ? "50%" : "100%" }}>
               view
             </Button>
           </a>
-          {user?.id === 52 && (
+          {user?.id === 113 && (
             <Button
               onClick={handleBlogDelete}
               sx={{ width: "50%" }}

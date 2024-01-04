@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  Pagination,
   TextField,
 } from "@mui/material"
 import { Blog } from "../components"
@@ -16,9 +17,13 @@ import HabitsSkeleton from "../skeletons/HabitsSkeleton"
 import { useSelector } from "react-redux"
 import { RootState } from "../Store"
 import React, { useState } from "react"
+import { useParams } from "react-router-dom"
 
 const GeneralTabBlogs = () => {
   const user = useSelector((state: RootState) => state.session.user)
+
+  const { page: pageNoParams } = useParams()
+  const [page, setPage] = useState(pageNoParams)
 
   const getAllBlogs = async () => {
     const res = await axios.get("http://localhost:5432/all-blogs")
@@ -149,32 +154,45 @@ const GeneralTabBlogs = () => {
         {areBlogsLoading ? (
           <HabitsSkeleton />
         ) : (
-          <Grid
-            gap={2}
-            sx={{
-              display: "flex",
-              justifyContent: "space-around",
-              flexWrap: "wrap",
-            }}
-          >
-            {!blogs.length
-              ? "No blogs"
-              : blogs.map((blog: BlogTypes) => (
-                  <Blog
-                    key={blog.id}
-                    id={blog.id}
-                    title={blog.title}
-                    author={blog.author}
-                    date_posted={blog.date_posted
-                      .split("T")[0]
-                      .split("-")
-                      .reverse()
-                      .join(".")}
-                    blog_link={blog.link}
-                    image_url={blog.image_url}
-                  />
-                ))}
-          </Grid>
+          <>
+            <Grid
+              gap={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                flexWrap: "wrap",
+              }}
+            >
+              {!blogs.length
+                ? "No blogs"
+                : blogs
+                    .slice((Number(page) - 1) * 15, Number(page) * 15)
+                    .map((blog: BlogTypes) => (
+                      <Blog
+                        key={blog.id}
+                        id={blog.id}
+                        title={blog.title}
+                        author={blog.author}
+                        date_posted={blog.date_posted
+                          .split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join(".")}
+                        blog_link={blog.link}
+                        image_url={blog.image_url}
+                      />
+                    ))}
+            </Grid>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Pagination
+                count={Math.ceil(blogs.length / 15)}
+                onChange={(_e, value) => {
+                  setPage(String(value))
+                }}
+                page={Number(page)}
+              />
+            </Box>
+          </>
         )}
       </Box>
     </Box>

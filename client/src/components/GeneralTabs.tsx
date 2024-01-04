@@ -1,9 +1,10 @@
 import { Box, Tab } from "@mui/material"
-import { TabContext, TabList, TabPanel } from "@mui/lab"
+import { TabContext, TabList } from "@mui/lab"
 import { useState } from "react"
-import { GeneralTabStatistics, GeneralTabBlogs } from "../subsections"
+import { Outlet, useNavigate } from "react-router-dom"
 
 const GeneralTabs = () => {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("1")
 
   const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
@@ -21,19 +22,16 @@ const GeneralTabs = () => {
             <Tab
               label="Blogs"
               value="1"
+              onClick={() => navigate("blogs/1")}
             />
             <Tab
               label="Statistics"
               value="2"
+              onClick={() => navigate("statistics")}
             />
           </TabList>
         </Box>
-        <TabPanel value="1">
-          <GeneralTabBlogs />
-        </TabPanel>
-        <TabPanel value="2">
-          <GeneralTabStatistics />
-        </TabPanel>
+        <Outlet />
       </TabContext>
     </Box>
   )
