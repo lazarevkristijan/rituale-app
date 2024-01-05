@@ -1,9 +1,11 @@
 import {
   Box,
+  Button,
   Container,
   CssBaseline,
   PaletteMode,
   ThemeProvider,
+  Typography,
   createTheme,
 } from "@mui/material"
 import {
@@ -19,7 +21,6 @@ import {
 import { Routes, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./Store"
-import { ReactQueryDevtools } from "react-query/devtools"
 import axios from "axios"
 import { addHabit } from "./features/completedHabits/completedHabitsSlice"
 import { useEffect, useState } from "react"
@@ -44,6 +45,7 @@ const App = () => {
   const user = useSelector((state: RootState) => state.session.user)
 
   const [isLoading, setIsLoading] = useState(true)
+  const [showCookieConsentDialog, setShowCookieConsentDialog] = useState(false)
 
   useEffect(() => {
     const postLoginOrRegister = () => {
@@ -94,9 +96,34 @@ const App = () => {
         })
     }
 
+    axios
+      .get("http://localhost:5432/check-cookie-consent", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.data.error) {
+          setShowCookieConsentDialog(true)
+        }
+      })
+
     auth0authenticated && postLoginOrRegister()
     !auth0authenticated && !auth0loading && setIsLoading(false)
   }, [auth0authenticated, auth0loading, auth0User, user?.id, dispatch])
+
+  const handleCookieAccept = () => {
+    setShowCookieConsentDialog(false)
+    axios
+      .get("http://localhost:5432/accept-consent-cookies", {
+        withCredentials: true,
+      })
+      .then(() => {
+        setShowCookieConsentDialog(false)
+      })
+      .catch(() => {
+        setShowCookieConsentDialog(true)
+        console.log("Error when accepting cookie")
+      })
+  }
 
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
@@ -121,7 +148,6 @@ const App = () => {
         <MainLoadingScreen />
       ) : (
         <ThemeProvider theme={theme}>
-          <ReactQueryDevtools />
           <CssBaseline enableColorScheme />
           <Container sx={{ minHeight: "100vh", mt: 2 }}>
             <Routes>
@@ -169,6 +195,31 @@ const App = () => {
             </Routes>
           </Container>
           <BottomNavbar />
+          {showCookieConsentDialog && (
+            <Box
+              sx={{
+                position: "fixed",
+                right: 20,
+                bottom: 60,
+                width: 300,
+                height: 200,
+                bgcolor: "white",
+                color: "black",
+                borderRadius: 2,
+                border: "3px solid red",
+                p: 1,
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "column",
+              }}
+            >
+              <Typography>
+                We use only essential cookies, by using our website, you accept
+                cookies for authentication, security, theme and images
+              </Typography>
+              <Button onClick={handleCookieAccept}>i understand</Button>
+            </Box>
+          )}
         </ThemeProvider>
       )}
     </Box>

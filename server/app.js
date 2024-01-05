@@ -19,6 +19,8 @@ import {
   getUser,
   getUserSettings,
   getAllUsers,
+  getCookieConsent,
+  getAcceptConsentCookies,
 } from "./Routes/getRoutes.js"
 import {
   postAddBlog,
@@ -63,6 +65,8 @@ app.use(cookieParser())
 
 // GENERAL
 app.get("/", getRoot)
+app.get("/check-cookie-consent", getCookieConsent)
+app.get("/accept-consent-cookies", getAcceptConsentCookies)
 
 // GET DATA
 app.get("/all-users", getAllUsers)

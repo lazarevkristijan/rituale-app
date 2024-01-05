@@ -1,6 +1,35 @@
 import sql from "../db.js"
+import { cookieOptions } from "../constants/index.js"
 
 export const getRoot = (req, res) => res.send("DATABASE ROOT")
+
+export const getCookieConsent = async (req, res) => {
+  try {
+    const consentCookie = req.cookies.consentCookie
+
+    if (!consentCookie) {
+      return res.json({ error: "No consent cookie" })
+    }
+
+    return res.json({ success: "Consent cookies accepted" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting cookie consent" })
+  }
+}
+
+export const getAcceptConsentCookies = async (req, res) => {
+  try {
+    res.cookie("consentCookie", "accepted", {
+      ...cookieOptions,
+      expires: new Date("9999-12-31T23:59:59"),
+    })
+    return res.json({ success: "Successfully added consent cookie" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error when accepting cookies" })
+  }
+}
 
 export const getAllUsers = async (req, res) => {
   try {
