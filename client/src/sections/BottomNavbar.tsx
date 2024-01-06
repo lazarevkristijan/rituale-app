@@ -38,6 +38,7 @@ const BottomNavbar = () => {
         bottom: -1,
         width: "100%",
         height: 50,
+        zIndex: 1,
       }}
     >
       <BottomNavigationAction

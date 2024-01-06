@@ -42,7 +42,7 @@ const Home = () => {
       </Typography>
       <Button
         sx={{ mx: "auto" }}
-        onClick={() => (user ? navigate("/habits") : auth0login())}
+        onClick={() => (user ? navigate("/habits/1") : auth0login())}
       >
         {user
           ? language === "en"
