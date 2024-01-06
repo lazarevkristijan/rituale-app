@@ -1,15 +1,11 @@
 import { Box, Tab } from "@mui/material"
 import { TabContext, TabList } from "@mui/lab"
-import { useState } from "react"
+import React, { useState } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
 
 const GeneralTabs = () => {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("1")
-
-  const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
-    setActiveTab(newValue)
-  }
 
   return (
     <Box>
@@ -17,7 +13,9 @@ const GeneralTabs = () => {
         <Box sx={{ borderBottom: 1, bordercolor: "divider" }}>
           <TabList
             aria-label="General tabs"
-            onChange={handleChange}
+            onChange={(_e: React.SyntheticEvent, newValue: string) => {
+              setActiveTab(newValue)
+            }}
           >
             <Tab
               label="Blogs"

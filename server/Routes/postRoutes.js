@@ -117,7 +117,7 @@ export const postRemoveHabit = async (req, res) => {
 export const postAddBlog = async (req, res) => {
   try {
     const userId = req.userId
-    if (userId !== 52)
+    if (userId !== 113)
       return res
         .status(400)
         .json({ error: "Insufficient privileges to add blog" })

@@ -14,11 +14,11 @@ import {
 } from "../features/settings/settingsSlice"
 import { countryShorthands, defaultPfpURL } from "../constants"
 import { ProfileSkeleton } from "../components"
-import { getPfpLink } from "../HelperFunctions/getPfpLink"
+import { getPfpLink } from "../Utils/getPfpLink"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useQuery } from "react-query"
 import { useAuth0 } from "@auth0/auth0-react"
-import { displayBio } from "../HelperFunctions/displayBio"
+import { displayBio } from "../Utils/displayBio"
 
 const Profile = () => {
   const navigate = useNavigate()

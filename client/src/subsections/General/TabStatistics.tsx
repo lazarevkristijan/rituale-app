@@ -4,9 +4,9 @@ import {
   getAllCompletedHabits,
   getAllFinishedProfiles,
   getAllUsers,
-} from "../HelperFunctions/GeneralTabStatisticsHFS"
+} from "../../Utils/GeneralUtils"
 
-const GeneralTabStatistics = () => {
+const TabStatistics = () => {
   const { data: allUsers, isLoading: isLoadingUsers } = useQuery(
     "user-statistics",
     getAllUsers
@@ -47,4 +47,4 @@ const GeneralTabStatistics = () => {
   )
 }
 
-export default GeneralTabStatistics
+export default TabStatistics

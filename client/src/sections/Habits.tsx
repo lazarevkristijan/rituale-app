@@ -33,7 +33,7 @@ import {
 } from "../features/completedHabits/completedHabitsSlice"
 import HabitsSkeleton from "../skeletons/HabitsSkeleton"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import { FilterCheckbox } from "../HelperFunctions/filterHabitCheckbox"
+import { FilterCheckbox } from "../Utils/filterHabitCheckbox"
 import PushPinIcon from "@mui/icons-material/PushPin"
 import { changePinnedHabit } from "../features/session/sessionSlice"
 import StarIcon from "@mui/icons-material/Star"

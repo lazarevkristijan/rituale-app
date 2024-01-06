@@ -6,58 +6,19 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  Pagination,
   TextField,
 } from "@mui/material"
-import { Blog } from "../components"
-import axios from "axios"
-import { useQuery } from "react-query"
-import { BlogTypes } from "../Types"
-import HabitsSkeleton from "../skeletons/HabitsSkeleton"
 import { useSelector } from "react-redux"
-import { RootState } from "../Store"
-import React, { useState } from "react"
-import { useParams } from "react-router-dom"
+import { RootState } from "../../Store"
+import { useState } from "react"
+import { handleAddBlog, initialBlogData } from "../../Utils/GeneralUtils"
 
-const GeneralTabBlogs = () => {
+export const BlogAdminSection = () => {
   const user = useSelector((state: RootState) => state.session.user)
-
-  const { page: pageNoParams } = useParams()
-  const [page, setPage] = useState(pageNoParams)
-
-  const getAllBlogs = async () => {
-    const res = await axios.get("http://localhost:5432/all-blogs")
-    return res.data
-  }
-  const { data: blogs, isLoading: areBlogsLoading } = useQuery(
-    "blogs",
-    getAllBlogs
-  )
-
-  const initialBlogData = {
-    title: "",
-    author: "",
-    link: "",
-    image_url: "",
-  }
-
-  const handleAddBlog = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    axios
-      .post("http://localhost:5432/add-blog", JSON.stringify(blogData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then(() => {
-        setBlogData(initialBlogData)
-      })
-  }
-
   const [isAddBlogDialogOpen, setIsAddBlogDialogOpen] = useState(false)
+
   const [blogData, setBlogData] = useState(initialBlogData)
+
   return (
     <Box>
       {user?.id === 113 && (
@@ -70,7 +31,12 @@ const GeneralTabBlogs = () => {
             add blog
           </Button>
           <Dialog open={isAddBlogDialogOpen}>
-            <form onSubmit={handleAddBlog}>
+            <form
+              onSubmit={(e) => {
+                handleAddBlog(e, blogData)
+                setBlogData(initialBlogData)
+              }}
+            >
               <DialogTitle>Add Blog</DialogTitle>
               <DialogContent>
                 <Grid
@@ -149,54 +115,6 @@ const GeneralTabBlogs = () => {
           </Dialog>
         </Box>
       )}
-
-      <Box>
-        {areBlogsLoading ? (
-          <HabitsSkeleton />
-        ) : (
-          <>
-            <Grid
-              gap={2}
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                flexWrap: "wrap",
-              }}
-            >
-              {!blogs.length
-                ? "No blogs"
-                : blogs
-                    .slice((Number(page) - 1) * 15, Number(page) * 15)
-                    .map((blog: BlogTypes) => (
-                      <Blog
-                        key={blog.id}
-                        id={blog.id}
-                        title={blog.title}
-                        author={blog.author}
-                        date_posted={blog.date_posted
-                          .split("T")[0]
-                          .split("-")
-                          .reverse()
-                          .join(".")}
-                        blog_link={blog.link}
-                        image_url={blog.image_url}
-                      />
-                    ))}
-            </Grid>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Pagination
-                count={Math.ceil(blogs.length / 15)}
-                onChange={(_e, value) => {
-                  setPage(String(value))
-                }}
-                page={Number(page)}
-              />
-            </Box>
-          </>
-        )}
-      </Box>
     </Box>
   )
 }
-
-export default GeneralTabBlogs

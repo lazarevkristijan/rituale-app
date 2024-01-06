@@ -13,9 +13,9 @@ import {
 import { RootState } from "../Store"
 import { countryShorthands, defaultPfpURL } from "../constants"
 import { useQuery } from "react-query"
-import { getPfpLink } from "../HelperFunctions/getPfpLink"
+import { getPfpLink } from "../Utils/getPfpLink"
 import { ProfileSkeleton } from "../components"
-import { displayBio } from "../HelperFunctions/displayBio"
+import { displayBio } from "../Utils/displayBio"
 import { PreviewUserTypes } from "../Types"
 import { useEffect } from "react"
 
