@@ -601,12 +601,12 @@ const Habits = () => {
                           "Personal growth"
                         )
                       )
-                      .slice((Number(page) - 1) * 15, Number(page) * 15)
                       .sort((a: HabitTypes, b: HabitTypes) => {
                         if (a.id === user?.pinned_habit) return -1
                         if (b.id === user?.pinned_habit) return 1
                         return 0
                       })
+                      .slice((Number(page) - 1) * 15, Number(page) * 15)
                       .map((habit: HabitTypes) => (
                         <Box
                           component="div"

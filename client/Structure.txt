@@ -1,6 +1,5 @@
 TODO:
 
-- Accept cookies
 - Terms of service / terms of use?
 - Divide code in more and more components
 ---

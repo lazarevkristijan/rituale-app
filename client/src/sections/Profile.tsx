@@ -1,7 +1,7 @@
 import { Box, Button, Chip, Stack, Tooltip, Typography } from "@mui/material"
 import SettingsIcon from "@mui/icons-material/Settings"
 import LogoutIcon from "@mui/icons-material/Logout"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/session/sessionSlice"
 import { RootState } from "../Store"
@@ -232,6 +232,20 @@ const Profile = () => {
               logout
             </Button>
           </Stack>
+          <Link
+            to="https://buy.stripe.com/eVa28w2K9bRM65i4gh"
+            target="_blank"
+          >
+            <Tooltip
+              title="It's 1€"
+              placement="top"
+              arrow
+            >
+              <Button sx={{ position: "fixed", bottom: 50, right: 20 }}>
+                donate
+              </Button>
+            </Tooltip>
+          </Link>
         </>
       )}
     </Box>
