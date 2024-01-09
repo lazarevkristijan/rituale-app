@@ -219,13 +219,9 @@ const Habits = () => {
     )
   }
 
-  const MenuButton = (
-    label: string,
-    onClick: () => void,
-    additionalStyles?: object
-  ) => (
+  const MenuButton = (label: string, onClick: () => void) => (
     <Button
-      sx={{ ml: 2, bgcolor: `primary.${colorTheme}`, ...additionalStyles }}
+      sx={{ ml: 2, bgcolor: `primary.${colorTheme}` }}
       onClick={onClick}
     >
       {label}

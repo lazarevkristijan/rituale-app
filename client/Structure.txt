@@ -1,5 +1,6 @@
 TODO:
 
+- Stripe fix payment
 - Divide code in more and more components
 ---
 

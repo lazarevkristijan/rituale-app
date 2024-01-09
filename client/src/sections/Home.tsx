@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 const Home = () => {
   const navigate = useNavigate()
@@ -12,6 +13,12 @@ const Home = () => {
   useEffect(() => {
     dispatch(changeLocation(0))
   }, [dispatch])
+
+  const [t, i18n] = useTranslation("global")
+
+  const handleChangeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang)
+  }
 
   const { loginWithPopup: auth0login } = useAuth0()
 
@@ -26,6 +33,9 @@ const Home = () => {
         justifyContent: "center",
       }}
     >
+      <p>{t("home.body")}</p>
+      <button onClick={() => handleChangeLanguage("en")}>en</button>
+      <button onClick={() => handleChangeLanguage("es")}>es</button>
       <Typography
         sx={{ textAlign: "center", mb: 3, fontWeight: 300, fontSize: 40 }}
         variant="h1"

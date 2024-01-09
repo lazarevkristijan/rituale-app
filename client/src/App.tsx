@@ -109,6 +109,9 @@ const App = () => {
 
     auth0authenticated && postLoginOrRegister()
     !auth0authenticated && !auth0loading && setIsLoading(false)
+    !auth0authenticated &&
+      !auth0loading &&
+      (document.body.style.backgroundColor = "#fff")
   }, [auth0authenticated, auth0loading, auth0User, user?.id, dispatch])
 
   const handleCookieAccept = () => {

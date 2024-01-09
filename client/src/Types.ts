@@ -5,6 +5,7 @@ export type HabitTypes = {
   category_2: string
   category_3: string
   difficulty: string
+  language: string
 }
 
 export type PreviewUserTypes = {
