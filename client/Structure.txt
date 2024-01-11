@@ -1,8 +1,10 @@
 TODO:
 
-- Stripe fix payment
 - Divide code in more and more components
+
+- Finish UI and add translation
 ---
+- Stripe fix payment - after final deploy
 
 
 MUI components to use:

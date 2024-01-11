@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import { Auth0Provider } from "@auth0/auth0-react"
 import i18next from "i18next"
 import global_en from "./translations/en/global.json"
-import global_es from "./translations/es/global.json"
+import global_mk from "./translations/mk/global.json"
 import { I18nextProvider } from "react-i18next"
 
 i18next.init({
@@ -16,7 +16,7 @@ i18next.init({
   lng: "en",
   resources: {
     en: { global: global_en },
-    es: { global: global_es },
+    mk: { global: global_mk },
   },
 })
 
