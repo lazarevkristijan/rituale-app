@@ -6,7 +6,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { useQuery } from "react-query"
@@ -17,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { defaultPfpURL } from "../constants"
 import { RootState } from "../Store"
+import { getUsers } from "../Utils/SearchUtils"
+
 const Search = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -26,9 +27,13 @@ const Search = () => {
 
   const { page: pageNoParams } = useParams()
   const [page, setPage] = useState(pageNoParams)
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
 
   const [searchValue, setSearchValue] = useState("")
   const [waitedValue, setWaitedValue] = useState("")
+
   useEffect(() => {
     const addValueTimeout = setTimeout(() => {
       setSearchValue(waitedValue)
@@ -36,24 +41,18 @@ const Search = () => {
 
     return () => clearTimeout(addValueTimeout)
   }, [waitedValue])
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme
-  )
 
-  const getUsers = async () => {
-    const res = await axios.get("http://localhost:5432/all-users", {
-      withCredentials: true,
-    })
-    return res.data
-  }
-  const { data: allUsers, isLoading } = useQuery("users", getUsers)
+  const { data: allUsers, isLoading: areUsersLoading } = useQuery(
+    "users",
+    getUsers
+  )
 
   return (
     <Box>
       <Typography variant="h2">Search users</Typography>
       <TextField
         fullWidth
-        label="User"
+        label="Username"
         autoComplete="off"
         placeholder="Who?"
         value={waitedValue}
@@ -61,11 +60,13 @@ const Search = () => {
           if (window.location.href !== "http://localhost:5173/search/1") {
             navigate("/search/1")
           }
-          setPage("1")
+          if (page !== "1") {
+            setPage("1")
+          }
           setWaitedValue(e.target.value)
         }}
       />
-      {isLoading ? (
+      {areUsersLoading ? (
         <MainLoadingScreen />
       ) : (
         <>
@@ -77,18 +78,16 @@ const Search = () => {
               justifyContent: "space-around",
             }}
           >
-            {allUsers.length &&
-            allUsers.filter((profile: PreviewUserTypes) => {
-              return profile.username
-                .toLowerCase()
-                .includes(searchValue.toLowerCase())
-            }).length !== 0
+            {allUsers &&
+            allUsers.filter((profile: PreviewUserTypes) =>
+              profile.username.toLowerCase().includes(searchValue.toLowerCase())
+            ).length !== 0
               ? allUsers
-                  .filter((profile: PreviewUserTypes) => {
-                    return profile.username
+                  .filter((profile: PreviewUserTypes) =>
+                    profile.username
                       .toLowerCase()
                       .includes(searchValue.toLowerCase())
-                  })
+                  )
                   .slice((Number(page) - 1) * 15, Number(page) * 15)
                   .map((profile: PreviewUserTypes) => {
                     return (
