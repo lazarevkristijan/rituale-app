@@ -11,12 +11,15 @@ import {
 import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
 import { useState } from "react"
-import { handleAddBlog, initialBlogData } from "../../Utils/GeneralUtils"
+import {
+  handleAddBlog,
+  handleBlogDelete,
+  initialBlogData,
+} from "../../Utils/GeneralUtils"
 
 export const BlogAdminSection = () => {
   const user = useSelector((state: RootState) => state.session.user)
   const [isAddBlogDialogOpen, setIsAddBlogDialogOpen] = useState(false)
-
   const [blogData, setBlogData] = useState(initialBlogData)
 
   return (
@@ -116,5 +119,16 @@ export const BlogAdminSection = () => {
         </Box>
       )}
     </Box>
+  )
+}
+
+export const BlogRemoveButton = ({ id }: { id: number }) => {
+  return (
+    <Button
+      onClick={() => handleBlogDelete(id)}
+      sx={{ width: "50%" }}
+    >
+      delete
+    </Button>
   )
 }

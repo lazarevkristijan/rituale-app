@@ -14,7 +14,7 @@ const General = () => {
     <Box>
       <Typography variant="h2">General</Typography>
 
-      <Box width="100%">
+      <Box>
         <GeneralTabs />
       </Box>
     </Box>

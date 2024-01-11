@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
 import { RootState } from "../Store"
-import axios from "axios"
+import { BlogRemoveButton } from "../subsections/General/BlogAdminSection"
 
 const Blog = ({
   id,
@@ -23,13 +23,6 @@ const Blog = ({
     (state: RootState) => state.settings.colorTheme
   )
 
-  const handleBlogDelete = () => {
-    axios.delete("http://localhost:5432/remove-blog", {
-      data: JSON.stringify({ id: id }),
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-  }
   return (
     <Box
       sx={{
@@ -91,14 +84,7 @@ const Blog = ({
               view
             </Button>
           </a>
-          {user?.id === 113 && (
-            <Button
-              onClick={handleBlogDelete}
-              sx={{ width: "50%" }}
-            >
-              delete
-            </Button>
-          )}
+          {user?.id === 113 && <BlogRemoveButton id={id} />}
         </Box>
       </Box>
     </Box>

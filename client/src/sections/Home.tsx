@@ -28,12 +28,6 @@ const Home = () => {
         justifyContent: "center",
       }}
     >
-      <Typography
-        sx={{ textAlign: "center", mb: 3, fontWeight: 300, fontSize: 40 }}
-        variant="h1"
-      >
-        TIME TO MAKE REAL CHANGE
-      </Typography>
       <Box
         component="img"
         src={`/logo-text${colorTheme === "dark" ? "-w" : ""}.svg`}

@@ -1,11 +1,5 @@
 import axios from "axios"
-
-type BlogDataTypes = {
-  title: string
-  author: string
-  link: string
-  image_url: string
-}
+import { BlogDataTypes } from "../Types"
 
 export const getAllFinishedProfiles = async () => {
   const res = await axios.get("http://localhost:5432/all-finished-profiles")
@@ -43,4 +37,12 @@ export const initialBlogData = {
   author: "",
   link: "",
   image_url: "",
+}
+
+export const handleBlogDelete = (id: number) => {
+  axios.delete("http://localhost:5432/remove-blog", {
+    data: JSON.stringify({ id: id }),
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+  })
 }

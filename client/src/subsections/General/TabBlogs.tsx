@@ -7,10 +7,14 @@ import { useParams } from "react-router-dom"
 import { getAllBlogs } from "../../Utils/GeneralUtils"
 import { BlogAdminSection } from "./BlogAdminSection"
 import Blog from "../../components/Blog"
+import { useSelector } from "react-redux"
+import { RootState } from "../../Store"
 
 const TabBlogs = () => {
   const { page: pageNoParams } = useParams()
   const [page, setPage] = useState(pageNoParams)
+
+  const user = useSelector((state: RootState) => state.session.user)
 
   const { data: blogs, isLoading: areBlogsLoading } = useQuery(
     "blogs",
@@ -24,7 +28,7 @@ const TabBlogs = () => {
           <HabitsSkeleton />
         ) : (
           <>
-            <BlogAdminSection />
+            {user?.id === 113 && <BlogAdminSection />}
 
             <Grid
               gap={2}
