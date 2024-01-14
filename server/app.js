@@ -56,7 +56,7 @@ const port = process.env.DB_PORT || 3001
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    methods: "GET,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 )
@@ -95,6 +95,7 @@ app.patch("/pin-habit", verifyToken, patchPinHabit)
 app.patch("/add-priority-category", verifyToken, patchAddPriorityCategory)
 app.patch("/remove-priority-category", verifyToken, patchRemovePriorityCategory)
 
+// BLOGS RELATED
 app.post("/add-blog", verifyToken, postAddBlog)
 app.delete("/remove-blog", verifyToken, deleteBlog)
 

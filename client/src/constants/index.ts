@@ -1,5 +1,4 @@
-export const defaultPfpURL =
-  "https://drive.google.com/uc?id=18he4mgr-Nu_RE4btnjEfi7B-_pAwu5MO"
+export const defaultPfpURL = "https://i.postimg.cc/G3YzpRnB/ritualelogo.png"
 
 export const languages = [
   {

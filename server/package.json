@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Rituale server for database",
   "main": "app.js",
-  "author": "Render Developers",
+  "author": "Rituale",
   "license": "MIT",
   "type": "module",
   "private": false,
@@ -12,7 +12,6 @@
     "serve": "yarn run nodemon .\\app.js"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cloudinary": "^1.41.1",
     "cookie-parser": "^1.4.6",

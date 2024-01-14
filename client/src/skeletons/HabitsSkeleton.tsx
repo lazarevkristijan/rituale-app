@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import { HabitSkeleton } from "../components"
+import { HabitSkeleton } from "."
 
 const HabitsSkeleton = () => {
   return (

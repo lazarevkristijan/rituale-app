@@ -80,12 +80,6 @@ export type FilterStatusTypes = {
   not_completed: boolean
 }
 
-export type FilterTypes = {
-  categories: FilterCategoriesTypes
-  difficulty: FilterDifficultyTypes
-  status: FilterStatusTypes
-}
-
 // SLICE TYPES
 export type CompletedHabitsSliceTypes = {
   habits: number[]
@@ -122,3 +116,8 @@ export type ThemeSliceTypes = {
 }
 
 // END SLICE TYPES
+
+export type HabitFilterTypes =
+  | FilterCategoriesTypes
+  | FilterDifficultyTypes
+  | FilterStatusTypes

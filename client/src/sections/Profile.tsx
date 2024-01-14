@@ -13,7 +13,7 @@ import {
   changeLanguage,
 } from "../features/settings/settingsSlice"
 import { countryShorthands, defaultPfpURL } from "../constants"
-import { ProfileSkeleton } from "../components"
+import { ProfileSkeleton } from "../skeletons"
 import { getPfpLink } from "../Utils/getPfpLink"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useQuery } from "react-query"
