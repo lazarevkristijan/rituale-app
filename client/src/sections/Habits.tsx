@@ -1,12 +1,4 @@
-import {
-  Box,
-  Chip,
-  IconButton,
-  Typography,
-  Tooltip,
-  Grid,
-  Pagination,
-} from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { useQuery } from "react-query"
 import { HabitTypes } from "../Types"
 import { useDispatch, useSelector } from "react-redux"
@@ -14,21 +6,18 @@ import { RootState } from "../Store"
 import { useEffect, useState } from "react"
 import HabitsSkeleton from "../skeletons/HabitsSkeleton"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import PushPinIcon from "@mui/icons-material/PushPin"
-import { changePinnedHabit } from "../features/session/sessionSlice"
-import StarIcon from "@mui/icons-material/Star"
 import { useNavigate, useParams } from "react-router-dom"
 import {
   filterByCategory,
   getHabits,
-  handlePinHabit,
   handleResetFilters,
   handleResetHabits,
   handleToggleHabit,
 } from "../Utils/HabitsUtils"
 import { FilterButton } from "../components/HabitComponents/FilterButton"
-import HabitToggleButton from "../components/HabitComponents/HabitToggleButton"
 import FilterDialogs from "../components/HabitComponents/FilterDialogs"
+import HabitCard from "../components/HabitComponents/HabitCard"
+import HabitsPagination from "../components/HabitComponents/HabitsPagination"
 
 const Habits = () => {
   const dispatch = useDispatch()
@@ -43,9 +32,6 @@ const Habits = () => {
   const user = useSelector((state: RootState) => state.session.user)
   const completedHabits = useSelector(
     (state: RootState) => state.completedHabits.habits
-  )
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme
   )
 
   const [filterCategories, setFilterCategories] = useState({
@@ -68,9 +54,6 @@ const Habits = () => {
     completed: true,
     not_completed: true,
   })
-  const [pinnedHabitIdShown, setPinnedHabitIdShown] = useState<number | null>(
-    null
-  )
 
   const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false)
   const [isDifficultyFilterOpen, setIsDifficultyFilterOpen] = useState(false)
@@ -189,24 +172,36 @@ const Habits = () => {
       </Typography>
       <Box>
         <Box sx={{ mb: 2 }}>
-          {FilterButton("category filters", () =>
-            setIsCategoryFilterOpen(true)
-          )}
-          {FilterButton("difficulty filters", () =>
-            setIsDifficultyFilterOpen(true)
-          )}
-          {FilterButton("status filters", () => setIsStatusFilterOpen(true))}
-          {FilterButton("reset filters", () =>
-            handleResetFilters(
-              navigate,
-              setPage,
-              setFilterCategories,
-              setFilterDifficulties,
-              setFilterStatus
-            )
-          )}
-          {user &&
-            FilterButton("reset habits", () => handleResetHabits(dispatch))}
+          <FilterButton
+            label="category filters"
+            onClick={() => setIsCategoryFilterOpen(true)}
+          />
+          <FilterButton
+            label="difficulty filters"
+            onClick={() => setIsDifficultyFilterOpen(true)}
+          />
+          <FilterButton
+            label="status filters"
+            onClick={() => setIsStatusFilterOpen(true)}
+          />
+          <FilterButton
+            label="reset filters"
+            onClick={() =>
+              handleResetFilters(
+                navigate,
+                setPage,
+                setFilterCategories,
+                setFilterDifficulties,
+                setFilterStatus
+              )
+            }
+          />
+          {user && (
+            <FilterButton
+              label="reset habits"
+              onClick={() => handleResetHabits(dispatch)}
+            />
+          )}{" "}
         </Box>
         <Box>
           <FilterDialogs
@@ -248,148 +243,20 @@ const Habits = () => {
                   ? allFilteredHabits
                       .slice((Number(page) - 1) * 15, Number(page) * 15)
                       .map((habit: HabitTypes) => (
-                        <Box
-                          component="div"
+                        <HabitCard
                           key={habit.id}
-                          sx={{
-                            display: "flex",
-                            position: "relative",
-                          }}
-                          onMouseOver={() => {
-                            if (!user) return
-                            setPinnedHabitIdShown(habit.id)
-                          }}
-                          onMouseLeave={() => {
-                            if (!user) return
-                            setPinnedHabitIdShown(null)
-                          }}
-                        >
-                          {user?.pinned_habit === habit.id && (
-                            <StarIcon
-                              sx={{
-                                color: "black",
-                                position: "absolute",
-                                top: 0,
-                                right: 0,
-                              }}
-                            />
-                          )}
-                          <Box
-                            sx={{
-                              bgcolor:
-                                user?.pinned_habit === habit.id
-                                  ? "yellow"
-                                  : habit.difficulty === "Easy"
-                                  ? `success.${colorTheme}`
-                                  : habit.difficulty === "Medium"
-                                  ? `warning.${colorTheme}`
-                                  : `error.${colorTheme}`,
-
-                              color: "#000",
-                              width: 300,
-                              borderRadius: 2,
-                              textAlign: "center",
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Box sx={{ p: 2 }}>
-                              <Typography>{habit.description}</Typography>
-                              <Box sx={{ height: 50 }}>
-                                <Chip
-                                  label={habit.difficulty}
-                                  sx={{
-                                    bgcolor:
-                                      habit.difficulty === "Easy"
-                                        ? `success`
-                                        : habit.difficulty === "Medium"
-                                        ? `warning`
-                                        : `error`,
-                                  }}
-                                />
-                              </Box>
-                              <Grid
-                                gap={1}
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  flexWrap: "wrap",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Chip
-                                  label={habit.category_1}
-                                  color="primary"
-                                  sx={{ fontSize: 16 }}
-                                />
-                                {habit.category_2 && (
-                                  <Chip
-                                    label={habit.category_2}
-                                    color="primary"
-                                    sx={{ fontSize: 16 }}
-                                  />
-                                )}
-                                {habit.category_3 && (
-                                  <Chip
-                                    label={habit.category_3}
-                                    color="primary"
-                                    sx={{ fontSize: 16 }}
-                                  />
-                                )}
-                              </Grid>
-                            </Box>
-                            {pinnedHabitIdShown === habit.id && (
-                              <Tooltip
-                                title={
-                                  user?.pinned_habit === habit.id
-                                    ? "Unpin"
-                                    : "Pin"
-                                }
-                                arrow
-                              >
-                                <IconButton
-                                  sx={{
-                                    position: "absolute",
-                                    right: 5,
-                                    bottom: 45,
-                                  }}
-                                  onClick={() => {
-                                    if (user?.pinned_habit === habit.id) {
-                                      handlePinHabit(null)
-                                      dispatch(changePinnedHabit(null))
-                                    } else {
-                                      handlePinHabit(habit.id)
-                                      dispatch(changePinnedHabit(habit.id))
-                                    }
-                                  }}
-                                >
-                                  <PushPinIcon
-                                    sx={{
-                                      color: "black",
-                                    }}
-                                  />
-                                </IconButton>
-                              </Tooltip>
-                            )}
-                            <HabitToggleButton
-                              completedHabits={completedHabits}
-                              habitId={habit.id}
-                              setHabitToToggle={setHabitToToggle}
-                            />
-                          </Box>
-                        </Box>
+                          habit={habit}
+                          setHabitToToggle={setHabitToToggle}
+                        />
                       ))
                   : "No habits"}
               </Box>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Pagination
-                  count={Math.ceil(allFilteredHabits.length / 15)}
-                  onChange={(_e, value) => {
-                    setPage(String(value))
-                    navigate(`/habits/${value}`)
-                  }}
-                  page={Number(page)}
+                <HabitsPagination
+                  page={page}
+                  setPage={setPage}
+                  allFilteredHabits={allFilteredHabits}
+                  navigate={navigate}
                 />
               </Box>
             </>
