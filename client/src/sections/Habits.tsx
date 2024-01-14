@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Grid, Typography } from "@mui/material"
 import { useQuery } from "react-query"
 import { HabitTypes } from "../Types"
 import { useDispatch, useSelector } from "react-redux"
@@ -8,7 +8,7 @@ import HabitsSkeleton from "../skeletons/HabitsSkeleton"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useNavigate, useParams } from "react-router-dom"
 import {
-  filterByCategory,
+  filterHabits,
   getHabits,
   handleResetFilters,
   handleResetHabits,
@@ -72,94 +72,23 @@ const Habits = () => {
 
   useEffect(() => {
     !areHabitsLoading &&
-      setAllFilteredHabits(
-        allHabits
-          .filter((h: HabitTypes) => {
-            if (filterStatus.completed) {
-              return h
-            }
-            return !completedHabits.includes(h.id)
-          })
-          .filter((h: HabitTypes) => {
-            if (filterStatus.not_completed) {
-              return h
-            }
-            return completedHabits.includes(h.id)
-          })
-          .filter((h: HabitTypes) => {
-            if (filterDifficulties.easy) {
-              return h
-            }
-            return h.difficulty !== "Easy"
-          })
-          .filter((h: HabitTypes) => {
-            if (filterDifficulties.medium) {
-              return h
-            }
-            return h.difficulty !== "Medium"
-          })
-          .filter((h: HabitTypes) => {
-            if (filterDifficulties.hard) {
-              return h
-            }
-            return h.difficulty !== "Hard"
-          })
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.health, "Health")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.appearance, "Appearance")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.communication, "Communication")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.finance, "Finance")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.productivity, "Productivity")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.creativity, "Creativity")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.networking, "Networking")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(h, filterCategories.relationships, "Relationships")
-          )
-          .filter((h: HabitTypes) =>
-            filterByCategory(
-              h,
-              filterCategories.personal_growth,
-              "Personal growth"
-            )
-          )
-          .sort((a: HabitTypes, b: HabitTypes) => {
-            if (a.id === user?.pinned_habit) return -1
-            if (b.id === user?.pinned_habit) return 1
-            return 0
-          })
+      filterHabits(
+        setAllFilteredHabits,
+        allHabits,
+        completedHabits,
+        filterCategories,
+        filterDifficulties,
+        filterStatus,
+        user?.pinned_habit || 0
       )
   }, [
     allHabits,
     completedHabits,
     areHabitsLoading,
     user?.pinned_habit,
-    filterCategories.appearance,
-    filterCategories.communication,
-    filterCategories.creativity,
-    filterCategories.finance,
-    filterCategories.health,
-    filterCategories.networking,
-    filterCategories.personal_growth,
-    filterCategories.productivity,
-    filterCategories.relationships,
-    filterDifficulties.easy,
-    filterDifficulties.hard,
-    filterDifficulties.medium,
-    filterStatus.completed,
-    filterStatus.not_completed,
+    filterCategories,
+    filterDifficulties,
+    filterStatus,
   ])
 
   return (
@@ -201,7 +130,7 @@ const Habits = () => {
               label="reset habits"
               onClick={() => handleResetHabits(dispatch)}
             />
-          )}{" "}
+          )}
         </Box>
         <Box>
           <FilterDialogs
@@ -231,7 +160,7 @@ const Habits = () => {
             <HabitsSkeleton />
           ) : (
             <>
-              <Box
+              <Grid
                 sx={{
                   display: "flex",
                   justifyContent: "space-evenly",
@@ -250,7 +179,7 @@ const Habits = () => {
                         />
                       ))
                   : "No habits"}
-              </Box>
+              </Grid>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <HabitsPagination
                   page={page}

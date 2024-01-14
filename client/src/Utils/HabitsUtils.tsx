@@ -160,3 +160,79 @@ export const handleResetFilters = (
     not_completed: true,
   })
 }
+
+export const filterHabits = (
+  setAllFilteredHabits: (value: React.SetStateAction<HabitTypes[]>) => void,
+  allHabits: HabitTypes[],
+  completedHabits: number[],
+  filterCategories: FilterCategoriesTypes,
+  filterDifficulties: FilterDifficultyTypes,
+  filterStatus: FilterStatusTypes,
+  pinnedHabitId?: number
+) => {
+  setAllFilteredHabits(
+    allHabits
+      .filter((h: HabitTypes) => {
+        if (filterStatus.completed) {
+          return h
+        }
+        return !completedHabits.includes(h.id)
+      })
+      .filter((h: HabitTypes) => {
+        if (filterStatus.not_completed) {
+          return h
+        }
+        return completedHabits.includes(h.id)
+      })
+      .filter((h: HabitTypes) => {
+        if (filterDifficulties.easy) {
+          return h
+        }
+        return h.difficulty !== "Easy"
+      })
+      .filter((h: HabitTypes) => {
+        if (filterDifficulties.medium) {
+          return h
+        }
+        return h.difficulty !== "Medium"
+      })
+      .filter((h: HabitTypes) => {
+        if (filterDifficulties.hard) {
+          return h
+        }
+        return h.difficulty !== "Hard"
+      })
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.health, "Health")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.appearance, "Appearance")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.communication, "Communication")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.finance, "Finance")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.productivity, "Productivity")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.creativity, "Creativity")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.networking, "Networking")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.relationships, "Relationships")
+      )
+      .filter((h: HabitTypes) =>
+        filterByCategory(h, filterCategories.personal_growth, "Personal growth")
+      )
+      .sort((a: HabitTypes, b: HabitTypes) => {
+        if (a.id === pinnedHabitId) return -1
+        if (b.id === pinnedHabitId) return 1
+        return 0
+      })
+  )
+}
