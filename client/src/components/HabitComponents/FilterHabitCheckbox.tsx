@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel } from "@mui/material"
 
-export const FilterCheckbox = ({
+export const FilterHabitCheckbox = ({
   label,
   checked,
   onChange,

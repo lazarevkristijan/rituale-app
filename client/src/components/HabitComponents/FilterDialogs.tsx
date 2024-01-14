@@ -9,7 +9,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material"
-import { FilterCheckbox } from "../../Utils/filterHabitCheckbox"
+
 import { handleFilterChange, resetPage } from "../../Utils/HabitsUtils"
 import {
   FilterCategoriesTypes,
@@ -17,6 +17,7 @@ import {
   FilterStatusTypes,
 } from "../../Types"
 import { useNavigate } from "react-router-dom"
+import { FilterHabitCheckbox } from "./FilterHabitCheckbox"
 
 const FilterDialogs = ({
   isCategoryFilterOpen,
@@ -65,7 +66,7 @@ const FilterDialogs = ({
           <FormGroup>
             {Object.entries(filterCategories).map(([key, value], index) => (
               <React.Fragment key={key}>
-                <FilterCheckbox
+                <FilterHabitCheckbox
                   label={
                     key.charAt(0).toUpperCase() +
                     key.slice(1).split("_").join(" ")
@@ -101,7 +102,7 @@ const FilterDialogs = ({
         <DialogContent>
           {Object.entries(filterDifficulties).map(([key, value], index) => (
             <React.Fragment key={key}>
-              <FilterCheckbox
+              <FilterHabitCheckbox
                 label={
                   key.charAt(0).toUpperCase() +
                   key.slice(1).split("_").join(" ")
@@ -139,7 +140,7 @@ const FilterDialogs = ({
           <FormGroup>
             {Object.entries(filterStatus).map(([key, value], index) => (
               <React.Fragment key={key}>
-                <FilterCheckbox
+                <FilterHabitCheckbox
                   label={
                     key.charAt(0).toUpperCase() +
                     key.slice(1).split("_").join(" ")
