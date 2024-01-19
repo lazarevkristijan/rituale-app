@@ -66,7 +66,6 @@ const HabitCard = ({
               : habit.difficulty === "Medium"
               ? `warning.${colorTheme}`
               : `error.${colorTheme}`,
-
           color: "#000",
           width: 300,
           borderRadius: 2,
@@ -83,7 +82,9 @@ const HabitCard = ({
               label={habit.difficulty}
               sx={{
                 bgcolor:
-                  habit.difficulty === "Easy"
+                  user?.pinned_habit === habit.id
+                    ? "#000"
+                    : habit.difficulty === "Easy"
                     ? `success`
                     : habit.difficulty === "Medium"
                     ? `warning`
