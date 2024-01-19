@@ -155,6 +155,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <Box
             bgcolor="red"
+            color="#000"
             textAlign="center"
           >
             This is a work in progress project. Issues will occur!
