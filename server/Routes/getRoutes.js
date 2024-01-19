@@ -18,8 +18,10 @@ export const getCookieConsent = async (req, res) => {
   }
 }
 
+console.log("ile koga ke odeme na kafe utre?")
 export const getAcceptConsentCookies = async (req, res) => {
   try {
+    console.log(req)
     res.cookie("consentCookie", "accepted", {
       ...cookieOptions,
       expires: new Date("9999-12-31T23:59:59"),

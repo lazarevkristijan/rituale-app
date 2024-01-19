@@ -155,7 +155,6 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <Box
             bgcolor="red"
-            borderRadius={2}
             textAlign="center"
           >
             This is a work in progress project. Issues will occur!
