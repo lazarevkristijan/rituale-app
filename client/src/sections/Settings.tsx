@@ -70,7 +70,7 @@ const Settings = () => {
     useAuth0()
 
   useEffect(() => {
-    auth0authenticated ? console.log("authenticated") : navigate("/")
+    !auth0authenticated && navigate("/")
   }, [auth0authenticated, navigate])
 
   const user = useSelector((state: RootState) => state.session.user)

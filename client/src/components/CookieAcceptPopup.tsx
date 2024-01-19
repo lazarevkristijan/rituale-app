@@ -1,7 +1,13 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Link, Typography } from "@mui/material"
 import React from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "../Store"
 
 const CookieAcceptPopup = ({ children }: { children: React.ReactNode }) => {
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
+
   return (
     <Box
       sx={{
@@ -10,7 +16,7 @@ const CookieAcceptPopup = ({ children }: { children: React.ReactNode }) => {
         bottom: 60,
         width: 300,
         height: 200,
-        bgcolor: "white",
+        bgcolor: colorTheme === "dark" ? "#000" : "#fff",
         color: "black",
         borderRadius: 2,
         border: "3px solid red",
@@ -23,6 +29,20 @@ const CookieAcceptPopup = ({ children }: { children: React.ReactNode }) => {
       <Typography>
         We use only essential cookies, by using our website, you accept cookies
         for authentication, security, theme and images
+        <Link
+          href="https://www.termsfeed.com/live/67488f52-ba8a-4438-bd5d-f9fc93cbbae6"
+          target="_blank"
+          underline="hover"
+        >
+          Privacy Policy
+        </Link>
+        <Link
+          href="https://www.termsandconditionsgenerator.com/live.php?token=R3tNAWErbhtEm3XDOzzsmD8SX1H77NVR"
+          target="_blank"
+          underline="hover"
+        >
+          Terms and Conditions
+        </Link>
       </Typography>
       {children}
     </Box>
