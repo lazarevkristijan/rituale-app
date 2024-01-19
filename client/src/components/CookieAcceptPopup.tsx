@@ -29,6 +29,7 @@ const CookieAcceptPopup = ({ children }: { children: React.ReactNode }) => {
       <Typography>
         We use only essential cookies, by using our website, you accept cookies
         for authentication, security, theme and images
+        <br />
         <Link
           href="https://www.termsfeed.com/live/67488f52-ba8a-4438-bd5d-f9fc93cbbae6"
           target="_blank"
