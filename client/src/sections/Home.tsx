@@ -28,7 +28,10 @@ const Home = () => {
         justifyContent: "center",
       }}
     >
-      <Box bgcolor="red">
+      <Box
+        bgcolor="red"
+        borderRadius={2}
+      >
         This is a work in progress project. Issues will occur
       </Box>
       <Box
