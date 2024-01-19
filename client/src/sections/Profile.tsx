@@ -53,7 +53,7 @@ const Profile = () => {
   }
 
   const getAllHabits = async () => {
-    const res = await axios.get("https://www.api.rituale.digital/all-habits")
+    const res = await axios.get("https://api.rituale.digital/all-habits")
     return res.data
   }
   const { data: allHabits } = useQuery("get-all-habits", getAllHabits)

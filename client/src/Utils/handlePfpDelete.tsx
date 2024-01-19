@@ -12,7 +12,7 @@ export const handlePfpDelete = async (
     const pfpFileName = getPfpFileName(userPfp)
     await axios
       .delete(
-        `https://www.api.rituale.digital/user-settings/delete-profile-picture`,
+        `https://api.rituale.digital/user-settings/delete-profile-picture`,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
