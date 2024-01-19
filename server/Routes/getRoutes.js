@@ -22,6 +22,7 @@ export const getAcceptConsentCookies = async (req, res) => {
   try {
     res.cookie("consentCookie", "accepted", {
       ...cookieOptions,
+      secure: true,
       expires: new Date("9999-12-31T23:59:59"),
     })
     return res.json({ success: "Successfully added consent cookie" })
