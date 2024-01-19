@@ -34,7 +34,7 @@ const PreviewProfile = () => {
 
   const getPreviewUser = async (): Promise<PreviewUserTypes> => {
     return await axios
-      .get(`http://localhost:5432/user/${username}`)
+      .get(`https://www.api.rituale.digital/user/${username}`)
       .then((response) => {
         if (response.data) {
           return response.data
@@ -50,7 +50,7 @@ const PreviewProfile = () => {
 
   const getPreviewCompletedHabits = async () => {
     const res = await axios.get(
-      `http://localhost:5432/preview-completed-habits/${username}`
+      `https://www.api.rituale.digital/preview-completed-habits/${username}`
     )
 
     return res.data

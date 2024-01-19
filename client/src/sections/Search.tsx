@@ -57,7 +57,10 @@ const Search = () => {
         placeholder="Who?"
         value={waitedValue}
         onChange={(e) => {
-          if (window.location.href !== "http://localhost:5173/search/1") {
+          if (
+            window.location.href !==
+            "https://www.rituale.digital/search/1"
+          ) {
             navigate("/search/1")
           }
           if (page !== "1") {

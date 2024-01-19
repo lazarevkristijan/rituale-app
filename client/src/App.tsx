@@ -52,7 +52,7 @@ const App = () => {
     const postLoginOrRegister = () => {
       axios
         .post(
-          "http://localhost:5432/login-or-register",
+          "https://www.api.rituale.digital/login-or-register",
           JSON.stringify(auth0User),
           {
             headers: { "Content-Type": "application/json" },
@@ -62,7 +62,7 @@ const App = () => {
         .then((response) => {
           dispatch(login(response.data[0]))
           axios
-            .get(`http://localhost:5432/completed-habits`, {
+            .get(`https://www.api.rituale.digital/completed-habits`, {
               headers: { "Content-Type": "application/json" },
               withCredentials: true,
             })
@@ -76,7 +76,7 @@ const App = () => {
             })
 
           axios
-            .get(`http://localhost:5432/user-settings`, {
+            .get(`https://www.api.rituale.digital/user-settings`, {
               withCredentials: true,
             })
             .then((innerResponse2) => {
@@ -98,7 +98,7 @@ const App = () => {
     }
 
     axios
-      .get("http://localhost:5432/check-cookie-consent", {
+      .get("https://www.api.rituale.digital/check-cookie-consent", {
         withCredentials: true,
       })
       .then((response) => {
@@ -117,7 +117,7 @@ const App = () => {
   const handleCookieAccept = () => {
     setShowCookieConsentDialog(false)
     axios
-      .get("http://localhost:5432/accept-consent-cookies", {
+      .get("https://www.api.rituale.digital/accept-consent-cookies", {
         withCredentials: true,
       })
       .then(() => {

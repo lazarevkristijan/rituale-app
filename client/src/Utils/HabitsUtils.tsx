@@ -23,7 +23,7 @@ const habitToToggle = (habitId: number) => {
 export const removeHabitApi = (habitId: number, dispatch: AppDispatch) => {
   axios
     .post(
-      "http://localhost:5432/remove-habit",
+      "https://www.api.rituale.digital/remove-habit",
       JSON.stringify(habitToToggle(habitId)),
       {
         headers: { "Content-Type": "application/json" },
@@ -38,7 +38,7 @@ export const removeHabitApi = (habitId: number, dispatch: AppDispatch) => {
 export const addHabitApi = (habitId: number, dispatch: AppDispatch) => {
   axios
     .post(
-      "http://localhost:5432/complete-habit",
+      "https://www.api.rituale.digital/complete-habit",
       JSON.stringify(habitToToggle(habitId)),
       {
         headers: { "Content-Type": "application/json" },
@@ -52,7 +52,7 @@ export const addHabitApi = (habitId: number, dispatch: AppDispatch) => {
 }
 
 export const getHabits = async () => {
-  const res = await axios.get("http://localhost:5432/all-habits")
+  const res = await axios.get("https://www.api.rituale.digital/all-habits")
   return res.data
 }
 
@@ -73,7 +73,7 @@ export const handleToggleHabit = (
 
 export const handlePinHabit = (habitId: number | null) => {
   axios.patch(
-    "http://localhost:5432/pin-habit",
+    "https://www.api.rituale.digital/pin-habit",
     JSON.stringify({ habitId: habitId }),
     {
       headers: {
@@ -87,7 +87,7 @@ export const resetPage = (
   navigate: NavigateFunction,
   setPage: (page: string) => void
 ) => {
-  if (window.location.href !== "http://localhost:5173/habits/1") {
+  if (window.location.href !== "https://www.api.rituale.digital173/habits/1") {
     navigate("/habits/1")
   }
   setPage("1")
@@ -95,7 +95,7 @@ export const resetPage = (
 
 export const handleResetHabits = (dispatch: AppDispatch) => {
   axios
-    .get("http://localhost:5432/reset-habit-progress", {
+    .get("https://www.api.rituale.digital/reset-habit-progress", {
       withCredentials: true,
     })
     .then(() => dispatch(clearHabits()))

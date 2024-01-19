@@ -84,7 +84,7 @@ const Settings = () => {
   const handleThemeChange = () => {
     axios
       .patch(
-        `http://localhost:5432/user-settings/change-theme`,
+        `https://www.api.rituale.digital/user-settings/change-theme`,
         JSON.stringify({ theme: colorTheme === "dark" ? "light" : "dark" }),
         {
           headers: { "Content-Type": "application/json" },
@@ -107,7 +107,9 @@ const Settings = () => {
     }
 
     await axios
-      .delete(`http://localhost:5432/delete-user`, { withCredentials: true })
+      .delete(`https://www.api.rituale.digital/delete-user`, {
+        withCredentials: true,
+      })
       .then(() => {
         dispatch(changeColorTheme("light"))
         document.body.style.backgroundColor = "#fff"
@@ -141,7 +143,7 @@ const Settings = () => {
 
     axios
       .patch(
-        `http://localhost:5432/user-settings/change-creds`,
+        `https://www.api.rituale.digital/user-settings/change-creds`,
         JSON.stringify(userData),
         {
           headers: { "Content-Type": "application/json" },
@@ -155,7 +157,7 @@ const Settings = () => {
 
   const handleLanguageChange = (lang: string) => {
     axios.patch(
-      `http://localhost:5432/user-settings/change-language`,
+      `https://www.api.rituale.digital/user-settings/change-language`,
       JSON.stringify({ language: lang }),
       {
         headers: {
@@ -172,7 +174,7 @@ const Settings = () => {
     }
     axios
       .patch(
-        `http://localhost:5432/user-settings/change-country`,
+        `https://www.api.rituale.digital/user-settings/change-country`,
         JSON.stringify({ country: e.target.value }),
         {
           headers: { "Content-Type": "application/json" },
@@ -191,7 +193,7 @@ const Settings = () => {
   const handleBioChange = () => {
     axios
       .patch(
-        `http://localhost:5432/user-settings/change-bio`,
+        `https://www.api.rituale.digital/user-settings/change-bio`,
         JSON.stringify({ bio: bio }),
         {
           headers: { "Content-Type": "application/json" },
@@ -206,7 +208,9 @@ const Settings = () => {
 
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
   const getHabitCategories = async () => {
-    const res = await axios.get("http://localhost:5432/all-habit-categories")
+    const res = await axios.get(
+      "https://www.api.rituale.digital/all-habit-categories"
+    )
     return res.data
   }
   const { data: habitCategoriesData } = useQuery(
@@ -233,7 +237,7 @@ const Settings = () => {
       categoryData.cat3 === categoryData.catToChange
     ) {
       await axios.patch(
-        `http://localhost:5432/remove-priority-category`,
+        `https://www.api.rituale.digital/remove-priority-category`,
         JSON.stringify(
           categoryData.cat1 === categoryData.catToChange
             ? { category_1: categoryData.cat1 }
@@ -253,7 +257,7 @@ const Settings = () => {
         return
       }
       await axios.patch(
-        `http://localhost:5432/add-priority-category`,
+        `https://www.api.rituale.digital/add-priority-category`,
         JSON.stringify(categoryData),
         {
           headers: { "Content-Type": "application/json" },
@@ -278,7 +282,7 @@ const Settings = () => {
       formData.append("profilePicture", profilePicture)
       axios
         .patch(
-          `http://localhost:5432/user-settings/change-profile-picture`,
+          `https://www.api.rituale.digital/user-settings/change-profile-picture`,
           formData,
           {
             headers: {
