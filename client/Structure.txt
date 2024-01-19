@@ -1,0 +1,16 @@
+TODO:
+
+- Divide code in more and more components
+
+- Finish UI and add translation
+---
+- Stripe fix payment - after final deploy
+
+
+MUI components to use:
+Rating
+
+Accordion
+Drawer - side panel
+
+ENSURE SEMANTIC HTML IS USED EVERYWHERE 

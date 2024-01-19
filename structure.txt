@@ -1,8 +1,0 @@
-Functionality:
-
-1. At least 200 - 300 universal habits to work with
-2. Levels to start from, beginners to advanced
-3. Dark Mode
-4. Accounts system
-5. At least 200 - 300 Personalized habits that will apply to specific people only
-6. Multi lingual system
