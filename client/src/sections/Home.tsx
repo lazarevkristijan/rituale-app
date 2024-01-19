@@ -29,12 +29,6 @@ const Home = () => {
       }}
     >
       <Box
-        bgcolor="red"
-        borderRadius={2}
-      >
-        This is a work in progress project. Issues will occur
-      </Box>
-      <Box
         component="img"
         src={`/logo-text${colorTheme === "dark" ? "-w" : ""}.svg`}
         width={300}
