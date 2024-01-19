@@ -89,6 +89,10 @@ const HabitCard = ({
                     : habit.difficulty === "Medium"
                     ? `warning`
                     : `error`,
+                color:
+                  user?.pinned_habit === habit.id || colorTheme === "dark"
+                    ? "#fff"
+                    : "#000",
               }}
             />
           </Box>

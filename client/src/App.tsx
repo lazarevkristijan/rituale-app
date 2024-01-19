@@ -5,7 +5,6 @@ import {
   CssBaseline,
   PaletteMode,
   ThemeProvider,
-  Typography,
   createTheme,
 } from "@mui/material"
 import {
@@ -35,6 +34,8 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { login } from "./features/session/sessionSlice"
 import TabBlogs from "./subsections/General/TabBlogs"
 import TabStatistics from "./subsections/General/TabStatistics"
+import CookieAcceptPopup from "./components/CookieAcceptPopup"
+import { handleCookieAccept } from "./Utils/HomeUtils"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -114,22 +115,6 @@ const App = () => {
       (document.body.style.backgroundColor = "#fff")
   }, [auth0authenticated, auth0loading, auth0User, user?.id, dispatch])
 
-  const handleCookieAccept = () => {
-    setShowCookieConsentDialog(false)
-    axios
-      .get("https://api.rituale.digital/accept-consent-cookies", {
-        withCredentials: true,
-        url: "https://rituale.digital",
-      })
-      .then(() => {
-        setShowCookieConsentDialog(false)
-      })
-      .catch(() => {
-        setShowCookieConsentDialog(true)
-        console.log("Error when accepting cookie")
-      })
-  }
-
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
   )
@@ -208,29 +193,13 @@ const App = () => {
           </Container>
           <BottomNavbar />
           {showCookieConsentDialog && (
-            <Box
-              sx={{
-                position: "fixed",
-                right: 20,
-                bottom: 60,
-                width: 300,
-                height: 200,
-                bgcolor: "white",
-                color: "black",
-                borderRadius: 2,
-                border: "3px solid red",
-                p: 1,
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: "column",
-              }}
-            >
-              <Typography>
-                We use only essential cookies, by using our website, you accept
-                cookies for authentication, security, theme and images
-              </Typography>
-              <Button onClick={handleCookieAccept}>i understand</Button>
-            </Box>
+            <CookieAcceptPopup>
+              <Button
+                onClick={() => handleCookieAccept(setShowCookieConsentDialog)}
+              >
+                i understand
+              </Button>
+            </CookieAcceptPopup>
           )}
         </ThemeProvider>
       )}
