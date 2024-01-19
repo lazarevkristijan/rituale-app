@@ -27,11 +27,8 @@ const Profile = () => {
     dispatch(changeLocation(4))
   }, [dispatch])
 
-  const {
-    logout: auth0logout,
-    loginWithPopup: auth0login,
-    isAuthenticated: auth0authenticated,
-  } = useAuth0()
+  const { logout: auth0logout, isAuthenticated: auth0authenticated } =
+    useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const colorTheme = useSelector(
@@ -41,11 +38,11 @@ const Profile = () => {
     (state: RootState) => state.completedHabits
   )
 
-  useEffect(() => {
-    auth0authenticated ? setIsLoading(false) : auth0login()
-  }, [auth0authenticated, auth0login])
-
   const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => {
+    auth0authenticated ? setIsLoading(false) : navigate("/")
+  }, [auth0authenticated, navigate])
+
   const handleLogout = async () => {
     dispatch(logout())
     dispatch(clearHabits())
