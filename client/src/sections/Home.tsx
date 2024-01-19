@@ -28,6 +28,9 @@ const Home = () => {
         justifyContent: "center",
       }}
     >
+      <Box bgcolor="red">
+        This is a work in progress project. Issues will occur
+      </Box>
       <Box
         component="img"
         src={`/logo-text${colorTheme === "dark" ? "-w" : ""}.svg`}
