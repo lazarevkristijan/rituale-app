@@ -17,13 +17,13 @@ const CookieAcceptPopup = ({ children }: { children: React.ReactNode }) => {
         width: 300,
         height: 200,
         bgcolor: colorTheme === "dark" ? "#000" : "#fff",
-        color: "black",
         borderRadius: 2,
         border: "3px solid red",
         p: 1,
         display: "flex",
         justifyContent: "space-between",
         flexDirection: "column",
+        textAlign: "center",
       }}
     >
       <Typography>
@@ -36,6 +36,7 @@ const CookieAcceptPopup = ({ children }: { children: React.ReactNode }) => {
         >
           Privacy Policy
         </Link>
+        <br />
         <Link
           href="https://www.termsandconditionsgenerator.com/live.php?token=R3tNAWErbhtEm3XDOzzsmD8SX1H77NVR"
           target="_blank"
