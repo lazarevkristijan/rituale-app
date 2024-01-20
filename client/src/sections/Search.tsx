@@ -11,12 +11,12 @@ import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { useQuery } from "react-query"
 import { PreviewUserTypes } from "../Types"
 import { useNavigate, useParams } from "react-router-dom"
-import { getPfpLink } from "../Utils/getPfpLink"
 import { useDispatch, useSelector } from "react-redux"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { defaultPfpURL } from "../constants"
 import { RootState } from "../Store"
 import { getUsers } from "../Utils/SearchUtils"
+import { getPfpLink } from "../Utils/SettingsUtils"
 
 const Search = () => {
   const navigate = useNavigate()

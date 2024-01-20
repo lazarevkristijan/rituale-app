@@ -1,3 +1,10 @@
+export const initialBlogData = {
+  title: "",
+  author: "",
+  link: "",
+  image_url: "",
+}
+
 export const defaultPfpURL = "https://i.postimg.cc/G3YzpRnB/ritualelogo.png"
 
 export const languages = [

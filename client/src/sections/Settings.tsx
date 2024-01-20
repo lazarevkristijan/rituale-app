@@ -53,26 +53,25 @@ import { CategoryTypes } from "../Types"
 import { useQuery } from "react-query"
 import SaveIcon from "@mui/icons-material/Save"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
-import { handlePfpDelete } from "../Utils/handlePfpDelete"
 import { useAuth0 } from "@auth0/auth0-react"
-import { getPfpLink } from "../Utils/getPfpLink"
 import { useNavigate } from "react-router-dom"
+import { getPfpLink, handlePfpDelete } from "../Utils/SettingsUtils"
 
 const Settings = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  
+
   useEffect(() => {
     dispatch(changeLocation(4))
   }, [dispatch])
 
-  const { logout: auth0logout, isAuthenticated: auth0authenticated, isLoading: auth0loading } = useAuth0()
+  const { logout: auth0logout, isAuthenticated: auth0authenticated } =
+    useAuth0()
 
   useEffect(() => {
-    auth0authenticated ? console.log('authenticated') : navigate("/")
+    auth0authenticated ? console.log("authenticated") : navigate("/")
   }, [auth0authenticated, navigate])
 
-  
   const user = useSelector((state: RootState) => state.session.user)
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme

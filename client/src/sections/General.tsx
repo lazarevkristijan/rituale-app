@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import { useDispatch } from "react-redux"
-import GeneralTabs from "../components/GeneralTabs"
+import GeneralTabs from "../components/GeneralComponents/GeneralTabs"
 import { useEffect } from "react"
 
 const General = () => {

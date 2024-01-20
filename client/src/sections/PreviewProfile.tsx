@@ -13,11 +13,11 @@ import {
 import { RootState } from "../Store"
 import { countryShorthands, defaultPfpURL } from "../constants"
 import { useQuery } from "react-query"
-import { getPfpLink } from "../Utils/getPfpLink"
 import { ProfileSkeleton } from "../skeletons"
-import { displayBio } from "../Utils/displayBio"
 import { PreviewUserTypes } from "../Types"
 import { useEffect } from "react"
+import { getPfpLink } from "../Utils/SettingsUtils"
+import { displayBio } from "../components/Shared/DisplayBio"
 
 const PreviewProfile = () => {
   const dispatch = useDispatch()

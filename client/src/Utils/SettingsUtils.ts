@@ -1,4 +1,3 @@
-import { getPfpFileName } from "./getPfpFileName"
 import axios from "axios"
 import { changeProfilePicture } from "../features/session/sessionSlice"
 import { AppDispatch } from "../Store"
@@ -19,5 +18,25 @@ export const handlePfpDelete = async (
       .then(() => {
         dispatch(changeProfilePicture(defaultPfpURL))
       })
+  }
+}
+
+export const getPfpLink = (linkString: string) => {
+  try {
+    const pfpData = JSON.parse(linkString)
+    const pfpURL = pfpData.url
+    return pfpURL
+  } catch {
+    return linkString
+  }
+}
+
+export const getPfpFileName = (linkString: string) => {
+  try {
+    const pfpData = JSON.parse(linkString)
+    const pfpFileName = pfpData.fileName
+    return pfpFileName
+  } catch {
+    return linkString
   }
 }

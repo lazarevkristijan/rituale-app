@@ -32,13 +32,6 @@ export const handleAddBlog = (e: React.FormEvent, blogData: BlogDataTypes) => {
   })
 }
 
-export const initialBlogData = {
-  title: "",
-  author: "",
-  link: "",
-  image_url: "",
-}
-
 export const handleBlogDelete = (id: number) => {
   axios.delete("http://localhost:5432/remove-blog", {
     data: JSON.stringify({ id: id }),

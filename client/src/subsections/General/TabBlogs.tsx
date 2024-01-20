@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { getAllBlogs } from "../../Utils/GeneralUtils"
 import { BlogAdminSection } from "./BlogAdminSection"
-import Blog from "../../components/Blog"
+import Blog from "../../components/GeneralComponents/Blog"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
 

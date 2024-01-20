@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { changeLocation } from "../features/bottomNav/bottomNavSlice"
 import SearchIcon from "@mui/icons-material/Search"
-import { getPfpLink } from "../Utils/getPfpLink"
 import { defaultPfpURL } from "../constants"
 import { useAuth0 } from "@auth0/auth0-react"
 import LoginIcon from "@mui/icons-material/Login"
+import { getPfpLink } from "../Utils/SettingsUtils"
 
 const BottomNavbar = () => {
   const navigate = useNavigate()
