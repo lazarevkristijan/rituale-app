@@ -83,13 +83,19 @@ const HabitCard = ({
               label={habit.difficulty}
               sx={{
                 bgcolor:
-                  habit.difficulty === "Easy"
+                  user?.pinned_habit === habit.id
+                    ? "#000"
+                    : habit.difficulty === "Easy"
                     ? `success`
                     : habit.difficulty === "Medium"
                     ? `warning`
                     : `error`,
+                color:
+                  user?.pinned_habit === habit.id || colorTheme === "dark"
+                    ? "#fff"
+                    : "#000",
               }}
-            />
+            />{" "}
           </Box>
           <Grid
             gap={1}
