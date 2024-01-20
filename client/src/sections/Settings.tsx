@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Link, Typography } from "@mui/material"
+import { Box } from "@mui/material"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "../Store"
 import { useEffect } from "react"
@@ -13,6 +13,7 @@ import ThemeSwitch from "../components/SettingsComponents/ThemeSwitch"
 import CountrySelect from "../components/SettingsComponents/CountrySelect"
 import ChangeCredentials from "../components/SettingsComponents/ChangeCredentials"
 import DangerZone from "../components/SettingsComponents/DangerZone"
+import Top from "../components/SettingsComponents/Top"
 
 const Settings = () => {
   const dispatch = useDispatch()
@@ -38,25 +39,7 @@ const Settings = () => {
 
   return (
     <Box>
-      <Typography
-        component="h2"
-        sx={{ fontSize: 50 }}
-      >
-        {user?.username}'s settings
-      </Typography>
-      <Breadcrumbs separator=">">
-        <Link
-          href="/profile"
-          underline="hover"
-        >
-          Profile
-        </Link>
-        <Typography>Settings</Typography>
-      </Breadcrumbs>
-
-      <Typography variant="caption">
-        Settings that don't have a "SAVE CHANGES" button are auto saved
-      </Typography>
+      <Top user={user} />
       <br />
       <ProfilePicture
         dispatch={dispatch}
