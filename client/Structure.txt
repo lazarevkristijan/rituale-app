@@ -2,10 +2,10 @@ TODO:
 
 - Divide code in more and more components
 
-- Finish UI and add translation
+- Remove language func
+- Finish UI
 ---
 - Stripe fix payment - after final deploy
-
 
 MUI components to use:
 Rating
