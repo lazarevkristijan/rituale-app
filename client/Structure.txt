@@ -2,7 +2,6 @@ TODO:
 
 - Divide code in more and more components
 
-- Remove language func
 - Finish UI
 ---
 - Stripe fix payment - after final deploy

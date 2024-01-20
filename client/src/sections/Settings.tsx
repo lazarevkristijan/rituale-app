@@ -15,28 +15,16 @@ import {
   Link,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Switch,
   TextField,
   Typography,
-  Stack,
 } from "@mui/material"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "../Store"
-import { changeColorTheme } from "../features/settings/settingsSlice"
-import axios from "axios"
-import {
-  addCategory,
-  changeBio,
-  changeCountry,
-  changeProfilePicture,
-  login,
-  removeCategory,
-} from "../features/session/sessionSlice"
-import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
+import { addCategory, removeCategory } from "../features/session/sessionSlice"
 import React, { useEffect, useState } from "react"
 import { nameRegex, usernameRegex } from "../Regex"
-import { allCountries, countryShorthands, defaultPfpURL } from "../constants"
+import { allCountries, countryShorthands } from "../constants"
 import EditIcon from "@mui/icons-material/Edit"
 import { CategoryTypes } from "../Types"
 import { useQuery } from "react-query"
@@ -44,7 +32,17 @@ import SaveIcon from "@mui/icons-material/Save"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useNavigate } from "react-router-dom"
-import { getPfpLink, handlePfpDelete } from "../Utils/SettingsUtils"
+import {
+  getHabitCategories,
+  handleChangePriorityCategory,
+  handleCountryChange,
+  handleThemeChange,
+  handleUserDataChange,
+  handleUserDelete,
+} from "../Utils/SettingsUtils"
+import SettingsLegalInfo from "../subsections/Settings/SettingsLegalInfo"
+import ProfilePicture from "../subsections/Settings/ProfilePicture"
+import Bio from "../subsections/Settings/Bio"
 
 const Settings = () => {
   const dispatch = useDispatch()
@@ -66,42 +64,6 @@ const Settings = () => {
     (state: RootState) => state.settings.colorTheme
   )
 
-  const handleThemeChange = () => {
-    axios
-      .patch(
-        `http://localhost:5432/user-settings/change-theme`,
-        JSON.stringify({ theme: colorTheme === "dark" ? "light" : "dark" }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        dispatch(changeColorTheme(response.data.theme))
-        if (response.data.theme === "dark") {
-          document.body.style.backgroundColor = "#121212"
-        } else {
-          document.body.style.backgroundColor = "#fff"
-        }
-      })
-  }
-
-  const handleUserDelete = async () => {
-    if (user?.profile_picture) {
-      await handlePfpDelete(user?.profile_picture, dispatch)
-    }
-
-    await axios
-      .delete(`http://localhost:5432/delete-user`, { withCredentials: true })
-      .then(() => {
-        dispatch(changeColorTheme("light"))
-        document.body.style.backgroundColor = "#fff"
-
-        dispatch(clearHabits())
-        auth0logout()
-      })
-  }
-
   const [userData, setUserData] = useState({
     firstName: user?.first_name || "",
     lastName: user?.last_name || "",
@@ -120,166 +82,13 @@ const Settings = () => {
     username: false,
   })
 
-  const handleUserDataChange = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    axios
-      .patch(
-        `http://localhost:5432/user-settings/change-creds`,
-        JSON.stringify(userData),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        dispatch(login({ ...user, ...response.data }))
-      })
-  }
-
-  const handleCountryChange = (e: SelectChangeEvent) => {
-    if (!e.target.value) {
-      return console.error("e target is empty")
-    }
-    axios
-      .patch(
-        `http://localhost:5432/user-settings/change-country`,
-        JSON.stringify({ country: e.target.value }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      )
-      .then(() => {
-        dispatch(changeCountry(e.target.value))
-      })
-  }
-
-  const [bio, setBio] = useState(user?.bio || "")
-  const initialBioValue = user?.bio || ""
-  const [isBioChanged, setIsBioChanged] = useState(false)
-
-  const handleBioChange = () => {
-    axios
-      .patch(
-        `http://localhost:5432/user-settings/change-bio`,
-        JSON.stringify({ bio: bio }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      )
-      .then(() => {
-        dispatch(changeBio(bio))
-        setIsBioChanged(false)
-      })
-  }
-
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
-  const getHabitCategories = async () => {
-    const res = await axios.get("http://localhost:5432/all-habit-categories")
-    return res.data
-  }
   const { data: habitCategoriesData } = useQuery(
     "habit categories",
     getHabitCategories
   )
 
-  const handleChangePriorityCategory = async (
-    newCategory: string,
-    newCategoryId: number
-  ) => {
-    const categoryData = {
-      cat1: user?.priority_category_1,
-      cat2: user?.priority_category_2,
-      cat3: user?.priority_category_3,
-      userId: user?.id,
-      catToChange: newCategory,
-      idCatToChange: newCategoryId,
-    }
-
-    if (
-      categoryData.cat1 === categoryData.catToChange ||
-      categoryData.cat2 === categoryData.catToChange ||
-      categoryData.cat3 === categoryData.catToChange
-    ) {
-      await axios.patch(
-        `http://localhost:5432/remove-priority-category`,
-        JSON.stringify(
-          categoryData.cat1 === categoryData.catToChange
-            ? { category_1: categoryData.cat1 }
-            : categoryData.cat2 === categoryData.catToChange
-            ? { category_2: categoryData.cat2 }
-            : categoryData.cat3 === categoryData.catToChange
-            ? { category_3: categoryData.cat3 }
-            : ""
-        ),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      )
-    } else {
-      if (categoryData.cat1 && categoryData.cat2 && categoryData.cat3) {
-        return
-      }
-      await axios.patch(
-        `http://localhost:5432/add-priority-category`,
-        JSON.stringify(categoryData),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      )
-    }
-  }
-
-  const [profilePicture, setProfilePicture] = useState<File | null>(null)
-  const handleProfilePictureChange = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault()
-
-    if (user?.profile_picture) {
-      handlePfpDelete(user.profile_picture, dispatch)
-    }
-
-    if (profilePicture) {
-      const formData = new FormData()
-      formData.append("profilePicture", profilePicture)
-      axios
-        .patch(
-          `http://localhost:5432/user-settings/change-profile-picture`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          dispatch(changeProfilePicture(res.data))
-        })
-    } else {
-      console.error("no file selected")
-    }
-    setProfilePicture(null)
-  }
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0]
-    if (file !== undefined && file !== null) {
-      setProfilePicture(file)
-    }
-  }
-
-  const [pfpURL, setPfpURL] = useState("")
-  useEffect(() => {
-    if (user?.profile_picture) {
-      setPfpURL(getPfpLink(user?.profile_picture))
-    }
-  }, [user?.profile_picture])
+  if (!user) return
 
   return (
     <Box>
@@ -305,180 +114,11 @@ const Settings = () => {
       <br />
       <br />
 
-      <Stack
-        sx={{ position: "fixed", bottom: 50, right: 20, textAlign: "center" }}
-        direction="column"
-      >
-        <Link
-          href="https://buy.stripe.com/eVa28w2K9bRM65i4gh"
-          target="_blank"
-          underline="hover"
-        >
-          <Button>donate</Button>
-        </Link>
-        <Link
-          href="https://www.termsfeed.com/live/67488f52-ba8a-4438-bd5d-f9fc93cbbae6"
-          target="_blank"
-          underline="hover"
-        >
-          Privacy Policy
-        </Link>
-        <Link
-          href="https://www.termsandconditionsgenerator.com/live.php?token=R3tNAWErbhtEm3XDOzzsmD8SX1H77NVR"
-          target="_blank"
-          underline="hover"
-        >
-          Terms and Conditions
-        </Link>
-      </Stack>
+      <SettingsLegalInfo />
 
-      <Box>
-        <Typography>Profile picture</Typography>
-        <form
-          onSubmit={(e) => handleProfilePictureChange(e)}
-          encType="multipart/form-data"
-        >
-          <Box
-            width={100}
-            height={100}
-            borderRadius={20}
-            sx={{
-              background: `url('${
-                user?.profile_picture ? pfpURL : defaultPfpURL
-              }') no-repeat center/cover #fff`,
-              width: 100,
-              height: 100,
-              borderRadius: 20,
-              border: "3px solid black",
-              position: "relative",
-              cursor: "pointer",
-              overflow: "hidden",
-            }}
-          >
-            <input
-              type="file"
-              id="pfpInput"
-              name="profilePicture"
-              accept="image/png, image/jpeg, image/jpg"
-              onChange={(e) => {
-                if (e.target.files) {
-                  if (
-                    e.target.files[0].type !== "image/png" &&
-                    e.target.files[0].type !== "image/jpeg" &&
-                    e.target.files[0].type !== "image/jpg"
-                  ) {
-                    return console.error("File is not from supported types")
-                  } else if (e.target.files[0].size > 5 * 1048576) {
-                    return console.error("File is above 5mb")
-                  } else {
-                    const reader = new FileReader()
-                    reader.onload = (readerEvent) => {
-                      if (readerEvent.target) {
-                        const url = readerEvent.target.result
-                        if (url) {
-                          setPfpURL(url as string)
-                        }
-                      }
-                    }
-                    if (e.target.files) {
-                      reader.readAsDataURL(e.target.files[0])
-                    }
-                    handleFileChange(e)
-                  }
-                } else {
-                  return console.error("Error when uploading file")
-                }
-              }}
-              style={{
-                opacity: 0,
-                width: "100%",
-                height: 150,
-                bottom: 0,
-                backgroundColor: "#555",
-                cursor: "pointer",
-                position: "absolute",
-                borderRadius: 50,
-              }}
-            />
-          </Box>
-          <Typography variant="caption">Max 5mb</Typography>
-          <br />
-          <Button
-            disabled={!profilePicture}
-            onClick={() => {
-              const inputEl = document.getElementById(
-                "pfpInput"
-              ) as HTMLInputElement
-              inputEl.value = ""
-              setProfilePicture(null)
-
-              if (user?.profile_picture) {
-                setPfpURL(getPfpLink(user.profile_picture))
-              }
-            }}
-          >
-            reset
-          </Button>
-          <Button
-            type="submit"
-            disabled={!profilePicture}
-          >
-            submit
-          </Button>
-        </form>
-        <Button
-          onClick={() =>
-            handlePfpDelete(user?.profile_picture || defaultPfpURL, dispatch)
-          }
-          disabled={!user?.profile_picture}
-        >
-          delete pfp
-        </Button>
-      </Box>
+      <ProfilePicture />
       <br />
-
-      <Box>
-        <Typography>Bio</Typography>
-        <Typography variant="caption">Max 3 rows</Typography>
-        <Box sx={{ position: "relative", width: "fit-content" }}>
-          <textarea
-            style={{
-              resize: "none",
-              padding: 10,
-              paddingRight: 75,
-            }}
-            wrap="hard"
-            rows={3}
-            cols={40}
-            value={bio}
-            onChange={(e) => {
-              setBio(e.target.value)
-              if (!isBioChanged) {
-                setIsBioChanged(true)
-              }
-              if (e.target.value === initialBioValue) {
-                setIsBioChanged(false)
-              }
-            }}
-            placeholder="Something about yourself..."
-            maxLength={100}
-          />
-          <Typography
-            component="span"
-            sx={{ position: "absolute", bottom: 10, right: 10 }}
-          >
-            {bio.length}/100
-          </Typography>
-        </Box>
-
-        <Button
-          onClick={handleBioChange}
-          disabled={!isBioChanged}
-          startIcon={<SaveIcon />}
-        >
-          save changes
-        </Button>
-      </Box>
+      <Bio />
       <br />
 
       <Box>
@@ -526,7 +166,8 @@ const Settings = () => {
                       onChange={() => {
                         handleChangePriorityCategory(
                           category.category,
-                          category.id
+                          category.id,
+                          user
                         )
                         if (
                           user?.priority_category_1 === category.category ||
@@ -572,7 +213,7 @@ const Settings = () => {
           checked={colorTheme === "dark"}
           label="Dark Mode"
           labelPlacement="start"
-          onChange={handleThemeChange}
+          onChange={() => handleThemeChange(colorTheme, dispatch)}
         />
       </FormGroup>
 
@@ -582,7 +223,7 @@ const Settings = () => {
         <InputLabel>Country</InputLabel>
         <Select
           value={user?.country || ""}
-          onChange={handleCountryChange}
+          onChange={(e) => handleCountryChange(e, dispatch)}
         >
           <MenuItem value="">SELECT</MenuItem>
           {allCountries.map((country: string, index) => (
@@ -612,7 +253,7 @@ const Settings = () => {
 
       <br />
 
-      <form onSubmit={(e) => handleUserDataChange(e)}>
+      <form onSubmit={(e) => handleUserDataChange(e, userData, dispatch, user)}>
         <Typography
           component="h3"
           sx={{ fontSize: 35 }}
@@ -700,7 +341,13 @@ const Settings = () => {
       >
         Danger Zone
       </Typography>
-      <Button onDoubleClick={handleUserDelete}>delete profile</Button>
+      <Button
+        onDoubleClick={() =>
+          handleUserDelete(user?.profile_picture, dispatch, auth0logout)
+        }
+      >
+        delete profile
+      </Button>
     </Box>
   )
 }

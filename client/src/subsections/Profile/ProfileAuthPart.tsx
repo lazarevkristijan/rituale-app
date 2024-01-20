@@ -2,8 +2,8 @@ import { Button, Stack } from "@mui/material"
 import { NavigateFunction } from "react-router-dom"
 import SettingsIcon from "@mui/icons-material/Settings"
 import LogoutIcon from "@mui/icons-material/Logout"
-import { handleLogout } from "../Utils/ProfileUtils"
-import { AppDispatch } from "../Store"
+import { handleLogout } from "../../Utils/ProfileUtils"
+import { AppDispatch } from "../../Store"
 
 type LocalComponentTypes = {
   navigate: NavigateFunction
