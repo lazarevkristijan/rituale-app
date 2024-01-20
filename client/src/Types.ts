@@ -91,7 +91,6 @@ export type BottomNavSliceTypes = {
 
 export type SettingsSliceTypes = {
   colorTheme: string
-  language: string
 }
 
 export type SessionSliceTypes = {

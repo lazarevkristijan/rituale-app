@@ -7,29 +7,6 @@ export const initialBlogData = {
 
 export const defaultPfpURL = "https://i.postimg.cc/G3YzpRnB/ritualelogo.png"
 
-export const languages = [
-  {
-    fullName: "English",
-    shortHand: "en",
-  },
-  {
-    fullName: "Spanish",
-    shortHand: "es",
-  },
-  {
-    fullName: "Italian",
-    shortHand: "it",
-  },
-  {
-    fullName: "German",
-    shortHand: "de",
-  },
-  {
-    fullName: "French",
-    shortHand: "fr",
-  },
-]
-
 export const allCountries = [
   "Andorra",
   "United Arab Emirates",

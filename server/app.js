@@ -30,7 +30,6 @@ import {
 } from "./Routes/postRoutes.js"
 import {
   patchAddPriorityCategory,
-  patchChangeLanguage,
   patchChangeTheme,
   patchRemovePriorityCategory,
   patchChangeCountry,
@@ -102,7 +101,6 @@ app.delete("/remove-blog", verifyToken, deleteBlog)
 // USER SETTINGS
 app.get("/user-settings", verifyToken, getUserSettings)
 app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
-app.patch("/user-settings/change-language", verifyToken, patchChangeLanguage)
 app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
 app.patch("/user-settings/change-bio", verifyToken, patchChangeBio)
 app.patch("/user-settings/change-creds", verifyToken, patchChangeCreds)

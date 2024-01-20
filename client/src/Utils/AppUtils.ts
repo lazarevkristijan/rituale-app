@@ -3,10 +3,7 @@ import { AppDispatch } from "../Store"
 import { login } from "../features/session/sessionSlice"
 import { CompletedHabitTypes, UserSettingsTypes } from "../Types"
 import { addHabit } from "../features/completedHabits/completedHabitsSlice"
-import {
-  changeColorTheme,
-  changeLanguage,
-} from "../features/settings/settingsSlice"
+import { changeColorTheme } from "../features/settings/settingsSlice"
 import { User } from "@auth0/auth0-react"
 import { PaletteMode, createTheme } from "@mui/material"
 
@@ -48,14 +45,10 @@ export const postLoginOrRegister = (
           const colorTheme = innerResponse2.data.filter(
             (setting: UserSettingsTypes) => setting.setting_id === 1
           )
-          const language = innerResponse2.data.filter(
-            (setting: UserSettingsTypes) => setting.setting_id === 2
-          )
 
           document.body.style.backgroundColor =
             colorTheme[0].value === "dark" ? "#121212" : "#fff"
           dispatch(changeColorTheme(colorTheme[0].value))
-          dispatch(changeLanguage(language[0].value))
 
           setIsLoading(false)
         })

@@ -12,10 +12,7 @@ import {
   FormControlLabel,
   FormGroup,
   InputLabel,
-  List,
   Link,
-  ListItemButton,
-  ListItemText,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -26,10 +23,7 @@ import {
 } from "@mui/material"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "../Store"
-import {
-  changeColorTheme,
-  changeLanguage,
-} from "../features/settings/settingsSlice"
+import { changeColorTheme } from "../features/settings/settingsSlice"
 import axios from "axios"
 import {
   addCategory,
@@ -42,12 +36,7 @@ import {
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import React, { useEffect, useState } from "react"
 import { nameRegex, usernameRegex } from "../Regex"
-import {
-  allCountries,
-  countryShorthands,
-  defaultPfpURL,
-  languages,
-} from "../constants"
+import { allCountries, countryShorthands, defaultPfpURL } from "../constants"
 import EditIcon from "@mui/icons-material/Edit"
 import { CategoryTypes } from "../Types"
 import { useQuery } from "react-query"
@@ -69,16 +58,13 @@ const Settings = () => {
     useAuth0()
 
   useEffect(() => {
-    auth0authenticated ? console.log("authenticated") : navigate("/")
+    !auth0authenticated && navigate("/")
   }, [auth0authenticated, navigate])
 
   const user = useSelector((state: RootState) => state.session.user)
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
   )
-  const language = useSelector((state: RootState) => state.settings.language)
-
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handleThemeChange = () => {
     axios
@@ -110,7 +96,6 @@ const Settings = () => {
       .then(() => {
         dispatch(changeColorTheme("light"))
         document.body.style.backgroundColor = "#fff"
-        dispatch(changeLanguage("en"))
 
         dispatch(clearHabits())
         auth0logout()
@@ -150,19 +135,6 @@ const Settings = () => {
       .then((response) => {
         dispatch(login({ ...user, ...response.data }))
       })
-  }
-
-  const handleLanguageChange = (lang: string) => {
-    axios.patch(
-      `http://localhost:5432/user-settings/change-language`,
-      JSON.stringify({ language: lang }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    )
   }
 
   const handleCountryChange = (e: SelectChangeEvent) => {
@@ -594,56 +566,6 @@ const Settings = () => {
           </DialogActions>
         </Dialog>
       </Box>
-      <Button
-        startIcon={<EditIcon />}
-        onClick={() => setIsDialogOpen(true)}
-      >
-        change language
-      </Button>
-      <Typography>
-        Current interface language:{" "}
-        {language === "en"
-          ? "English"
-          : language === "es"
-          ? "Spanish"
-          : language === "it"
-          ? "Italian"
-          : language === "de"
-          ? "German"
-          : "French"}{" "}
-        <Box
-          component="img"
-          src={`/flags/${language}.svg`}
-          width={20}
-          height={20}
-          sx={{ display: "inline", verticalAlign: "middle" }}
-        />
-      </Typography>
-      <Dialog
-        open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        aria-labelledby="langauge dialog"
-      >
-        <DialogTitle>Change Language</DialogTitle>
-        <DialogContent>
-          <List>
-            {languages.map((lang, index) => (
-              <React.Fragment key={index}>
-                <ListItemButton
-                  selected={lang.shortHand === language}
-                  onClick={() => {
-                    dispatch(changeLanguage(lang.shortHand))
-                    handleLanguageChange(lang.shortHand)
-                  }}
-                >
-                  <ListItemText primary={lang.fullName} />
-                </ListItemButton>
-                {index !== 4 ? <Divider /> : ""}
-              </React.Fragment>
-            ))}
-          </List>
-        </DialogContent>
-      </Dialog>
       <FormGroup sx={{ display: "block" }}>
         <FormControlLabel
           control={<Switch />}
