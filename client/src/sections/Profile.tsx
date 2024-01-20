@@ -1,6 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material"
-import SettingsIcon from "@mui/icons-material/Settings"
-import LogoutIcon from "@mui/icons-material/Logout"
+import { Box } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
@@ -8,8 +6,8 @@ import { useEffect } from "react"
 import { ProfileSkeleton } from "../skeletons"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
-import { handleLogout } from "../Utils/ProfileUtils"
 import ProfileMainPart from "../subsections/Shared/ProfileMainPart"
+import ProfileAuthPart from "../subsections/ProfileAuthPart"
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -37,26 +35,12 @@ const Profile = () => {
         <ProfileSkeleton />
       ) : (
         <>
-          <Typography variant="h3">{user.username}'s Profile</Typography>
           <ProfileMainPart user={user} />
-
-          <Stack
-            spacing={1}
-            direction="row"
-          >
-            <Button
-              endIcon={<SettingsIcon />}
-              onClick={() => navigate("/settings")}
-            >
-              settings
-            </Button>
-            <Button
-              endIcon={<LogoutIcon />}
-              onClick={() => handleLogout(dispatch, auth0logout)}
-            >
-              logout
-            </Button>
-          </Stack>
+          <ProfileAuthPart
+            navigate={navigate}
+            dispatch={dispatch}
+            auth0logout={auth0logout}
+          />
         </>
       )}
     </Box>
