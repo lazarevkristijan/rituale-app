@@ -47,7 +47,7 @@ export const deleteProfilePicture = async (req, res) => {
 
     await sql`
     UPDATE users
-    SET profile_picture = 'https://drive.google.com/uc?id=18he4mgr-Nu_RE4btnjEfi7B-_pAwu5MO'
+    SET profile_picture = 'https://i.postimg.cc/G3YzpRnB/ritualelogo.png'
     WHERE id = ${userId}`
 
     if (picturePath) {

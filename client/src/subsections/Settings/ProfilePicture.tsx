@@ -26,6 +26,9 @@ const ProfilePicture = ({
     }
   }, [user?.profile_picture])
 
+  const [supportedError, setSupportedError] = useState(false)
+  const [sizeError, setSizeError] = useState(false)
+
   if (!user) return
 
   return (
@@ -72,8 +75,10 @@ const ProfilePicture = ({
                   e.target.files[0].type !== "image/jpeg" &&
                   e.target.files[0].type !== "image/jpg"
                 ) {
+                  setSupportedError(true)
                   return console.error("File is not from supported types")
                 } else if (e.target.files[0].size > 5 * 1048576) {
+                  setSizeError(true)
                   return console.error("File is above 5mb")
                 } else {
                   const reader = new FileReader()
@@ -106,6 +111,22 @@ const ProfilePicture = ({
             }}
           />
         </Box>
+        <Typography
+          variant="caption"
+          component="p"
+          color="red"
+          display={supportedError ? "block" : "none"}
+        >
+          File is not from supported types
+        </Typography>
+        <Typography
+          variant="caption"
+          component="p"
+          color="red"
+          display={sizeError ? "block" : "none"}
+        >
+          File is can't be more than 5mb
+        </Typography>
         <Typography variant="caption">Max 5mb</Typography>
         <br />
         <Button
@@ -135,7 +156,9 @@ const ProfilePicture = ({
         onClick={() =>
           handlePfpDelete(user?.profile_picture || defaultPfpURL, dispatch)
         }
-        disabled={!user?.profile_picture}
+        disabled={
+          !user?.profile_picture || user.profile_picture === defaultPfpURL
+        }
       >
         delete pfp
       </Button>
