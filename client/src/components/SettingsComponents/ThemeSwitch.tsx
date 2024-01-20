@@ -1,14 +1,14 @@
 import { FormControlLabel, FormGroup, Switch } from "@mui/material"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../Store"
+import { AppDispatch } from "../../Store"
 import { handleThemeChange } from "../../Utils/SettingsUtils"
 
-const ThemeSwitch = () => {
-  const dispatch = useDispatch()
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme
-  )
-
+const ThemeSwitch = ({
+  dispatch,
+  colorTheme,
+}: {
+  dispatch: AppDispatch
+  colorTheme: string
+}) => {
   return (
     <FormGroup sx={{ display: "block" }}>
       <FormControlLabel

@@ -1,14 +1,17 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../Store"
+import { AppDispatch } from "../../Store"
 import { handleBioChange } from "../../Utils/SettingsUtils"
 import SaveIcon from "@mui/icons-material/Save"
+import { UserTypes } from "../../Types"
 
-const Bio = () => {
-  const dispatch = useDispatch()
-  const user = useSelector((state: RootState) => state.session.user)
-
+const Bio = ({
+  user,
+  dispatch,
+}: {
+  user: UserTypes
+  dispatch: AppDispatch
+}) => {
   const [bio, setBio] = useState(user?.bio || "")
   const initialBioValue = user?.bio || ""
   const [isBioChanged, setIsBioChanged] = useState(false)

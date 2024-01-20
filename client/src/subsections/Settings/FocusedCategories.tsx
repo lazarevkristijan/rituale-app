@@ -1,12 +1,10 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import EditIcon from "@mui/icons-material/Edit"
-import { useSelector } from "react-redux"
-import { RootState } from "../../Store"
 import FocusedCategoriesDialog from "../../components/SettingsComponents/FocusedCategoriesDialog"
+import { UserTypes } from "../../Types"
 
-const FocusedCategories = () => {
-  const user = useSelector((state: RootState) => state.session.user)
+const FocusedCategories = ({ user }: { user: UserTypes }) => {
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
 
   return (

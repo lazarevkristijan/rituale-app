@@ -6,15 +6,18 @@ import {
   Select,
   Typography,
 } from "@mui/material"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../Store"
+import { AppDispatch } from "../../Store"
 import { handleCountryChange } from "../../Utils/SettingsUtils"
 import { allCountries, countryShorthands } from "../../constants"
+import { UserTypes } from "../../Types"
 
-const CountrySelect = () => {
-  const dispatch = useDispatch()
-  const user = useSelector((state: RootState) => state.session.user)
-
+const CountrySelect = ({
+  user,
+  dispatch,
+}: {
+  user: UserTypes
+  dispatch: AppDispatch
+}) => {
   return (
     <>
       <FormControl fullWidth>
