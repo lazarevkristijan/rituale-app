@@ -7,7 +7,7 @@ export type HabitTypes = {
   difficulty: string
 }
 
-export type PreviewUserTypes = {
+export type UserTypes = {
   id: number
   email: string
   username: string

@@ -52,7 +52,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import { CategoryTypes } from "../Types"
 import { useQuery } from "react-query"
 import SaveIcon from "@mui/icons-material/Save"
-import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useNavigate } from "react-router-dom"
 import { getPfpLink, handlePfpDelete } from "../Utils/SettingsUtils"
@@ -62,7 +62,7 @@ const Settings = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(changeLocation(4))
+    dispatch(changeNavbarLocation(4))
   }, [dispatch])
 
   const { logout: auth0logout, isAuthenticated: auth0authenticated } =

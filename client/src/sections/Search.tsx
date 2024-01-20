@@ -12,7 +12,7 @@ import { useQuery } from "react-query"
 import { PreviewUserTypes } from "../Types"
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { defaultPfpURL } from "../constants"
 import { RootState } from "../Store"
 import { getUsers } from "../Utils/SearchUtils"
@@ -22,7 +22,7 @@ const Search = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(changeLocation(1))
+    dispatch(changeNavbarLocation(1))
   }, [dispatch])
 
   const { page: pageNoParams } = useParams()

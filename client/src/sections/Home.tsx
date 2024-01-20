@@ -2,7 +2,7 @@ import { Box, Button, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import type { RootState } from "../Store"
 import { useDispatch, useSelector } from "react-redux"
-import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect } from "react"
 
@@ -10,7 +10,7 @@ const Home = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(changeLocation(0))
+    dispatch(changeNavbarLocation(0))
   }, [dispatch])
 
   const { loginWithPopup: auth0login } = useAuth0()

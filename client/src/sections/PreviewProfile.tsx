@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
-import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import {
   Box,
   Breadcrumbs,
@@ -23,7 +23,7 @@ const PreviewProfile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    dispatch(changeLocation(1))
+    dispatch(changeNavbarLocation(1))
   }, [dispatch])
 
   const { username } = useParams()

@@ -5,9 +5,9 @@ import StarIcon from "@mui/icons-material/Star"
 import { useState } from "react"
 import PushPinIcon from "@mui/icons-material/PushPin"
 import HabitToggleButton from "./HabitToggleButton"
-import { handlePinHabit } from "../../Utils/HabitsUtils"
 import { changePinnedHabit } from "../../features/session/sessionSlice"
 import { HabitTypes } from "../../Types"
+import { handlePinHabit } from "../../Utils/HabitsUtils"
 
 const HabitCard = ({
   habit,

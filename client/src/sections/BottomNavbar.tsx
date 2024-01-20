@@ -5,7 +5,7 @@ import HomeIcon from "@mui/icons-material/Home"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
-import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import SearchIcon from "@mui/icons-material/Search"
 import { defaultPfpURL } from "../constants"
 import { useAuth0 } from "@auth0/auth0-react"
@@ -31,7 +31,7 @@ const BottomNavbar = () => {
     <BottomNavigation
       value={bottomNavLocation}
       onChange={(_e, newValue) => {
-        dispatch(changeLocation(newValue))
+        dispatch(changeNavbarLocation(newValue))
       }}
       sx={{
         position: "sticky",

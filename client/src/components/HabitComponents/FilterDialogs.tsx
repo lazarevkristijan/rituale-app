@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material"
 
-import { handleFilterChange, resetPage } from "../../Utils/HabitsUtils"
 import {
   FilterCategoriesTypes,
   FilterDifficultyTypes,
@@ -18,6 +17,7 @@ import {
 } from "../../Types"
 import { useNavigate } from "react-router-dom"
 import { FilterHabitCheckbox } from "./FilterHabitCheckbox"
+import { handleFilterChange, resetPage } from "../../Utils/HabitsUtils"
 
 const FilterDialogs = ({
   isCategoryFilterOpen,
