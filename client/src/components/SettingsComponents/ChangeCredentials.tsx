@@ -1,4 +1,10 @@
-import { Box, Button, TextField, Typography } from "@mui/material"
+import {
+  Box,
+  Button,
+  FormHelperText,
+  TextField,
+  Typography,
+} from "@mui/material"
 import { handleUserDataChange } from "../../Utils/SettingsUtils"
 import { useState } from "react"
 import { nameRegex, usernameRegex } from "../../Regex"
@@ -60,6 +66,18 @@ const ChangeCredentials = ({
             error={
               !nameRegex.test(userData.firstName) && changedFields.firstName
             }
+            helperText={
+              <FormHelperText
+                sx={{
+                  color: !nameRegex.test(userData.firstName) ? "red" : "",
+                  textAlign: "center",
+                }}
+              >
+                Max 50 characters,
+                <br />
+                uppercase and lowercase
+              </FormHelperText>
+            }
           />
           <TextField
             label="Last Name"
@@ -76,6 +94,18 @@ const ChangeCredentials = ({
               setUserData({ ...userData, lastName: capitalizedLastName })
             }}
             error={!nameRegex.test(userData.lastName) && changedFields.lastName}
+            helperText={
+              <FormHelperText
+                sx={{
+                  color: !nameRegex.test(userData.lastName) ? "red" : "",
+                  textAlign: "center",
+                }}
+              >
+                Max 50 characters,
+                <br />
+                uppercase and lowercase
+              </FormHelperText>
+            }
           />
           <TextField
             label="Username"
@@ -88,22 +118,45 @@ const ChangeCredentials = ({
               setUserData({ ...userData, username: e.target.value })
             }}
             error={
-              (userData.username.length < 2 || userData.username.length > 50) &&
-              changedFields.username
+              ((userData.username.length < 2 ||
+                userData.username.length > 50) &&
+                changedFields.username) ||
+              !usernameRegex.test(userData.username)
             }
-            helperText="Limit 1 - 50 characters"
+            helperText={
+              <FormHelperText
+                sx={{
+                  color: !usernameRegex.test(userData.username) ? "red" : "",
+                  textAlign: "center",
+                }}
+              >
+                Max 50 characters,
+                <br />
+                lowercase and numbers
+              </FormHelperText>
+            }
           />
         </Box>
       </Box>
       <Button
         type="submit"
         disabled={
-          (!nameRegex.test(userData.firstName) ||
-            userData.firstName === initialUserData.firstName) &&
-          (!nameRegex.test(userData.lastName) ||
-            userData.lastName === initialUserData.lastName) &&
-          (!usernameRegex.test(userData.username) ||
-            userData.username === initialUserData.username)
+          // (!nameRegex.test(userData.firstName) ||
+          //   userData.firstName === initialUserData.firstName) &&
+          // (!nameRegex.test(userData.lastName) ||
+          //   userData.lastName === initialUserData.lastName) &&
+          // (!usernameRegex.test(userData.username) ||
+          //   userData.username === initialUserData.username)
+
+          !nameRegex.test(userData.firstName) ||
+          !nameRegex.test(userData.lastName) ||
+          !usernameRegex.test(userData.username) ||
+          (nameRegex.test(userData.firstName) &&
+            initialUserData.firstName === userData.firstName &&
+            nameRegex.test(userData.lastName) &&
+            initialUserData.lastName === userData.lastName &&
+            usernameRegex.test(userData.username) &&
+            initialUserData.username === userData.username)
         }
         startIcon={<SaveIcon />}
       >
