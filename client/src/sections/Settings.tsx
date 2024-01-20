@@ -2,47 +2,25 @@ import {
   Box,
   Breadcrumbs,
   Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  InputLabel,
   Link,
-  MenuItem,
-  Select,
-  Switch,
   TextField,
   Typography,
 } from "@mui/material"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "../Store"
-import { addCategory, removeCategory } from "../features/session/sessionSlice"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { nameRegex, usernameRegex } from "../Regex"
-import { allCountries, countryShorthands } from "../constants"
-import EditIcon from "@mui/icons-material/Edit"
-import { CategoryTypes } from "../Types"
-import { useQuery } from "react-query"
 import SaveIcon from "@mui/icons-material/Save"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useNavigate } from "react-router-dom"
-import {
-  getHabitCategories,
-  handleChangePriorityCategory,
-  handleCountryChange,
-  handleThemeChange,
-  handleUserDataChange,
-  handleUserDelete,
-} from "../Utils/SettingsUtils"
+import { handleUserDataChange, handleUserDelete } from "../Utils/SettingsUtils"
 import SettingsLegalInfo from "../subsections/Settings/SettingsLegalInfo"
 import ProfilePicture from "../subsections/Settings/ProfilePicture"
 import Bio from "../subsections/Settings/Bio"
+import FocusedCategories from "../subsections/Settings/FocusedCategories"
+import ThemeSwitch from "../components/SettingsComponents/ThemeSwitch"
+import CountrySelect from "../components/SettingsComponents/CountrySelect"
 
 const Settings = () => {
   const dispatch = useDispatch()
@@ -60,9 +38,6 @@ const Settings = () => {
   }, [auth0authenticated, navigate])
 
   const user = useSelector((state: RootState) => state.session.user)
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme
-  )
 
   const [userData, setUserData] = useState({
     firstName: user?.first_name || "",
@@ -81,12 +56,6 @@ const Settings = () => {
     lastName: false,
     username: false,
   })
-
-  const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
-  const { data: habitCategoriesData } = useQuery(
-    "habit categories",
-    getHabitCategories
-  )
 
   if (!user) return
 
@@ -112,145 +81,15 @@ const Settings = () => {
         Settings that don't have a "SAVE CHANGES" button are auto saved
       </Typography>
       <br />
-      <br />
-
-      <SettingsLegalInfo />
-
       <ProfilePicture />
       <br />
       <Bio />
       <br />
-
-      <Box>
-        <Button
-          startIcon={<EditIcon />}
-          onClick={() => setIsCategoryDialogOpen(true)}
-        >
-          focused categories
-        </Button>
-        <Typography>
-          Current focused categories:{" "}
-          {user?.priority_category_1 && user.priority_category_1 + ", "}
-          {user?.priority_category_2 && user.priority_category_2 + ", "}
-          {user?.priority_category_3 && user?.priority_category_3}
-          {!user?.priority_category_1 &&
-            !user?.priority_category_2 &&
-            !user?.priority_category_3 &&
-            "None"}
-        </Typography>
-        <Dialog
-          open={isCategoryDialogOpen}
-          onClose={() => setIsCategoryDialogOpen(false)}
-          aria-labelledby="priority category selection dialog"
-        >
-          <DialogTitle>Select priorty categories</DialogTitle>
-          <DialogContent>
-            <Typography variant="caption">
-              Select a maximum of 3 categories you're focusing on
-            </Typography>
-            <FormGroup>
-              {habitCategoriesData?.map(
-                (category: CategoryTypes, index: number) => (
-                  <React.Fragment key={index}>
-                    <FormControlLabel
-                      label={category.category}
-                      control={
-                        <Checkbox
-                          checked={
-                            user?.priority_category_1 === category.category ||
-                            user?.priority_category_2 === category.category ||
-                            user?.priority_category_3 === category.category
-                          }
-                        />
-                      }
-                      onChange={() => {
-                        handleChangePriorityCategory(
-                          category.category,
-                          category.id,
-                          user
-                        )
-                        if (
-                          user?.priority_category_1 === category.category ||
-                          user?.priority_category_2 === category.category ||
-                          user?.priority_category_3 === category.category
-                        ) {
-                          dispatch(
-                            removeCategory(
-                              user?.priority_category_1 === category.category
-                                ? { category_1: category.category }
-                                : user?.priority_category_2 ===
-                                  category.category
-                                ? { category_2: category.category }
-                                : user.priority_category_3 === category.category
-                                ? { category_3: category.category }
-                                : ""
-                            )
-                          )
-                        } else {
-                          dispatch(addCategory(category.category))
-                        }
-                      }}
-                    />
-                    {index !== habitCategoriesData.length - 1 && <Divider />}
-                  </React.Fragment>
-                )
-              )}
-            </FormGroup>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              sx={{ width: "100%" }}
-              onClick={() => setIsCategoryDialogOpen(false)}
-            >
-              close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-      <FormGroup sx={{ display: "block" }}>
-        <FormControlLabel
-          control={<Switch />}
-          checked={colorTheme === "dark"}
-          label="Dark Mode"
-          labelPlacement="start"
-          onChange={() => handleThemeChange(colorTheme, dispatch)}
-        />
-      </FormGroup>
-
+      <FocusedCategories />
       <br />
-
-      <FormControl fullWidth>
-        <InputLabel>Country</InputLabel>
-        <Select
-          value={user?.country || ""}
-          onChange={(e) => handleCountryChange(e, dispatch)}
-        >
-          <MenuItem value="">SELECT</MenuItem>
-          {allCountries.map((country: string, index) => (
-            <MenuItem
-              key={index}
-              value={country}
-            >
-              {country}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Typography>
-        Current country: {user?.country || "None"}{" "}
-        {user?.country && (
-          <Box
-            component="img"
-            src={`/flags/${
-              countryShorthands[user?.country as keyof typeof countryShorthands]
-            }.svg`}
-            width={20}
-            height={20}
-            sx={{ verticalAlign: "middle" }}
-          />
-        )}
-      </Typography>
-
+      <ThemeSwitch />
+      <br />
+      <CountrySelect />
       <br />
 
       <form onSubmit={(e) => handleUserDataChange(e, userData, dispatch, user)}>
@@ -348,6 +187,7 @@ const Settings = () => {
       >
         delete profile
       </Button>
+      <SettingsLegalInfo />
     </Box>
   )
 }
