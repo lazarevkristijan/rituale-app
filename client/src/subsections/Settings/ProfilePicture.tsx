@@ -22,7 +22,7 @@ const ProfilePicture = ({
   const [pfpURL, setPfpURL] = useState("")
   useEffect(() => {
     if (user?.profile_picture) {
-      setPfpURL(getPfpLink(user?.profile_picture))
+      setPfpURL(getPfpLink(user.profile_picture))
     }
   }, [user?.profile_picture])
 

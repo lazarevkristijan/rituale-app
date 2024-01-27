@@ -26,7 +26,6 @@ export const handlePfpDelete = async (
     .then(() => {
       dispatch(changeProfilePicture(defaultPfpURL))
     })
-    .catch(() => {})
 }
 
 export const getPfpLink = (linkString: string) => {

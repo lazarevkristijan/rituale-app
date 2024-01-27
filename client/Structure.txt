@@ -1,15 +1,7 @@
-TODO:
-
-- Divide code in more and more components
-
+- Reusable section on preview profiles too
+- Add automatic check if username is valid
 - Finish UI
 ---
 - Stripe fix payment - after final deploy
-
-MUI components to use:
-Rating
-
-Accordion
-Drawer - side panel
 
 ENSURE SEMANTIC HTML IS USED EVERYWHERE 

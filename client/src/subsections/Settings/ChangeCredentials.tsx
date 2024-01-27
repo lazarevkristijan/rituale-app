@@ -141,13 +141,6 @@ const ChangeCredentials = ({
       <Button
         type="submit"
         disabled={
-          // (!nameRegex.test(userData.firstName) ||
-          //   userData.firstName === initialUserData.firstName) &&
-          // (!nameRegex.test(userData.lastName) ||
-          //   userData.lastName === initialUserData.lastName) &&
-          // (!usernameRegex.test(userData.username) ||
-          //   userData.username === initialUserData.username)
-
           !nameRegex.test(userData.firstName) ||
           !nameRegex.test(userData.lastName) ||
           !usernameRegex.test(userData.username) ||

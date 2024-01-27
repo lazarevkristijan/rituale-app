@@ -10,10 +10,10 @@ import ProfilePicture from "../subsections/Settings/ProfilePicture"
 import Bio from "../subsections/Settings/Bio"
 import FocusedCategories from "../subsections/Settings/FocusedCategories"
 import ThemeSwitch from "../components/SettingsComponents/ThemeSwitch"
-import CountrySelect from "../components/SettingsComponents/CountrySelect"
-import ChangeCredentials from "../components/SettingsComponents/ChangeCredentials"
-import DangerZone from "../components/SettingsComponents/DangerZone"
-import Top from "../components/SettingsComponents/Top"
+import CountrySelect from "../subsections/Settings/CountrySelect"
+import ChangeCredentials from "../subsections/Settings/ChangeCredentials"
+import DangerZone from "../subsections/Settings/DangerZone"
+import Top from "../subsections/Settings/Top"
 
 const Settings = () => {
   const dispatch = useDispatch()

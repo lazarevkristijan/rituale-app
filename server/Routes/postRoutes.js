@@ -23,7 +23,7 @@ export const postLoginOrRegister = async (req, res) => {
     LEFT JOIN habits as f ON a.pinned_habit = f.id
     WHERE email = ${email}`
 
-    if (existingUser.length) {
+    if (existingUser.length !== 0) {
       const token = jwt.sign({ userId: existingUser[0].id }, JWTsecret)
 
       const userTheme = await sql`

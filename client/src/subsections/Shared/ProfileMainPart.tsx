@@ -8,12 +8,15 @@ import { UserTypes } from "../../Types"
 import { useQuery } from "react-query"
 import { getAllHabits } from "../../Utils/ProfileUtils"
 
-const ProfileMainPart = ({ user }: { user: UserTypes }) => {
+const ProfileMainPart = ({
+  user,
+  completedHabits,
+}: {
+  user: UserTypes | undefined
+  completedHabits: number[]
+}) => {
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
-  )
-  const completedHabits = useSelector(
-    (state: RootState) => state.completedHabits
   )
 
   const { data: allHabits } = useQuery("get-all-habits", getAllHabits)
@@ -71,7 +74,7 @@ const ProfileMainPart = ({ user }: { user: UserTypes }) => {
               component="span"
               sx={{ fontWeight: "bold" }}
             >
-              {completedHabits.habits.length}{" "}
+              {completedHabits.length}{" "}
             </Typography>
             out of{" "}
             <Typography
@@ -97,17 +100,14 @@ const ProfileMainPart = ({ user }: { user: UserTypes }) => {
             <Box
               sx={{
                 width: `${Math.round(
-                  (completedHabits.habits.length / allHabits?.length) * 100
+                  (completedHabits.length / allHabits?.length) * 100
                 )}%`,
                 textAlign: "right",
                 bgcolor: "green",
                 borderRadius: 2,
               }}
             >
-              {Math.round(
-                (completedHabits.habits.length / allHabits?.length) * 100
-              )}
-              %
+              {Math.round((completedHabits.length / allHabits?.length) * 100)}%
             </Box>
           </Box>
           <Typography component="span">

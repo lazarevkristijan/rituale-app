@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react"
 import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { useQuery } from "react-query"
-import { PreviewUserTypes } from "../Types"
+import { UserTypes } from "../Types"
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
@@ -79,17 +79,17 @@ const Search = () => {
             }}
           >
             {allUsers &&
-            allUsers.filter((profile: PreviewUserTypes) =>
+            allUsers.filter((profile: UserTypes) =>
               profile.username.toLowerCase().includes(searchValue.toLowerCase())
             ).length !== 0
               ? allUsers
-                  .filter((profile: PreviewUserTypes) =>
+                  .filter((profile: UserTypes) =>
                     profile.username
                       .toLowerCase()
                       .includes(searchValue.toLowerCase())
                   )
                   .slice((Number(page) - 1) * 15, Number(page) * 15)
-                  .map((profile: PreviewUserTypes) => {
+                  .map((profile: UserTypes) => {
                     return (
                       <Box
                         sx={{
@@ -152,7 +152,7 @@ const Search = () => {
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Pagination
               count={Math.ceil(
-                allUsers.filter((profile: PreviewUserTypes) => {
+                allUsers.filter((profile: UserTypes) => {
                   return profile.username
                     .toLowerCase()
                     .includes(searchValue.toLowerCase())

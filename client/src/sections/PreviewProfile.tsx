@@ -1,23 +1,13 @@
 import axios from "axios"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
-import {
-  Box,
-  Breadcrumbs,
-  Chip,
-  Link,
-  Tooltip,
-  Typography,
-} from "@mui/material"
-import { RootState } from "../Store"
-import { countryShorthands, defaultPfpURL } from "../constants"
+import { Box } from "@mui/material"
 import { useQuery } from "react-query"
 import { ProfileSkeleton } from "../skeletons"
-import { PreviewUserTypes } from "../Types"
+import { UserTypes } from "../Types"
 import { useEffect } from "react"
-import { getPfpLink } from "../Utils/SettingsUtils"
-import { displayBio } from "../components/Shared/DisplayBio"
+import ProfileMainPart from "../subsections/Shared/ProfileMainPart"
 
 const PreviewProfile = () => {
   const dispatch = useDispatch()
@@ -28,11 +18,7 @@ const PreviewProfile = () => {
 
   const { username } = useParams()
 
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme
-  )
-
-  const getPreviewUser = async (): Promise<PreviewUserTypes> => {
+  const getPreviewUser = async (): Promise<UserTypes> => {
     return await axios
       .get(`http://localhost:5432/user/${username}`)
       .then((response) => {
@@ -64,127 +50,10 @@ const PreviewProfile = () => {
         <ProfileSkeleton />
       ) : (
         <>
-          <Typography variant="h3">
-            {previewUser?.username}'s Profile
-          </Typography>
-          <Breadcrumbs separator=">">
-            <Link
-              underline="hover"
-              href="/search"
-            >
-              Search
-            </Link>
-            <Typography>Profile preview </Typography>
-          </Breadcrumbs>
-          <Box
-            sx={{
-              bgcolor: `primary.${colorTheme}`,
-              borderRadius: 1,
-              p: 1,
-              mb: 2,
-              display: "flex",
-              height: 300,
-            }}
-          >
-            <Box width="50%">
-              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                <Box
-                  sx={{
-                    background: `url('${getPfpLink(
-                      previewUser?.profile_picture || defaultPfpURL
-                    )}') no-repeat center/cover #fff`,
-                    width: 100,
-                    height: 100,
-                    borderRadius: 20,
-                    border: "3px solid black",
-                  }}
-                ></Box>
-                <Typography
-                  sx={{ alignSelf: "center", ml: 1, display: "flex" }}
-                >
-                  {previewUser?.first_name} <br />
-                  {previewUser?.last_name} <br />
-                  {previewUser?.country || "NO COUNTRY"}
-                </Typography>
-                <Tooltip
-                  title="User No."
-                  placement="bottom"
-                  arrow
-                  sx={{ ml: 1 }}
-                >
-                  <Chip
-                    label={`#${previewUser?.id}`}
-                    color="primary"
-                    component="span"
-                  />
-                </Tooltip>
-              </Box>
-              <Typography>
-                Good Habits:{" "}
-                <Typography component="span">
-                  {previewCompletedHabits.length}
-                </Typography>
-              </Typography>
-              <Typography component="span">
-                Main Goals:{" "}
-                {!previewUser?.priority_category_1 &&
-                  !previewUser?.priority_category_2 &&
-                  !previewUser?.priority_category_3 &&
-                  "None"}{" "}
-              </Typography>
-              {previewUser?.priority_category_1 && (
-                <Chip
-                  label={previewUser?.priority_category_1}
-                  color="primary"
-                  component="span"
-                  sx={{ ml: 1 }}
-                />
-              )}
-              {previewUser?.priority_category_2 && (
-                <Chip
-                  label={previewUser?.priority_category_2}
-                  color="primary"
-                  component="span"
-                  sx={{ ml: 1 }}
-                />
-              )}
-              {previewUser?.priority_category_3 && (
-                <Chip
-                  label={previewUser?.priority_category_3}
-                  color="primary"
-                  component="span"
-                  sx={{ ml: 1 }}
-                />
-              )}
-              <br />
-              <br />
-              <Typography component="p">
-                {displayBio(previewUser?.bio)}
-              </Typography>
-            </Box>
-
-            <Box
-              width="50%"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {previewUser?.country && (
-                <Box
-                  component="img"
-                  src={`/flags/${
-                    countryShorthands[
-                      previewUser?.country as keyof typeof countryShorthands
-                    ]
-                  }.svg`}
-                  width={150}
-                  height={150}
-                />
-              )}
-            </Box>
-          </Box>
+          <ProfileMainPart
+            user={previewUser}
+            completedHabits={previewCompletedHabits}
+          />
         </>
       )}
     </Box>

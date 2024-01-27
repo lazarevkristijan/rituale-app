@@ -27,6 +27,10 @@ const Profile = () => {
 
   const user = useSelector((state: RootState) => state.session.user)
 
+  const completedHabits = useSelector(
+    (state: RootState) => state.completedHabits
+  )
+
   if (!user) return
 
   return (
@@ -35,7 +39,10 @@ const Profile = () => {
         <ProfileSkeleton />
       ) : (
         <>
-          <ProfileMainPart user={user} />
+          <ProfileMainPart
+            user={user}
+            completedHabits={completedHabits.habits}
+          />
           <ProfileAuthPart
             navigate={navigate}
             dispatch={dispatch}
