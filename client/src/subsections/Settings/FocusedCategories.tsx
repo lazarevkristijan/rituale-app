@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { useState } from "react"
 import EditIcon from "@mui/icons-material/Edit"
 import FocusedCategoriesDialog from "../../components/SettingsComponents/FocusedCategoriesDialog"
@@ -6,6 +6,7 @@ import { UserTypes } from "../../Types"
 
 const FocusedCategories = ({ user }: { user: UserTypes }) => {
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   return (
     <Box>
@@ -15,6 +16,7 @@ const FocusedCategories = ({ user }: { user: UserTypes }) => {
       >
         focused categories
       </Button>
+      {isSaving && <CircularProgress size={15} />}
       <Typography>
         Current focused categories:{" "}
         {user?.priority_category_1 && user.priority_category_1 + ", "}
@@ -28,6 +30,7 @@ const FocusedCategories = ({ user }: { user: UserTypes }) => {
       <FocusedCategoriesDialog
         isCategoryDialogOpen={isCategoryDialogOpen}
         setIsCategoryDialogOpen={setIsCategoryDialogOpen}
+        setIsSaving={setIsSaving}
       />
     </Box>
   )

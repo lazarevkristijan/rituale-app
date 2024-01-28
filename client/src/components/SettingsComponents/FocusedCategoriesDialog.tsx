@@ -27,9 +27,11 @@ import { RootState } from "../../Store"
 const FocusedCategoriesDialog = ({
   isCategoryDialogOpen,
   setIsCategoryDialogOpen,
+  setIsSaving,
 }: {
   isCategoryDialogOpen: boolean
   setIsCategoryDialogOpen: (value: React.SetStateAction<boolean>) => void
+  setIsSaving: (value: React.SetStateAction<boolean>) => void
 }) => {
   const dispatch = useDispatch()
 
@@ -69,6 +71,8 @@ const FocusedCategoriesDialog = ({
                     />
                   }
                   onChange={async () => {
+                    setIsSaving(true)
+
                     await handleChangePriorityCategory(
                       category.category,
                       category.id,
@@ -95,6 +99,7 @@ const FocusedCategoriesDialog = ({
                         } else {
                           dispatch(addCategory(category.category))
                         }
+                        setIsSaving(false)
                       }
                     })
                   }}
