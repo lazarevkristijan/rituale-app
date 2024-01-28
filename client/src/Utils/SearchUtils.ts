@@ -1,19 +1,28 @@
 import axios from "axios"
 import { UserTypes } from "../Types"
 import { NavigateFunction } from "react-router-dom"
+import { sendNotification } from "./SharedUtils"
+import { errorMsgEnding } from "../constants"
 
 export const getUsers = async () => {
-  const res = await axios.get("http://localhost:5432/all-users", {
-    withCredentials: true,
-  })
-  return res.data
+  const res = await axios
+    .get("http://localhost:5432/all-users", {
+      withCredentials: true,
+    })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
+  return res
 }
 
 export const getPreviewUser = async (
   username: string | undefined,
   navigate: NavigateFunction
 ): Promise<UserTypes> => {
-  return await axios
+  const res = await axios
     .get(`http://localhost:5432/user/${username}`)
     .then((response) => {
       if (response.data) {
@@ -22,14 +31,21 @@ export const getPreviewUser = async (
         return navigate("/not-found")
       }
     })
+    .catch((error) =>
+      sendNotification(`${error.response.data.error} ${errorMsgEnding}`)
+    )
+  return res
 }
 
 export const getPreviewCompletedHabits = async (
   username: string | undefined
 ) => {
-  const res = await axios.get(
-    `http://localhost:5432/preview-completed-habits/${username}`
-  )
+  const res = await axios
+    .get(`http://localhost:5432/preview-completed-habits/${username}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
 
-  return res.data
+  return res
 }
