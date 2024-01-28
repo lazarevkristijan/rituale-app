@@ -5,6 +5,9 @@ export const initialBlogData = {
   image_url: "",
 }
 
+export const errorMsgEnding =
+  "if error persists contact at lazarevkristijan@gmail.com"
+
 export const defaultPfpURL = "https://i.postimg.cc/G3YzpRnB/ritualelogo.png"
 
 export const allCountries = [

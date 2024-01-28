@@ -6,6 +6,8 @@ import { addHabit } from "../features/completedHabits/completedHabitsSlice"
 import { changeColorTheme } from "../features/settings/settingsSlice"
 import { User } from "@auth0/auth0-react"
 import { PaletteMode, createTheme } from "@mui/material"
+import { sendNotification } from "./SharedUtils"
+import { errorMsgEnding } from "../constants"
 
 export const postLoginOrRegister = (
   auth0User: User | undefined,
@@ -53,6 +55,7 @@ export const postLoginOrRegister = (
           setIsLoading(false)
         })
     })
+    .catch(() => sendNotification(`Error when logging in ${errorMsgEnding}`))
 }
 
 export const checkCookieConsent = (
@@ -67,6 +70,11 @@ export const checkCookieConsent = (
         setShowCookieConsentDialog(true)
       }
     })
+    .catch(() =>
+      sendNotification(
+        `Error when showing cookie consent dialog ${errorMsgEnding}`
+      )
+    )
 }
 
 export const createMuiTheme = (colorTheme: PaletteMode) =>
