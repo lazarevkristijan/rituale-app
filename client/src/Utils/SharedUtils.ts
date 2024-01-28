@@ -1,8 +1,7 @@
-export const sendNotification = (message: string) => {
+export const sendNotification = (message: string, success: boolean = false) => {
   const notification = document.createElement("div")
 
-  notification.style.backgroundColor = "red"
-
+  notification.style.backgroundColor = success ? "green" : "red"
   notification.style.padding = "10px"
 
   notification.style.minWidth = "150px"

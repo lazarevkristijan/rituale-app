@@ -55,7 +55,7 @@ export const postLoginOrRegister = (
           setIsLoading(false)
         })
     })
-    .catch(() => sendNotification(`Error when logging in ${errorMsgEnding}`))
+    .catch(() => sendNotification(`Error when logging in, ${errorMsgEnding}`))
 }
 
 export const checkCookieConsent = (
@@ -72,7 +72,7 @@ export const checkCookieConsent = (
     })
     .catch(() =>
       sendNotification(
-        `Error when showing cookie consent dialog ${errorMsgEnding}`
+        `Error when showing cookie consent dialog, ${errorMsgEnding}`
       )
     )
 }
