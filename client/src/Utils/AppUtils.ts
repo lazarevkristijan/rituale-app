@@ -88,3 +88,21 @@ export const createMuiTheme = (colorTheme: PaletteMode) =>
       },
     },
   })
+
+export const handleCookieAccept = (
+  setShowCookieConsentDialog: (value: React.SetStateAction<boolean>) => void
+) => {
+  setShowCookieConsentDialog(false)
+  axios
+    .get("http://localhost:5432/accept-consent-cookies", {
+      withCredentials: true,
+      url: "https://rituale.digital",
+    })
+    .then(() => {
+      setShowCookieConsentDialog(false)
+    })
+    .catch((error) => {
+      setShowCookieConsentDialog(true)
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
+}
