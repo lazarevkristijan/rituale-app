@@ -68,31 +68,35 @@ const FocusedCategoriesDialog = ({
                       }
                     />
                   }
-                  onChange={() => {
-                    handleChangePriorityCategory(
+                  onChange={async () => {
+                    await handleChangePriorityCategory(
                       category.category,
                       category.id,
                       user
-                    )
-                    if (
-                      user?.priority_category_1 === category.category ||
-                      user?.priority_category_2 === category.category ||
-                      user?.priority_category_3 === category.category
-                    ) {
-                      dispatch(
-                        removeCategory(
-                          user?.priority_category_1 === category.category
-                            ? { category_1: category.category }
-                            : user?.priority_category_2 === category.category
-                            ? { category_2: category.category }
-                            : user.priority_category_3 === category.category
-                            ? { category_3: category.category }
-                            : ""
-                        )
-                      )
-                    } else {
-                      dispatch(addCategory(category.category))
-                    }
+                    ).then((response) => {
+                      if (response === "success") {
+                        if (
+                          user?.priority_category_1 === category.category ||
+                          user?.priority_category_2 === category.category ||
+                          user?.priority_category_3 === category.category
+                        ) {
+                          dispatch(
+                            removeCategory(
+                              user?.priority_category_1 === category.category
+                                ? { category_1: category.category }
+                                : user?.priority_category_2 ===
+                                  category.category
+                                ? { category_2: category.category }
+                                : user.priority_category_3 === category.category
+                                ? { category_3: category.category }
+                                : ""
+                            )
+                          )
+                        } else {
+                          dispatch(addCategory(category.category))
+                        }
+                      }
+                    })
                   }}
                 />
                 {index !== habitCategoriesData.length - 1 && <Divider />}

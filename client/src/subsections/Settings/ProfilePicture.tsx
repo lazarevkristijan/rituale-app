@@ -154,7 +154,11 @@ const ProfilePicture = ({
       </form>
       <Button
         onClick={() =>
-          handlePfpDelete(user?.profile_picture || defaultPfpURL, dispatch)
+          handlePfpDelete(
+            user?.profile_picture || defaultPfpURL,
+            dispatch,
+            false
+          )
         }
         disabled={
           !user?.profile_picture || user.profile_picture === defaultPfpURL

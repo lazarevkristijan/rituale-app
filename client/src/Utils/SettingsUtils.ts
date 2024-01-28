@@ -6,15 +6,17 @@ import {
   login,
 } from "../features/session/sessionSlice"
 import { AppDispatch } from "../Store"
-import { defaultPfpURL } from "../constants"
+import { defaultPfpURL, errorMsgEnding } from "../constants"
 import { changeColorTheme } from "../features/settings/settingsSlice"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { UserTypes } from "../Types"
 import { SelectChangeEvent } from "@mui/material"
+import { sendNotification } from "./SharedUtils"
 
 export const handlePfpDelete = async (
   userPfp: string,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  replace: boolean
 ) => {
   const pfpFileName = getPfpFileName(userPfp)
   await axios
@@ -23,8 +25,14 @@ export const handlePfpDelete = async (
       withCredentials: true,
       data: JSON.stringify({ pfpFileName: pfpFileName }),
     })
-    .then(() => {
-      dispatch(changeProfilePicture(defaultPfpURL))
+    .then((response) => {
+      if (!replace) {
+        dispatch(changeProfilePicture(defaultPfpURL))
+      }
+      sendNotification(response.data.success, true)
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
 }
 
@@ -69,6 +77,9 @@ export const handleThemeChange = (
         document.body.style.backgroundColor = "#fff"
       }
     })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
 }
 
 export const handleUserDelete = async (
@@ -77,17 +88,21 @@ export const handleUserDelete = async (
   auth0logout: () => void
 ) => {
   if (pfp) {
-    await handlePfpDelete(pfp, dispatch)
+    await handlePfpDelete(pfp, dispatch, false)
   }
 
   await axios
     .delete(`http://localhost:5432/delete-user`, { withCredentials: true })
-    .then(() => {
+    .then((response) => {
       dispatch(changeColorTheme("light"))
       document.body.style.backgroundColor = "#fff"
 
       dispatch(clearHabits())
       auth0logout()
+      sendNotification(response.data.success, true)
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
 }
 
@@ -117,6 +132,9 @@ export const handleUserDataChange = (
     .then((response) => {
       dispatch(login({ ...user, ...response.data }))
     })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
 }
 
 export const handleCountryChange = (
@@ -135,8 +153,12 @@ export const handleCountryChange = (
         withCredentials: true,
       }
     )
-    .then(() => {
+    .then((response) => {
       dispatch(changeCountry(e.target.value))
+      sendNotification(response.data.success, true)
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
 }
 
@@ -154,15 +176,26 @@ export const handleBioChange = (
         withCredentials: true,
       }
     )
-    .then(() => {
+    .then((response) => {
       dispatch(changeBio(bio))
       setIsBioChanged(false)
+      sendNotification(response.data.success, true)
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
 }
 
 export const getHabitCategories = async () => {
-  const res = await axios.get("http://localhost:5432/all-habit-categories")
-  return res.data
+  const res = await axios
+    .get("http://localhost:5432/all-habit-categories")
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
+  return res
 }
 
 export const handleChangePriorityCategory = async (
@@ -184,34 +217,54 @@ export const handleChangePriorityCategory = async (
     categoryData.cat2 === categoryData.catToChange ||
     categoryData.cat3 === categoryData.catToChange
   ) {
-    await axios.patch(
-      `http://localhost:5432/remove-priority-category`,
-      JSON.stringify(
-        categoryData.cat1 === categoryData.catToChange
-          ? { category_1: categoryData.cat1 }
-          : categoryData.cat2 === categoryData.catToChange
-          ? { category_2: categoryData.cat2 }
-          : categoryData.cat3 === categoryData.catToChange
-          ? { category_3: categoryData.cat3 }
-          : ""
-      ),
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
-    )
+    const res = await axios
+      .patch(
+        `http://localhost:5432/remove-priority-category`,
+        JSON.stringify(
+          categoryData.cat1 === categoryData.catToChange
+            ? { category_1: categoryData.cat1 }
+            : categoryData.cat2 === categoryData.catToChange
+            ? { category_2: categoryData.cat2 }
+            : categoryData.cat3 === categoryData.catToChange
+            ? { category_3: categoryData.cat3 }
+            : ""
+        ),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        sendNotification(response.data.success, true)
+        return "success"
+      })
+      .catch((error) => {
+        sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+        return "error"
+      })
+    return res
   } else {
     if (categoryData.cat1 && categoryData.cat2 && categoryData.cat3) {
-      return
+      return sendNotification("Maximum 3 categories is allowed")
     }
-    await axios.patch(
-      `http://localhost:5432/add-priority-category`,
-      JSON.stringify(categoryData),
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
-    )
+    const res = await axios
+      .patch(
+        `http://localhost:5432/add-priority-category`,
+        JSON.stringify(categoryData),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        sendNotification(response.data.success, true)
+        return "success"
+      })
+      .catch((error) => {
+        sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+        return "error"
+      })
+    return res
   }
 }
 
@@ -225,7 +278,7 @@ export const handleProfilePictureChange = async (
   e.preventDefault()
 
   if (user?.profile_picture) {
-    handlePfpDelete(user.profile_picture, dispatch)
+    handlePfpDelete(user.profile_picture, dispatch, true)
   }
 
   if (profilePicture) {
@@ -245,8 +298,11 @@ export const handleProfilePictureChange = async (
       .then((res) => {
         dispatch(changeProfilePicture(res.data))
       })
+      .catch((error) =>
+        sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+      )
   } else {
-    console.error("no file selected")
+    sendNotification("No file selected")
   }
   setProfilePicture(null)
 }

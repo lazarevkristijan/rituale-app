@@ -208,7 +208,7 @@ export const getAllHabitCategories = async (req, res) => {
     return res.json(categories)
   } catch (error) {
     console.error("Error is: ", error)
-    return res.status(500).json({ error: "Error getting all categories" })
+    return res.status(500).json({ error: "Error getting all habit categories" })
   }
 }
 
