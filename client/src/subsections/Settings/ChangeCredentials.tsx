@@ -50,6 +50,7 @@ const ChangeCredentials = ({
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{ flexDirection: "row" }}>
           <TextField
+            autoComplete="off"
             label="First Name"
             sx={{ mb: 1 }}
             value={userData.firstName}
@@ -80,6 +81,7 @@ const ChangeCredentials = ({
             }
           />
           <TextField
+            autoComplete="off"
             label="Last Name"
             value={userData.lastName}
             sx={{ mb: 1 }}
@@ -108,6 +110,7 @@ const ChangeCredentials = ({
             }
           />
           <TextField
+            autoComplete="off"
             label="Username"
             value={userData.username}
             sx={{ mb: 1 }}

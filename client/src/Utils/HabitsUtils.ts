@@ -30,9 +30,8 @@ export const removeHabitApi = (habitId: number, dispatch: AppDispatch) => {
       withCredentials: true,
       data: JSON.stringify(habitToToggle(habitId)),
     })
-    .then((response) => {
+    .then(() => {
       dispatch(removeHabit(habitId))
-      sendNotification(response.data.success, true)
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -49,10 +48,9 @@ export const addHabitApi = (habitId: number, dispatch: AppDispatch) => {
         withCredentials: true,
       }
     )
-    .then((response) => {
+    .then(() => {
       const arrayId = [habitId]
       dispatch(addHabit(arrayId))
-      sendNotification(response.data.success, true)
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -96,9 +94,6 @@ export const handlePinHabit = (habitId: number | null) => {
         withCredentials: true,
       }
     )
-    .then((response) => {
-      sendNotification(response.data.success, true)
-    })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })

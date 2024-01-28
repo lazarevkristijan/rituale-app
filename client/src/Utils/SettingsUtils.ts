@@ -28,8 +28,8 @@ export const handlePfpDelete = async (
     .then((response) => {
       if (!replace) {
         dispatch(changeProfilePicture(defaultPfpURL))
+        sendNotification(response.data.success, true)
       }
-      sendNotification(response.data.success, true)
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -76,6 +76,7 @@ export const handleThemeChange = (
       } else {
         document.body.style.backgroundColor = "#fff"
       }
+      sendNotification("Successfully changed theme", true)
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -131,6 +132,7 @@ export const handleUserDataChange = (
     )
     .then((response) => {
       dispatch(login({ ...user, ...response.data }))
+      sendNotification("Successfully changed credentials", true)
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -273,9 +275,11 @@ export const handleProfilePictureChange = async (
   profilePicture: File | null,
   setProfilePicture: (value: React.SetStateAction<File | null>) => void,
   user: UserTypes,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  setIsUploading: (value: React.SetStateAction<boolean>) => void
 ) => {
   e.preventDefault()
+  setIsUploading(true)
 
   if (user?.profile_picture) {
     handlePfpDelete(user.profile_picture, dispatch, true)
@@ -297,10 +301,13 @@ export const handleProfilePictureChange = async (
       )
       .then((res) => {
         dispatch(changeProfilePicture(res.data))
+        sendNotification("Successfully changed profile picture", true)
+        setIsUploading(false)
       })
-      .catch((error) =>
+      .catch((error) => {
         sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
-      )
+        setIsUploading(false)
+      })
   } else {
     sendNotification("No file selected")
   }

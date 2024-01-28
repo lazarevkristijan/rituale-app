@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import {
   getPfpLink,
   handleFileChange,
@@ -29,21 +29,24 @@ const ProfilePicture = ({
   const [supportedError, setSupportedError] = useState(false)
   const [sizeError, setSizeError] = useState(false)
 
+  const [isUploading, setIsUploading] = useState(false)
+
   if (!user) return
 
   return (
     <Box>
       <Typography>Profile picture</Typography>
       <form
-        onSubmit={(e) =>
+        onSubmit={(e) => {
           handleProfilePictureChange(
             e,
             profilePicture,
             setProfilePicture,
             user,
-            dispatch
+            dispatch,
+            setIsUploading
           )
-        }
+        }}
         encType="multipart/form-data"
       >
         <Box
@@ -150,6 +153,7 @@ const ProfilePicture = ({
           disabled={!profilePicture}
         >
           submit
+          {isUploading && <CircularProgress size={15} />}
         </Button>
       </form>
       <Button
