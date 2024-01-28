@@ -119,9 +119,11 @@ export const handleUserDataChange = (
   e: React.FormEvent<HTMLFormElement>,
   userData: LocalUserDataTypes,
   dispatch: AppDispatch,
-  user: UserTypes
+  user: UserTypes,
+  setIsUpdating: (value: React.SetStateAction<boolean>) => void
 ) => {
   e.preventDefault()
+  setIsUpdating(true)
 
   axios
     .patch(
@@ -139,6 +141,7 @@ export const handleUserDataChange = (
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
+    .finally(() => setIsUpdating(false))
 }
 
 export const handleCountryChange = (
@@ -166,7 +169,8 @@ export const handleCountryChange = (
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
-    }).finally(()=> setIsUpdating(false))
+    })
+    .finally(() => setIsUpdating(false))
 }
 
 export const handleBioChange = (

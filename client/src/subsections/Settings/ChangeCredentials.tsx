@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormHelperText,
   TextField,
   Typography,
@@ -37,10 +38,16 @@ const ChangeCredentials = ({
     username: false,
   })
 
+  const [isUpdating, setIsUpdating] = useState(false)
+
   if (!user) return
 
   return (
-    <form onSubmit={(e) => handleUserDataChange(e, userData, dispatch, user)}>
+    <form
+      onSubmit={(e) =>
+        handleUserDataChange(e, userData, dispatch, user, setIsUpdating)
+      }
+    >
       <Typography
         component="h3"
         sx={{ fontSize: 35 }}
@@ -158,6 +165,7 @@ const ChangeCredentials = ({
       >
         save changes
       </Button>
+      {isUpdating && <CircularProgress size={15} />}
     </form>
   )
 }
