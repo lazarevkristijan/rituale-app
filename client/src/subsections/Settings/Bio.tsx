@@ -16,7 +16,7 @@ const Bio = ({
   const initialBioValue = user?.bio || ""
   const [isBioChanged, setIsBioChanged] = useState(false)
 
-  const [isSaving, setIsSaving] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   return (
     <Box>
@@ -55,14 +55,14 @@ const Bio = ({
 
       <Button
         onClick={() =>
-          handleBioChange(bio, dispatch, setIsBioChanged, setIsSaving)
+          handleBioChange(bio, dispatch, setIsBioChanged, setIsUpdating)
         }
         disabled={!isBioChanged}
         startIcon={<SaveIcon />}
       >
         save changes
       </Button>
-      {isSaving && <CircularProgress size={15} />}
+      {isUpdating && <CircularProgress size={15} />}
     </Box>
   )
 }

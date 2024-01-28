@@ -56,11 +56,12 @@ export const getPfpFileName = (linkString: string) => {
   }
 }
 
-export const handleThemeChange = (
+export const handleThemeChange = async (
   colorTheme: string,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  setIsUpdating: (value: React.SetStateAction<boolean>) => void
 ) => {
-  axios
+  await axios
     .patch(
       `http://localhost:5432/user-settings/change-theme`,
       JSON.stringify({ theme: colorTheme === "dark" ? "light" : "dark" }),
@@ -81,6 +82,7 @@ export const handleThemeChange = (
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
+    .finally(() => setIsUpdating(false))
 }
 
 export const handleUserDelete = async (
@@ -168,11 +170,10 @@ export const handleBioChange = (
   bio: string,
   dispatch: AppDispatch,
   setIsBioChanged: (value: React.SetStateAction<boolean>) => void,
-  setIsSaving: (value: React.SetStateAction<boolean>) => void,
-
+  setIsUpdating: (value: React.SetStateAction<boolean>) => void
 ) => {
-setIsSaving(true)
-  
+  setIsUpdating(true)
+
   axios
     .patch(
       `http://localhost:5432/user-settings/change-bio`,
@@ -185,12 +186,12 @@ setIsSaving(true)
     .then((response) => {
       dispatch(changeBio(bio))
       setIsBioChanged(false)
-      setIsSaving(false)
       sendNotification(response.data.success, true)
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
+    .finally(() => setIsUpdating(false))
 }
 
 export const getHabitCategories = async () => {

@@ -6,7 +6,7 @@ import { UserTypes } from "../../Types"
 
 const FocusedCategories = ({ user }: { user: UserTypes }) => {
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   return (
     <Box>
@@ -16,7 +16,7 @@ const FocusedCategories = ({ user }: { user: UserTypes }) => {
       >
         focused categories
       </Button>
-      {isSaving && <CircularProgress size={15} />}
+      {isUpdating && <CircularProgress size={15} />}
       <Typography>
         Current focused categories:{" "}
         {user?.priority_category_1 && user.priority_category_1 + ", "}
@@ -30,7 +30,7 @@ const FocusedCategories = ({ user }: { user: UserTypes }) => {
       <FocusedCategoriesDialog
         isCategoryDialogOpen={isCategoryDialogOpen}
         setIsCategoryDialogOpen={setIsCategoryDialogOpen}
-        setIsSaving={setIsSaving}
+        setIsUpdating={setIsUpdating}
       />
     </Box>
   )
