@@ -30,7 +30,7 @@ const ProfilePicture = ({
   const [sizeError, setSizeError] = useState(false)
 
   const [isUploading, setIsUploading] = useState(false)
-
+  const [isDeleting, setIsDeleting] = useState(false)
   if (!user) return
 
   return (
@@ -157,19 +157,24 @@ const ProfilePicture = ({
         </Button>
       </form>
       <Button
-        onClick={() =>
+        onClick={() => {
+          setIsDeleting(true)
+
           handlePfpDelete(
             user?.profile_picture || defaultPfpURL,
             dispatch,
             false
           )
-        }
+            .then(() => setIsDeleting(false))
+            .catch(() => setIsDeleting(false))
+        }}
         disabled={
           !user?.profile_picture || user.profile_picture === defaultPfpURL
         }
       >
         delete pfp
       </Button>
+      {isDeleting && <CircularProgress size={15} />}
     </Box>
   )
 }
