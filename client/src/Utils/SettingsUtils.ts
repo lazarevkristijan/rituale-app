@@ -143,8 +143,11 @@ export const handleUserDataChange = (
 
 export const handleCountryChange = (
   e: SelectChangeEvent,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  setIsUpdating: (value: React.SetStateAction<boolean>) => void
 ) => {
+  setIsUpdating(true)
+
   if (!e.target.value) {
     return console.error("e target is empty")
   }
@@ -163,7 +166,7 @@ export const handleCountryChange = (
     })
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
-    })
+    }).finally(()=> setIsUpdating(false))
 }
 
 export const handleBioChange = (

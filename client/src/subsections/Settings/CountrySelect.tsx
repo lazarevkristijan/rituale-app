@@ -1,15 +1,15 @@
 import {
-  Box,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Typography,
 } from "@mui/material"
 import { AppDispatch } from "../../Store"
 import { handleCountryChange } from "../../Utils/SettingsUtils"
-import { allCountries, countryShorthands } from "../../constants"
+import { allCountries } from "../../constants"
 import { UserTypes } from "../../Types"
+import { useState } from "react"
 
 const CountrySelect = ({
   user,
@@ -18,13 +18,17 @@ const CountrySelect = ({
   user: UserTypes
   dispatch: AppDispatch
 }) => {
+  const [isUpdating, setIsUpdating] = useState(false)
+
   return (
     <>
       <FormControl fullWidth>
         <InputLabel>Country</InputLabel>
         <Select
           value={user?.country || ""}
-          onChange={(e) => handleCountryChange(e, dispatch)}
+          onChange={(e) => {
+            handleCountryChange(e, dispatch, setIsUpdating)
+          }}
         >
           <MenuItem value="">SELECT</MenuItem>
           {allCountries.map((country: string, index) => (
@@ -36,21 +40,8 @@ const CountrySelect = ({
             </MenuItem>
           ))}
         </Select>
+        {isUpdating && <CircularProgress size={15} />}
       </FormControl>
-      <Typography>
-        Current country: {user?.country || "None"}{" "}
-        {user?.country && (
-          <Box
-            component="img"
-            src={`/flags/${
-              countryShorthands[user?.country as keyof typeof countryShorthands]
-            }.svg`}
-            width={20}
-            height={20}
-            sx={{ verticalAlign: "middle" }}
-          />
-        )}
-      </Typography>
     </>
   )
 }
