@@ -88,8 +88,11 @@ export const handleThemeChange = async (
 export const handleUserDelete = async (
   pfp: string | undefined,
   dispatch: AppDispatch,
-  auth0logout: () => void
+  auth0logout: () => void,
+  setIsDeleting: (value: React.SetStateAction<boolean>) => void
 ) => {
+  setIsDeleting(true)
+
   if (pfp) {
     await handlePfpDelete(pfp, dispatch, false)
   }
@@ -107,6 +110,7 @@ export const handleUserDelete = async (
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
+    .finally(() => setIsDeleting(false))
 }
 
 type LocalUserDataTypes = {
