@@ -45,7 +45,7 @@ export const patchChangeCreds = async (req, res) => {
       })
     } else if (username.length < 2 || username.length > 50) {
       return res.status(400).json({
-        error: "Username must be longer than 1 and shorter than 30 characters",
+        error: "Username must be longer than 2 and shorter than 50 characters",
       })
     }
 
@@ -66,6 +66,14 @@ export const patchChangeCreds = async (req, res) => {
       updatedUser = { ...updatedUser, last_name: lastName }
     }
     if (user[0].username !== username) {
+      const existingUsername = await sql`
+      SELECT * FROM users
+      WHERE username = ${username}`
+
+      if (existingUsername.length !== 0) {
+        return res.status(401).json({ error: "Username not available" })
+      }
+
       await sql`
       UPDATE users
       SET username = ${username}

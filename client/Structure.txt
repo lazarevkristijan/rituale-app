@@ -1,5 +1,3 @@
-- Reusable section on preview profiles too
-- danger zone dialog on delete
 - Add automatic check if username is valid
 - Finish UI
 ---

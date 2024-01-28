@@ -237,3 +237,22 @@ export const getAllBlogs = async (req, res) => {
     return res.status(500).json({ error: "Error getting all blogs" })
   }
 }
+
+export const getCheckUsernameAvailability = async (req, res) => {
+  try {
+    const { username } = req.params
+
+    const existingUsername = await sql`
+    SELECT * FROM users
+    WHERE username = ${username}`
+
+    if (existingUsername.length !== 0) {
+      return res.status(401).json({ error: "Username not available" })
+    } else {
+      return res.json({ success: "Username available" })
+    }
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error getting all blogs" })
+  }
+}

@@ -340,3 +340,11 @@ export const handleFileChange = (
     setProfilePicture(file)
   }
 }
+
+export const checkUsernameAvail = async (username: string) => {
+  const res = await axios
+    .get(`http://localhost:5432/check-username-availability/${username}`)
+    .then((response) => response.status)
+    .catch((error) => error.response.status)
+  return res
+}

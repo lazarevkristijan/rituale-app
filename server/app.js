@@ -21,6 +21,7 @@ import {
   getAllUsers,
   getCookieConsent,
   getAcceptConsentCookies,
+  getCheckUsernameAvailability,
 } from "./Routes/getRoutes.js"
 import {
   postAddBlog,
@@ -104,6 +105,7 @@ app.patch("/user-settings/change-theme", verifyToken, patchChangeTheme)
 app.patch("/user-settings/change-country", verifyToken, patchChangeCountry)
 app.patch("/user-settings/change-bio", verifyToken, patchChangeBio)
 app.patch("/user-settings/change-creds", verifyToken, patchChangeCreds)
+app.get("/check-username-availability/:username", getCheckUsernameAvailability)
 app.patch(
   "/user-settings/change-profile-picture",
   verifyToken,

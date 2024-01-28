@@ -6,12 +6,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import { handleUserDataChange } from "../../Utils/SettingsUtils"
+import {
+  checkUsernameAvail,
+  handleUserDataChange,
+} from "../../Utils/SettingsUtils"
 import { useState } from "react"
 import { nameRegex, usernameRegex } from "../../Regex"
 import SaveIcon from "@mui/icons-material/Save"
 import { UserTypes } from "../../Types"
 import { AppDispatch } from "../../Store"
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"
+import CancelIcon from "@mui/icons-material/Cancel"
 
 const ChangeCredentials = ({
   user,
@@ -39,6 +44,9 @@ const ChangeCredentials = ({
   })
 
   const [isUpdating, setIsUpdating] = useState(false)
+
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState(true)
+  console.log(isUsernameAvailable)
 
   if (!user) return
 
@@ -125,7 +133,20 @@ const ChangeCredentials = ({
               if (!changedFields.username) {
                 setChangedFields({ ...changedFields, username: true })
               }
+
               setUserData({ ...userData, username: e.target.value })
+              if (
+                changedFields.username &&
+                e.target.value !== initialUserData.username &&
+                usernameRegex.test(userData.username)
+              ) {
+                console.log(e.target.value)
+                checkUsernameAvail(e.target.value).then((response) =>
+                  response === 401
+                    ? setIsUsernameAvailable(false)
+                    : setIsUsernameAvailable(true)
+                )
+              }
             }}
             error={
               ((userData.username.length < 2 ||
@@ -146,6 +167,14 @@ const ChangeCredentials = ({
               </FormHelperText>
             }
           />
+          {changedFields.username &&
+            userData.username !== initialUserData.username &&
+            usernameRegex.test(userData.username) &&
+            (isUsernameAvailable ? (
+              <CheckCircleIcon color="success" />
+            ) : (
+              <CancelIcon color="error" />
+            ))}
         </Box>
       </Box>
       <Button
@@ -159,7 +188,8 @@ const ChangeCredentials = ({
             nameRegex.test(userData.lastName) &&
             initialUserData.lastName === userData.lastName &&
             usernameRegex.test(userData.username) &&
-            initialUserData.username === userData.username)
+            initialUserData.username === userData.username) ||
+          !isUsernameAvailable
         }
         startIcon={<SaveIcon />}
       >
