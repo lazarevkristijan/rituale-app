@@ -1,13 +1,12 @@
-import axios from "axios"
 import { useDispatch } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { Box } from "@mui/material"
 import { useQuery } from "react-query"
 import { ProfileSkeleton } from "../skeletons"
-import { UserTypes } from "../Types"
 import { useEffect } from "react"
 import ProfileMainPart from "../subsections/Shared/ProfileMainPart"
+import { getPreviewCompletedHabits, getPreviewUser } from "../Utils/SearchUtils"
 
 const PreviewProfile = () => {
   const dispatch = useDispatch()
@@ -18,31 +17,15 @@ const PreviewProfile = () => {
 
   const { username } = useParams()
 
-  const getPreviewUser = async (): Promise<UserTypes> => {
-    return await axios
-      .get(`http://localhost:5432/user/${username}`)
-      .then((response) => {
-        if (response.data) {
-          return response.data
-        } else {
-          return navigate("/not-found")
-        }
-      })
-  }
   const { data: previewUser, isLoading: isUserLoading } = useQuery(
     "preview-user-profile",
-    getPreviewUser
+    () => getPreviewUser(username, navigate)
   )
 
-  const getPreviewCompletedHabits = async () => {
-    const res = await axios.get(
-      `http://localhost:5432/preview-completed-habits/${username}`
-    )
-
-    return res.data
-  }
   const { data: previewCompletedHabits, isLoading: areCompletedHabitsLoading } =
-    useQuery("get-external-completed-habits", getPreviewCompletedHabits)
+    useQuery("get-external-completed-habits", () =>
+      getPreviewCompletedHabits(username)
+    )
 
   return (
     <Box>
