@@ -39,6 +39,7 @@ const Blog = ({
           height: 150,
           borderTopRightRadius: 8,
           borderTopLeftRadius: 8,
+          border: "1px solid black",
         }}
       ></Box>
 

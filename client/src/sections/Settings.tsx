@@ -65,6 +65,7 @@ const Settings = () => {
       <ChangeCredentials
         user={user}
         dispatch={dispatch}
+        colorTheme={colorTheme}
       />
       <br />
       <DangerZone />

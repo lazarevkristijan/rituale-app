@@ -15,15 +15,15 @@ import { nameRegex, usernameRegex } from "../../Regex"
 import SaveIcon from "@mui/icons-material/Save"
 import { UserTypes } from "../../Types"
 import { AppDispatch } from "../../Store"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import CancelIcon from "@mui/icons-material/Cancel"
 
 const ChangeCredentials = ({
   user,
   dispatch,
+  colorTheme,
 }: {
   user: UserTypes
   dispatch: AppDispatch
+  colorTheme: string
 }) => {
   const [userData, setUserData] = useState({
     firstName: user?.first_name || "",
@@ -46,7 +46,6 @@ const ChangeCredentials = ({
   const [isUpdating, setIsUpdating] = useState(false)
 
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(true)
-  console.log(isUsernameAvailable)
 
   if (!user) return
 
@@ -164,17 +163,50 @@ const ChangeCredentials = ({
                 Max 50 characters,
                 <br />
                 lowercase and numbers
+                {changedFields.username &&
+                userData.username !== initialUserData.username &&
+                usernameRegex.test(userData.username) ? (
+                  isUsernameAvailable ? (
+                    <Typography
+                      component="span"
+                      variant="caption"
+                      color={colorTheme === "dark" ? "#3ffc6e" : "#00751d"}
+                      fontWeight="700"
+                    >
+                      <br />
+                      username available
+                    </Typography>
+                  ) : (
+                    <Typography
+                      component="span"
+                      variant="caption"
+                      color={colorTheme === "dark" ? "#ffb3b3" : "#fc3838"}
+                      fontWeight="700"
+                    >
+                      <br />
+                      username not available
+                    </Typography>
+                  )
+                ) : (
+                  ""
+                )}
               </FormHelperText>
             }
           />
-          {changedFields.username &&
+          {/* {changedFields.username &&
             userData.username !== initialUserData.username &&
             usernameRegex.test(userData.username) &&
             (isUsernameAvailable ? (
-              <CheckCircleIcon color="success" />
+              <>
+                <Typography>Username available</Typography>
+                <CheckCircleIcon color="success" />
+              </>
             ) : (
-              <CancelIcon color="error" />
-            ))}
+              <>
+                <Typography>Username not available</Typography>
+                <CancelIcon color="error" />
+              </>
+            ))} */}
         </Box>
       </Box>
       <Button
