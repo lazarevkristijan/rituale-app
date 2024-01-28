@@ -167,8 +167,12 @@ export const handleCountryChange = (
 export const handleBioChange = (
   bio: string,
   dispatch: AppDispatch,
-  setIsBioChanged: (value: React.SetStateAction<boolean>) => void
+  setIsBioChanged: (value: React.SetStateAction<boolean>) => void,
+  setIsSaving: (value: React.SetStateAction<boolean>) => void,
+
 ) => {
+setIsSaving(true)
+  
   axios
     .patch(
       `http://localhost:5432/user-settings/change-bio`,
@@ -181,6 +185,7 @@ export const handleBioChange = (
     .then((response) => {
       dispatch(changeBio(bio))
       setIsBioChanged(false)
+      setIsSaving(false)
       sendNotification(response.data.success, true)
     })
     .catch((error) => {

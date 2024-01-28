@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { useState } from "react"
 import { AppDispatch } from "../../Store"
 import { handleBioChange } from "../../Utils/SettingsUtils"
@@ -15,6 +15,8 @@ const Bio = ({
   const [bio, setBio] = useState(user?.bio || "")
   const initialBioValue = user?.bio || ""
   const [isBioChanged, setIsBioChanged] = useState(false)
+
+  const [isSaving, setIsSaving] = useState(false)
 
   return (
     <Box>
@@ -52,12 +54,15 @@ const Bio = ({
       </Box>
 
       <Button
-        onClick={() => handleBioChange(bio, dispatch, setIsBioChanged)}
+        onClick={() =>
+          handleBioChange(bio, dispatch, setIsBioChanged, setIsSaving)
+        }
         disabled={!isBioChanged}
         startIcon={<SaveIcon />}
       >
         save changes
       </Button>
+      {isSaving && <CircularProgress size={15} />}
     </Box>
   )
 }
