@@ -23,8 +23,7 @@ const Settings = () => {
     dispatch(changeNavbarLocation(4))
   }, [dispatch])
 
-  const { logout: auth0logout, isAuthenticated: auth0authenticated } =
-    useAuth0()
+  const { isAuthenticated: auth0authenticated } = useAuth0()
 
   useEffect(() => {
     !auth0authenticated && navigate("/")
@@ -68,11 +67,7 @@ const Settings = () => {
         dispatch={dispatch}
       />
       <br />
-      <DangerZone
-        user={user}
-        dispatch={dispatch}
-        auth0logout={auth0logout}
-      />
+      <DangerZone />
       <br />
 
       <SettingsLegalInfo />
