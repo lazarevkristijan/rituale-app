@@ -26,7 +26,6 @@ import {
   postAddBlog,
   postCompleteHabit,
   postLoginOrRegister,
-  postRemoveHabit,
 } from "./Routes/postRoutes.js"
 import {
   patchAddPriorityCategory,
@@ -41,6 +40,7 @@ import {
 import {
   deleteBlog,
   deleteProfilePicture,
+  deleteRemoveHabit,
   deleteUser,
 } from "./Routes/deleteRoutes.js"
 import multer from "multer"
@@ -87,7 +87,7 @@ app.get("/all-completed-habits", getAllCompletedHabits)
 app.get("/preview-completed-habits/:username", getPreviewCompletedHabits)
 
 app.post("/complete-habit", verifyToken, postCompleteHabit)
-app.post("/remove-habit", verifyToken, postRemoveHabit)
+app.delete("/remove-habit", verifyToken, deleteRemoveHabit)
 app.get("/reset-habit-progress", verifyToken, getResetHabitProgress)
 app.patch("/pin-habit", verifyToken, patchPinHabit)
 

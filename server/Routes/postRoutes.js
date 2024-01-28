@@ -99,21 +99,6 @@ export const postCompleteHabit = async (req, res) => {
   }
 }
 
-export const postRemoveHabit = async (req, res) => {
-  try {
-    const { habitId } = req.body
-    const userId = req.userId
-
-    await sql`
-    DELETE FROM completed_habits
-    WHERE user_id = ${userId} AND habit_id = ${habitId}`
-    return res.json({ success: "Successfully removed habit" })
-  } catch (error) {
-    console.error("Error is: ", error)
-    return res.status(500).json({ error: "Error when removing habit" })
-  }
-}
-
 export const postAddBlog = async (req, res) => {
   try {
     const userId = req.userId

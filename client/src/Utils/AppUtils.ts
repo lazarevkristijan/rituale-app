@@ -70,11 +70,9 @@ export const checkCookieConsent = (
         setShowCookieConsentDialog(true)
       }
     })
-    .catch(() =>
-      sendNotification(
-        `Error when showing cookie consent dialog, ${errorMsgEnding}`
-      )
-    )
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
 }
 
 export const createMuiTheme = (colorTheme: PaletteMode) =>
