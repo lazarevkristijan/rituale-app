@@ -172,7 +172,7 @@ const ProfilePicture = ({
           !user?.profile_picture || user.profile_picture === defaultPfpURL
         }
       >
-        delete pfp
+        delete
       </Button>
       {isDeleting && <CircularProgress size={15} />}
     </Box>
