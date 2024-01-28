@@ -3,6 +3,8 @@ import { AppDispatch } from "../Store"
 import { clearHabits } from "../features/completedHabits/completedHabitsSlice"
 import { logout } from "../features/session/sessionSlice"
 import { changeColorTheme } from "../features/settings/settingsSlice"
+import { sendNotification } from "./SharedUtils"
+import { errorMsgEnding } from "../constants"
 
 export const handleLogout = async (
   dispatch: AppDispatch,
@@ -16,6 +18,13 @@ export const handleLogout = async (
 }
 
 export const getAllHabits = async () => {
-  const res = await axios.get("http://localhost:5432/all-habits")
-  return res.data
+  const res = await axios
+    .get("http://localhost:5432/all-habits")
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
+  return res
 }
