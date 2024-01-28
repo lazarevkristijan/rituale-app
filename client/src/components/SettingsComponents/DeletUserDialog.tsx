@@ -45,7 +45,7 @@ const DeletUserDialog = ({
               )
             }
           >
-            delete user
+            delete account
           </Button>
           <Button onClick={() => setIsDialogOpen(false)}>cancel</Button>
         </DialogActions>

@@ -14,7 +14,7 @@ const DangerZone = () => {
       >
         Danger Zone
       </Typography>
-      <Button onClick={() => setIsDialogOpen(true)}>delete profile</Button>
+      <Button onClick={() => setIsDialogOpen(true)}>delete account</Button>
       {isDeleting && <CircularProgress size={15} />}
       <DeletUserDialog
         isDialogOpen={isDialogOpen}
