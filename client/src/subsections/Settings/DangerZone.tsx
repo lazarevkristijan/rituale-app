@@ -1,19 +1,10 @@
 import { Button, CircularProgress, Typography } from "@mui/material"
-import { handleUserDelete } from "../../Utils/SettingsUtils"
-import { AppDispatch } from "../../Store"
-import { UserTypes } from "../../Types"
 import { useState } from "react"
+import DeletUserDialog from "../../components/SettingsComponents/DeletUserDialog"
 
-const DangerZone = ({
-  user,
-  dispatch,
-  auth0logout,
-}: {
-  user: UserTypes
-  dispatch: AppDispatch
-  auth0logout: () => void
-}) => {
+const DangerZone = () => {
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   return (
     <>
@@ -23,19 +14,13 @@ const DangerZone = ({
       >
         Danger Zone
       </Typography>
-      <Button
-        onDoubleClick={() =>
-          handleUserDelete(
-            user?.profile_picture,
-            dispatch,
-            auth0logout,
-            setIsDeleting
-          )
-        }
-      >
-        delete profile
-      </Button>
+      <Button onClick={() => setIsDialogOpen(true)}>delete profile</Button>
       {isDeleting && <CircularProgress size={15} />}
+      <DeletUserDialog
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        setIsDeleting={setIsDeleting}
+      />
     </>
   )
 }
