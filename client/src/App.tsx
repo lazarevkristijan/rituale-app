@@ -67,6 +67,13 @@ const App = () => {
         <MainLoadingScreen />
       ) : (
         <ThemeProvider theme={theme}>
+          <Box
+            bgcolor="red"
+            color="#000"
+            textAlign="center"
+          >
+            This is a work in progress project. Issues will occur!
+          </Box>
           <CssBaseline enableColorScheme />
           <Container sx={{ minHeight: "100vh", mt: 2 }}>
             <Routes>

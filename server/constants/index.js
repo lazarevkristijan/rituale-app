@@ -1,4 +1,4 @@
 export const cookieOptions = {
-  domain: "localhost",
+  domain: ".rituale.digital",
   path: "/",
 }
