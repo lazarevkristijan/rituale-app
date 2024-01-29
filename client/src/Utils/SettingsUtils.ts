@@ -20,11 +20,14 @@ export const handlePfpDelete = async (
 ) => {
   const pfpFileName = getPfpFileName(userPfp)
   await axios
-    .delete(`http://localhost:5432/user-settings/delete-profile-picture`, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-      data: JSON.stringify({ pfpFileName: pfpFileName }),
-    })
+    .delete(
+      `https://api.rituale.digital/user-settings/delete-profile-picture`,
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+        data: JSON.stringify({ pfpFileName: pfpFileName }),
+      }
+    )
     .then((response) => {
       if (!replace) {
         dispatch(changeProfilePicture(defaultPfpURL))
@@ -63,7 +66,7 @@ export const handleThemeChange = async (
 ) => {
   await axios
     .patch(
-      `http://localhost:5432/user-settings/change-theme`,
+      `https://api.rituale.digital/user-settings/change-theme`,
       JSON.stringify({ theme: colorTheme === "dark" ? "light" : "dark" }),
       {
         headers: { "Content-Type": "application/json" },
@@ -98,7 +101,9 @@ export const handleUserDelete = async (
   }
 
   await axios
-    .delete(`http://localhost:5432/delete-user`, { withCredentials: true })
+    .delete(`https://api.rituale.digital/delete-user`, {
+      withCredentials: true,
+    })
     .then((response) => {
       dispatch(changeColorTheme("light"))
       document.body.style.backgroundColor = "#fff"
@@ -131,7 +136,7 @@ export const handleUserDataChange = (
 
   axios
     .patch(
-      `http://localhost:5432/user-settings/change-creds`,
+      `https://api.rituale.digital/user-settings/change-creds`,
       JSON.stringify(userData),
       {
         headers: { "Content-Type": "application/json" },
@@ -160,7 +165,7 @@ export const handleCountryChange = (
   }
   axios
     .patch(
-      `http://localhost:5432/user-settings/change-country`,
+      `https://api.rituale.digital/user-settings/change-country`,
       JSON.stringify({ country: e.target.value }),
       {
         headers: { "Content-Type": "application/json" },
@@ -187,7 +192,7 @@ export const handleBioChange = (
 
   axios
     .patch(
-      `http://localhost:5432/user-settings/change-bio`,
+      `https://api.rituale.digital/user-settings/change-bio`,
       JSON.stringify({ bio: bio }),
       {
         headers: { "Content-Type": "application/json" },
@@ -207,7 +212,7 @@ export const handleBioChange = (
 
 export const getHabitCategories = async () => {
   const res = await axios
-    .get("http://localhost:5432/all-habit-categories")
+    .get("https://api.rituale.digital/all-habit-categories")
     .then((response) => {
       return response.data
     })
@@ -238,7 +243,7 @@ export const handleChangePriorityCategory = async (
   ) {
     const res = await axios
       .patch(
-        `http://localhost:5432/remove-priority-category`,
+        `https://api.rituale.digital/remove-priority-category`,
         JSON.stringify(
           categoryData.cat1 === categoryData.catToChange
             ? { category_1: categoryData.cat1 }
@@ -268,7 +273,7 @@ export const handleChangePriorityCategory = async (
     }
     const res = await axios
       .patch(
-        `http://localhost:5432/add-priority-category`,
+        `https://api.rituale.digital/add-priority-category`,
         JSON.stringify(categoryData),
         {
           headers: { "Content-Type": "application/json" },
@@ -307,7 +312,7 @@ export const handleProfilePictureChange = async (
     formData.append("profilePicture", profilePicture)
     axios
       .patch(
-        `http://localhost:5432/user-settings/change-profile-picture`,
+        `https://api.rituale.digital/user-settings/change-profile-picture`,
         formData,
         {
           headers: {
@@ -343,7 +348,7 @@ export const handleFileChange = (
 
 export const checkUsernameAvail = async (username: string) => {
   const res = await axios
-    .get(`http://localhost:5432/check-username-availability/${username}`)
+    .get(`https://api.rituale.digital/check-username-availability/${username}`)
     .then((response) => response.status)
     .catch((error) => error.response.status)
   return res

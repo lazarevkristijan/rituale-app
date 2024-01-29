@@ -25,7 +25,7 @@ const habitToToggle = (habitId: number) => {
 
 export const removeHabitApi = (habitId: number, dispatch: AppDispatch) => {
   axios
-    .delete("http://localhost:5432/remove-habit", {
+    .delete("https://api.rituale.digital/remove-habit", {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
       data: JSON.stringify(habitToToggle(habitId)),
@@ -59,7 +59,7 @@ export const addHabitApi = (habitId: number, dispatch: AppDispatch) => {
 
 export const getHabits = async () => {
   const res = await axios
-    .get("http://localhost:5432/all-habits")
+    .get("https://api.rituale.digital/all-habits")
     .then((response) => response.data)
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -85,7 +85,7 @@ export const handleToggleHabit = (
 export const handlePinHabit = (habitId: number | null) => {
   axios
     .patch(
-      "http://localhost:5432/pin-habit",
+      "https://api.rituale.digital/pin-habit",
       JSON.stringify({ habitId: habitId }),
       {
         headers: {
