@@ -1,4 +1,4 @@
-import { getPfpFileName } from "./getPfpFileName"
+import { getPfpFileName } from "./SettingsUtils"
 import axios from "axios"
 import { changeProfilePicture } from "../features/session/sessionSlice"
 import { AppDispatch } from "../Store"

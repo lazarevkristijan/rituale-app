@@ -1,5 +1,6 @@
 import axios from "axios"
 import { BlogDataTypes } from "../Types"
+import React from "react"
 
 export const getAllFinishedProfiles = async () => {
   const res = await axios.get(
