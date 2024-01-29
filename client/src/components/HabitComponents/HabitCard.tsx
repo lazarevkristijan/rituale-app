@@ -66,6 +66,7 @@ const HabitCard = ({
               : habit.difficulty === "Medium"
               ? `warning.${colorTheme}`
               : `error.${colorTheme}`,
+
           color: "#000",
           width: 300,
           borderRadius: 2,

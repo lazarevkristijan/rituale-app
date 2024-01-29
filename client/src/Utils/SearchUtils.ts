@@ -6,7 +6,7 @@ import { errorMsgEnding } from "../constants"
 
 export const getUsers = async () => {
   const res = await axios
-    .get("https://api.rituale.digital/all-users", {
+    .get("http://localhost:5432/all-users", {
       withCredentials: true,
     })
     .then((response) => {
@@ -23,7 +23,7 @@ export const getPreviewUser = async (
   navigate: NavigateFunction
 ): Promise<UserTypes> => {
   const res = await axios
-    .get(`https://api.rituale.digital/user/${username}`)
+    .get(`http://localhost:5432/user/${username}`)
     .then((response) => {
       if (response.data) {
         return response.data
@@ -41,7 +41,7 @@ export const getPreviewCompletedHabits = async (
   username: string | undefined
 ) => {
   const res = await axios
-    .get(`https://api.rituale.digital/preview-completed-habits/${username}`)
+    .get(`http://localhost:5432/preview-completed-habits/${username}`)
     .then((response) => response.data)
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)

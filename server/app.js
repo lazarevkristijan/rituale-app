@@ -55,7 +55,7 @@ const port = process.env.DB_PORT || 3001
 
 app.use(
   cors({
-    origin: "https://www.rituale.digital",
+    origin: "http://localhost:5173",
     methods: "GET,PUT,PATCH,POST,DELETE",
     credentials: true,
   })

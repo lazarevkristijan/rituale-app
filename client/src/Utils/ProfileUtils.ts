@@ -19,7 +19,7 @@ export const handleLogout = async (
 
 export const getAllHabits = async () => {
   const res = await axios
-    .get("https://api.rituale.digital/all-habits")
+    .get("http://localhost:5432/all-habits")
     .then((response) => {
       return response.data
     })
