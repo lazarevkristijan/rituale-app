@@ -4,6 +4,7 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import dotenv from "dotenv"
 import { verifyToken } from "./middleware/verifyToken.js"
+import { checkAccess } from "./middleware/checkAccess.js"
 import {
   getAllBlogs,
   getAllCompletedHabits,
@@ -47,7 +48,6 @@ import {
 import multer from "multer"
 import { storage } from "./cloudinary/index.js"
 const upload = multer({ storage })
-
 dotenv.config()
 
 const app = express()
@@ -62,6 +62,7 @@ app.use(
 )
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(checkAccess)
 
 // GENERAL
 app.get("/", getRoot)
