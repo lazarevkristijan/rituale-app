@@ -1,7 +1,7 @@
 export const checkAccess = (req, res, next) => {
   const clientDomain = req.get("origin")
 
-  const allowedDomains = ["https://rituale.digital"]
+  const allowedDomains = ["https://www.rituale.digital"]
 
   if (allowedDomains.includes(clientDomain)) {
     next()
