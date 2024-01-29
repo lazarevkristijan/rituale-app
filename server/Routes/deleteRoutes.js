@@ -47,7 +47,7 @@ export const deleteProfilePicture = async (req, res) => {
 
     await sql`
     UPDATE users
-    SET profile_picture = 'https://drive.google.com/uc?id=18he4mgr-Nu_RE4btnjEfi7B-_pAwu5MO'
+    SET profile_picture = 'https://i.postimg.cc/G3YzpRnB/ritualelogo.png'
     WHERE id = ${userId}`
 
     if (picturePath) {
@@ -60,5 +60,20 @@ export const deleteProfilePicture = async (req, res) => {
     return res
       .status(500)
       .json({ error: "Error when deleting profile picture" })
+  }
+}
+
+export const deleteRemoveHabit = async (req, res) => {
+  try {
+    const { habitId } = req.body
+    const userId = req.userId
+
+    await sql`
+    DELETE FROM completed_habits
+    WHERE user_id = ${userId} AND habit_id = ${habitId}`
+    return res.json({ success: "Successfully removed habit" })
+  } catch (error) {
+    console.error("Error is: ", error)
+    return res.status(500).json({ error: "Error when removing habit" })
   }
 }

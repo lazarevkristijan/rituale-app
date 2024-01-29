@@ -3,7 +3,6 @@ import { SettingsSliceTypes } from "../../Types"
 
 const initialState: SettingsSliceTypes = {
   colorTheme: "light",
-  language: "en",
 }
 
 export const settingsSlice = createSlice({
@@ -13,12 +12,9 @@ export const settingsSlice = createSlice({
     changeColorTheme: (state, action) => {
       state.colorTheme = action.payload
     },
-    changeLanguage: (state, action) => {
-      state.language = action.payload
-    },
   },
 })
 
-export const { changeColorTheme, changeLanguage } = settingsSlice.actions
+export const { changeColorTheme } = settingsSlice.actions
 
 export default settingsSlice.reducer

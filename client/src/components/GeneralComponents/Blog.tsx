@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
-import { RootState } from "../Store"
-import { BlogRemoveButton } from "../subsections/General/BlogAdminSection"
+import { RootState } from "../../Store"
+import { BlogRemoveButton } from "../../subsections/General/BlogAdminSection"
 
 const Blog = ({
   id,
@@ -39,6 +39,7 @@ const Blog = ({
           height: 150,
           borderTopRightRadius: 8,
           borderTopLeftRadius: 8,
+          border: "1px solid black",
         }}
       ></Box>
 

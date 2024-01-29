@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
 import { useDispatch } from "react-redux"
-import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useNavigate } from "react-router-dom"
 import HomeIcon from "@mui/icons-material/Home"
 import LoginIcon from "@mui/icons-material/Login"
@@ -12,7 +12,7 @@ const NotFound = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    dispatch(changeLocation(0))
+    dispatch(changeNavbarLocation(0))
   }, [dispatch])
 
   const { loginWithPopup: auth0login, isAuthenticated: auth0authenticated } =

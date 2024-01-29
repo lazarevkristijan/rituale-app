@@ -7,7 +7,7 @@ export type HabitTypes = {
   difficulty: string
 }
 
-export type PreviewUserTypes = {
+export type UserTypes = {
   id: number
   email: string
   username: string
@@ -91,7 +91,6 @@ export type BottomNavSliceTypes = {
 
 export type SettingsSliceTypes = {
   colorTheme: string
-  language: string
 }
 
 export type SessionSliceTypes = {

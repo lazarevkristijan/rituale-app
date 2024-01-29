@@ -9,12 +9,12 @@ export const bottomNavSlice = createSlice({
   name: "value",
   initialState,
   reducers: {
-    changeLocation: (state, action: PayloadAction<number>) => {
+    changeNavbarLocation: (state, action: PayloadAction<number>) => {
       state.value = action.payload
     },
   },
 })
 
-export const { changeLocation } = bottomNavSlice.actions
+export const { changeNavbarLocation } = bottomNavSlice.actions
 
 export default bottomNavSlice.reducer

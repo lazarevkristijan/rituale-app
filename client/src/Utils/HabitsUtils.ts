@@ -13,6 +13,8 @@ import {
   HabitFilterTypes,
   HabitTypes,
 } from "../Types"
+import { sendNotification } from "./SharedUtils"
+import { errorMsgEnding } from "../constants"
 
 const habitToToggle = (habitId: number) => {
   return {
@@ -20,18 +22,19 @@ const habitToToggle = (habitId: number) => {
     date: new Date().toISOString().split("T")[0],
   }
 }
+
 export const removeHabitApi = (habitId: number, dispatch: AppDispatch) => {
   axios
-    .post(
-      "https://api.rituale.digital/remove-habit",
-      JSON.stringify(habitToToggle(habitId)),
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
-    )
+    .delete("http://localhost:5432/remove-habit", {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+      data: JSON.stringify(habitToToggle(habitId)),
+    })
     .then(() => {
       dispatch(removeHabit(habitId))
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
 }
 
@@ -49,11 +52,19 @@ export const addHabitApi = (habitId: number, dispatch: AppDispatch) => {
       const arrayId = [habitId]
       dispatch(addHabit(arrayId))
     })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
 }
 
 export const getHabits = async () => {
-  const res = await axios.get("https://api.rituale.digital/all-habits")
-  return res.data
+  const res = await axios
+    .get("http://localhost:5432/all-habits")
+    .then((response) => response.data)
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
+  return res
 }
 
 export const handleToggleHabit = (
@@ -72,16 +83,20 @@ export const handleToggleHabit = (
 }
 
 export const handlePinHabit = (habitId: number | null) => {
-  axios.patch(
-    "https://api.rituale.digital/pin-habit",
-    JSON.stringify({ habitId: habitId }),
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    }
-  )
+  axios
+    .patch(
+      "http://localhost:5432/pin-habit",
+      JSON.stringify({ habitId: habitId }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    )
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
 }
 export const resetPage = (
   navigate: NavigateFunction,
@@ -98,7 +113,13 @@ export const handleResetHabits = (dispatch: AppDispatch) => {
     .get("https://api.rituale.digital/reset-habit-progress", {
       withCredentials: true,
     })
-    .then(() => dispatch(clearHabits()))
+    .then((response) => {
+      dispatch(clearHabits())
+      sendNotification(response.data.success, true)
+    })
+    .catch((error) => {
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
+    })
 }
 
 export const filterByCategory = (

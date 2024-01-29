@@ -1,27 +1,14 @@
-export const defaultPfpURL = "https://i.postimg.cc/G3YzpRnB/ritualelogo.png"
+export const initialBlogData = {
+  title: "",
+  author: "",
+  link: "",
+  image_url: "",
+}
 
-export const languages = [
-  {
-    fullName: "English",
-    shortHand: "en",
-  },
-  {
-    fullName: "Spanish",
-    shortHand: "es",
-  },
-  {
-    fullName: "Italian",
-    shortHand: "it",
-  },
-  {
-    fullName: "German",
-    shortHand: "de",
-  },
-  {
-    fullName: "French",
-    shortHand: "fr",
-  },
-]
+export const errorMsgEnding =
+  "if error persists contact at lazarevkristijan@gmail.com"
+
+export const defaultPfpURL = "https://i.postimg.cc/G3YzpRnB/ritualelogo.png"
 
 export const allCountries = [
   "Andorra",

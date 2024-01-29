@@ -23,7 +23,7 @@ export const postLoginOrRegister = async (req, res) => {
     LEFT JOIN habits as f ON a.pinned_habit = f.id
     WHERE email = ${email}`
 
-    if (existingUser.length) {
+    if (existingUser.length !== 0) {
       const token = jwt.sign({ userId: existingUser[0].id }, JWTsecret)
 
       const userTheme = await sql`
@@ -96,21 +96,6 @@ export const postCompleteHabit = async (req, res) => {
   } catch (error) {
     console.error("Error is: ", error)
     return res.status(500).json({ error: "Error when completing habit" })
-  }
-}
-
-export const postRemoveHabit = async (req, res) => {
-  try {
-    const { habitId } = req.body
-    const userId = req.userId
-
-    await sql`
-    DELETE FROM completed_habits
-    WHERE user_id = ${userId} AND habit_id = ${habitId}`
-    return res.json({ success: "Successfully removed habit" })
-  } catch (error) {
-    console.error("Error is: ", error)
-    return res.status(500).json({ error: "Error when removing habit" })
   }
 }
 

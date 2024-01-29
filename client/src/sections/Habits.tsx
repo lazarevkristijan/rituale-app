@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { useEffect, useState } from "react"
 import HabitsSkeleton from "../skeletons/HabitsSkeleton"
-import { changeLocation } from "../features/bottomNav/bottomNavSlice"
+import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useNavigate, useParams } from "react-router-dom"
 import {
   filterHabits,
@@ -23,7 +23,7 @@ const Habits = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    dispatch(changeLocation(2))
+    dispatch(changeNavbarLocation(2))
   }, [dispatch])
 
   const { page: pageNoParams } = useParams()

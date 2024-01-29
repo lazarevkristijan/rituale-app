@@ -40,14 +40,12 @@ export const patchChangeCreds = async (req, res) => {
       !nameRegex.test(lastName) ||
       !usernameRegex.test(username)
     ) {
-      return res
-        .status(401)
-        .json({
-          error: "First name, last name or username have invalid format",
-        })
+      return res.status(401).json({
+        error: "First name, last name or username have invalid format",
+      })
     } else if (username.length < 2 || username.length > 50) {
       return res.status(400).json({
-        error: "Username must be longer than 1 and shorter than 30 characters",
+        error: "Username must be longer than 2 and shorter than 50 characters",
       })
     }
 
@@ -68,6 +66,14 @@ export const patchChangeCreds = async (req, res) => {
       updatedUser = { ...updatedUser, last_name: lastName }
     }
     if (user[0].username !== username) {
+      const existingUsername = await sql`
+      SELECT * FROM users
+      WHERE username = ${username}`
+
+      if (existingUsername.length !== 0) {
+        return res.status(401).json({ error: "Username not available" })
+      }
+
       await sql`
       UPDATE users
       SET username = ${username}
@@ -80,21 +86,6 @@ export const patchChangeCreds = async (req, res) => {
   } catch (error) {
     console.error("Error is: ", error)
     res.status(500).json({ error: "Error when changing user data" })
-  }
-}
-
-export const patchChangeLanguage = async (req, res) => {
-  try {
-    const userId = req.userId
-    const { language } = req.body
-
-    await sql`
-    UPDATE user_settings
-    SET value = ${language}
-    WHERE setting_id = 2 AND user_id = ${userId}`
-  } catch (error) {
-    console.error("Error is: ", error)
-    res.status(500).json({ error: "Error when changing language" })
   }
 }
 

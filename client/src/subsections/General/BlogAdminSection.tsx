@@ -11,11 +11,8 @@ import {
 import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
 import { useState } from "react"
-import {
-  handleAddBlog,
-  handleBlogDelete,
-  initialBlogData,
-} from "../../Utils/GeneralUtils"
+import { handleAddBlog, handleBlogDelete } from "../../Utils/GeneralUtils"
+import { initialBlogData } from "../../constants"
 
 export const BlogAdminSection = () => {
   const user = useSelector((state: RootState) => state.session.user)
