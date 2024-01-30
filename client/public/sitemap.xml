@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    
+    <!-- Home Page -->
+    <url>
+        <loc>https://www.rituale.digital</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Habits Page -->
+    <url>
+        <loc>https://www.rituale.digital/habits/1</loc>
+        <changefreq>yearly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Blogs Page -->
+    <url>
+        <loc>https://www.rituale.digital/general/blogs/1</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>
