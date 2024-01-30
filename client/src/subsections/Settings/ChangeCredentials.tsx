@@ -139,6 +139,7 @@ const ChangeCredentials = ({
                 e.target.value !== initialUserData.username &&
                 usernameRegex.test(userData.username)
               ) {
+                console.log(e.target.value)
                 checkUsernameAvail(e.target.value).then((response) =>
                   response === 401
                     ? setIsUsernameAvailable(false)

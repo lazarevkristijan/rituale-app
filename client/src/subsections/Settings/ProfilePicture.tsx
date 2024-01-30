@@ -164,7 +164,9 @@ const ProfilePicture = ({
             user?.profile_picture || defaultPfpURL,
             dispatch,
             false
-          ).finally(() => setIsDeleting(false))
+          )
+            .then(() => setIsDeleting(false))
+            .catch(() => setIsDeleting(false))
         }}
         disabled={
           !user?.profile_picture || user.profile_picture === defaultPfpURL

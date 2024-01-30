@@ -5,7 +5,7 @@ import { errorMsgEnding } from "../constants"
 
 export const getAllFinishedProfiles = async () => {
   const res = await axios
-    .get(`${import.meta.env.VITE_TLD_BACKEND}/all-finished-profiles`)
+    .get("http://localhost:5432/all-finished-profiles")
     .then((response) => response.data)
     .catch((error) =>
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -15,7 +15,7 @@ export const getAllFinishedProfiles = async () => {
 
 export const getAllUsers = async () => {
   const res = await axios
-    .get(`${import.meta.env.VITE_TLD_BACKEND}/all-users`)
+    .get("http://localhost:5432/all-users")
     .then((response) => response.data)
     .catch((error) =>
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -26,7 +26,7 @@ export const getAllUsers = async () => {
 
 export const getAllCompletedHabits = async () => {
   const res = await axios
-    .get(`${import.meta.env.VITE_TLD_BACKEND}/all-completed-habits`)
+    .get("http://localhost:5432/all-completed-habits")
     .then((response) => response.data)
     .catch((error) =>
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -36,7 +36,7 @@ export const getAllCompletedHabits = async () => {
 
 export const getAllBlogs = async () => {
   const res = await axios
-    .get(`${import.meta.env.VITE_TLD_BACKEND}/all-blogs`)
+    .get("http://localhost:5432/all-blogs")
     .then((response) => response.data)
     .catch((error) =>
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -49,16 +49,12 @@ export const handleAddBlog = (e: React.FormEvent, blogData: BlogDataTypes) => {
   e.preventDefault()
 
   axios
-    .post(
-      `${import.meta.env.VITE_TLD_BACKEND}/add-blog`,
-      JSON.stringify(blogData),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    )
+    .post("http://localhost:5432/add-blog", JSON.stringify(blogData), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    })
     .then((response) => {
       sendNotification(response.data.success, true)
     })
@@ -70,7 +66,7 @@ export const handleAddBlog = (e: React.FormEvent, blogData: BlogDataTypes) => {
 
 export const handleBlogDelete = (id: number) => {
   axios
-    .delete(`${import.meta.env.VITE_TLD_BACKEND}/remove-blog`, {
+    .delete("http://localhost:5432/remove-blog", {
       data: JSON.stringify({ id: id }),
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

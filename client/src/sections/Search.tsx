@@ -47,8 +47,6 @@ const Search = () => {
     getUsers
   )
 
-  const tld = "https://rituale.digital/"
-
   return (
     <Box>
       <Typography variant="h2">Search users</Typography>
@@ -59,7 +57,7 @@ const Search = () => {
         placeholder="Who?"
         value={waitedValue}
         onChange={(e) => {
-          if (window.location.href !== `${tld}search/1`) {
+          if (window.location.href !== "http://localhost:5173/search/1") {
             navigate("/search/1")
           }
           if (page !== "1") {

@@ -1,4 +1,4 @@
 export const cookieOptions = {
-  domain: process.env.TLD_BLANK,
+  domain: "localhost",
   path: "/",
 }
