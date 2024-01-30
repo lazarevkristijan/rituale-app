@@ -1,4 +1,6 @@
 import axios from "axios"
+import { sendNotification } from "./SharedUtils"
+import { errorMsgEnding } from "../constants"
 
 export const handleCookieAccept = (
   setShowCookieConsentDialog: (value: React.SetStateAction<boolean>) => void
@@ -12,8 +14,8 @@ export const handleCookieAccept = (
     .then(() => {
       setShowCookieConsentDialog(false)
     })
-    .catch(() => {
+    .catch((error) => {
       setShowCookieConsentDialog(true)
-      console.log("Error when accepting cookie")
+      sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
     })
 }
