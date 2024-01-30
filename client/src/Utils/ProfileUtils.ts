@@ -19,7 +19,7 @@ export const handleLogout = async (
 
 export const getAllHabits = async () => {
   const res = await axios
-    .get("http://localhost:5432/all-habits")
+    .get(`${import.meta.env.VITE_TLD_BACKEND}/all-habits`)
     .then((response) => {
       return response.data
     })

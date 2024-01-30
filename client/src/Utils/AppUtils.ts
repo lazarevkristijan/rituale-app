@@ -16,7 +16,7 @@ export const postLoginOrRegister = (
 ) => {
   axios
     .post(
-      "http://localhost:5432/login-or-register",
+      `${import.meta.env.VITE_TLD_BACKEND}/login-or-register`,
       JSON.stringify(auth0User),
       {
         headers: { "Content-Type": "application/json" },
@@ -26,7 +26,7 @@ export const postLoginOrRegister = (
     .then((response) => {
       dispatch(login(response.data[0]))
       axios
-        .get(`http://localhost:5432/completed-habits`, {
+        .get(`${import.meta.env.VITE_TLD_BACKEND}/completed-habits`, {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         })
@@ -40,7 +40,7 @@ export const postLoginOrRegister = (
         })
 
       axios
-        .get(`http://localhost:5432/user-settings`, {
+        .get(`${import.meta.env.VITE_TLD_BACKEND}/user-settings`, {
           withCredentials: true,
         })
         .then((innerResponse2) => {
@@ -62,7 +62,7 @@ export const checkCookieConsent = (
   setShowCookieConsentDialog: (value: React.SetStateAction<boolean>) => void
 ) => {
   axios
-    .get("http://localhost:5432/check-cookie-consent", {
+    .get(`${import.meta.env.VITE_TLD_BACKEND}/check-cookie-consent`, {
       withCredentials: true,
     })
     .then((response) => {
@@ -94,7 +94,7 @@ export const handleCookieAccept = (
 ) => {
   setShowCookieConsentDialog(false)
   axios
-    .get("http://localhost:5432/accept-consent-cookies", {
+    .get(`${import.meta.env.VITE_TLD_BACKEND}/accept-consent-cookies`, {
       withCredentials: true,
       url: "https://rituale.digital",
     })

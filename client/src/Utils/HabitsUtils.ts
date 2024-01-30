@@ -25,7 +25,7 @@ const habitToToggle = (habitId: number) => {
 
 export const removeHabitApi = (habitId: number, dispatch: AppDispatch) => {
   axios
-    .delete("http://localhost:5432/remove-habit", {
+    .delete(`${import.meta.env.VITE_TLD_BACKEND}/remove-habit`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
       data: JSON.stringify(habitToToggle(habitId)),
@@ -41,7 +41,7 @@ export const removeHabitApi = (habitId: number, dispatch: AppDispatch) => {
 export const addHabitApi = (habitId: number, dispatch: AppDispatch) => {
   axios
     .post(
-      "http://localhost:5432/complete-habit",
+      `${import.meta.env.VITE_TLD_BACKEND}/complete-habit`,
       JSON.stringify(habitToToggle(habitId)),
       {
         headers: { "Content-Type": "application/json" },
@@ -59,7 +59,7 @@ export const addHabitApi = (habitId: number, dispatch: AppDispatch) => {
 
 export const getHabits = async () => {
   const res = await axios
-    .get("http://localhost:5432/all-habits")
+    .get(`${import.meta.env.VITE_TLD_BACKEND}/all-habits`)
     .then((response) => response.data)
     .catch((error) => {
       sendNotification(`${error.response.data.error}, ${errorMsgEnding}`)
@@ -85,7 +85,7 @@ export const handleToggleHabit = (
 export const handlePinHabit = (habitId: number | null) => {
   axios
     .patch(
-      "http://localhost:5432/pin-habit",
+      `${import.meta.env.VITE_TLD_BACKEND}/pin-habit`,
       JSON.stringify({ habitId: habitId }),
       {
         headers: {
@@ -102,7 +102,7 @@ export const resetPage = (
   navigate: NavigateFunction,
   setPage: (page: string) => void
 ) => {
-  if (window.location.href !== "http://localhost:5173/habits/1") {
+  if (window.location.href !== `${import.meta.env.VITE_TLD}/habits/1`) {
     navigate("/habits/1")
   }
   setPage("1")
@@ -110,7 +110,7 @@ export const resetPage = (
 
 export const handleResetHabits = (dispatch: AppDispatch) => {
   axios
-    .get("http://localhost:5432/reset-habit-progress", {
+    .get(`${import.meta.env.VITE_TLD_BACKEND}/reset-habit-progress`, {
       withCredentials: true,
     })
     .then((response) => {
