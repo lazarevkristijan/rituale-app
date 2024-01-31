@@ -32,6 +32,7 @@ import {
   createMuiTheme,
   postLoginOrRegister,
 } from "./Utils/AppUtils"
+import "./main.css"
 
 const App = () => {
   const dispatch = useDispatch()

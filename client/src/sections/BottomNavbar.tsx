@@ -35,7 +35,7 @@ const BottomNavbar = () => {
       }}
       sx={{
         position: "sticky",
-        bottom: -1,
+        bottom: -2,
         width: "100%",
         height: 50,
         zIndex: 1,

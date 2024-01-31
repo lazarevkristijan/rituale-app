@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  FormHelperText,
   TextField,
   Typography,
 } from "@mui/material"
@@ -82,7 +81,9 @@ const ChangeCredentials = ({
               !nameRegex.test(userData.firstName) && changedFields.firstName
             }
             helperText={
-              <FormHelperText
+              <Typography
+                component="span"
+                variant="caption"
                 sx={{
                   color: !nameRegex.test(userData.firstName) ? "red" : "",
                   textAlign: "center",
@@ -91,7 +92,7 @@ const ChangeCredentials = ({
                 Max 50 characters,
                 <br />
                 uppercase and lowercase
-              </FormHelperText>
+              </Typography>
             }
           />
           <TextField
@@ -111,7 +112,9 @@ const ChangeCredentials = ({
             }}
             error={!nameRegex.test(userData.lastName) && changedFields.lastName}
             helperText={
-              <FormHelperText
+              <Typography
+                component="span"
+                variant="caption"
                 sx={{
                   color: !nameRegex.test(userData.lastName) ? "red" : "",
                   textAlign: "center",
@@ -120,7 +123,7 @@ const ChangeCredentials = ({
                 Max 50 characters,
                 <br />
                 uppercase and lowercase
-              </FormHelperText>
+              </Typography>
             }
           />
           <TextField
@@ -153,19 +156,20 @@ const ChangeCredentials = ({
               !usernameRegex.test(userData.username)
             }
             helperText={
-              <FormHelperText
+              <Typography
+                component="span"
+                variant="caption"
                 sx={{
                   color: !usernameRegex.test(userData.username) ? "red" : "",
-                  textAlign: "center",
                 }}
               >
                 Max 50 characters,
                 <br />
                 lowercase and numbers
                 {changedFields.username &&
-                userData.username !== initialUserData.username &&
-                usernameRegex.test(userData.username) ? (
-                  isUsernameAvailable ? (
+                  userData.username !== initialUserData.username &&
+                  usernameRegex.test(userData.username) &&
+                  (isUsernameAvailable ? (
                     <Typography
                       component="span"
                       variant="caption"
@@ -185,27 +189,10 @@ const ChangeCredentials = ({
                       <br />
                       username not available
                     </Typography>
-                  )
-                ) : (
-                  ""
-                )}
-              </FormHelperText>
+                  ))}
+              </Typography>
             }
           />
-          {/* {changedFields.username &&
-            userData.username !== initialUserData.username &&
-            usernameRegex.test(userData.username) &&
-            (isUsernameAvailable ? (
-              <>
-                <Typography>Username available</Typography>
-                <CheckCircleIcon color="success" />
-              </>
-            ) : (
-              <>
-                <Typography>Username not available</Typography>
-                <CancelIcon color="error" />
-              </>
-            ))} */}
         </Box>
       </Box>
       <Button

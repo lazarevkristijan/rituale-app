@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect } from "react"
+import { homeImagesUrls } from "../constants"
 
 const Home = () => {
   const navigate = useNavigate()
@@ -40,15 +41,43 @@ const Home = () => {
       >
         {user ? "continue" : "login"}
       </Button>
-      <p>Hello {user?.first_name}</p>
-      <Typography variant="overline">Why habits?</Typography>
-      <Typography>
-        We don't realise that 90% of our day is habits based, almost everything
-        we do is something we've been doing continously every day. Brushing our
-        teeth, driving, scrolling our phones etc. it's all automatic, we don't
-        put any effort in no matter how easy or hard the task, eventually we get
-        into the rhythm.{" "}
+      <br />
+      <br />
+      <Typography
+        textAlign="center"
+        width={400}
+        mx={"auto"}
+      >
+        You might not have the same habits as the people on the pictures, but
+        you do have something in common.. The ability to change that.
       </Typography>
+      <br />
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 1,
+        }}
+      >
+        {homeImagesUrls.map((image, index) => (
+          <Box
+            component="img"
+            key={index}
+            src={image.raw_url}
+            alt={image.alt}
+            sx={{
+              width: 250,
+              height: 250,
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            onDoubleClick={() => window.open(image.post_url, "_blank")}
+          />
+        ))}
+
+        <Typography>Double click any image for credits</Typography>
+      </Box>
     </Box>
   )
 }
