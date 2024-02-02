@@ -31,7 +31,7 @@ import {
   createMuiTheme,
   postLoginOrRegister,
 } from "./Utils/AppUtils"
-import "./main.css"
+import "./app.css"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -68,7 +68,7 @@ const App = () => {
       ) : (
         <ThemeProvider theme={theme}>
           <CssBaseline enableColorScheme />
-          <Container sx={{ minHeight: "100vh", mt: 2 }}>
+          <Container>
             <Routes>
               <Route
                 path="/"

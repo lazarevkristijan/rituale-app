@@ -12,7 +12,6 @@ import {
   ChangeCredentials,
   DangerZone,
   Top,
-  SettingsLegalInfo,
   ProfilePicture,
 } from "../subsections/Settings"
 import { ThemeSwitch } from "../components/SettingsComponents"
@@ -72,8 +71,6 @@ const Settings = () => {
       <br />
       <DangerZone />
       <br />
-
-      <SettingsLegalInfo />
     </Box>
   )
 }
