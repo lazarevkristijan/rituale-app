@@ -40,15 +40,11 @@ const Home = () => {
         sx={{ mx: "auto" }}
         onClick={() => (user ? navigate("/habits/1") : auth0login())}
       >
-        {user ? "continue" : "login"}
+        {user ? "to habits" : "login"}
       </Button>
       <br />
       <br />
-      <Typography
-        textAlign="center"
-        width={400}
-        mx={"auto"}
-      >
+      <Typography sx={{ mx: "auto", maxWidth: 400, textAlign: "center" }}>
         You might not have the same habits as the people on the pictures, but
         you do have something in common.. The ability to change that.
       </Typography>
@@ -59,6 +55,7 @@ const Home = () => {
           flexWrap: "wrap",
           justifyContent: "center",
           gap: 1,
+          mb: 4,
         }}
       >
         {homeImagesUrls.map((image, index) => (
@@ -68,8 +65,8 @@ const Home = () => {
             src={image.raw_url}
             alt={image.alt}
             sx={{
-              width: 250,
-              height: 250,
+              width: { xs: 300, md: 250 },
+              height: { xs: 300, md: 250 },
               objectFit: "cover",
               objectPosition: "center",
             }}
