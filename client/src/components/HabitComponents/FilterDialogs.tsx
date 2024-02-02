@@ -16,7 +16,7 @@ import {
   FilterStatusTypes,
 } from "../../Types"
 import { useNavigate } from "react-router-dom"
-import { FilterHabitCheckbox } from "./FilterHabitCheckbox"
+import { FilterHabitCheckbox } from "./"
 import { handleFilterChange, resetPage } from "../../Utils/HabitsUtils"
 
 const FilterDialogs = ({
