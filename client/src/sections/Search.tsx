@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Pagination,
-  TextField,
-  Typography,
-} from "@mui/material"
+import { Box, Grid, Pagination, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import MainLoadingScreen from "../skeletons/MainLoadingScreen"
 import { useQuery } from "react-query"
@@ -13,14 +6,14 @@ import { UserTypes } from "../Types"
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
-import { defaultPfpURL } from "../constants"
 import { RootState } from "../Store"
 import { getUsers } from "../Utils/SearchUtils"
-import { getPfpLink } from "../Utils/SettingsUtils"
+import UserCard from "../components/SearchComponents/UserCard"
 
 const Search = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(changeNavbarLocation(1))
   }, [dispatch])
@@ -66,6 +59,8 @@ const Search = () => {
           setWaitedValue(e.target.value)
         }}
       />
+      <br />
+      <br />
       {areUsersLoading ? (
         <MainLoadingScreen />
       ) : (
@@ -91,60 +86,11 @@ const Search = () => {
                   .slice((Number(page) - 1) * 15, Number(page) * 15)
                   .map((profile: UserTypes) => {
                     return (
-                      <Box
-                        sx={{
-                          width: 300,
-                          bgcolor: `primary.${colorTheme}`,
-                          borderRadius: 2,
-                          p: 1,
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                        }}
+                      <UserCard
+                        profile={profile}
                         key={profile.id}
-                      >
-                        <Box>
-                          <Box
-                            component="img"
-                            src={getPfpLink(
-                              profile.profile_picture || defaultPfpURL
-                            )}
-                            width={50}
-                            height={50}
-                            borderRadius={20}
-                            sx={{ border: "3px solid black", bgcolor: "#fff" }}
-                          />
-                          <Typography>
-                            {profile.username} {profile.id}
-                          </Typography>
-                          <Typography component="span">
-                            Full name: {profile.first_name} {profile.last_name}
-                          </Typography>
-                          <Typography>Country: {profile.country}</Typography>
-                          <Typography>
-                            Main focus:{" "}
-                            {profile.priority_category_1 &&
-                              profile.priority_category_1 + ", "}
-                            {profile.priority_category_2 &&
-                              profile.priority_category_2 + ", "}{" "}
-                            {profile.priority_category_2 &&
-                              profile.priority_category_3}
-                            {!profile.priority_category_1 &&
-                              !profile.priority_category_2 &&
-                              !profile.priority_category_3 &&
-                              "None"}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: "flex", justifyContent: "end" }}>
-                          <Button
-                            onClick={() => {
-                              navigate(`/user/${profile.username}`)
-                            }}
-                          >
-                            view
-                          </Button>
-                        </Box>
-                      </Box>
+                        theme={colorTheme}
+                      />
                     )
                   })
               : "No users"}
