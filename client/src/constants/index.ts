@@ -1,3 +1,5 @@
+import { HomeImageTypes } from "../Types"
+
 export const initialBlogData = {
   title: "",
   author: "",
@@ -5,11 +7,7 @@ export const initialBlogData = {
   image_url: "",
 }
 
-export const homeImagesUrls: {
-  raw_url: string
-  post_url: string
-  alt: string
-}[] = [
+export const homeImagesUrls: HomeImageTypes[] = [
   {
     raw_url:
       "https://i.pinimg.com/564x/0b/d7/ef/0bd7ef07df5452c8100173f9c2391a16.jpg",

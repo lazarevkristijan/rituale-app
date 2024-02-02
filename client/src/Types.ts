@@ -120,3 +120,9 @@ export type HabitFilterTypes =
   | FilterCategoriesTypes
   | FilterDifficultyTypes
   | FilterStatusTypes
+
+export type HomeImageTypes = {
+  raw_url: string
+  post_url: string
+  alt: string
+}

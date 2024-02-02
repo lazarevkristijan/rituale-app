@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import { HabitSkeleton } from "."
+import { SingleHabitSkeleton } from "."
 
 const HabitsSkeleton = () => {
   return (
@@ -9,11 +9,11 @@ const HabitsSkeleton = () => {
       justifyContent={"space-evenly"}
       rowGap={5}
     >
-      <HabitSkeleton />
-      <HabitSkeleton />
-      <HabitSkeleton />
-      <HabitSkeleton />
-      <HabitSkeleton />
+      <SingleHabitSkeleton />
+      <SingleHabitSkeleton />
+      <SingleHabitSkeleton />
+      <SingleHabitSkeleton />
+      <SingleHabitSkeleton />
     </Box>
   )
 }

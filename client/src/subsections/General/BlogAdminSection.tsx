@@ -11,7 +11,7 @@ import {
 import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
 import { useState } from "react"
-import { handleAddBlog, handleBlogDelete } from "../../Utils/GeneralUtils"
+import { handleAddBlog } from "../../Utils/GeneralUtils"
 import { initialBlogData } from "../../constants"
 
 export const BlogAdminSection = () => {
@@ -119,13 +119,4 @@ export const BlogAdminSection = () => {
   )
 }
 
-export const BlogRemoveButton = ({ id }: { id: number }) => {
-  return (
-    <Button
-      onClick={() => handleBlogDelete(id)}
-      sx={{ width: "50%" }}
-    >
-      delete
-    </Button>
-  )
-}
+export default BlogAdminSection

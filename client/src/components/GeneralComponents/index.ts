@@ -1,4 +1,5 @@
 import Blog from "./Blog"
 import GeneralTabs from "./GeneralTabs"
+import BlogRemoveButton from "./BlogRemoveButton"
 
-export { Blog, GeneralTabs }
+export { Blog, GeneralTabs, BlogRemoveButton }
