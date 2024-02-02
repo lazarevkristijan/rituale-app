@@ -5,15 +5,17 @@ import { useEffect } from "react"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useNavigate } from "react-router-dom"
-import SettingsLegalInfo from "../subsections/Settings/SettingsLegalInfo"
-import ProfilePicture from "../subsections/Settings/ProfilePicture"
-import Bio from "../subsections/Settings/Bio"
-import FocusedCategories from "../subsections/Settings/FocusedCategories"
+import {
+  Bio,
+  FocusedCategories,
+  CountrySelect,
+  ChangeCredentials,
+  DangerZone,
+  Top,
+  SettingsLegalInfo,
+  ProfilePicture,
+} from "../subsections/Settings"
 import { ThemeSwitch } from "../components/SettingsComponents"
-import CountrySelect from "../subsections/Settings/CountrySelect"
-import ChangeCredentials from "../subsections/Settings/ChangeCredentials"
-import DangerZone from "../subsections/Settings/DangerZone"
-import Top from "../subsections/Settings/Top"
 
 const Settings = () => {
   const dispatch = useDispatch()

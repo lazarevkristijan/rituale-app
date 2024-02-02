@@ -6,8 +6,8 @@ import { useEffect } from "react"
 import { ProfileSkeleton } from "../skeletons"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
-import ProfileMainPart from "../subsections/Shared/ProfileMainPart"
-import ProfileAuthPart from "../subsections/Profile/ProfileAuthPart"
+import { ProfileMainPart } from "../subsections/Shared"
+import { ProfileAuthPart } from "../subsections/Profile"
 
 const Profile = () => {
   const navigate = useNavigate()

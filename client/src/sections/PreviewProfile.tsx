@@ -5,7 +5,7 @@ import { Box } from "@mui/material"
 import { useQuery } from "react-query"
 import { ProfileSkeleton } from "../skeletons"
 import { useEffect } from "react"
-import ProfileMainPart from "../subsections/Shared/ProfileMainPart"
+import { ProfileMainPart } from "../subsections/Shared"
 import { getPreviewCompletedHabits, getPreviewUser } from "../Utils/SearchUtils"
 
 const PreviewProfile = () => {

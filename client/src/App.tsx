@@ -25,8 +25,8 @@ import PreviewProfile from "./sections/PreviewProfile"
 import { useAuth0 } from "@auth0/auth0-react"
 import { TabStatistics, TabBlogs } from "./subsections/General"
 import { CookieAcceptPopup } from "./components/Shared"
-import { handleCookieAccept } from "./Utils/AppUtils"
 import {
+  handleCookieAccept,
   checkCookieConsent,
   createMuiTheme,
   postLoginOrRegister,
