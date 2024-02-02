@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { useState } from "react"
 import EditIcon from "@mui/icons-material/Edit"
-import FocusedCategoriesDialog from "../../components/SettingsComponents/FocusedCategoriesDialog"
+import { FocusedCategoriesDialog } from "../../components/SettingsComponents"
 import { UserTypes } from "../../Types"
 
 const FocusedCategories = ({ user }: { user: UserTypes }) => {

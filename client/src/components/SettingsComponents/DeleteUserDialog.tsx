@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../Store"
 import { useAuth0 } from "@auth0/auth0-react"
 
-const DeletUserDialog = ({
+const DeleteUserDialog = ({
   isDialogOpen,
   setIsDialogOpen,
   setIsDeleting,
@@ -54,4 +54,4 @@ const DeletUserDialog = ({
   )
 }
 
-export default DeletUserDialog
+export default DeleteUserDialog

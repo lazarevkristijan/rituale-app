@@ -14,10 +14,9 @@ import {
   handleResetHabits,
   handleToggleHabit,
 } from "../Utils/HabitsUtils"
-import { FilterButton } from "../components/HabitComponents/FilterButton"
-import FilterDialogs from "../components/HabitComponents/FilterDialogs"
-import HabitCard from "../components/HabitComponents/HabitCard"
-import HabitsPagination from "../components/HabitComponents/HabitsPagination"
+import { FilterDialogs, FilterButton } from "../components/HabitComponents"
+import { HabitCard } from "../components/HabitComponents"
+import { HabitsPagination } from "../components/HabitComponents"
 
 const Habits = () => {
   const dispatch = useDispatch()

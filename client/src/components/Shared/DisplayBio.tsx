@@ -17,3 +17,5 @@ export const displayBio = (bio: string | null | undefined) => {
   ))
   return formattedBio
 }
+
+export default displayBio
