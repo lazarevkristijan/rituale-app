@@ -24,50 +24,78 @@ const ProfileMainPart = ({
   if (!user) return
 
   return (
-    <>
-      <Typography variant="h2">{user.username}'s Profile</Typography>
-      <Box
-        sx={{
-          bgcolor: `primary.${colorTheme}`,
-          borderRadius: 1,
-          p: 1,
-          mb: 2,
-          display: "flex",
-        }}
-      >
-        <Box width="50%">
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+    <Box
+      sx={{
+        bgcolor: `primary.${colorTheme}`,
+        borderRadius: 1,
+        p: 1,
+        mb: 2,
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: { xs: "center", md: "space-between" },
+        flexDirection: { xs: "column", sm: "row" },
+        width: "fit-content",
+        mx: "auto",
+        mt: 2,
+      }}
+    >
+      <Typography sx={{ mb: 1, textAlign: "center" }}>
+        {user.username}
+      </Typography>
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "center", md: "flex-start" },
+            alignItems: "center",
+            mb: 2,
+            flexDirection: { xs: "column", md: "row" },
+            textAlign: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
             <Box
+              component="img"
+              src={getPfpLink(user.profile_picture || defaultPfpURL)}
               sx={{
-                background: `url('${getPfpLink(
-                  user.profile_picture || defaultPfpURL
-                )}') no-repeat center/cover #fff`,
+                objectFit: "cover",
+                objectPosition: "center",
                 width: 100,
                 height: 100,
-                borderRadius: 20,
+                borderRadius: "50%",
                 border: `3px solid ${
                   colorTheme === "dark" ? "white" : "black"
                 }`,
               }}
-            ></Box>
-            <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
-              {user.first_name} <br />
-              {user.last_name} <br />
-              {user.country || "NO COUNTRY"}
-            </Typography>
-            <Tooltip
-              title="User No."
-              placement="bottom"
-              arrow
-              sx={{ ml: 1 }}
-            >
-              <Chip
-                label={`#${user.id}`}
-                color="primary"
-                component="span"
-              />
-            </Tooltip>
+            />
+            {(user.first_name || user.last_name || user.country) && (
+              <Typography>
+                {user.first_name && (
+                  <>
+                    {user.first_name} <br />
+                  </>
+                )}
+                {user.last_name && (
+                  <>
+                    {user.last_name} <br />
+                  </>
+                )}
+                {user.country && user.country}
+              </Typography>
+            )}
           </Box>
+          <Tooltip
+            title="User No."
+            placement="bottom"
+            arrow
+          >
+            <Chip
+              label={`#${user.id}`}
+              color="primary"
+              component="span"
+            />
+          </Tooltip>
+
           <Typography>
             Good Habits:
             <Typography
@@ -105,24 +133,27 @@ const ProfileMainPart = ({
                 textAlign: "right",
                 bgcolor: "green",
                 borderRadius: 2,
+                color: "#fff",
+                pr: 1,
               }}
             >
               {Math.round((completedHabits.length / allHabits?.length) * 100)}%
             </Box>
           </Box>
+
           <Typography component="span">
-            Main Goals:{" "}
+            Focused on:{" "}
             {!user.priority_category_1 &&
               !user.priority_category_2 &&
               !user.priority_category_3 &&
-              "None"}{" "}
+              "Not selected"}
           </Typography>
           {user.priority_category_1 && (
             <Chip
               label={user.priority_category_1}
               color="primary"
               component="span"
-              sx={{ ml: 1 }}
+              sx={{ mb: 1 }}
             />
           )}
           {user.priority_category_2 && (
@@ -130,7 +161,7 @@ const ProfileMainPart = ({
               label={user.priority_category_2}
               color="primary"
               component="span"
-              sx={{ ml: 1 }}
+              sx={{ mb: 1 }}
             />
           )}
           {user.priority_category_3 && (
@@ -138,37 +169,24 @@ const ProfileMainPart = ({
               label={user.priority_category_3}
               color="primary"
               component="span"
-              sx={{ ml: 1 }}
+              sx={{ mb: 1 }}
             />
           )}
-          <br />
-          <br />
-          <Typography component="p">{displayBio(user.bio)}</Typography>
-        </Box>
 
-        <Box
-          width="50%"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {user.country && (
-            <Box
-              component="img"
-              src={`/flags/${
-                countryShorthands[
-                  user.country as keyof typeof countryShorthands
-                ]
-              }.svg`}
-              width={150}
-              height={150}
-            />
-          )}
+          <Typography>{displayBio(user.bio)}</Typography>
         </Box>
       </Box>
-    </>
+
+      {user.country && (
+        <Box
+          component="img"
+          src={`/flags/${
+            countryShorthands[user.country as keyof typeof countryShorthands]
+          }.svg`}
+          sx={{ width: 150, height: 150, mx: "auto" }}
+        />
+      )}
+    </Box>
   )
 }
 

@@ -16,6 +16,7 @@ const ProfileAuthPart = (props: LocalComponentTypes) => {
     <Stack
       spacing={1}
       direction="row"
+      sx={{ width: "fit-content", mx: "auto" }}
     >
       <Button
         endIcon={<SettingsIcon />}
