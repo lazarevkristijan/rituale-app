@@ -40,22 +40,11 @@ const UserCard = ({
 
           <Typography>{profile.username}</Typography>
         </Box>
-        <Typography sx={{ mb: 1 }}>
+        <Typography>
           {(profile.first_name || profile.last_name) &&
             `Full name: ${profile.first_name} ${profile.last_name}`}
         </Typography>
-        {profile.country && (
-          <Typography sx={{ mb: 1 }}>Country: {profile.country}</Typography>
-        )}
-        <Typography>
-          {(profile.priority_category_1 ||
-            profile.priority_category_2 ||
-            profile.priority_category_3) &&
-            `Main Focus: 
-          ${profile.priority_category_1 && profile.priority_category_1 + ", "}
-          ${profile.priority_category_2 && profile.priority_category_2 + ", "} 
-          ${profile.priority_category_2 && profile.priority_category_3}`}
-        </Typography>
+        {profile.country && <Typography>Country: {profile.country}</Typography>}
       </Box>
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         <Button
