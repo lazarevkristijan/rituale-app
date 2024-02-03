@@ -59,8 +59,6 @@ const Search = () => {
           setWaitedValue(e.target.value)
         }}
       />
-      <br />
-      <br />
       {areUsersLoading ? (
         <MainLoadingScreen />
       ) : (
@@ -71,6 +69,7 @@ const Search = () => {
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "space-around",
+              my: 2,
             }}
           >
             {allUsers &&

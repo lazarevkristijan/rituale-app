@@ -37,18 +37,17 @@ const Home = () => {
         sx={{ mx: "auto" }}
       />
       <Button
-        sx={{ mx: "auto" }}
+        sx={{ mx: "auto", mb: 2 }}
         onClick={() => (user ? navigate("/habits/1") : auth0login())}
       >
         {user ? "to habits" : "login"}
       </Button>
-      <br />
-      <br />
-      <Typography sx={{ mx: "auto", maxWidth: 400, textAlign: "center" }}>
+      <Typography
+        sx={{ mx: "auto", maxWidth: 400, textAlign: "center", mb: 2 }}
+      >
         You might not have the same habits as the people on the pictures, but
         you do have something in common.. The ability to change that.
       </Typography>
-      <br />
       <Box
         sx={{
           display: "flex",

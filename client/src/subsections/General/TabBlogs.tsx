@@ -36,6 +36,7 @@ const TabBlogs = () => {
                 display: "flex",
                 justifyContent: "space-around",
                 flexWrap: "wrap",
+                my: 2,
               }}
             >
               {!blogs.length

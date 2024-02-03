@@ -104,7 +104,6 @@ const Habits = () => {
             flexWrap: "wrap",
             justifyContent: "center",
             rowGap: 1,
-            mb: 2,
           }}
         >
           <FilterButtons
@@ -152,6 +151,7 @@ const Habits = () => {
                   flexWrap: "wrap",
                   columnGap: 1,
                   rowGap: 3,
+                  my: 2,
                 }}
               >
                 {allFilteredHabits.length !== 0

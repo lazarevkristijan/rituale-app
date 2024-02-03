@@ -38,7 +38,6 @@ const HabitToggleButton = ({
         >
           <Button
             onClick={() => auth0login()}
-            component="div"
             sx={{
               width: "100%",
               bgcolor: `primary`,

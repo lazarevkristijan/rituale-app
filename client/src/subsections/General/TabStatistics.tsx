@@ -35,11 +35,13 @@ const TabStatistics = () => {
 
           <Typography>Number of users: {allUsers?.length}</Typography>
           <Typography>
-            Number of users that have all habits completed:{" "}
-            {allFinishedProfiles?.length}
+            Users that have all habits completed:{" "}
+            {allFinishedProfiles?.length === 0
+              ? "0, be the first"
+              : allFinishedProfiles.length}
           </Typography>
           <Typography>
-            Total count of completed habits: {allCompletedHabits?.length}
+            Total completed habits: {allCompletedHabits?.length}
           </Typography>
         </Box>
       )}
