@@ -59,15 +59,11 @@ const HabitCard = ({
       <Box
         sx={{
           bgcolor:
-            user?.pinned_habit === habit.id
-              ? "yellow"
-              : habit.difficulty === "Easy"
+            habit.difficulty === "Easy"
               ? `success.${colorTheme}`
               : habit.difficulty === "Medium"
               ? `warning.${colorTheme}`
               : `error.${colorTheme}`,
-
-          color: "#000",
           width: 300,
           borderRadius: 2,
           textAlign: "center",

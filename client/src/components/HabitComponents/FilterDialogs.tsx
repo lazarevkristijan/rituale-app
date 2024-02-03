@@ -12,6 +12,7 @@ import {
 
 import {
   FilterCategoriesTypes,
+  FilterDialogTypes,
   FilterDifficultyTypes,
   FilterStatusTypes,
 } from "../../Types"
@@ -33,25 +34,7 @@ const FilterDialogs = ({
   filterStatus,
   setFilterStatus,
   setPage,
-}: {
-  isCategoryFilterOpen: boolean
-  setIsCategoryFilterOpen: (value: boolean) => void
-  filterCategories: FilterCategoriesTypes
-  setFilterCategories: (
-    value: React.SetStateAction<FilterCategoriesTypes>
-  ) => void
-  isDifficultyFilterOpen: boolean
-  setIsDifficultyFilterOpen: (value: boolean) => void
-  filterDifficulties: FilterDifficultyTypes
-  setFilterDifficulties: (
-    value: React.SetStateAction<FilterDifficultyTypes>
-  ) => void
-  isStatusFilterOpen: boolean
-  setIsStatusFilterOpen: (value: boolean) => void
-  filterStatus: FilterStatusTypes
-  setFilterStatus: (value: React.SetStateAction<FilterStatusTypes>) => void
-  setPage: (page: string) => void
-}) => {
+}: FilterDialogTypes) => {
   const navigate = useNavigate()
 
   return (
@@ -67,10 +50,7 @@ const FilterDialogs = ({
             {Object.entries(filterCategories).map(([key, value], index) => (
               <React.Fragment key={key}>
                 <FilterHabitCheckbox
-                  label={
-                    key.charAt(0).toUpperCase() +
-                    key.slice(1).split("_").join(" ")
-                  }
+                  label={key}
                   checked={value}
                   onChange={() => {
                     resetPage(navigate, setPage)
@@ -103,10 +83,7 @@ const FilterDialogs = ({
           {Object.entries(filterDifficulties).map(([key, value], index) => (
             <React.Fragment key={key}>
               <FilterHabitCheckbox
-                label={
-                  key.charAt(0).toUpperCase() +
-                  key.slice(1).split("_").join(" ")
-                }
+                label={key}
                 checked={value}
                 onChange={() => {
                   resetPage(navigate, setPage)
@@ -141,10 +118,7 @@ const FilterDialogs = ({
             {Object.entries(filterStatus).map(([key, value], index) => (
               <React.Fragment key={key}>
                 <FilterHabitCheckbox
-                  label={
-                    key.charAt(0).toUpperCase() +
-                    key.slice(1).split("_").join(" ")
-                  }
+                  label={key}
                   checked={value}
                   onChange={() => {
                     resetPage(navigate, setPage)

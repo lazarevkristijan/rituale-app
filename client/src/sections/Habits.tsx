@@ -4,19 +4,20 @@ import { HabitTypes } from "../Types"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { useEffect, useState } from "react"
-import HabitsSkeleton from "../skeletons/HabitsSkeleton"
+import { HabitsSkeleton } from "../skeletons"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useNavigate, useParams } from "react-router-dom"
 import {
   filterHabits,
   getHabits,
-  handleResetFilters,
-  handleResetHabits,
   handleToggleHabit,
 } from "../Utils/HabitsUtils"
-import { FilterDialogs, FilterButton } from "../components/HabitComponents"
-import { HabitCard } from "../components/HabitComponents"
-import { HabitsPagination } from "../components/HabitComponents"
+import {
+  FilterDialogs,
+  HabitCard,
+  HabitsPagination,
+} from "../components/HabitComponents"
+import FilterButtons from "../components/HabitComponents/FilterButtons"
 
 const Habits = () => {
   const dispatch = useDispatch()
@@ -65,9 +66,7 @@ const Habits = () => {
   } = useQuery("habits", getHabits)
 
   const [habitToToggle, setHabitToToggle] = useState(0)
-  const [allFilteredHabits, setAllFilteredHabits] = useState<Array<HabitTypes>>(
-    []
-  )
+  const [allFilteredHabits, setAllFilteredHabits] = useState<HabitTypes[]>([])
 
   useEffect(() => {
     !areHabitsLoading &&
@@ -99,37 +98,24 @@ const Habits = () => {
         Habits
       </Typography>
       <Box>
-        <Box sx={{ mb: 2 }}>
-          <FilterButton
-            label="category filters"
-            onClick={() => setIsCategoryFilterOpen(true)}
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            rowGap: 1,
+            mb: 2,
+          }}
+        >
+          <FilterButtons
+            setIsCategoryFilterOpen={setIsCategoryFilterOpen}
+            setIsDifficultyFilterOpen={setIsDifficultyFilterOpen}
+            setIsStatusFilterOpen={setIsStatusFilterOpen}
+            setPage={setPage}
+            setFilterCategories={setFilterCategories}
+            setFilterDifficulties={setFilterDifficulties}
+            setFilterStatus={setFilterStatus}
           />
-          <FilterButton
-            label="difficulty filters"
-            onClick={() => setIsDifficultyFilterOpen(true)}
-          />
-          <FilterButton
-            label="status filters"
-            onClick={() => setIsStatusFilterOpen(true)}
-          />
-          <FilterButton
-            label="reset filters"
-            onClick={() =>
-              handleResetFilters(
-                navigate,
-                setPage,
-                setFilterCategories,
-                setFilterDifficulties,
-                setFilterStatus
-              )
-            }
-          />
-          {user && (
-            <FilterButton
-              label="reset habits"
-              onClick={() => handleResetHabits(dispatch)}
-            />
-          )}
         </Box>
         <Box>
           <FilterDialogs
@@ -164,6 +150,7 @@ const Habits = () => {
                   display: "flex",
                   justifyContent: "space-evenly",
                   flexWrap: "wrap",
+                  columnGap: 1,
                   rowGap: 3,
                 }}
               >

@@ -1,6 +1,6 @@
 import { Box, Grid, Pagination, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import MainLoadingScreen from "../skeletons/MainLoadingScreen"
+import { MainLoadingScreen } from "../skeletons"
 import { useQuery } from "react-query"
 import { UserTypes } from "../Types"
 import { useNavigate, useParams } from "react-router-dom"
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { RootState } from "../Store"
 import { getUsers } from "../Utils/SearchUtils"
-import UserCard from "../components/SearchComponents/UserCard"
+import { UserCard } from "../components/SearchComponents"
 
 const Search = () => {
   const navigate = useNavigate()

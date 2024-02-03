@@ -15,9 +15,6 @@ const HabitToggleButton = ({
 }) => {
   const user = useSelector((state: RootState) => state.session.user)
   const { loginWithPopup: auth0login } = useAuth0()
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme
-  )
 
   return (
     <Box>
@@ -44,12 +41,10 @@ const HabitToggleButton = ({
             component="div"
             sx={{
               width: "100%",
-              bgcolor: `primary.${colorTheme}`,
+              bgcolor: `primary`,
               borderBottomLeftRadius: "inherit",
               borderBottomRightRadius: "inherit",
-              ":hover": {
-                cursor: "pointer",
-              },
+              cursor: "pointer",
             }}
           >
             <LockPersonIcon />

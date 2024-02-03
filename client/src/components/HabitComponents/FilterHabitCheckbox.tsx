@@ -14,6 +14,7 @@ export const FilterHabitCheckbox = ({
       label={label}
       control={<Checkbox checked={checked} />}
       onChange={onChange}
+      sx={{ textTransform: "capitalize" }}
     />
   )
 }

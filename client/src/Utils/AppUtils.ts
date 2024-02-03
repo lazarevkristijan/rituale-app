@@ -79,6 +79,14 @@ export const createMuiTheme = (colorTheme: PaletteMode) =>
   createTheme({
     palette: {
       mode: colorTheme,
+      success: {
+        main: "#85C988",
+        dark: "#388e3c",
+      },
+      warning: {
+        main: "#ffff00",
+        dark: "#bd8d00",
+      },
     },
     components: {
       MuiButton: {
