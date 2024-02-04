@@ -43,11 +43,7 @@ const Profile = () => {
             user={user}
             completedHabits={completedHabits.habits}
           />
-          <ProfileAuthPart
-            navigate={navigate}
-            dispatch={dispatch}
-            auth0logout={auth0logout}
-          />
+          <ProfileAuthPart logout={auth0logout} />
         </>
       )}
     </Box>

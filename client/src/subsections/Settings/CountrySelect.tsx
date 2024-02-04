@@ -6,20 +6,16 @@ import {
   Select,
   Typography,
 } from "@mui/material"
-import { AppDispatch } from "../../Store"
+import { RootState } from "../../Store"
 import { handleCountryChange } from "../../Utils/SettingsUtils"
 import { allCountries } from "../../constants"
-import { UserTypes } from "../../Types"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
-const CountrySelect = ({
-  user,
-  dispatch,
-}: {
-  user: UserTypes
-  dispatch: AppDispatch
-}) => {
+const CountrySelect = () => {
+  const dispatch = useDispatch()
   const [isUpdating, setIsUpdating] = useState(false)
+  const user = useSelector((state: RootState) => state.session.user)
 
   return (
     <Box sx={{ mb: 2 }}>

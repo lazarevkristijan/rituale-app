@@ -12,18 +12,17 @@ import {
 import { useState } from "react"
 import { nameRegex, usernameRegex } from "../../Regex"
 import SaveIcon from "@mui/icons-material/Save"
-import { UserTypes } from "../../Types"
-import { AppDispatch } from "../../Store"
+import { RootState } from "../../Store"
+import { useDispatch, useSelector } from "react-redux"
 
-const ChangeCredentials = ({
-  user,
-  dispatch,
-  colorTheme,
-}: {
-  user: UserTypes
-  dispatch: AppDispatch
-  colorTheme: string
-}) => {
+const ChangeCredentials = () => {
+  const dispatch = useDispatch()
+
+  const user = useSelector((state: RootState) => state.session.user)
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
+
   const [userData, setUserData] = useState({
     firstName: user?.first_name || "",
     lastName: user?.last_name || "",

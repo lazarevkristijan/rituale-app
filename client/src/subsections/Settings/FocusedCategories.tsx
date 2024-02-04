@@ -2,11 +2,13 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { useState } from "react"
 import EditIcon from "@mui/icons-material/Edit"
 import { FocusedCategoriesDialog } from "../../components/SettingsComponents"
-import { UserTypes } from "../../Types"
+import { RootState } from "../../Store"
+import { useSelector } from "react-redux"
 
-const FocusedCategories = ({ user }: { user: UserTypes }) => {
+const FocusedCategories = () => {
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const user = useSelector((state: RootState) => state.session.user)
 
   return (
     <Box sx={{ mb: 3 }}>

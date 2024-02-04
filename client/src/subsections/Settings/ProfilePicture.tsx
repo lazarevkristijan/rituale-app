@@ -5,20 +5,17 @@ import {
   handlePfpDelete,
   handleProfilePictureChange,
 } from "../../Utils/SettingsUtils"
-import { AppDispatch } from "../../Store"
+import { RootState } from "../../Store"
 import { useEffect, useState } from "react"
 import { defaultPfpURL } from "../../constants"
-import { UserTypes } from "../../Types"
+import { useDispatch, useSelector } from "react-redux"
 
-const ProfilePicture = ({
-  user,
-  dispatch,
-}: {
-  user: UserTypes
-  dispatch: AppDispatch
-}) => {
+const ProfilePicture = () => {
+  const dispatch = useDispatch()
+
+  const user = useSelector((state: RootState) => state.session.user)
+
   const [profilePicture, setProfilePicture] = useState<File | null>(null)
-
   const [pfpURL, setPfpURL] = useState("")
   useEffect(() => {
     if (user?.profile_picture) {

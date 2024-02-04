@@ -6,17 +6,18 @@ import {
   Switch,
   Typography,
 } from "@mui/material"
-import { AppDispatch } from "../../Store"
 import { handleThemeChange } from "../../Utils/SettingsUtils"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../Store"
 
-const ThemeSwitch = ({
-  dispatch,
-  colorTheme,
-}: {
-  dispatch: AppDispatch
-  colorTheme: string
-}) => {
+const ThemeSwitch = () => {
+  const dispatch = useDispatch()
+
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme
+  )
+
   const [isUpdating, setIsUpdating] = useState(false)
   return (
     <Box sx={{ mb: 2 }}>

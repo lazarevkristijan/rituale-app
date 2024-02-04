@@ -6,7 +6,7 @@ import { RootState } from "../Store"
 import { useEffect, useState } from "react"
 import { CardsSkeleton } from "../skeletons"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import {
   filterHabits,
   getHabits,
@@ -21,7 +21,7 @@ import FilterButtons from "../components/HabitComponents/FilterButtons"
 
 const Habits = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   useEffect(() => {
     dispatch(changeNavbarLocation(2))
   }, [dispatch])
@@ -171,7 +171,6 @@ const Habits = () => {
                   page={page}
                   setPage={setPage}
                   allFilteredHabits={allFilteredHabits}
-                  navigate={navigate}
                 />
               </Box>
             </>

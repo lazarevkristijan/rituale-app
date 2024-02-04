@@ -31,9 +31,6 @@ const Settings = () => {
   }, [auth0authenticated, navigate])
 
   const user = useSelector((state: RootState) => state.session.user)
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme
-  )
 
   if (!user) return
 
@@ -41,33 +38,17 @@ const Settings = () => {
     <Box>
       <Top />
 
-      <ProfilePicture
-        dispatch={dispatch}
-        user={user}
-      />
+      <ProfilePicture />
 
-      <Bio
-        dispatch={dispatch}
-        user={user}
-      />
+      <Bio />
 
-      <FocusedCategories user={user} />
+      <FocusedCategories />
 
-      <ThemeSwitch
-        dispatch={dispatch}
-        colorTheme={colorTheme}
-      />
+      <ThemeSwitch />
 
-      <CountrySelect
-        user={user}
-        dispatch={dispatch}
-      />
+      <CountrySelect />
 
-      <ChangeCredentials
-        user={user}
-        dispatch={dispatch}
-        colorTheme={colorTheme}
-      />
+      <ChangeCredentials />
 
       <DangerZone />
     </Box>
