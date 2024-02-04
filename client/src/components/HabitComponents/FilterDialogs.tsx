@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Dialog,
   DialogTitle,
@@ -36,6 +36,16 @@ const FilterDialogs = ({
   setPage,
 }: FilterDialogTypes) => {
   const navigate = useNavigate()
+
+  const [showCompletedHabits, setShowCompletedHabits] = useState(
+    localStorage.getItem("completed")
+  )
+  const [showNotCompletedHabits, setShowNotCompletedHabits] = useState(
+    localStorage.getItem("not_completed")
+  )
+
+  console.log(showNotCompletedHabits)
+  console.log(showCompletedHabits)
 
   return (
     <>
@@ -118,9 +128,26 @@ const FilterDialogs = ({
             {Object.entries(filterStatus).map(([key, value], index) => (
               <React.Fragment key={key}>
                 <FilterHabitCheckbox
-                  label={key}
-                  checked={value}
+                  label={key.replace("_", " ")}
+                  checked={
+                    key === "completed"
+                      ? !showCompletedHabits === null
+                        ? Boolean(showCompletedHabits)
+                        : value
+                      : key === "not_completed"
+                      ? !showNotCompletedHabits === null
+                        ? Boolean(showNotCompletedHabits)
+                        : value
+                      : value
+                  }
                   onChange={() => {
+                    localStorage.setItem(key, JSON.stringify(!value))
+                    if (key === "completed") {
+                      setShowCompletedHabits(String(!value))
+                    } else if (key === "not_completed") {
+                      setShowNotCompletedHabits(String(!value))
+                    }
+
                     resetPage(navigate, setPage)
 
                     handleFilterChange(

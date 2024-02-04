@@ -51,8 +51,8 @@ const Habits = () => {
     hard: true,
   })
   const [filterStatus, setFilterStatus] = useState({
-    completed: true,
-    not_completed: true,
+    completed: localStorage.getItem("completed") === "true",
+    not_completed: localStorage.getItem("not_completed") === "true",
   })
 
   const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false)
