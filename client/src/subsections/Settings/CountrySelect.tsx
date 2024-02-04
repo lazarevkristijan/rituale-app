@@ -1,9 +1,10 @@
 import {
+  Box,
   CircularProgress,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material"
 import { AppDispatch } from "../../Store"
 import { handleCountryChange } from "../../Utils/SettingsUtils"
@@ -21,9 +22,9 @@ const CountrySelect = ({
   const [isUpdating, setIsUpdating] = useState(false)
 
   return (
-    <>
-      <FormControl fullWidth>
-        <InputLabel>Country</InputLabel>
+    <Box sx={{ mb: 2 }}>
+      <Typography>Country</Typography>
+      <FormControl>
         <Select
           value={user?.country || ""}
           onChange={(e) => {
@@ -42,7 +43,7 @@ const CountrySelect = ({
         </Select>
         {isUpdating && <CircularProgress size={15} />}
       </FormControl>
-    </>
+    </Box>
   )
 }
 

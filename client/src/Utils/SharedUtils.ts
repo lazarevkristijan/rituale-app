@@ -4,6 +4,7 @@ export const sendNotification = (message: string, success: boolean = false) => {
   notification.style.backgroundColor = success ? "#cfffdb" : "#ffb3b3"
   notification.style.color = "#000"
   notification.style.padding = "10px"
+  notification.style.zIndex = "2"
 
   notification.style.minWidth = "150px"
   notification.style.minHeight = "75px"

@@ -9,18 +9,23 @@ const FocusedCategories = ({ user }: { user: UserTypes }) => {
   const [isUpdating, setIsUpdating] = useState(false)
 
   return (
-    <Box>
+    <Box sx={{ mb: 3 }}>
+      <Typography>Focused Categories</Typography>
       <Button
         startIcon={<EditIcon />}
         onClick={() => setIsCategoryDialogOpen(true)}
       >
-        focused categories
+        change
       </Button>
       {isUpdating && <CircularProgress size={15} />}
       <Typography>
-        Current focused categories:{" "}
-        {user?.priority_category_1 && user.priority_category_1 + ", "}
-        {user?.priority_category_2 && user.priority_category_2 + ", "}
+        Current:{" "}
+        {user?.priority_category_1 &&
+          `${user?.priority_category_1}${
+            user?.priority_category_2 ? ", " : ""
+          }`}
+        {user?.priority_category_2 &&
+          `${user.priority_category_2}${user?.priority_category_3 ? ", " : ""}`}
         {user?.priority_category_3 && user?.priority_category_3}
         {!user?.priority_category_1 &&
           !user?.priority_category_2 &&

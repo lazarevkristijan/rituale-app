@@ -39,38 +39,37 @@ const Settings = () => {
 
   return (
     <Box>
-      <Top user={user} />
-      <br />
+      <Top />
+
       <ProfilePicture
         dispatch={dispatch}
         user={user}
       />
-      <br />
+
       <Bio
         dispatch={dispatch}
         user={user}
       />
-      <br />
+
       <FocusedCategories user={user} />
-      <br />
+
       <ThemeSwitch
         dispatch={dispatch}
         colorTheme={colorTheme}
       />
-      <br />
+
       <CountrySelect
         user={user}
         dispatch={dispatch}
       />
-      <br />
+
       <ChangeCredentials
         user={user}
         dispatch={dispatch}
         colorTheme={colorTheme}
       />
-      <br />
+
       <DangerZone />
-      <br />
     </Box>
   )
 }

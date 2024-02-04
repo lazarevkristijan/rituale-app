@@ -34,7 +34,7 @@ const ProfilePicture = ({
   if (!user) return
 
   return (
-    <Box>
+    <Box sx={{ mb: 2 }}>
       <Typography>Profile picture</Typography>
       <form
         onSubmit={(e) => {
@@ -107,10 +107,9 @@ const ProfilePicture = ({
               width: "100%",
               height: 150,
               bottom: 0,
-              backgroundColor: "#555",
               cursor: "pointer",
               position: "absolute",
-              borderRadius: 50,
+              borderRadius: "50%",
             }}
           />
         </Box>
@@ -130,9 +129,10 @@ const ProfilePicture = ({
         >
           File is can't be more than 5mb
         </Typography>
-        <Typography variant="caption">Max 5mb</Typography>
+        <Typography variant="caption">Max 5mb | png, jpg, jpeg</Typography>
         <br />
         <Button
+          type="button"
           disabled={!profilePicture}
           onClick={() => {
             const inputEl = document.getElementById(
@@ -152,29 +152,30 @@ const ProfilePicture = ({
           type="submit"
           disabled={!profilePicture}
         >
-          submit
+          save
           {isUploading && <CircularProgress size={15} />}
         </Button>
-      </form>
-      <Button
-        onClick={() => {
-          setIsDeleting(true)
+        <Button
+          type="button"
+          onClick={() => {
+            setIsDeleting(true)
 
-          handlePfpDelete(
-            user?.profile_picture || defaultPfpURL,
-            dispatch,
-            false
-          )
-            .then(() => setIsDeleting(false))
-            .catch(() => setIsDeleting(false))
-        }}
-        disabled={
-          !user?.profile_picture || user.profile_picture === defaultPfpURL
-        }
-      >
-        delete
-      </Button>
-      {isDeleting && <CircularProgress size={15} />}
+            handlePfpDelete(
+              user?.profile_picture || defaultPfpURL,
+              dispatch,
+              false
+            )
+              .then(() => setIsDeleting(false))
+              .catch(() => setIsDeleting(false))
+          }}
+          disabled={
+            !user?.profile_picture || user.profile_picture === defaultPfpURL
+          }
+        >
+          delete
+        </Button>
+        {isDeleting && <CircularProgress size={15} />}
+      </form>
     </Box>
   )
 }

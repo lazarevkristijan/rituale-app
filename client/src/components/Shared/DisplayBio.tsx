@@ -5,9 +5,9 @@ export const displayBio = (bio: string | null | undefined) => {
     return "NO BIO"
   }
   const limitedBio =
-    bio.split("\n").slice(0, 3).join("\n") +
+    bio.split("\n").slice(0, 4).join("\n") +
     " " +
-    bio.split("\n").slice(3).join(" ")
+    bio.split("\n").slice(4).join(" ")
 
   const formattedBio = limitedBio.split("\n").map((line, index) => (
     <React.Fragment key={index}>

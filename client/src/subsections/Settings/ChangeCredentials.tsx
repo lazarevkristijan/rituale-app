@@ -54,12 +54,7 @@ const ChangeCredentials = ({
         handleUserDataChange(e, userData, dispatch, user, setIsUpdating)
       }
     >
-      <Typography
-        component="h3"
-        sx={{ fontSize: 35 }}
-      >
-        Change credentials
-      </Typography>
+      <Typography sx={{ mb: 1 }}>Change credentials</Typography>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{ flexDirection: "row" }}>
           <TextField
@@ -211,7 +206,7 @@ const ChangeCredentials = ({
         }
         startIcon={<SaveIcon />}
       >
-        save changes
+        save
       </Button>
       {isUpdating && <CircularProgress size={15} />}
     </form>

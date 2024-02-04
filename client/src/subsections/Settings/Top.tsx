@@ -1,14 +1,13 @@
-import { Breadcrumbs, Link, Typography } from "@mui/material"
-import { UserTypes } from "../../Types"
+import { Box, Breadcrumbs, Link, Typography } from "@mui/material"
 
-const Top = ({ user }: { user: UserTypes }) => {
+const Top = () => {
   return (
-    <>
+    <Box sx={{ mb: 2 }}>
       <Typography
         component="h2"
         sx={{ fontSize: 50 }}
       >
-        {user?.username}'s settings
+        Settings
       </Typography>
       <Breadcrumbs separator=">">
         <Link
@@ -19,11 +18,7 @@ const Top = ({ user }: { user: UserTypes }) => {
         </Link>
         <Typography>Settings</Typography>
       </Breadcrumbs>
-
-      <Typography variant="caption">
-        Settings that don't have a "SAVE CHANGES" button are auto saved
-      </Typography>
-    </>
+    </Box>
   )
 }
 
