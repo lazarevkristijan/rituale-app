@@ -1,6 +1,6 @@
 import { Box, Grid, Pagination, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { MainLoadingScreen } from "../skeletons"
+import { CardsSkeleton } from "../skeletons"
 import { useQuery } from "react-query"
 import { UserTypes } from "../Types"
 import { useNavigate, useParams } from "react-router-dom"
@@ -60,7 +60,7 @@ const Search = () => {
         }}
       />
       {areUsersLoading ? (
-        <MainLoadingScreen />
+        <CardsSkeleton />
       ) : (
         <>
           <Grid

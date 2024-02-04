@@ -33,8 +33,7 @@ const Home = () => {
       <Box
         component="img"
         src={`/logo-text${colorTheme === "dark" ? "-w" : ""}.svg`}
-        width={300}
-        sx={{ mx: "auto" }}
+        sx={{ mx: "auto", maxWidth: 300 }}
       />
       <Button
         sx={{ mx: "auto", mb: 2 }}
@@ -45,8 +44,9 @@ const Home = () => {
       <Typography
         sx={{ mx: "auto", maxWidth: 400, textAlign: "center", mb: 2 }}
       >
-        You might not have the same habits as the people on the pictures, but
-        you do have something in common.. The ability to change that.
+        You might not have the same <br /> habits as the people on the pictures,{" "}
+        <br />
+        but you do have something in common. <br /> The ability to change that.
       </Typography>
       <Box
         sx={{
@@ -64,7 +64,7 @@ const Home = () => {
             src={image.raw_url}
             alt={image.alt}
             sx={{
-              width: { xs: 300, md: 250 },
+              width: { xs: 275, md: 250 },
               height: { xs: 300, md: 250 },
               objectFit: "cover",
               objectPosition: "center",

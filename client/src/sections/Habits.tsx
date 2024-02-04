@@ -4,7 +4,7 @@ import { HabitTypes } from "../Types"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { useEffect, useState } from "react"
-import { HabitsSkeleton } from "../skeletons"
+import { CardsSkeleton } from "../skeletons"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useNavigate, useParams } from "react-router-dom"
 import {
@@ -141,7 +141,7 @@ const Habits = () => {
           {errorGettingHabits ? (
             <Typography>Error getting habits</Typography>
           ) : areHabitsLoading ? (
-            <HabitsSkeleton />
+            <CardsSkeleton />
           ) : (
             <>
               <Grid
