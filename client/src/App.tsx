@@ -67,7 +67,7 @@ const App = () => {
       ) : (
         <ThemeProvider theme={theme}>
           <CssBaseline enableColorScheme />
-          <Container sx={{ mb: "60px" }}>
+          <Container sx={{ mb: "70px" }}>
             <Routes>
               <Route
                 path="/"

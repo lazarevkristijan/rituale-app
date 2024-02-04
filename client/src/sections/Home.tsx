@@ -54,7 +54,6 @@ const Home = () => {
           flexWrap: "wrap",
           justifyContent: "center",
           gap: 1,
-          mb: 4,
         }}
       >
         {homeImagesUrls.map((image, index) => (
@@ -72,9 +71,10 @@ const Home = () => {
             onDoubleClick={() => window.open(image.post_url, "_blank")}
           />
         ))}
-
-        <Typography>Double click any image for credits</Typography>
       </Box>
+      <Typography sx={{ textAlign: "center", mb: 4 }}>
+        Double click any image for credits
+      </Typography>
       <SettingsLegalInfo />
     </Box>
   )
