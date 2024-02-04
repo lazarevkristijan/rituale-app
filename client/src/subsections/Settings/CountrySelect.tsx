@@ -1,29 +1,26 @@
 import {
+  Box,
   CircularProgress,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material"
-import { AppDispatch } from "../../Store"
+import { RootState } from "../../Store"
 import { handleCountryChange } from "../../Utils/SettingsUtils"
 import { allCountries } from "../../constants"
-import { UserTypes } from "../../Types"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
-const CountrySelect = ({
-  user,
-  dispatch,
-}: {
-  user: UserTypes
-  dispatch: AppDispatch
-}) => {
+const CountrySelect = () => {
+  const dispatch = useDispatch()
   const [isUpdating, setIsUpdating] = useState(false)
+  const user = useSelector((state: RootState) => state.session.user)
 
   return (
-    <>
-      <FormControl fullWidth>
-        <InputLabel>Country</InputLabel>
+    <Box sx={{ mb: 2 }}>
+      <Typography>Country</Typography>
+      <FormControl>
         <Select
           value={user?.country || ""}
           onChange={(e) => {
@@ -42,7 +39,7 @@ const CountrySelect = ({
         </Select>
         {isUpdating && <CircularProgress size={15} />}
       </FormControl>
-    </>
+    </Box>
   )
 }
 

@@ -1,6 +1,6 @@
-import HabitSkeleton from "../skeletons/HabitSkeleton"
+import SingleCardSkeleton from "./SingleCardSkeleton"
 import ProfileSkeleton from "../skeletons/ProfileSkeleton"
-import HabitsSkeleton from "./HabitsSkeleton"
+import CardsSkeleton from "./CardsSkeleton"
 import MainLoadingScreen from "./MainLoadingScreen"
 
-export { HabitsSkeleton, HabitSkeleton, ProfileSkeleton, MainLoadingScreen }
+export { CardsSkeleton, SingleCardSkeleton, ProfileSkeleton, MainLoadingScreen }

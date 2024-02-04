@@ -3,7 +3,7 @@ import { Button, Link, Stack } from "@mui/material"
 const SettingsLegalInfo = () => {
   return (
     <Stack
-      sx={{ position: "fixed", bottom: 50, right: 20, textAlign: "center" }}
+      sx={{ textAlign: "center" }}
       direction="column"
     >
       <Link

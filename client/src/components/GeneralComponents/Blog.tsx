@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
-import { BlogRemoveButton } from "../../subsections/General/BlogAdminSection"
+import { BlogRemoveButton } from "."
 
 const Blog = ({
   id,

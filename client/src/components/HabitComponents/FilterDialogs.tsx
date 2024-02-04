@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Dialog,
   DialogTitle,
@@ -12,11 +12,12 @@ import {
 
 import {
   FilterCategoriesTypes,
+  FilterDialogTypes,
   FilterDifficultyTypes,
   FilterStatusTypes,
 } from "../../Types"
 import { useNavigate } from "react-router-dom"
-import { FilterHabitCheckbox } from "./FilterHabitCheckbox"
+import { FilterHabitCheckbox } from "./"
 import { handleFilterChange, resetPage } from "../../Utils/HabitsUtils"
 
 const FilterDialogs = ({
@@ -33,26 +34,18 @@ const FilterDialogs = ({
   filterStatus,
   setFilterStatus,
   setPage,
-}: {
-  isCategoryFilterOpen: boolean
-  setIsCategoryFilterOpen: (value: boolean) => void
-  filterCategories: FilterCategoriesTypes
-  setFilterCategories: (
-    value: React.SetStateAction<FilterCategoriesTypes>
-  ) => void
-  isDifficultyFilterOpen: boolean
-  setIsDifficultyFilterOpen: (value: boolean) => void
-  filterDifficulties: FilterDifficultyTypes
-  setFilterDifficulties: (
-    value: React.SetStateAction<FilterDifficultyTypes>
-  ) => void
-  isStatusFilterOpen: boolean
-  setIsStatusFilterOpen: (value: boolean) => void
-  filterStatus: FilterStatusTypes
-  setFilterStatus: (value: React.SetStateAction<FilterStatusTypes>) => void
-  setPage: (page: string) => void
-}) => {
+}: FilterDialogTypes) => {
   const navigate = useNavigate()
+
+  const [showCompletedHabits, setShowCompletedHabits] = useState(
+    localStorage.getItem("completed")
+  )
+  const [showNotCompletedHabits, setShowNotCompletedHabits] = useState(
+    localStorage.getItem("not_completed")
+  )
+
+  console.log(showNotCompletedHabits)
+  console.log(showCompletedHabits)
 
   return (
     <>
@@ -67,10 +60,7 @@ const FilterDialogs = ({
             {Object.entries(filterCategories).map(([key, value], index) => (
               <React.Fragment key={key}>
                 <FilterHabitCheckbox
-                  label={
-                    key.charAt(0).toUpperCase() +
-                    key.slice(1).split("_").join(" ")
-                  }
+                  label={key}
                   checked={value}
                   onChange={() => {
                     resetPage(navigate, setPage)
@@ -103,10 +93,7 @@ const FilterDialogs = ({
           {Object.entries(filterDifficulties).map(([key, value], index) => (
             <React.Fragment key={key}>
               <FilterHabitCheckbox
-                label={
-                  key.charAt(0).toUpperCase() +
-                  key.slice(1).split("_").join(" ")
-                }
+                label={key}
                 checked={value}
                 onChange={() => {
                   resetPage(navigate, setPage)
@@ -141,12 +128,26 @@ const FilterDialogs = ({
             {Object.entries(filterStatus).map(([key, value], index) => (
               <React.Fragment key={key}>
                 <FilterHabitCheckbox
-                  label={
-                    key.charAt(0).toUpperCase() +
-                    key.slice(1).split("_").join(" ")
+                  label={key.replace("_", " ")}
+                  checked={
+                    key === "completed"
+                      ? !showCompletedHabits === null
+                        ? Boolean(showCompletedHabits)
+                        : value
+                      : key === "not_completed"
+                      ? !showNotCompletedHabits === null
+                        ? Boolean(showNotCompletedHabits)
+                        : value
+                      : value
                   }
-                  checked={value}
                   onChange={() => {
+                    localStorage.setItem(key, JSON.stringify(!value))
+                    if (key === "completed") {
+                      setShowCompletedHabits(String(!value))
+                    } else if (key === "not_completed") {
+                      setShowNotCompletedHabits(String(!value))
+                    }
+
                     resetPage(navigate, setPage)
 
                     handleFilterChange(

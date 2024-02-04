@@ -1,4 +1,4 @@
-- Add automatic check if username is valid
+- Upload all flags and download one whenever neeeded
 - Finish UI
 ---
 - Stripe fix payment - after final deploy

@@ -120,3 +120,43 @@ export type HabitFilterTypes =
   | FilterCategoriesTypes
   | FilterDifficultyTypes
   | FilterStatusTypes
+
+export type HomeImageTypes = {
+  raw_url: string
+  post_url: string
+  alt: string
+}
+
+export type FilterDialogTypes = {
+  isCategoryFilterOpen: boolean
+  setIsCategoryFilterOpen: (value: boolean) => void
+  filterCategories: FilterCategoriesTypes
+  setFilterCategories: (
+    value: React.SetStateAction<FilterCategoriesTypes>
+  ) => void
+  isDifficultyFilterOpen: boolean
+  setIsDifficultyFilterOpen: (value: boolean) => void
+  filterDifficulties: FilterDifficultyTypes
+  setFilterDifficulties: (
+    value: React.SetStateAction<FilterDifficultyTypes>
+  ) => void
+  isStatusFilterOpen: boolean
+  setIsStatusFilterOpen: (value: boolean) => void
+  filterStatus: FilterStatusTypes
+  setFilterStatus: (value: React.SetStateAction<FilterStatusTypes>) => void
+  setPage: (page: string) => void
+}
+
+export type FilterButtonsTypes = {
+  setIsCategoryFilterOpen: (value: React.SetStateAction<boolean>) => void
+  setIsDifficultyFilterOpen: (value: React.SetStateAction<boolean>) => void
+  setIsStatusFilterOpen: (value: React.SetStateAction<boolean>) => void
+  setPage: (value: React.SetStateAction<string | undefined>) => void
+  setFilterCategories: (
+    value: React.SetStateAction<FilterCategoriesTypes>
+  ) => void
+  setFilterDifficulties: (
+    value: React.SetStateAction<FilterDifficultyTypes>
+  ) => void
+  setFilterStatus: (value: React.SetStateAction<FilterStatusTypes>) => void
+}

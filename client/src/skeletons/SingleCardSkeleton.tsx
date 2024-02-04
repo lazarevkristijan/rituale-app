@@ -1,6 +1,6 @@
 import { Box, Skeleton } from "@mui/material"
 
-const HabitSkeleton = () => {
+const SingleHabitSkeleton = () => {
   return (
     <Box>
       <Skeleton
@@ -25,4 +25,4 @@ const HabitSkeleton = () => {
   )
 }
 
-export default HabitSkeleton
+export default SingleHabitSkeleton

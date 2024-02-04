@@ -14,3 +14,5 @@ export const FilterButton = ({
     {label}
   </Button>
 )
+
+export default FilterButton

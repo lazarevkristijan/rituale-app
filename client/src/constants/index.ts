@@ -1,9 +1,87 @@
+import { HomeImageTypes } from "../Types"
+
 export const initialBlogData = {
   title: "",
   author: "",
   link: "",
   image_url: "",
 }
+
+export const homeImagesUrls: HomeImageTypes[] = [
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/0b/d7/ef/0bd7ef07df5452c8100173f9c2391a16.jpg",
+    post_url: "https://www.pinterest.com/pin/584623595405555143/",
+    alt: "Porsche picture",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/56/81/07/568107616a7dd735e3b862a77b9e6e77.jpg",
+    post_url: "https://www.pinterest.com/pin/4714774602782719/",
+    alt: "Gym girl",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/7e/3c/bc/7e3cbc08c129fbef372d90194ec7b8e7.jpg",
+    post_url: "https://www.pinterest.com/pin/633248397624618786/",
+    alt: "Rich girl with Ferrari",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/f3/97/b1/f397b100d0a626abed94f0301be44409.jpg",
+    post_url: "https://www.pinterest.com/pin/584623595403490046/",
+    alt: "2 lamborghinis",
+  },
+
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/f2/03/fa/f203fa2b386633d06467f5d623d5cf49.jpg",
+    post_url: "https://www.pinterest.com/pin/4292562137739947/",
+    alt: "Healthy food picture",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/originals/56/b6/ee/56b6ee4732acfbc8078657b5e2a7e37d.jpg",
+    post_url: "https://www.pinterest.com/pin/35465915809793452/",
+    alt: "Gym girl",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/73/35/34/73353454e5844ea81ce617517931f1c4.jpg",
+    post_url: "https://www.pinterest.com/pin/387450374202487803/",
+    alt: "Healthy food picture",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/39/69/01/396901b74b625c315de597b780438fbf.jpg",
+    post_url: "https://www.pinterest.com/pin/64880050875208189/",
+    alt: "Healthy food picture",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/76/52/94/765294d646c1f4af96174490cd47e68f.jpg",
+    post_url: "https://www.pinterest.com/pin/1008595279034440674/",
+    alt: "Gym girl",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/18/ac/b7/18acb7372f12afab2a737fa7264d8de6.jpg",
+    post_url: "https://www.pinterest.com/pin/584623595403121186/",
+    alt: "Gym guy",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/ac/a0/f0/aca0f00eae889fff1d03d8059db4fb20.jpg",
+    post_url: "https://www.pinterest.com/pin/584623595403193129/",
+    alt: "Ferrari",
+  },
+  {
+    raw_url:
+      "https://i.pinimg.com/564x/35/59/90/3559903b96b32bb2bb4a6829ca657629.jpg",
+    post_url: "https://www.pinterest.com/pin/524106475400811789/",
+    alt: "Gym guy",
+  },
+]
 
 export const errorMsgEnding =
   "if error persists contact at lazarevkristijan@gmail.com"

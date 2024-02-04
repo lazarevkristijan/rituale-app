@@ -1,7 +1,7 @@
 import { Box, Link, Typography } from "@mui/material"
 import React from "react"
 import { useSelector } from "react-redux"
-import { RootState } from "../Store"
+import { RootState } from "../../Store"
 
 const CookieAcceptPopup = ({ children }: { children: React.ReactNode }) => {
   const colorTheme = useSelector(

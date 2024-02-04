@@ -4,24 +4,24 @@ import { HabitTypes } from "../Types"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../Store"
 import { useEffect, useState } from "react"
-import HabitsSkeleton from "../skeletons/HabitsSkeleton"
+import { CardsSkeleton } from "../skeletons"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import {
   filterHabits,
   getHabits,
-  handleResetFilters,
-  handleResetHabits,
   handleToggleHabit,
 } from "../Utils/HabitsUtils"
-import { FilterButton } from "../components/HabitComponents/FilterButton"
-import FilterDialogs from "../components/HabitComponents/FilterDialogs"
-import HabitCard from "../components/HabitComponents/HabitCard"
-import HabitsPagination from "../components/HabitComponents/HabitsPagination"
+import {
+  FilterDialogs,
+  HabitCard,
+  HabitsPagination,
+} from "../components/HabitComponents"
+import FilterButtons from "../components/HabitComponents/FilterButtons"
 
 const Habits = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   useEffect(() => {
     dispatch(changeNavbarLocation(2))
   }, [dispatch])
@@ -51,8 +51,8 @@ const Habits = () => {
     hard: true,
   })
   const [filterStatus, setFilterStatus] = useState({
-    completed: true,
-    not_completed: true,
+    completed: localStorage.getItem("completed") === "true",
+    not_completed: localStorage.getItem("not_completed") === "true",
   })
 
   const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false)
@@ -66,9 +66,7 @@ const Habits = () => {
   } = useQuery("habits", getHabits)
 
   const [habitToToggle, setHabitToToggle] = useState(0)
-  const [allFilteredHabits, setAllFilteredHabits] = useState<Array<HabitTypes>>(
-    []
-  )
+  const [allFilteredHabits, setAllFilteredHabits] = useState<HabitTypes[]>([])
 
   useEffect(() => {
     !areHabitsLoading &&
@@ -100,37 +98,23 @@ const Habits = () => {
         Habits
       </Typography>
       <Box>
-        <Box sx={{ mb: 2 }}>
-          <FilterButton
-            label="category filters"
-            onClick={() => setIsCategoryFilterOpen(true)}
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            rowGap: 1,
+          }}
+        >
+          <FilterButtons
+            setIsCategoryFilterOpen={setIsCategoryFilterOpen}
+            setIsDifficultyFilterOpen={setIsDifficultyFilterOpen}
+            setIsStatusFilterOpen={setIsStatusFilterOpen}
+            setPage={setPage}
+            setFilterCategories={setFilterCategories}
+            setFilterDifficulties={setFilterDifficulties}
+            setFilterStatus={setFilterStatus}
           />
-          <FilterButton
-            label="difficulty filters"
-            onClick={() => setIsDifficultyFilterOpen(true)}
-          />
-          <FilterButton
-            label="status filters"
-            onClick={() => setIsStatusFilterOpen(true)}
-          />
-          <FilterButton
-            label="reset filters"
-            onClick={() =>
-              handleResetFilters(
-                navigate,
-                setPage,
-                setFilterCategories,
-                setFilterDifficulties,
-                setFilterStatus
-              )
-            }
-          />
-          {user && (
-            <FilterButton
-              label="reset habits"
-              onClick={() => handleResetHabits(dispatch)}
-            />
-          )}
         </Box>
         <Box>
           <FilterDialogs
@@ -157,7 +141,7 @@ const Habits = () => {
           {errorGettingHabits ? (
             <Typography>Error getting habits</Typography>
           ) : areHabitsLoading ? (
-            <HabitsSkeleton />
+            <CardsSkeleton />
           ) : (
             <>
               <Grid
@@ -165,7 +149,9 @@ const Habits = () => {
                   display: "flex",
                   justifyContent: "space-evenly",
                   flexWrap: "wrap",
+                  columnGap: 1,
                   rowGap: 3,
+                  my: 2,
                 }}
               >
                 {allFilteredHabits.length !== 0
@@ -185,7 +171,6 @@ const Habits = () => {
                   page={page}
                   setPage={setPage}
                   allFilteredHabits={allFilteredHabits}
-                  navigate={navigate}
                 />
               </Box>
             </>

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect } from "react"
+import { homeImagesUrls } from "../constants"
+import { SettingsLegalInfo } from "../subsections/Settings"
 
 const Home = () => {
   const navigate = useNavigate()
@@ -31,24 +33,49 @@ const Home = () => {
       <Box
         component="img"
         src={`/logo-text${colorTheme === "dark" ? "-w" : ""}.svg`}
-        width={300}
-        sx={{ mx: "auto" }}
+        sx={{ mx: "auto", maxWidth: 300 }}
       />
       <Button
-        sx={{ mx: "auto" }}
+        sx={{ mx: "auto", mb: 2 }}
         onClick={() => (user ? navigate("/habits/1") : auth0login())}
       >
-        {user ? "continue" : "login"}
+        {user ? "to habits" : "login"}
       </Button>
-      <p>Hello {user?.first_name}</p>
-      <Typography variant="overline">Why habits?</Typography>
-      <Typography>
-        We don't realise that 90% of our day is habits based, almost everything
-        we do is something we've been doing continously every day. Brushing our
-        teeth, driving, scrolling our phones etc. it's all automatic, we don't
-        put any effort in no matter how easy or hard the task, eventually we get
-        into the rhythm.{" "}
+      <Typography
+        sx={{ mx: "auto", maxWidth: 400, textAlign: "center", mb: 2 }}
+      >
+        You might not have the same <br /> habits as the people on the pictures,{" "}
+        <br />
+        but you do have something in common. <br /> The ability to change that.
       </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 1,
+        }}
+      >
+        {homeImagesUrls.map((image, index) => (
+          <Box
+            component="img"
+            key={index}
+            src={image.raw_url}
+            alt={image.alt}
+            sx={{
+              width: { xs: 275, md: 250 },
+              height: { xs: 300, md: 250 },
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            onDoubleClick={() => window.open(image.post_url, "_blank")}
+          />
+        ))}
+      </Box>
+      <Typography sx={{ textAlign: "center", mb: 4 }}>
+        Double click any image for credits
+      </Typography>
+      <SettingsLegalInfo />
     </Box>
   )
 }

@@ -1,31 +1,29 @@
 import { Button, Stack } from "@mui/material"
-import { NavigateFunction } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import SettingsIcon from "@mui/icons-material/Settings"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { handleLogout } from "../../Utils/ProfileUtils"
-import { AppDispatch } from "../../Store"
+import { useDispatch } from "react-redux"
 
-type LocalComponentTypes = {
-  navigate: NavigateFunction
-  dispatch: AppDispatch
-  auth0logout: () => void
-}
+const ProfileAuthPart = ({ logout }: { logout: () => void }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-const ProfileAuthPart = (props: LocalComponentTypes) => {
   return (
     <Stack
       spacing={1}
       direction="row"
+      sx={{ width: "fit-content", mx: "auto" }}
     >
       <Button
         endIcon={<SettingsIcon />}
-        onClick={() => props.navigate("/settings")}
+        onClick={() => navigate("/settings")}
       >
         settings
       </Button>
       <Button
         endIcon={<LogoutIcon />}
-        onClick={() => handleLogout(props.dispatch, props.auth0logout)}
+        onClick={() => handleLogout(dispatch, logout)}
       >
         logout
       </Button>

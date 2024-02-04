@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
 import { getPfpLink } from "../../Utils/SettingsUtils"
 import { countryShorthands, defaultPfpURL } from "../../constants"
-import { displayBio } from "../../components/Shared/DisplayBio"
+import { displayBio } from "../../components/Shared"
 import { UserTypes } from "../../Types"
 import { useQuery } from "react-query"
 import { getAllHabits } from "../../Utils/ProfileUtils"
@@ -24,151 +24,260 @@ const ProfileMainPart = ({
   if (!user) return
 
   return (
-    <>
-      <Typography variant="h2">{user.username}'s Profile</Typography>
-      <Box
-        sx={{
-          bgcolor: `primary.${colorTheme}`,
-          borderRadius: 1,
-          p: 1,
-          mb: 2,
-          display: "flex",
-        }}
-      >
-        <Box width="50%">
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+    <Box
+      sx={{
+        bgcolor: `primary.${colorTheme}`,
+        borderRadius: 1,
+        p: 1,
+        mb: 2,
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: { xs: "column" },
+        minWidth: { xs: 300, md: 550 },
+        width: "fit-content",
+        mx: "auto",
+        mt: 2,
+      }}
+    >
+      <Typography sx={{ mb: 1, textAlign: "center" }}>
+        {user.username}
+      </Typography>
+      <Box sx={{ mx: "auto" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "center", md: "flex-start" },
+            alignItems: "center",
+            mb: 2,
+            flexDirection: { xs: "column", md: "row" },
+            textAlign: "center",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mb: 1,
+              flexDirection: "column",
+            }}
+          >
             <Box
               sx={{
-                background: `url('${getPfpLink(
-                  user.profile_picture || defaultPfpURL
-                )}') no-repeat center/cover #fff`,
-                width: 100,
-                height: 100,
-                borderRadius: 20,
-                border: `3px solid ${
-                  colorTheme === "dark" ? "white" : "black"
-                }`,
+                display: "flex",
+                flexDirection: { xs: "row", md: "column" },
+                alignItems: "center",
+                gap: 1,
+                mb: 1,
               }}
-            ></Box>
-            <Typography sx={{ alignSelf: "center", ml: 1, display: "flex" }}>
-              {user.first_name} <br />
-              {user.last_name} <br />
-              {user.country || "NO COUNTRY"}
-            </Typography>
+            >
+              <Box
+                component="img"
+                src={getPfpLink(user.profile_picture || defaultPfpURL)}
+                sx={{
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  border: `3px solid ${
+                    colorTheme === "dark" ? "white" : "black"
+                  }`,
+                }}
+              />
+              {(user.first_name || user.last_name || user.country) && (
+                <Typography>
+                  {user.first_name && (
+                    <>
+                      {user.first_name} <br />
+                    </>
+                  )}
+                  {user.last_name && (
+                    <>
+                      {user.last_name} <br />
+                    </>
+                  )}
+                  {user.country && user.country}
+                </Typography>
+              )}
+            </Box>
+
             <Tooltip
               title="User No."
               placement="bottom"
               arrow
-              sx={{ ml: 1 }}
             >
               <Chip
                 label={`#${user.id}`}
                 color="primary"
                 component="span"
+                sx={{ width: "fit-content", mx: "auto", mb: 1 }}
               />
             </Tooltip>
-          </Box>
-          <Typography>
-            Good Habits:
-            <Typography
-              component="span"
-              sx={{ fontWeight: "bold" }}
-            >
-              {completedHabits.length}{" "}
-            </Typography>
-            out of{" "}
-            <Typography
-              component="span"
-              sx={{ fontWeight: "bold" }}
-            >
-              {allHabits?.length}
-            </Typography>
-          </Typography>
-
-          <Box
-            sx={{
-              border: "2px solid black",
-              width: 200,
-              borderRadius: 2,
-              mb: 1,
-              p: 0.3,
-              bgcolor: "white",
-              color: "black",
-              fontWeight: "bold",
-            }}
-          >
             <Box
               sx={{
-                width: `${Math.round(
-                  (completedHabits.length / allHabits?.length) * 100
-                )}%`,
-                textAlign: "right",
-                bgcolor: "green",
-                borderRadius: 2,
+                display: { xs: "flex", md: "none" },
+                flexDirection: "column",
               }}
             >
-              {Math.round((completedHabits.length / allHabits?.length) * 100)}%
+              <Typography>
+                Good Habits:
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {completedHabits.length}{" "}
+                </Typography>
+                out of{" "}
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {allHabits?.length}
+                </Typography>
+              </Typography>
+              <Box
+                sx={{
+                  border: "2px solid black",
+                  width: 200,
+                  borderRadius: 2,
+                  mb: 1,
+                  p: 0.3,
+                  bgcolor: "white",
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: `${Math.round(
+                      (completedHabits.length / allHabits?.length) * 100
+                    )}%`,
+                    textAlign: "right",
+                    bgcolor: "green",
+                    borderRadius: 2,
+                    color: "#fff",
+                    pr: 1,
+                  }}
+                >
+                  {Math.round(
+                    (completedHabits.length / allHabits?.length) * 100
+                  )}
+                  %
+                </Box>
+              </Box>
+              <Typography
+                sx={{
+                  maxWidth: 200,
+                  borderRadius: 1,
+                  backgroundColor: `info.${colorTheme}`,
+                }}
+              >
+                {displayBio(user.bio)}
+              </Typography>
             </Box>
           </Box>
-          <Typography component="span">
-            Main Goals:{" "}
-            {!user.priority_category_1 &&
-              !user.priority_category_2 &&
-              !user.priority_category_3 &&
-              "None"}{" "}
-          </Typography>
-          {user.priority_category_1 && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              minWidth: { md: 150 },
+            }}
+          >
+            <Typography sx={{ textAlign: "center" }}>Focused on: </Typography>
             <Chip
-              label={user.priority_category_1}
-              color="primary"
-              component="span"
-              sx={{ ml: 1 }}
+              label={user.priority_category_1 || ""}
+              sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
             />
-          )}
-          {user.priority_category_2 && (
-            <Chip
-              label={user.priority_category_2}
-              color="primary"
-              component="span"
-              sx={{ ml: 1 }}
-            />
-          )}
-          {user.priority_category_3 && (
-            <Chip
-              label={user.priority_category_3}
-              color="primary"
-              component="span"
-              sx={{ ml: 1 }}
-            />
-          )}
-          <br />
-          <br />
-          <Typography component="p">{displayBio(user.bio)}</Typography>
-        </Box>
-
-        <Box
-          width="50%"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {user.country && (
-            <Box
-              component="img"
-              src={`/flags/${
-                countryShorthands[
-                  user.country as keyof typeof countryShorthands
-                ]
-              }.svg`}
-              width={150}
-              height={150}
-            />
-          )}
+            {user.priority_category_2 && (
+              <Chip
+                label={user.priority_category_2}
+                sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
+              />
+            )}
+            {user.priority_category_3 && (
+              <Chip
+                label={user.priority_category_3}
+                sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
+              />
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              flexDirection: "column",
+            }}
+          >
+            <Box>
+              <Typography>
+                Good Habits:
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {completedHabits.length}{" "}
+                </Typography>
+                out of{" "}
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {allHabits?.length}
+                </Typography>
+              </Typography>
+              <Box
+                sx={{
+                  border: "2px solid black",
+                  width: 200,
+                  borderRadius: 2,
+                  mb: 1,
+                  p: 0.3,
+                  bgcolor: "white",
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: `${Math.round(
+                      (completedHabits.length / allHabits?.length) * 100
+                    )}%`,
+                    textAlign: "right",
+                    bgcolor: "green",
+                    borderRadius: 2,
+                    color: "#fff",
+                    pr: 1,
+                  }}
+                >
+                  {Math.round(
+                    (completedHabits.length / allHabits?.length) * 100
+                  )}
+                  %
+                </Box>
+              </Box>
+            </Box>
+            <Typography
+              sx={{
+                maxWidth: 200,
+                borderRadius: 1,
+                backgroundColor: `info.${colorTheme}`,
+              }}
+            >
+              {displayBio(user.bio)}
+            </Typography>
+          </Box>
         </Box>
       </Box>
-    </>
+
+      {user.country && (
+        <Box
+          component="img"
+          src={`/flags/${
+            countryShorthands[user.country as keyof typeof countryShorthands]
+          }.svg`}
+          sx={{ width: 150, height: 150, mx: "auto" }}
+        />
+      )}
+    </Box>
   )
 }
 

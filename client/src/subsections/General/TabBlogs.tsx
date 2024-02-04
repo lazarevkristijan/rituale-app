@@ -1,12 +1,12 @@
 import { Box, Grid, Pagination } from "@mui/material"
 import { useQuery } from "react-query"
 import { BlogTypes } from "../../Types"
-import HabitsSkeleton from "../../skeletons/HabitsSkeleton"
+import HabitsSkeleton from "../../skeletons/CardsSkeleton"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { getAllBlogs } from "../../Utils/GeneralUtils"
-import { BlogAdminSection } from "./BlogAdminSection"
-import Blog from "../../components/GeneralComponents/Blog"
+import { BlogAdminSection } from "./"
+import { Blog } from "../../components/GeneralComponents"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
 
@@ -36,6 +36,7 @@ const TabBlogs = () => {
                 display: "flex",
                 justifyContent: "space-around",
                 flexWrap: "wrap",
+                my: 2,
               }}
             >
               {!blogs.length

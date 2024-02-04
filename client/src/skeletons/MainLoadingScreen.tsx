@@ -9,12 +9,11 @@ const MainLoadingScreen = () => {
   })
 
   return (
-    <Box sx={{ textAlign: "center" }}>
+    <Box sx={{ textAlign: "center", mt: -1 }}>
       <Box
         component="img"
         src={`/logo-text${themeCookieValue === "dark" ? "-w" : ""}.svg`}
         width={300}
-        height={100}
       />
       <Typography color={themeCookieValue === "dark" ? "#fff" : "#000"}>
         Loading...

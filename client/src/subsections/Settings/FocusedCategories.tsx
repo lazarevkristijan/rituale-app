@@ -1,26 +1,33 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { useState } from "react"
 import EditIcon from "@mui/icons-material/Edit"
-import FocusedCategoriesDialog from "../../components/SettingsComponents/FocusedCategoriesDialog"
-import { UserTypes } from "../../Types"
+import { FocusedCategoriesDialog } from "../../components/SettingsComponents"
+import { RootState } from "../../Store"
+import { useSelector } from "react-redux"
 
-const FocusedCategories = ({ user }: { user: UserTypes }) => {
+const FocusedCategories = () => {
   const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const user = useSelector((state: RootState) => state.session.user)
 
   return (
-    <Box>
+    <Box sx={{ mb: 3 }}>
+      <Typography>Focused Categories</Typography>
       <Button
         startIcon={<EditIcon />}
         onClick={() => setIsCategoryDialogOpen(true)}
       >
-        focused categories
+        change
       </Button>
       {isUpdating && <CircularProgress size={15} />}
       <Typography>
-        Current focused categories:{" "}
-        {user?.priority_category_1 && user.priority_category_1 + ", "}
-        {user?.priority_category_2 && user.priority_category_2 + ", "}
+        Current:{" "}
+        {user?.priority_category_1 &&
+          `${user?.priority_category_1}${
+            user?.priority_category_2 ? ", " : ""
+          }`}
+        {user?.priority_category_2 &&
+          `${user.priority_category_2}${user?.priority_category_3 ? ", " : ""}`}
         {user?.priority_category_3 && user?.priority_category_3}
         {!user?.priority_category_1 &&
           !user?.priority_category_2 &&

@@ -4,7 +4,7 @@ import { RootState } from "../../Store"
 import StarIcon from "@mui/icons-material/Star"
 import { useState } from "react"
 import PushPinIcon from "@mui/icons-material/PushPin"
-import HabitToggleButton from "./HabitToggleButton"
+import { HabitToggleButton } from "./"
 import { changePinnedHabit } from "../../features/session/sessionSlice"
 import { HabitTypes } from "../../Types"
 import { handlePinHabit } from "../../Utils/HabitsUtils"
@@ -59,14 +59,11 @@ const HabitCard = ({
       <Box
         sx={{
           bgcolor:
-            user?.pinned_habit === habit.id
-              ? "yellow"
-              : habit.difficulty === "Easy"
+            habit.difficulty === "Easy"
               ? `success.${colorTheme}`
               : habit.difficulty === "Medium"
               ? `warning.${colorTheme}`
               : `error.${colorTheme}`,
-          color: "#000",
           width: 300,
           borderRadius: 2,
           textAlign: "center",

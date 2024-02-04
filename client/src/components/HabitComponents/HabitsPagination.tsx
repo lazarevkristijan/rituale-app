@@ -1,18 +1,18 @@
 import { Pagination } from "@mui/material"
-import { NavigateFunction } from "react-router-dom"
 import { HabitTypes } from "../../Types"
+import { useNavigate } from "react-router-dom"
 
 const HabitsPagination = ({
   allFilteredHabits,
   setPage,
   page,
-  navigate,
 }: {
   allFilteredHabits: HabitTypes[]
   setPage: (page: string) => void
   page: string | undefined
-  navigate: NavigateFunction
 }) => {
+  const navigate = useNavigate()
+
   return (
     <Pagination
       count={Math.ceil(allFilteredHabits.length / 15)}

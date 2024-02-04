@@ -1,27 +1,27 @@
-import { Button, CircularProgress, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { useState } from "react"
-import DeletUserDialog from "../../components/SettingsComponents/DeletUserDialog"
+import { DeleteUserDialog } from "../../components/SettingsComponents"
 
 const DangerZone = () => {
   const [isDeleting, setIsDeleting] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   return (
-    <>
+    <Box sx={{ mt: 5 }}>
       <Typography
         component="h3"
         sx={{ color: "red", fontWeight: "bold", fontSize: 35 }}
       >
-        Danger Zone
+        Danger zone
       </Typography>
       <Button onClick={() => setIsDialogOpen(true)}>delete account</Button>
       {isDeleting && <CircularProgress size={15} />}
-      <DeletUserDialog
+      <DeleteUserDialog
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
         setIsDeleting={setIsDeleting}
       />
-    </>
+    </Box>
   )
 }
 

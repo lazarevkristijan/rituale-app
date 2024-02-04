@@ -34,10 +34,9 @@ const BottomNavbar = () => {
         dispatch(changeNavbarLocation(newValue))
       }}
       sx={{
-        position: "sticky",
-        bottom: -1,
+        position: "fixed",
+        bottom: -2,
         width: "100%",
-        height: 50,
         zIndex: 1,
       }}
     >
@@ -45,26 +44,31 @@ const BottomNavbar = () => {
         label="Home"
         icon={<HomeIcon />}
         onClick={() => navigate("/")}
+        sx={{ minWidth: 20 }}
       />
       <BottomNavigationAction
         label="Search"
         icon={<SearchIcon />}
         onClick={() => navigate("/search/1")}
+        sx={{ minWidth: 20 }}
       />
 
       <BottomNavigationAction
         label="Habits"
         icon={<SelfImprovementIcon />}
         onClick={() => navigate("/habits/1")}
+        sx={{ minWidth: 20 }}
       />
 
       <BottomNavigationAction
         label="General"
         icon={<TipsAndUpdatesIcon />}
         onClick={() => navigate("/general/blogs/1")}
+        sx={{ minWidth: 20 }}
       />
       {auth0authenticated ? (
         <BottomNavigationAction
+          sx={{ minWidth: 20 }}
           label="Profile"
           icon={
             <Box

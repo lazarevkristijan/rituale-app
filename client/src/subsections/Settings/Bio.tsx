@@ -1,17 +1,13 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { useState } from "react"
-import { AppDispatch } from "../../Store"
 import { handleBioChange } from "../../Utils/SettingsUtils"
 import SaveIcon from "@mui/icons-material/Save"
-import { UserTypes } from "../../Types"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../Store"
 
-const Bio = ({
-  user,
-  dispatch,
-}: {
-  user: UserTypes
-  dispatch: AppDispatch
-}) => {
+const Bio = () => {
+  const user = useSelector((state: RootState) => state.session.user)
+  const dispatch = useDispatch()
   const [bio, setBio] = useState(user?.bio || "")
   const initialBioValue = user?.bio || ""
   const [isBioChanged, setIsBioChanged] = useState(false)
@@ -19,9 +15,9 @@ const Bio = ({
   const [isUpdating, setIsUpdating] = useState(false)
 
   return (
-    <Box>
+    <Box sx={{ mb: 2 }}>
       <Typography>Bio</Typography>
-      <Typography variant="caption">Max 3 rows</Typography>
+      <Typography variant="caption">Max 4 rows | 100 characters</Typography>
       <Box sx={{ position: "relative", width: "fit-content" }}>
         <textarea
           style={{
@@ -30,8 +26,7 @@ const Bio = ({
             paddingRight: 75,
           }}
           wrap="hard"
-          rows={3}
-          cols={40}
+          rows={4}
           value={bio}
           onChange={(e) => {
             setBio(e.target.value)
@@ -60,7 +55,7 @@ const Bio = ({
         disabled={!isBioChanged}
         startIcon={<SaveIcon />}
       >
-        save changes
+        save
       </Button>
       {isUpdating && <CircularProgress size={15} />}
     </Box>
