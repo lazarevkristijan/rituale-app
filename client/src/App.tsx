@@ -6,22 +6,12 @@ import {
   PaletteMode,
   ThemeProvider,
 } from "@mui/material"
-import {
-  Home,
-  BottomNavbar,
-  Profile,
-  Habits,
-  General,
-  NotFound,
-  Settings,
-  Search,
-} from "./sections"
+import { BottomNavbar } from "./sections"
 import { Routes, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./Store"
 import { useEffect, useState } from "react"
 import MainLoadingScreen from "./skeletons/MainLoadingScreen"
-import PreviewProfile from "./sections/PreviewProfile"
 import { useAuth0 } from "@auth0/auth0-react"
 import { TabStatistics, TabBlogs } from "./subsections/General"
 import { CookieAcceptPopup } from "./components/Shared"
@@ -31,6 +21,16 @@ import {
   createMuiTheme,
   postLoginOrRegister,
 } from "./Utils/AppUtils"
+import { lazy, Suspense } from "react"
+import { CardsSkeleton, ProfileSkeleton } from "./skeletons"
+const Search = lazy(() => import("./sections/Search"))
+const PreviewProfile = lazy(() => import("./sections/PreviewProfile"))
+const Home = lazy(() => import("./sections/Home"))
+const Habits = lazy(() => import("./sections/Habits"))
+const General = lazy(() => import("./sections/General"))
+const NotFound = lazy(() => import("./sections/NotFound"))
+const Settings = lazy(() => import("./sections/Settings"))
+const Profile = lazy(() => import("./sections/Profile"))
 
 const App = () => {
   const dispatch = useDispatch()
@@ -71,44 +71,84 @@ const App = () => {
             <Routes>
               <Route
                 path="/"
-                element={<Home />}
+                element={
+                  <Suspense fallback={<MainLoadingScreen />}>
+                    <Home />
+                  </Suspense>
+                }
               />
               <Route
                 path="/profile"
-                element={<Profile />}
+                element={
+                  <Suspense fallback={<MainLoadingScreen />}>
+                    <Profile />
+                  </Suspense>
+                }
               />
               <Route
                 path="/user/:username"
-                element={<PreviewProfile />}
+                element={
+                  <Suspense fallback={<ProfileSkeleton preview />}>
+                    <PreviewProfile />
+                  </Suspense>
+                }
               />
               <Route
                 path="/search/:page"
-                element={<Search />}
+                element={
+                  <Suspense fallback={<MainLoadingScreen />}>
+                    <Search />
+                  </Suspense>
+                }
               />
               <Route
                 path="/habits/:page"
-                element={<Habits />}
+                element={
+                  <Suspense fallback={<MainLoadingScreen />}>
+                    <Habits />
+                  </Suspense>
+                }
               />
               <Route
                 path="/general"
-                element={<General />}
+                element={
+                  <Suspense fallback={<MainLoadingScreen />}>
+                    <General />
+                  </Suspense>
+                }
               >
                 <Route
                   path="blogs/:page"
-                  element={<TabBlogs />}
+                  element={
+                    <Suspense fallback={<CardsSkeleton />}>
+                      <TabBlogs />
+                    </Suspense>
+                  }
                 />
                 <Route
                   path="statistics"
-                  element={<TabStatistics />}
+                  element={
+                    <Suspense fallback={<MainLoadingScreen />}>
+                      <TabStatistics />
+                    </Suspense>
+                  }
                 />
               </Route>
               <Route
                 path="/settings"
-                element={<Settings />}
+                element={
+                  <Suspense fallback={<MainLoadingScreen />}>
+                    <Settings />
+                  </Suspense>
+                }
               />
               <Route
                 path="*"
-                element={<NotFound />}
+                element={
+                  <Suspense fallback={<MainLoadingScreen />}>
+                    <NotFound />
+                  </Suspense>
+                }
               />
             </Routes>
           </Container>
