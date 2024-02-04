@@ -66,6 +66,8 @@ const ProfileMainPart = ({
                 display: "flex",
                 flexDirection: { xs: "row", md: "column" },
                 alignItems: "center",
+                gap: 1,
+                mb: 1,
               }}
             >
               <Box
@@ -108,7 +110,7 @@ const ProfileMainPart = ({
                 label={`#${user.id}`}
                 color="primary"
                 component="span"
-                sx={{ width: "fit-content", mx: "auto" }}
+                sx={{ width: "fit-content", mx: "auto", mb: 1 }}
               />
             </Tooltip>
             <Box
@@ -163,7 +165,13 @@ const ProfileMainPart = ({
                   %
                 </Box>
               </Box>
-              <Typography sx={{ maxWidth: 200 }}>
+              <Typography
+                sx={{
+                  maxWidth: 200,
+                  borderRadius: 1,
+                  backgroundColor: `info.${colorTheme}`,
+                }}
+              >
                 {displayBio(user.bio)}
               </Typography>
             </Box>
@@ -172,39 +180,22 @@ const ProfileMainPart = ({
             sx={{
               display: "flex",
               flexDirection: "column",
+              minWidth: { md: 150 },
             }}
           >
-            <Typography component="span">
-              Focused on:{" "}
-              {!user.priority_category_1 &&
-                !user.priority_category_2 &&
-                !user.priority_category_3 &&
-                "Not selected"}
-            </Typography>
-            {user.priority_category_1 && (
-              <Chip
-                label={user.priority_category_1}
-                color="primary"
-                component="span"
-                sx={{ mb: 1, width: "fit-content", mx: "auto" }}
-              />
-            )}
-            {user.priority_category_2 && (
-              <Chip
-                label={user.priority_category_2}
-                color="primary"
-                component="span"
-                sx={{ mb: 1, width: "fit-content", mx: "auto" }}
-              />
-            )}
-            {user.priority_category_3 && (
-              <Chip
-                label={user.priority_category_3}
-                color="primary"
-                component="span"
-                sx={{ mb: 1, width: "fit-content", mx: "auto" }}
-              />
-            )}
+            <Typography sx={{ textAlign: "center" }}>Focused on: </Typography>
+            <Chip
+              label={user.priority_category_1 || ""}
+              sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
+            />
+            <Chip
+              label={user.priority_category_2 || ""}
+              sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
+            />
+            <Chip
+              label={user.priority_category_3 || ""}
+              sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
+            />
           </Box>
           <Box
             sx={{
@@ -260,7 +251,13 @@ const ProfileMainPart = ({
                 </Box>
               </Box>
             </Box>
-            <Typography sx={{ maxWidth: 200 }}>
+            <Typography
+              sx={{
+                maxWidth: 200,
+                borderRadius: 1,
+                backgroundColor: `info.${colorTheme}`,
+              }}
+            >
               {displayBio(user.bio)}
             </Typography>
           </Box>
