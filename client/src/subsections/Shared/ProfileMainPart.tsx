@@ -188,14 +188,18 @@ const ProfileMainPart = ({
               label={user.priority_category_1 || ""}
               sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
             />
-            <Chip
-              label={user.priority_category_2 || ""}
-              sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
-            />
-            <Chip
-              label={user.priority_category_3 || ""}
-              sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
-            />
+            {user.priority_category_2 && (
+              <Chip
+                label={user.priority_category_2}
+                sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
+              />
+            )}
+            {user.priority_category_3 && (
+              <Chip
+                label={user.priority_category_3}
+                sx={{ width: "fit-content", minWidth: 60, mb: 1, mx: "auto" }}
+              />
+            )}
           </Box>
           <Box
             sx={{

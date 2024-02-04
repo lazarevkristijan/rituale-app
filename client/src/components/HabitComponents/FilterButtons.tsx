@@ -47,7 +47,7 @@ const FilterButtons = ({
       />
       {user && (
         <FilterButton
-          label="reset habits"
+          label="reset progress"
           onClick={() => handleResetHabits(dispatch)}
         />
       )}
