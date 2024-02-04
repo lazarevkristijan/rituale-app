@@ -158,6 +158,8 @@ export const handleResetFilters = (
   ) => void,
   setFilterStatus: (value: React.SetStateAction<FilterStatusTypes>) => void
 ) => {
+  localStorage.clear()
+
   resetPage(navigate, setPage)
 
   setFilterCategories({
