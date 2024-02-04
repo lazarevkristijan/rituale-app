@@ -36,7 +36,7 @@ const Profile = () => {
   return (
     <Box>
       {auth0loading ? (
-        <ProfileSkeleton />
+        <ProfileSkeleton preview={false} />
       ) : (
         <>
           <ProfileMainPart

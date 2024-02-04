@@ -2,7 +2,7 @@ import React from "react"
 
 export const displayBio = (bio: string | null | undefined) => {
   if (bio === null || bio === undefined) {
-    return "NO BIO"
+    return
   }
   const limitedBio =
     bio.split("\n").slice(0, 4).join("\n") +
