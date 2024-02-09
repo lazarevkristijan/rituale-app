@@ -7,7 +7,10 @@ const DangerZone = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   return (
-    <Box sx={{ mt: 5 }}>
+    <Box
+      sx={{ mt: 5 }}
+      component="section"
+    >
       <Typography
         component="h3"
         sx={{ color: "red", fontWeight: "bold", fontSize: 35 }}

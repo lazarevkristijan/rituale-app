@@ -20,8 +20,11 @@ const ThemeSwitch = () => {
 
   const [isUpdating, setIsUpdating] = useState(false)
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography>Theme change</Typography>
+    <Box
+      sx={{ mb: 2 }}
+      component="section"
+    >
+      <Typography variant="h3">Theme change</Typography>
       <FormGroup sx={{ display: "block" }}>
         <FormControlLabel
           control={<Switch />}

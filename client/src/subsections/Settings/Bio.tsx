@@ -15,8 +15,11 @@ const Bio = () => {
   const [isUpdating, setIsUpdating] = useState(false)
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography>Bio</Typography>
+    <Box
+      sx={{ mb: 2 }}
+      component="section"
+    >
+      <Typography variant="h3">Bio</Typography>
       <Typography variant="caption">Max 4 rows | 100 characters</Typography>
       <Box sx={{ position: "relative", width: "fit-content" }}>
         <textarea

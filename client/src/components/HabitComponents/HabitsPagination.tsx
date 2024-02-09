@@ -1,4 +1,4 @@
-import { Pagination } from "@mui/material"
+import { Box, Pagination } from "@mui/material"
 import { HabitTypes } from "../../Types"
 import { useNavigate } from "react-router-dom"
 
@@ -14,14 +14,16 @@ const HabitsPagination = ({
   const navigate = useNavigate()
 
   return (
-    <Pagination
-      count={Math.ceil(allFilteredHabits.length / 15)}
-      onChange={(_e, value) => {
-        setPage(String(value))
-        navigate(`/habits/${value}`)
-      }}
-      page={Number(page)}
-    />
+    <Box component="section">
+      <Pagination
+        count={Math.ceil(allFilteredHabits.length / 15)}
+        onChange={(_e, value) => {
+          setPage(String(value))
+          navigate(`/habits/${value}`)
+        }}
+        page={Number(page)}
+      />
+    </Box>
   )
 }
 

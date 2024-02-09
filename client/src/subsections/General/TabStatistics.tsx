@@ -21,7 +21,7 @@ const TabStatistics = () => {
   )
 
   return (
-    <Box>
+    <Box component="section">
       {isLoadingHabits || isLoadingUsers || isLoadingProfiles ? (
         <Typography>Loading...</Typography>
       ) : (

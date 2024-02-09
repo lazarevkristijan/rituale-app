@@ -25,6 +25,7 @@ const Blog = ({
 
   return (
     <Box
+      component="article"
       sx={{
         width: 300,
         height: 350,

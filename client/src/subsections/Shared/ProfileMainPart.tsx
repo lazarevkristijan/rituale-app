@@ -38,6 +38,7 @@ const ProfileMainPart = ({
         mx: "auto",
         mt: 2,
       }}
+      component="section"
     >
       <Typography sx={{ mb: 1, textAlign: "center" }}>
         {user.username}

@@ -30,7 +30,7 @@ const PreviewProfile = () => {
   )
 
   return (
-    <Box>
+    <Box component="section">
       {isUserFetching || areCompletedHabitsFetching ? (
         <ProfileSkeleton preview />
       ) : (

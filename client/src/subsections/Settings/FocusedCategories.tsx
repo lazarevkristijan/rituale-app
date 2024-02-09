@@ -11,8 +11,11 @@ const FocusedCategories = () => {
   const user = useSelector((state: RootState) => state.session.user)
 
   return (
-    <Box sx={{ mb: 3 }}>
-      <Typography>Focused Categories</Typography>
+    <Box
+      sx={{ mb: 3 }}
+      component="section"
+    >
+      <Typography variant="h3">Focused Categories</Typography>
       <Button
         startIcon={<EditIcon />}
         onClick={() => setIsCategoryDialogOpen(true)}

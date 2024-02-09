@@ -32,7 +32,6 @@ const HabitCard = ({
 
   return (
     <Box
-      component="div"
       sx={{
         display: "flex",
         position: "relative",

@@ -11,7 +11,7 @@ const General = () => {
   }, [dispatch])
 
   return (
-    <Box>
+    <Box component="section">
       <Typography variant="h2">General</Typography>
 
       <Box>

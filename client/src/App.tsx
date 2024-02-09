@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Container,
   CssBaseline,
@@ -61,7 +60,7 @@ const App = () => {
   const theme = createMuiTheme(colorTheme as PaletteMode)
 
   return (
-    <Box>
+    <main>
       {isLoading ? (
         <MainLoadingScreen />
       ) : (
@@ -164,7 +163,7 @@ const App = () => {
           )}
         </ThemeProvider>
       )}
-    </Box>
+    </main>
   )
 }
 

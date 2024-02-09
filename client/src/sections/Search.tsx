@@ -41,7 +41,7 @@ const Search = () => {
   )
 
   return (
-    <Box>
+    <Box component="section">
       <Typography variant="h2">Search users</Typography>
       <TextField
         fullWidth

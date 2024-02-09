@@ -20,7 +20,10 @@ export const BlogAdminSection = () => {
   const [blogData, setBlogData] = useState(initialBlogData)
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box
+      sx={{ mt: 2 }}
+      component="section"
+    >
       {user?.id === 113 && (
         <Box sx={{ display: "flex", justifyContent: "end" }}>
           <Button
