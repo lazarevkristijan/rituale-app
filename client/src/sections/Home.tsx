@@ -24,6 +24,7 @@ const Home = () => {
 
   return (
     <Box
+      component="section"
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -42,13 +43,22 @@ const Home = () => {
         {user ? "to habits" : "login"}
       </Button>
       <Typography
-        sx={{ mx: "auto", maxWidth: 400, textAlign: "center", mb: 2 }}
+        variant="h1"
+        sx={{
+          mx: "auto",
+          maxWidth: 400,
+          textAlign: "center",
+          mb: 2,
+          fontSize: 16,
+          fontWeight: 400,
+        }}
       >
         You might not have the same <br /> habits as the people on the pictures,{" "}
         <br />
         but you do have something in common. <br /> The ability to change that.
       </Typography>
       <Box
+        component="section"
         sx={{
           display: "flex",
           flexWrap: "wrap",

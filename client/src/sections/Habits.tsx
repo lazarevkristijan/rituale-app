@@ -100,13 +100,8 @@ const Habits = () => {
   ])
 
   return (
-    <Box>
-      <Typography
-        component="h1"
-        sx={{ fontSize: 50 }}
-      >
-        Habits
-      </Typography>
+    <Box component="section">
+      <Typography variant="h2">Habits</Typography>
       <Box>
         <Box
           sx={{

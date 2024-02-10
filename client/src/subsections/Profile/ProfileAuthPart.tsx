@@ -14,6 +14,7 @@ const ProfileAuthPart = ({ logout }: { logout: () => void }) => {
       spacing={1}
       direction="row"
       sx={{ width: "fit-content", mx: "auto" }}
+      component="section"
     >
       <Button
         endIcon={<SettingsIcon />}

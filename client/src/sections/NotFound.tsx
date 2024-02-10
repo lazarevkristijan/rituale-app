@@ -20,6 +20,7 @@ const NotFound = () => {
 
   return (
     <Box
+      component="section"
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -29,7 +30,7 @@ const NotFound = () => {
     >
       <Typography
         sx={{ mt: 5, mb: 3 }}
-        variant="h3"
+        variant="h2"
       >
         Ooops.. Page not found
       </Typography>

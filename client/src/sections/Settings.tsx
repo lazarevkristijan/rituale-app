@@ -35,7 +35,7 @@ const Settings = () => {
   if (!user) return
 
   return (
-    <Box>
+    <Box component="section">
       <Top />
 
       <ProfilePicture />

@@ -18,8 +18,11 @@ const CountrySelect = () => {
   const user = useSelector((state: RootState) => state.session.user)
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography>Country</Typography>
+    <Box
+      sx={{ mb: 2 }}
+      component="section"
+    >
+      <Typography variant="h3">Country</Typography>
       <FormControl>
         <Select
           value={user?.country || ""}

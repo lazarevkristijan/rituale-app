@@ -38,6 +38,7 @@ const ProfileMainPart = ({
         mx: "auto",
         mt: 2,
       }}
+      component="section"
     >
       <Typography sx={{ mb: 1, textAlign: "center" }}>
         {user.username}
@@ -271,7 +272,7 @@ const ProfileMainPart = ({
       {user.country && (
         <Box
           component="img"
-          src={`/flags/${
+          src={`https://flagicons.lipis.dev/flags/4x3/${
             countryShorthands[user.country as keyof typeof countryShorthands]
           }.svg`}
           sx={{ width: 150, height: 150, mx: "auto" }}

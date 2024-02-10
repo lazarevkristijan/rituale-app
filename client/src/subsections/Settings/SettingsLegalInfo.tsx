@@ -5,6 +5,7 @@ const SettingsLegalInfo = () => {
     <Stack
       sx={{ textAlign: "center" }}
       direction="column"
+      component="section"
     >
       <Link
         href="https://buy.stripe.com/eVa28w2K9bRM65i4gh"

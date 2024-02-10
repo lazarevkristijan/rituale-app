@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import { store } from "../src/Store"
-import { Home } from "../src/sections"
+import { General } from "../src/sections"
 import { Provider } from "react-redux"
 import { BrowserRouter as Router } from "react-router-dom"
 
@@ -8,10 +8,10 @@ test("Renders top heading", () => {
   render(
     <Provider store={store}>
       <Router>
-        <Home />
+        <General />
       </Router>
     </Provider>
   )
-  const header = screen.getByRole("heading", { level: 1 })
+  const header = screen.getByRole("heading", { level: 2 })
   expect(header).toBeInTheDocument()
 })

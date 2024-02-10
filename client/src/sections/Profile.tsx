@@ -34,7 +34,7 @@ const Profile = () => {
   if (!user) return
 
   return (
-    <Box>
+    <Box component="section">
       {auth0loading ? (
         <ProfileSkeleton preview={false} />
       ) : (

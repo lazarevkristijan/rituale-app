@@ -4,6 +4,7 @@ import { handleResetFilters, handleResetHabits } from "../../Utils/HabitsUtils"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../Store"
 import { FilterButtonsTypes } from "../../Types"
+import { Box } from "@mui/material"
 
 const FilterButtons = ({
   setIsCategoryFilterOpen,
@@ -20,7 +21,7 @@ const FilterButtons = ({
   const user = useSelector((state: RootState) => state.session.user)
 
   return (
-    <>
+    <Box component="section">
       <FilterButton
         label="category filters"
         onClick={() => setIsCategoryFilterOpen(true)}
@@ -51,7 +52,7 @@ const FilterButtons = ({
           onClick={() => handleResetHabits(dispatch)}
         />
       )}
-    </>
+    </Box>
   )
 }
 

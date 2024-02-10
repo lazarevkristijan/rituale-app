@@ -31,8 +31,11 @@ const ProfilePicture = () => {
   if (!user) return
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography>Profile picture</Typography>
+    <Box
+      sx={{ mb: 2 }}
+      component="section"
+    >
+      <Typography variant="h3">Profile picture</Typography>
       <form
         onSubmit={(e) => {
           handleProfilePictureChange(
