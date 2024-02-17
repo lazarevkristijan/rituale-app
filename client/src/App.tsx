@@ -6,7 +6,7 @@ import {
   ThemeProvider,
 } from "@mui/material"
 import { BottomNavbar } from "./sections"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./Store"
 import { useEffect, useState } from "react"
@@ -43,6 +43,11 @@ const App = () => {
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
   )
+
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   const [isLoading, setIsLoading] = useState(true)
   const [showCookieConsentDialog, setShowCookieConsentDialog] = useState(false)
