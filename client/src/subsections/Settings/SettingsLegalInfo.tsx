@@ -8,7 +8,7 @@ const SettingsLegalInfo = () => {
       component="section"
     >
       <Link
-        href="https://buy.stripe.com/eVa28w2K9bRM65i4gh"
+        href="https://www.paypal.com/donate/?hosted_button_id=4DEGPD3M2D8YS"
         target="_blank"
         underline="hover"
       >
