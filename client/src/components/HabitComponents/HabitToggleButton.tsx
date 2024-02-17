@@ -14,7 +14,7 @@ const HabitToggleButton = ({
   setHabitToToggle: (habitId: number) => void
 }) => {
   const user = useSelector((state: RootState) => state.session.user)
-  const { login: auth0login } = useAuth0()
+  const { loginWithRedirect: auth0login } = useAuth0()
 
   return (
     <Box>

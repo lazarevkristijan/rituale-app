@@ -15,7 +15,8 @@ const NotFound = () => {
     dispatch(changeNavbarLocation(0))
   }, [dispatch])
 
-  const { login: auth0login, isAuthenticated: auth0authenticated } = useAuth0()
+  const { loginWithRedirect: auth0login, isAuthenticated: auth0authenticated } =
+    useAuth0()
 
   return (
     <Box
