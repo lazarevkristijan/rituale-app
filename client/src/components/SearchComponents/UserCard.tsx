@@ -35,7 +35,12 @@ const UserCard = ({
             width={50}
             height={50}
             borderRadius={20}
-            sx={{ border: "3px solid black", bgcolor: "#fff" }}
+            sx={{
+              border: "3px solid black",
+              bgcolor: "#fff",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
 
           <Typography>{profile.username}</Typography>
