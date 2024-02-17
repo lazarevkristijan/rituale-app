@@ -46,7 +46,8 @@ const UserCard = ({
           <Typography>{profile.username}</Typography>
         </Box>
         <Typography>
-          {(profile.first_name || profile.last_name) &&
+          {profile.first_name &&
+            profile.last_name &&
             `Full name: ${profile.first_name} ${profile.last_name}`}
         </Typography>
         {profile.country && <Typography>Country: {profile.country}</Typography>}
