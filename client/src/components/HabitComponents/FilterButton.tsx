@@ -8,7 +8,7 @@ export const FilterButton = ({
   onClick: () => void
 }) => (
   <Button
-    sx={{ ml: 2, bgcolor: `primary` }}
+    sx={{ bgcolor: `primary` }}
     onClick={onClick}
   >
     {label}

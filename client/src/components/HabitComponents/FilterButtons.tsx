@@ -21,7 +21,15 @@ const FilterButtons = ({
   const user = useSelector((state: RootState) => state.session.user)
 
   return (
-    <Box component="section">
+    <Box
+      component="section"
+      sx={{
+        display: "flex",
+        gap: 1,
+        justifyContent: "center",
+        flexWrap: "wrap",
+      }}
+    >
       <FilterButton
         label="category filters"
         onClick={() => setIsCategoryFilterOpen(true)}
