@@ -27,7 +27,7 @@ const FocusedCategories = () => {
         Current:{" "}
         {user?.priority_category_1 &&
           `${user?.priority_category_1}${
-            user?.priority_category_2 ? ", " : ""
+            user?.priority_category_2 || user.priority_category_3 ? ", " : ""
           }`}
         {user?.priority_category_2 &&
           `${user.priority_category_2}${user?.priority_category_3 ? ", " : ""}`}
