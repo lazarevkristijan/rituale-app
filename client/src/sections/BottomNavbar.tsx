@@ -15,8 +15,7 @@ import { getPfpLink } from "../Utils/SettingsUtils"
 const BottomNavbar = () => {
   const navigate = useNavigate()
 
-  const { isAuthenticated: auth0authenticated, loginWithPopup: auth0login } =
-    useAuth0()
+  const { isAuthenticated: auth0authenticated, login: auth0login } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const bottomNavLocation = useSelector(

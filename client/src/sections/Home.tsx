@@ -15,7 +15,7 @@ const Home = () => {
     dispatch(changeNavbarLocation(0))
   }, [dispatch])
 
-  const { loginWithPopup: auth0login } = useAuth0()
+  const { login: auth0login } = useAuth0()
 
   const user = useSelector((state: RootState) => state.session.user)
   const colorTheme = useSelector(

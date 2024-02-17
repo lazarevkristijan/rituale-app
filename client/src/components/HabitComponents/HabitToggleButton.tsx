@@ -14,7 +14,7 @@ const HabitToggleButton = ({
   setHabitToToggle: (habitId: number) => void
 }) => {
   const user = useSelector((state: RootState) => state.session.user)
-  const { loginWithPopup: auth0login } = useAuth0()
+  const { login: auth0login } = useAuth0()
 
   return (
     <Box>
