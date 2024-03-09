@@ -88,8 +88,8 @@ export const createMuiTheme = (colorTheme: PaletteMode) =>
         dark: "#388e3c",
       },
       warning: {
-        main: "#ffff00",
-        dark: "#bd8d00",
+        main: "#bdbd08",
+        dark: "#8f8f0e",
       },
       info: {
         main: "#29b6f6",
