@@ -103,21 +103,48 @@ const HabitCard = ({
           >
             <Chip
               label={habit.category_1}
-              color="primary"
-              sx={{ fontSize: 16 }}
+              color={
+                habit.difficulty === "Easy"
+                  ? `success`
+                  : habit.difficulty === "Medium"
+                  ? `warning`
+                  : `error`
+              }
+              sx={{
+                fontSize: 16,
+                color: colorTheme === "dark" ? "#fff" : "#000",
+              }}
             />
             {habit.category_2 && (
               <Chip
                 label={habit.category_2}
-                color="primary"
-                sx={{ fontSize: 16 }}
+                color={
+                  habit.difficulty === "Easy"
+                    ? `success`
+                    : habit.difficulty === "Medium"
+                    ? `warning`
+                    : `error`
+                }
+                sx={{
+                  fontSize: 16,
+                  color: colorTheme === "dark" ? "#fff" : "#000",
+                }}
               />
             )}
             {habit.category_3 && (
               <Chip
                 label={habit.category_3}
-                color="primary"
-                sx={{ fontSize: 16 }}
+                color={
+                  habit.difficulty === "Easy"
+                    ? `success`
+                    : habit.difficulty === "Medium"
+                    ? `warning`
+                    : `error`
+                }
+                sx={{
+                  fontSize: 16,
+                  color: colorTheme === "dark" ? "#fff" : "#000",
+                }}
               />
             )}
           </Grid>
