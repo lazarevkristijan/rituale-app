@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import type { RootState } from "../Store"
 import { useDispatch, useSelector } from "react-redux"
 import { changeNavbarLocation } from "../features/bottomNav/bottomNavSlice"
-import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect } from "react"
 import { homeImagesUrls } from "../constants"
 import { SettingsLegalInfo } from "../subsections/Settings"
@@ -15,9 +14,6 @@ const Home = () => {
     dispatch(changeNavbarLocation(0))
   }, [dispatch])
 
-  const { loginWithRedirect: auth0login } = useAuth0()
-
-  const user = useSelector((state: RootState) => state.session.user)
   const colorTheme = useSelector(
     (state: RootState) => state.settings.colorTheme
   )
@@ -38,9 +34,9 @@ const Home = () => {
       />
       <Button
         sx={{ mx: "auto", mb: 2 }}
-        onClick={() => (user ? navigate("/habits/1") : auth0login())}
+        onClick={() => navigate("/habits/1")}
       >
-        {user ? "to habits" : "login"}
+        to habits
       </Button>
       <Typography
         variant="h1"
