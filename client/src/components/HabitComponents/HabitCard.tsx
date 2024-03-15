@@ -112,7 +112,7 @@ const HabitCard = ({
               }
               sx={{
                 fontSize: 16,
-                color: colorTheme === "dark" ? "#fff" : "#000",
+                color: "#000",
               }}
             />
             {habit.category_2 && (
@@ -127,7 +127,7 @@ const HabitCard = ({
                 }
                 sx={{
                   fontSize: 16,
-                  color: colorTheme === "dark" ? "#fff" : "#000",
+                  color: "#000",
                 }}
               />
             )}
@@ -143,7 +143,7 @@ const HabitCard = ({
                 }
                 sx={{
                   fontSize: 16,
-                  color: colorTheme === "dark" ? "#fff" : "#000",
+                  color: "#000",
                 }}
               />
             )}
